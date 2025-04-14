@@ -1,2 +1,91 @@
-# radar
-Radar service for h5radar application
+# T9Radar
+Technical and business radar. Demo available at https://app.t9radar.com. Spring boot based application.
+
+# Release application
+* add release notes file to docs
+* update version at antora.yml file
+* run command mvn release:prepare and mvn release:perform
+* create archive by command: tar -zcvf Binaries.tar.gz t9radar*.jar
+* setup version at antora.yml file at latest value
+* create and publish the new release at GitHub
+
+# Setup environment
+## Windows environment
+* download and install java, at least jdk-18
+* create JAVA_HOME environment variable with value C:\Program Files\Java\jdk-19
+* exit and run console again to apply environment variables
+* download and install maven, at least 3.8.7
+* create JAVA_HOME environment variable with value C:\apache-maven-3.8.7
+* exit and run console again to apply environment variables
+* setup GitHub account and add ssh keys to GitHub profile
+* clone repo by command git clone: git@github.com:t9radar/radar.git
+* build application by command: mvn clean package -Pdev -Dmaven.test.skip from root folder
+* run application by command: mvn spring-boot:run -Pdev from root folder
+* open browser with url http://127.0.0.1:8080 to view application
+
+## Working with embedded H2 DB(In-Memory)
+* run application by command: "mvn spring-boot:run -Pdev"
+* enter http://localhost:8080/h2-console to browser
+* enter "jdbc:h2:mem:t9radar" into JDBC URL field
+* enter "t9radar" into User Name field
+* enter "secret" into Password field
+
+## Idea configuration
+### Java checkstyle
+* import google_checkstyle.xml into idea java import schema at java code style
+* setup "hard wrap at" value to 120
+
+# Conventions
+## Git conventions
+* the first letter of the commit should be written in upper case
+* the simple perfect should be used for commit message
+* the title and description should be provided, for example by command: git commit -m "title" -m "description"
+
+# Keycloak configuration
+* download keycloack, uppack it and start by command: kc.sh start-dev --http-port=8180
+* login to console at http://127.0.0.1:8180 and click create realm button
+* select json file realm.json at docker folder to create a new realm
+
+# GPG key configuration
+* gpg --full-gen-key
+* gpg --list-secret-keys --keyid-format long
+* gpg --armor --export "key-gen" for example gpg --armor --export 3AA5C34371567BD2
+* git config --global user.signingkey "key-gen"
+* git config --global commit.gpgSign true
+* git config --global tag.gpgSign true
+
+# Useful commands:
+* build package by command: ./mvnw clean package -Dmaven.test.skip
+* run application by command: ./mvnw spring-boot:run
+* run application with profile by command: ./mvnw spring-boot:run -Pdev
+* run application with by command: java -jar t9radar-x.y.z.jar --application.keys.google_analytics=123
+* run application with by command: java -jar t9radar-x.y.z.jar --spring.liquibase.label-filter=de
+* run database migration by command: ./mvnw liquibase:update
+* create checkstyle report by command: ./mvnw checkstyle:checkstyle
+* get coverage report by command: ./mvnw jacoco:report -Pdev
+* create javadoc by command: ./mvnw javadoc:javadoc
+* create cross reference source by command: ./mvnw jxr:jxr
+* create site by command: ./mvnw site
+* run spotbugs GUI by command: ./mvnw spotbugs:gui
+* run sonarqube analysis by command: ./mvnw sonar:sonar
+* run single test by command: ./mvn test -Dtest=TechnologyIntegrationTests
+* setup tag by command: git tag -v0.1.0 && git push origin --tags
+* prune tags by command: git fetch --prune --prune-tags
+* run postsgresql by command: docker-compose -f ./postgresql.yml up
+* run psql console by command: su - postgres and run psql
+* run docker compose by command: docker-compose  -f ./postgresql.yml up
+* view metrics at url: http://127.0.0.1:8080/actuator/prometheus
+* view swagger at url: http://127.0.0.1:8080/swagger-ui/index.html
+* view api docs at url: http://127.0.0.1:8080/v3/api-docs
+
+
+# Appendix: work with tokens
+```bash
+export access_token=$(curl -X POST http://localhost:8180/realms/t9radar/protocol/openid-connect/token \
+-H 'content-type: application/x-www-form-urlencoded' -d 'client_id=radar&client_secret=secret' \
+-d 'username=alice&password=secret&grant_type=password' | jq --raw-output '.access_token' )
+  ```
+
+```bash
+curl http://localhost:8080/api/v1/technologies -H "Authorization: Bearer "$access_token
+```

@@ -1,0 +1,16 @@
+#
+# This file run postresql database
+#
+# Important:
+# This configuration is intended for development purpose
+#
+version: '3.8'
+services:
+  t9radar-postgresql:
+    image: postgres:14.6
+    environment:
+      - POSTGRES_USER=radar
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 127.0.0.1:5432:5432

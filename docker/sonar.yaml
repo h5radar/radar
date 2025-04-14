@@ -1,0 +1,14 @@
+#
+# This file run sonar qube
+#
+# Important:
+# This configuration is intended for development purpose
+#
+version: '3.8'
+services:
+  t9radar-sonar:
+    image: sonarqube:latest
+    environment:
+      - sonar.forceAuthentication=false
+    ports:
+      - 127.0.0.1:9000:9000

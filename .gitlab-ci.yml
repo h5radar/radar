@@ -1,0 +1,21 @@
+# Setup cache
+cache:
+  untracked: true
+
+# Setup stages
+stages:
+  - build
+
+# Build artifacts
+build-application:
+  stage: build
+  tags:
+    - linux
+  script:
+    - git rev-parse HEAD >> VERSION
+    - mvn clean package
+  artifacts:
+    name: artifacts
+    expire_in: 1 week
+    paths:
+      - VERSION

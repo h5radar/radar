@@ -1,0 +1,27 @@
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        security: debug
+spring:
+  datasource:
+    url: jdbc:h2:mem:radar;MODE=PostgreSQL
+    username: t9radar
+    password: secret
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  messages:
+    use-code-as-default-message: false
+  resources:
+    cache-period: 0
+  thymeleaf:
+    cache: false

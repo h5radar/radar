@@ -1,0 +1,20 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# IDE files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS fiels
+.DS_Store
+
+# Target files
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+

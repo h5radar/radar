@@ -1,0 +1,169 @@
+application:
+  group_id: '@project.groupId@'
+  artifact_id: '@project.artifactId@'
+  version: '@project.version@'
+  keys:
+    google_analytics:
+    yandex_metrika:
+  paging:
+    page: 1
+    size: 10
+
+logging:
+  charset:
+    console: UTF-8
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: INFO
+      com:
+        zaxxer:
+          hikari: INFO
+          HikariConfig: INFO
+    root: info
+  config: classpath:configs/logback-spring.xml
+
+management:
+  server:
+    port: 8080
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      base-path: /actuator
+      exposure:
+        include: "health,info,metrics,prometheus"
+
+server:
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        http-only: true
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,image/svg+xml
+    min-response-size: 512
+  http2:
+    enabled: true
+  error:
+    whitelabel:
+      enabled: true
+    path: /error
+  shutdown: graceful
+
+spring:
+  application:
+    name: T9Radar
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://127.0.0.1:5432/radar
+    username: radar
+    password: secret
+    hikari:
+      poolName: radar-pool
+      auto-commit: false
+      minimum-idle: 10
+      maximum-pool-size: 100
+      max-lifetime: 300000
+      validation-timeout: 500
+      idle-timeout: 60000
+      leak-detection-threshold: 80000
+      connection-timeout: 20000
+      initialization-fail-timeout: 1
+      isolate-internal-queries: false
+      allow-pool-suspension: false
+      login-timeout: 10000
+  jmx:
+    enabled: false
+  jpa:
+    generate-ddl: false
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        hql.bulk_id_strategy: org.hibernate.hql.spi.id.inline.InlineIdsInClauseBulkIdStrategy
+        order_updates: true
+        order_inserts: true
+        default_batch_fetch_size: 1000
+        enable_lazy_load_no_trans: false
+        batch_fetch_style: dynamic
+        jdbc:
+          time_zone: UTC
+          lob.non_contextual_creation: true
+          batch_size: 100
+          fetch_size: 300
+          batch_versioned_data: true
+        id.new_generator_mappings: true
+        generate_statistics: false
+        connection.provider_disables_autocommit: true
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: UNSPECIFIED
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: database/changelog-master.xml
+    label-filter: locale_en
+    contexts: data
+  messages:
+    basename: messages.application
+    encoding: UTF-8
+    use-code-as-default-message: true
+  mvc:
+    servlet:
+      load-on-startup: 1
+  profiles:
+    active: '@spring.profiles.active@'
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: true
+  transaction:
+    rollback-on-commit-failure: true
+    default-timeout: 30s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:8180/realms/t9radar/protocol/openid-connect/certs
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 120
+          must-revalidate: true
+    locale: ru
+    locale-resolver: fixed
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui/index.html
+    tags-sorter: alpha
+    operations-sorter: method
+  paths-to-exclude:
+    - /api/v1/application/**
