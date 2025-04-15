@@ -18,8 +18,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'liberica'
+          java-version: "21"
+          distribution: "liberica"
           cache: maven
       - name: Build package
         shell: bash
