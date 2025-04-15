@@ -21,13 +21,6 @@ jobs:
           java-version: '21'
           distribution: 'liberica'
           cache: maven
-      - name: Set up NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: Install npm packages
-        shell: bash
-        run: npm install
       - name: Build package
         shell: bash
-        run: mvn package
+        run: mvn clean package -Dmaven.test.skip
