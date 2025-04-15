@@ -11,14 +11,13 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 
 # Setup environment
 ## Windows environment
-* download and install java, at least jdk-18
-* create JAVA_HOME environment variable with value C:\Program Files\Java\jdk-19
+* download and install java, at least jdk-21
+* create JAVA_HOME environment variable with value C:\Program Files\Java\jdk-21
 * exit and run console again to apply environment variables
 * download and install maven, at least 3.8.7
 * create JAVA_HOME environment variable with value C:\apache-maven-3.8.7
 * exit and run console again to apply environment variables
-* setup GitHub account and add ssh keys to GitHub profile
-* clone repo by command git clone: git@github.com:t9radar/radar.git
+* setup GitHub account and add ssh keys to GitHub profile in order to clone repo
 * build application by command: mvn clean package -Pdev -Dmaven.test.skip from root folder
 * run application by command: mvn spring-boot:run -Pdev from root folder
 * open browser with url http://127.0.0.1:8080 to view application
@@ -46,17 +45,8 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 * login to console at http://127.0.0.1:8180 and click create realm button
 * select json file realm.json at docker folder to create a new realm
 
-# GPG key configuration
-* gpg --full-gen-key
-* gpg --list-secret-keys --keyid-format long
-* gpg --armor --export "key-gen" for example gpg --armor --export 3AA5C34371567BD2
-* git config --global user.signingkey "key-gen"
-* git config --global commit.gpgSign true
-* git config --global tag.gpgSign true
-
 # Useful commands:
 * build package by command: ./mvnw clean package -Dmaven.test.skip
-* run application by command: ./mvnw spring-boot:run
 * run application with profile by command: ./mvnw spring-boot:run -Pdev
 * run application with by command: java -jar t9radar-x.y.z.jar --application.keys.google_analytics=123
 * run application with by command: java -jar t9radar-x.y.z.jar --spring.liquibase.label-filter=de
@@ -69,11 +59,7 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 * run spotbugs GUI by command: ./mvnw spotbugs:gui
 * run sonarqube analysis by command: ./mvnw sonar:sonar
 * run single test by command: ./mvn test -Dtest=TechnologyIntegrationTests
-* setup tag by command: git tag -v0.1.0 && git push origin --tags
-* prune tags by command: git fetch --prune --prune-tags
-* run postsgresql by command: docker-compose -f ./postgresql.yml up
-* run psql console by command: su - postgres and run psql
-* run docker compose by command: docker-compose  -f ./postgresql.yml up
+* run docker compose by command: docker-compose -f ./postgresql.yml up
 * view metrics at url: http://127.0.0.1:8080/actuator/prometheus
 * view swagger at url: http://127.0.0.1:8080/swagger-ui/index.html
 * view api docs at url: http://127.0.0.1:8080/v3/api-docs

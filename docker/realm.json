@@ -1,7 +1,7 @@
 {
-  "realm": "t9radar",
-  "displayName": "T9Radar",
-  "displayNameHtml": "<div class=\"kc-logo-text\"><span>T9Radar</span></div>",
+  "realm": "h5radar",
+  "displayName": "H5Radar",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>H5Radar</span></div>",
   "enabled": true,
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
@@ -16,13 +16,13 @@
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
-      "redirectUris": ["http://127.0.0.1:5173/*"],
-      "webOrigins": ["http://127.0.0.1:5173"],
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"],
       "attributes": {
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "+http://127.0.0.1:5173/*",
+        "post.logout.redirect.uris": "+http://localhost:5173/*",
         "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
@@ -34,7 +34,7 @@
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
-      "redirectUris": ["http://127.0.0.1:8080/*"]
+      "redirectUris": ["http://localhost:8080/*"]
     }
   ],
   "users": [
