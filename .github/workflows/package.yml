@@ -23,4 +23,4 @@ jobs:
           cache: maven
       - name: Build package
         shell: bash
-        run: mvn clean package -Dmaven.test.skip
+        run: mvn clean package
