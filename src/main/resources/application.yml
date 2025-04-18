@@ -75,7 +75,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://127.0.0.1:5432/radar
-    username: radar
+    username: radar_user
     password: secret
     hikari:
       poolName: radar-pool
