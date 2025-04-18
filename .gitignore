@@ -10,8 +10,11 @@
 *.sln
 *.sw?
 
-# OS fiels
+# OS files
 .DS_Store
+
+# Plugin files
+radar.iml
 
 # Target files
 target/

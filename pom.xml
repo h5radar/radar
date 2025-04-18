@@ -238,7 +238,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
                 <configuration>
-                    <configLocation>configs/google_checks.xml</configLocation>
+                    <configLocation>configs/h5radar_checks.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <failOnViolation>true</failOnViolation>
