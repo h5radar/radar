@@ -14,7 +14,7 @@ public class JpaAuditingConfiguration {
   @Bean
   public AuditorAware<String> auditorProvider() {
     //TODO Replace with Spring Security
-    return () -> Optional.of("h5adar");
+    return () -> Optional.of("h5radar");
   }
 
 }
