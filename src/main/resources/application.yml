@@ -67,7 +67,7 @@ server:
 
 spring:
   application:
-    name: T9Radar
+    name: H5Radar
   data:
     jpa:
       repositories:
@@ -148,7 +148,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://127.0.0.1:8180/realms/t9radar/protocol/openid-connect/certs
+          jwk-set-uri: http://127.0.0.1:8180/realms/h5adar/protocol/openid-connect/certs
   web:
     resources:
       cache:

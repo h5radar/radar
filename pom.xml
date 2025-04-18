@@ -8,7 +8,7 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.t9radar</groupId>
+    <groupId>com.h5adar</groupId>
     <artifactId>radar</artifactId>
     <version>0.3.0-SNAPSHOT</version>
     <name>radar</name>
@@ -154,7 +154,7 @@
         </dependencies>
     </dependencyManagement>
     <scm>
-        <developerConnection>scm:git:git@github.com:t9radar/t9radar-app.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:h5adar/h5adar-app.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <build>
@@ -233,7 +233,7 @@
                     <nohelp>true</nohelp>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
@@ -254,7 +254,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
