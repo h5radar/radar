@@ -7,7 +7,7 @@ logging:
 spring:
   datasource:
     url: jdbc:h2:mem:radar;MODE=PostgreSQL
-    username: h5adar
+    username: h5radar
     password: secret
   devtools:
     restart:

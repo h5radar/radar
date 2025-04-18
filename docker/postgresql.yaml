@@ -6,7 +6,7 @@
 #
 version: '3.8'
 services:
-  h5adar-postgresql:
+  h5radar-postgresql:
     image: postgres:14.6
     environment:
       - POSTGRES_USER=radar

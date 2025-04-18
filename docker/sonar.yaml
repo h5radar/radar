@@ -6,7 +6,7 @@
 #
 version: '3.8'
 services:
-  h5adar-sonar:
+  h5radar-sonar:
     image: sonarqube:latest
     environment:
       - sonar.forceAuthentication=false

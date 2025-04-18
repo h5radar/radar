@@ -277,7 +277,7 @@
                 value="STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS"/>
       <property name="standardPackageRegExp" value="^(jakarta|java|javax)\."/>
       <property name="thirdPartyPackageRegExp" value=".*"/>
-      <property name="specialImportsRegExp" value="^com\.h5adar\."/>
+      <property name="specialImportsRegExp" value="^com\.h5radar\."/>
       <property name="sortImportsInGroupAlphabetically" value="true"/>
       <property name="separateLineBetweenGroups" value="true"/>
     </module>
