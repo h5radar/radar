@@ -9,7 +9,7 @@ services:
   h5radar-postgresql:
     image: postgres:14.6
     environment:
-      - POSTGRES_USER=radar
+      - POSTGRES_USER=radar_user
       - POSTGRES_PASSWORD=secret
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
