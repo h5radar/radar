@@ -1,71 +1,71 @@
 title|website|description|created_by|last_modified_by
-Aerospike|https://aerospike.com/|Aerospike|t9radar|t9radar
-Airflow|https://airflow.apache.org/|Airflow|t9radar|t9radar
-Amazon MemoryDB||Amazon MemoryDB|t9radar|t9radar
-Amazon Redshift||Amazon Redshift|t9radar|t9radar
-Amazon SageMaker Feature Store||Amazon SageMaker Feature Store|t9radar|t9radar
-Amazon SageMaker||Amazon SageMaker|t9radar|t9radar
-Apache Cassandra||Apache Cassandra|t9radar|t9radar
-AWS Athena||AWS Athena|t9radar|t9radar
-AWS CloudFormation||AWS CloudFormation|t9radar|t9radar
-AWS CloudFront||AWS CloudFront|t9radar|t9radar
-AWS Data Pipeline||AWS Data Pipeline|t9radar|t9radar
-AWS DynamoDB||AWS DynamoDB|t9radar|t9radar
-AWS EMR||AWS EMR|t9radar|t9radar
-AWS Glue||AWS Glue|t9radar|t9radar
-AWS Kinesis||AWS Kinesis|t9radar|t9radar
-AWS Lambda||AWS Lambda|t9radar|t9radar
-AWS S3||AWS S3|t9radar|t9radar
-AWS SNS||AWS SNS|t9radar|t9radar
-AWS SQS||AWS SQS|t9radar|t9radar
-Clojure||Clojure|t9radar|t9radar
-Consul||Consul|t9radar|t9radar
-CouchBase||CouchBase|t9radar|t9radar
-Dart||Dart|t9radar|t9radar
-dbt||dbt|t9radar|t9radar
-Docker||Docker|t9radar|t9radar
-Druid||Druid|t9radar|t9radar
-Elasticsearch||Elasticsearch|t9radar|t9radar
-etcd||etcd|t9radar|t9radar
-Exasol||Exasol|t9radar|t9radar
-Flink||Flink|t9radar|t9radar
-Go||Go|t9radar|t9radar
-Google BigQuery||Google BigQuery|t9radar|t9radar
-GraphQL||GraphQL|t9radar|t9radar
-Hadoop||Hadoop|t9radar|t9radar
-Haskell||Haskell|t9radar|t9radar
-Hazelcast||Hazelcast|t9radar|t9radar
-HBase||HBase|t9radar|t9radar
-HDFS||HDFS|t9radar|t9radar
-Java||Java|t9radar|t9radar
-JavaScript||JavaScript|t9radar|t9radar
-Kafka||Kafka|t9radar|t9radar
-Kotlin||Kotlin|t9radar|t9radar
-Kubernetes||Kubernetes|t9radar|t9radar
-Memcached||Memcached|t9radar|t9radar
-MongoDB||MongoDB|t9radar|t9radar
-MySQL||MySQL|t9radar|t9radar
-Nakadi|https://nakadi.io|Nakadi|t9radar|t9radar
-OpenAPI (Swagger)||OpenAPI (Swagger)|t9radar|t9radar
-OpenTracing||OpenTracing|t9radar|t9radar
-Oracle DB||Oracle DB|t9radar|t9radar
-PostgreSQL||PostgreSQL|t9radar|t9radar
-Presto||Presto|t9radar|t9radar
-Python||Python|t9radar|t9radar
-R||R|t9radar|t9radar
-RabbitMQ||RabbitMQ|t9radar|t9radar
-Redis||Redis|t9radar|t9radar
-RocksDB||RocksDB|t9radar|t9radar
-Rust||Rust|t9radar|t9radar
-Scala||Scala|t9radar|t9radar
-Skipper||Skipper|t9radar|t9radar
-Slurm||Slurm|t9radar|t9radar
-Solr||Solr|t9radar|t9radar
-Spark||Spark|t9radar|t9radar
-STUPS||STUPS|t9radar|t9radar
-Swift||Swift|t9radar|t9radar
-TypeScript||TypeScript|t9radar|t9radar
-WebAssembly||WebAssembly|t9radar|t9radar
-YARN||YARN|t9radar|t9radar
-ZMON||ZMON|t9radar|t9radar
-ZooKeeper||ZooKeeper|t9radar|t9radar
+Aerospike|https://aerospike.com/|Aerospike|h5adar|h5adar
+Airflow|https://airflow.apache.org/|Airflow|h5adar|h5adar
+Amazon MemoryDB||Amazon MemoryDB|h5adar|h5adar
+Amazon Redshift||Amazon Redshift|h5adar|h5adar
+Amazon SageMaker Feature Store||Amazon SageMaker Feature Store|h5adar|h5adar
+Amazon SageMaker||Amazon SageMaker|h5adar|h5adar
+Apache Cassandra||Apache Cassandra|h5adar|h5adar
+AWS Athena||AWS Athena|h5adar|h5adar
+AWS CloudFormation||AWS CloudFormation|h5adar|h5adar
+AWS CloudFront||AWS CloudFront|h5adar|h5adar
+AWS Data Pipeline||AWS Data Pipeline|h5adar|h5adar
+AWS DynamoDB||AWS DynamoDB|h5adar|h5adar
+AWS EMR||AWS EMR|h5adar|h5adar
+AWS Glue||AWS Glue|h5adar|h5adar
+AWS Kinesis||AWS Kinesis|h5adar|h5adar
+AWS Lambda||AWS Lambda|h5adar|h5adar
+AWS S3||AWS S3|h5adar|h5adar
+AWS SNS||AWS SNS|h5adar|h5adar
+AWS SQS||AWS SQS|h5adar|h5adar
+Clojure||Clojure|h5adar|h5adar
+Consul||Consul|h5adar|h5adar
+CouchBase||CouchBase|h5adar|h5adar
+Dart||Dart|h5adar|h5adar
+dbt||dbt|h5adar|h5adar
+Docker||Docker|h5adar|h5adar
+Druid||Druid|h5adar|h5adar
+Elasticsearch||Elasticsearch|h5adar|h5adar
+etcd||etcd|h5adar|h5adar
+Exasol||Exasol|h5adar|h5adar
+Flink||Flink|h5adar|h5adar
+Go||Go|h5adar|h5adar
+Google BigQuery||Google BigQuery|h5adar|h5adar
+GraphQL||GraphQL|h5adar|h5adar
+Hadoop||Hadoop|h5adar|h5adar
+Haskell||Haskell|h5adar|h5adar
+Hazelcast||Hazelcast|h5adar|h5adar
+HBase||HBase|h5adar|h5adar
+HDFS||HDFS|h5adar|h5adar
+Java||Java|h5adar|h5adar
+JavaScript||JavaScript|h5adar|h5adar
+Kafka||Kafka|h5adar|h5adar
+Kotlin||Kotlin|h5adar|h5adar
+Kubernetes||Kubernetes|h5adar|h5adar
+Memcached||Memcached|h5adar|h5adar
+MongoDB||MongoDB|h5adar|h5adar
+MySQL||MySQL|h5adar|h5adar
+Nakadi|https://nakadi.io|Nakadi|h5adar|h5adar
+OpenAPI (Swagger)||OpenAPI (Swagger)|h5adar|h5adar
+OpenTracing||OpenTracing|h5adar|h5adar
+Oracle DB||Oracle DB|h5adar|h5adar
+PostgreSQL||PostgreSQL|h5adar|h5adar
+Presto||Presto|h5adar|h5adar
+Python||Python|h5adar|h5adar
+R||R|h5adar|h5adar
+RabbitMQ||RabbitMQ|h5adar|h5adar
+Redis||Redis|h5adar|h5adar
+RocksDB||RocksDB|h5adar|h5adar
+Rust||Rust|h5adar|h5adar
+Scala||Scala|h5adar|h5adar
+Skipper||Skipper|h5adar|h5adar
+Slurm||Slurm|h5adar|h5adar
+Solr||Solr|h5adar|h5adar
+Spark||Spark|h5adar|h5adar
+STUPS||STUPS|h5adar|h5adar
+Swift||Swift|h5adar|h5adar
+TypeScript||TypeScript|h5adar|h5adar
+WebAssembly||WebAssembly|h5adar|h5adar
+YARN||YARN|h5adar|h5adar
+ZMON||ZMON|h5adar|h5adar
+ZooKeeper||ZooKeeper|h5adar|h5adar

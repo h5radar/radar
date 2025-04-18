@@ -40,7 +40,7 @@
     <property name="eachLine" value="true"/>
   </module>
 
-  <!--T9Radar.
+  <!--H5Radar.
     Length has been changed from 100 to 120 otherwise "Reformat code" doesn't work.
   -->
   <module name="LineLength">
@@ -171,7 +171,7 @@
       <property name="tokens" value="METHOD_REF"/>
       <property name="option" value="nl"/>
     </module>
-    <!--T9Radar.
+    <!--H5Radar.
       Regex has been changed from value="^[a-z]+(\.[a-z][a-z0-9]*)*$"
       to value="^[a-z]+(\.[a-z][a-z0-9_]*)*$" in order to support _
       at package names, for example radar_type.
@@ -277,7 +277,7 @@
                 value="STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS"/>
       <property name="standardPackageRegExp" value="^(jakarta|java|javax)\."/>
       <property name="thirdPartyPackageRegExp" value=".*"/>
-      <property name="specialImportsRegExp" value="^com\.t9radar\."/>
+      <property name="specialImportsRegExp" value="^com\.h5adar\."/>
       <property name="sortImportsInGroupAlphabetically" value="true"/>
       <property name="separateLineBetweenGroups" value="true"/>
     </module>

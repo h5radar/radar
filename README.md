@@ -1,11 +1,11 @@
-# T9Radar
-Technical and business radar. Demo available at https://app.t9radar.com. Spring boot based application.
+# H5Radar
+Technical and business radar. Demo available at https://app.h5adar.com. Spring boot based application.
 
 # Release application
 * add release notes file to docs
 * update version at antora.yml file
 * run command mvn release:prepare and mvn release:perform
-* create archive by command: tar -zcvf Binaries.tar.gz t9radar*.jar
+* create archive by command: tar -zcvf Binaries.tar.gz h5adar*.jar
 * setup version at antora.yml file at latest value
 * create and publish the new release at GitHub
 
@@ -25,8 +25,8 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 ## Working with embedded H2 DB(In-Memory)
 * run application by command: "mvn spring-boot:run -Pdev"
 * enter http://localhost:8080/h2-console to browser
-* enter "jdbc:h2:mem:t9radar" into JDBC URL field
-* enter "t9radar" into User Name field
+* enter "jdbc:h2:mem:h5adar" into JDBC URL field
+* enter "h5adar" into User Name field
 * enter "secret" into Password field
 
 ## Idea configuration
@@ -48,8 +48,8 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 # Useful commands:
 * build package by command: ./mvnw clean package -Dmaven.test.skip
 * run application with profile by command: ./mvnw spring-boot:run -Pdev
-* run application with by command: java -jar t9radar-x.y.z.jar --application.keys.google_analytics=123
-* run application with by command: java -jar t9radar-x.y.z.jar --spring.liquibase.label-filter=de
+* run application with by command: java -jar h5adar-x.y.z.jar --application.keys.google_analytics=123
+* run application with by command: java -jar h5adar-x.y.z.jar --spring.liquibase.label-filter=de
 * run database migration by command: ./mvnw liquibase:update
 * create checkstyle report by command: ./mvnw checkstyle:checkstyle
 * get coverage report by command: ./mvnw jacoco:report -Pdev
@@ -67,7 +67,7 @@ Technical and business radar. Demo available at https://app.t9radar.com. Spring 
 
 # Appendix: work with tokens
 ```bash
-export access_token=$(curl -X POST http://localhost:8180/realms/t9radar/protocol/openid-connect/token \
+export access_token=$(curl -X POST http://localhost:8180/realms/h5adar/protocol/openid-connect/token \
 -H 'content-type: application/x-www-form-urlencoded' -d 'client_id=radar&client_secret=secret' \
 -d 'username=alice&password=secret&grant_type=password' | jq --raw-output '.access_token' )
   ```
