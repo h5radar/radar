@@ -22,7 +22,7 @@
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "+http://localhost:5173/*##+https://app.h5radar.com/*##+https://app.h5radar.ru/*",
+        "post.logout.redirect.uris": "http://localhost:5173/welcome*##https://app.h5radar.com/welcome*##https://app.h5radar.ru/welcome*",
         "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
