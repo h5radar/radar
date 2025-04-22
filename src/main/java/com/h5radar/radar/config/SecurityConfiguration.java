@@ -18,6 +18,15 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+  @Value("${application.cors.allowed-origins}")
+  String allowedOrigins;
+
+  @Value("${application.cors.allowed-methods}")
+  String allowedMethods;
+
+  @Value("${application.cors.allowed-headers}")
+  String allowedHeaders;
+
   @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
   String jwkSetUri;
 
@@ -26,9 +35,9 @@ public class SecurityConfiguration {
     http
         .cors(cors -> cors.configurationSource(request -> {
           CorsConfiguration configuration = new CorsConfiguration();
-          configuration.setAllowedOrigins(Arrays.asList("*"));
-          configuration.setAllowedMethods(Arrays.asList("*"));
-          configuration.setAllowedHeaders(Arrays.asList("*"));
+          configuration.setAllowedOrigins(Arrays.asList(this.allowedOrigins));
+          configuration.setAllowedMethods(Arrays.asList(this.allowedMethods));
+          configuration.setAllowedHeaders(Arrays.asList(this.allowedHeaders));
           return configuration;
         }))
         .authorizeHttpRequests((requests) -> requests
