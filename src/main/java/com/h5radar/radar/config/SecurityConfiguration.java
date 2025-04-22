@@ -22,11 +22,13 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests((requests) -> requests
+            .requestMatchers("/**").permitAll()
+            /*
             .requestMatchers("/actuator/**").permitAll()
             .requestMatchers("/api/v1/application/**").permitAll()
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().authenticated()*/
         )
         .oauth2ResourceServer((oauth2) -> oauth2
             .jwt(withDefaults()));
