@@ -41,9 +41,7 @@ public class ProductController {
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<ProductDto> productDtoPage =
         productService.findAll(productFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK)
-        .header("Access-Control-Allow-Origin", "*")
-        .body(productDtoPage.getContent());
+    return ResponseEntity.status(HttpStatus.OK).body(productDtoPage.getContent());
   }
 
   @GetMapping(value = "/{id}")

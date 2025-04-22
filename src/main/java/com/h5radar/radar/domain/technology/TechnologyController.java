@@ -44,9 +44,7 @@ public class TechnologyController {
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<TechnologyDto> technologyDtoPage =
         technologyService.findAll(technologyFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK)
-        .header("Access-Control-Allow-Origin", "*")
-        .body(technologyDtoPage.getContent());
+    return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage.getContent());
   }
 
   @GetMapping(value = "/{id}")
