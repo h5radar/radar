@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -21,14 +24,19 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
+        .cors(cors -> cors.configurationSource(request -> {
+          CorsConfiguration configuration = new CorsConfiguration();
+          configuration.setAllowedOrigins(Arrays.asList("*"));
+          configuration.setAllowedMethods(Arrays.asList("*"));
+          configuration.setAllowedHeaders(Arrays.asList("*"));
+          return configuration;
+        }))
         .authorizeHttpRequests((requests) -> requests
-            .requestMatchers("/**").permitAll()
-            /*
             .requestMatchers("/actuator/**").permitAll()
             .requestMatchers("/api/v1/application/**").permitAll()
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()
-            .anyRequest().authenticated()*/
+            .anyRequest().authenticated()
         )
         .oauth2ResourceServer((oauth2) -> oauth2
             .jwt(withDefaults()));

@@ -63,15 +63,3 @@ Technical and business radar. Demo available at https://app.h5radar.com. Spring 
 * view metrics at url: http://127.0.0.1:8080/actuator/prometheus
 * view swagger at url: http://127.0.0.1:8080/swagger-ui/index.html
 * view api docs at url: http://127.0.0.1:8080/v3/api-docs
-
-
-# Appendix: work with tokens
-```bash
-export access_token=$(curl -X POST http://localhost:8180/realms/h5radar/protocol/openid-connect/token \
--H 'content-type: application/x-www-form-urlencoded' -d 'client_id=radar&client_secret=secret' \
--d 'username=alice&password=secret&grant_type=password' | jq --raw-output '.access_token' )
-  ```
-
-```bash
-curl http://localhost:8080/api/v1/technologies -H "Authorization: Bearer "$access_token
-```
