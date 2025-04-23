@@ -34,13 +34,14 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$").isNotEmpty()
-        .jsonPath("$").isArray()
-        .jsonPath("$[0].id").isEqualTo(technologyDto.getId())
-        .jsonPath("$[0].title").isEqualTo(technologyDto.getTitle())
-        .jsonPath("$[0].description").isEqualTo(technologyDto.getDescription())
-        .jsonPath("$[0].website").isEqualTo(technologyDto.getWebsite())
-        .jsonPath("$[0].moved").isEqualTo(technologyDto.getMoved())
-        .jsonPath("$[0].active").isEqualTo(technologyDto.isActive());
+        .jsonPath("$").isMap()
+        .jsonPath("$.content").isArray()
+        .jsonPath("$.content[0].id").isEqualTo(technologyDto.getId())
+        .jsonPath("$.content[0].title").isEqualTo(technologyDto.getTitle())
+        .jsonPath("$.content[0].description").isEqualTo(technologyDto.getDescription())
+        .jsonPath("$.content[0].website").isEqualTo(technologyDto.getWebsite())
+        .jsonPath("$.content[0].moved").isEqualTo(technologyDto.getMoved())
+        .jsonPath("$.content[0].active").isEqualTo(technologyDto.isActive());
 
     technologyService.deleteById(technologyDto.getId());
   }

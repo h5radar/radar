@@ -1,7 +1,6 @@
 package com.h5radar.radar.domain.product;
 
 import jakarta.validation.Valid;
-import java.util.Collection;
 import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +30,7 @@ public class ProductController {
   private final ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<Collection<ProductDto>> index(
+  public ResponseEntity<Page<ProductDto>> index(
       @Valid ProductFilter productFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -41,7 +40,7 @@ public class ProductController {
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<ProductDto> productDtoPage =
         productService.findAll(productFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(productDtoPage.getContent());
+    return ResponseEntity.status(HttpStatus.OK).body(productDtoPage);
   }
 
   @GetMapping(value = "/{id}")

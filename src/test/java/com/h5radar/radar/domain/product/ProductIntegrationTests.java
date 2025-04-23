@@ -25,16 +25,17 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     productDto = productService.save(productDto);
 
     webTestClient.get().uri("/api/v1/products")
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .expectStatus().isOk()
-            .expectHeader().contentType(MediaType.APPLICATION_JSON)
-            .expectBody()
-            .jsonPath("$").isNotEmpty()
-            .jsonPath("$").isArray()
-            .jsonPath("$[0].id").isEqualTo(productDto.getId())
-            .jsonPath("$[0].title").isEqualTo(productDto.getTitle())
-            .jsonPath("$[0].description").isEqualTo(productDto.getDescription());
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody()
+        .jsonPath("$").isNotEmpty()
+        .jsonPath("$").isMap()
+        .jsonPath("$.content").isArray()
+        .jsonPath("$.content[0].id").isEqualTo(productDto.getId())
+        .jsonPath("$.content[0].title").isEqualTo(productDto.getTitle())
+        .jsonPath("$.content[0].description").isEqualTo(productDto.getDescription());
 
     productService.deleteById(productDto.getId());
   }

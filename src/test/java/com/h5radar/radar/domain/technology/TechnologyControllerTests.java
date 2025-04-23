@@ -48,14 +48,15 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$").isArray())
-        .andExpect(jsonPath("$", hasSize(technologyDtoPage.getContent().size())))
-        .andExpect(jsonPath("$[0].id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$[0].title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$[0].description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$[0].website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$[0].moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$[0].active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(technologyDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(technologyDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(technologyDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(technologyDto.getDescription())))
+        .andExpect(jsonPath("$.content[0].website", equalTo(technologyDto.getWebsite())))
+        .andExpect(jsonPath("$.content[0].moved", equalTo(technologyDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.content[0].active", equalTo(technologyDto.isActive())));
 
     Mockito.verify(technologyService).findAll(any(), any());
   }
