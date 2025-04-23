@@ -44,12 +44,13 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(productService.findAll(any(), any())).thenReturn(productDtoPage);
 
     mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$", hasSize(productDtoPage.getContent().size())))
-            .andExpect(jsonPath("$[0].id", equalTo(productDto.getId()), Long.class))
-            .andExpect(jsonPath("$[0].title", equalTo(productDto.getTitle())))
-            .andExpect(jsonPath("$[0].description", equalTo(productDto.getDescription())));
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(productDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(productDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(productDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(productDto.getDescription())));
 
     Mockito.verify(productService).findAll(any(), any());
   }

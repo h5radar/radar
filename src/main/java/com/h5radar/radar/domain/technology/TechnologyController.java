@@ -1,7 +1,6 @@
 package com.h5radar.radar.domain.technology;
 
 import jakarta.validation.Valid;
-import java.util.Collection;
 import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +32,7 @@ public class TechnologyController {
   private final TechnologyService technologyService;
 
   @GetMapping("")
-  public ResponseEntity<Collection<TechnologyDto>> index(
+  public ResponseEntity<Page<TechnologyDto>> index(
       @AuthenticationPrincipal Jwt jwt,
       @Valid TechnologyFilter technologyFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
@@ -44,7 +43,7 @@ public class TechnologyController {
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<TechnologyDto> technologyDtoPage =
         technologyService.findAll(technologyFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage.getContent());
+    return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage);
   }
 
   @GetMapping(value = "/{id}")
