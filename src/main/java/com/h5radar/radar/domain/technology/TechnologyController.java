@@ -57,7 +57,8 @@ public class TechnologyController {
 
   @PostMapping
   public ResponseEntity<TechnologyDto> create(@RequestBody TechnologyDto technologyDto) {
-    technologyService.save(technologyDto);
+    technologyDto.setId(null);
+    technologyDto = technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
   }
 
