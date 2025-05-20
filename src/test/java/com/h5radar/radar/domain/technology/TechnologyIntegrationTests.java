@@ -1,5 +1,6 @@
 package com.h5radar.radar.domain.technology;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -87,27 +88,59 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setDescription("My technology description");
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
-    technologyDto = technologyService.save(technologyDto);
 
-    webTestClient.post().uri("/api/v1/technologies")
+    TechnologyDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
         .body(Mono.just(technologyDto), TechnologyDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .jsonPath("$").isNotEmpty()
-        .jsonPath("$").isMap()
-        .jsonPath("$.id").isEqualTo(technologyDto.getId())
-        .jsonPath("$.title").isEqualTo(technologyDto.getTitle())
-        .jsonPath("$.description").isEqualTo(technologyDto.getDescription())
-        .jsonPath("$.website").isEqualTo(technologyDto.getWebsite())
-        .jsonPath("$.moved").isEqualTo(technologyDto.getMoved())
-        .jsonPath("$.active").isEqualTo(technologyDto.isActive());
-    technologyService.deleteById(technologyDto.getId());
+        .expectBody(TechnologyDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
+    Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
+    Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
+    Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
+    Assertions.assertEquals(technologyDto.getMoved(), technologyDto1.getMoved());
+    Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
+
+    technologyService.deleteById(technologyDto1.getId());
   }
 
+  @Test
+  @WithMockUser
+  public void shouldCreateTechnologyWithId() throws Exception {
+    TechnologyDto technologyDto = new TechnologyDto();
+    technologyDto.setId(99L);
+    technologyDto.setWebsite("My website");
+    technologyDto.setTitle("My technology");
+    technologyDto.setDescription("My technology description");
+    technologyDto.setMoved(0);
+    technologyDto.setActive(true);
+
+    TechnologyDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(TechnologyDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
+    Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
+    Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
+    Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
+    Assertions.assertEquals(technologyDto.getMoved(), technologyDto1.getMoved());
+    Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
+
+    technologyService.deleteById(technologyDto1.getId());
+  }
 
   @Test
   @WithMockUser

@@ -1,5 +1,6 @@
 package com.h5radar.radar.domain.product;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -72,24 +73,50 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     productDto.setId(null);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
-    productDto = productService.save(productDto);
 
-    webTestClient.post().uri("/api/v1/products")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(Mono.just(productDto), ProductDto.class)
-            .exchange()
-            .expectStatus().isCreated()
-            .expectHeader().contentType(MediaType.APPLICATION_JSON)
-            .expectBody()
-            .jsonPath("$").isNotEmpty()
-            .jsonPath("$").isMap()
-            .jsonPath("$.id").isEqualTo(productDto.getId())
-            .jsonPath("$.title").isEqualTo(productDto.getTitle())
-            .jsonPath("$.description").isEqualTo(productDto.getDescription());
-    productService.deleteById(productDto.getId());
+    ProductDto productDto1 = webTestClient.post().uri("/api/v1/products")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(productDto), ProductDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(ProductDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(productDto.getId(), productDto1.getId());
+    Assertions.assertEquals(productDto.getTitle(), productDto1.getTitle());
+    Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
+
+    productService.deleteById(productDto1.getId());
   }
 
+  @Test
+  @WithMockUser
+  public void shouldCreateProductWithId() throws Exception {
+    ProductDto productDto = new ProductDto();
+    productDto.setId(99L);
+    productDto.setTitle("My product");
+    productDto.setDescription("My product description");
+
+    ProductDto productDto1 = webTestClient.post().uri("/api/v1/products")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(productDto), ProductDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(ProductDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(productDto.getId(), productDto1.getId());
+    Assertions.assertEquals(productDto.getTitle(), productDto1.getTitle());
+    Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
+
+    productService.deleteById(productDto1.getId());
+  }
 
   @Test
   @WithMockUser
