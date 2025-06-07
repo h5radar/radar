@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,14 +19,14 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.h5radar.radar.domain.AbstractAuditable;
 
 @Entity
-@Table(name = "technologies")
+@Table(name = "radar_users")
 @DynamicUpdate
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Technology extends AbstractAuditable {
+public class RadarUser extends AbstractAuditable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +35,13 @@ public class Technology extends AbstractAuditable {
 
   @NotBlank
   @Size(min = 1, max = 255)
-  @TechnologyTrimTitleConstraint
+  @RadarUserTrimSubConstraint
   @Column(name = "sub", unique = true, nullable = false)
   private String title;
 
   @NotBlank
   @Size(min = 1, max = 255)
-  @TechnologyTrimTitleConstraint
+  @RadarUserTrimUsernameConstraint
   @Column(name = "username", unique = true, nullable = false)
   private String title;
 }

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -24,31 +24,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@Tag(name = "Technology API")
-@RequestMapping("/api/v1/technologies")
+@Tag(name = "RadarUser API")
+@RequestMapping("/api/v1/radar-users")
 @RequiredArgsConstructor
-public class TechnologyController {
+public class RadarUserController {
 
-  private final TechnologyService technologyService;
+  private final RadarUserService technologyService;
 
   @GetMapping("")
-  public ResponseEntity<Page<TechnologyDto>> index(
+  public ResponseEntity<Page<RadarUserDto>> index(
       @AuthenticationPrincipal Jwt jwt,
-      @Valid TechnologyFilter technologyFilter,
+      @Valid RadarUserFilter technologyFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<TechnologyDto> technologyDtoPage =
+    Page<RadarUserDto> technologyDtoPage =
         technologyService.findAll(technologyFilter, PageRequest.of(page - 1, size, Sort.by(order)));
     return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage);
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> show(@PathVariable("id") Long id) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
+  public ResponseEntity<RadarUserDto> show(@PathVariable("id") Long id) {
+    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -56,15 +56,15 @@ public class TechnologyController {
   }
 
   @PostMapping
-  public ResponseEntity<TechnologyDto> create(@RequestBody TechnologyDto technologyDto) {
+  public ResponseEntity<RadarUserDto> create(@RequestBody RadarUserDto technologyDto) {
     technologyDto.setId(null);
     technologyDto = technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> update(@PathVariable("id") Long id, @RequestBody TechnologyDto technologyDto) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
+  public ResponseEntity<RadarUserDto> update(@PathVariable("id") Long id, @RequestBody RadarUserDto technologyDto) {
+    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -75,7 +75,7 @@ public class TechnologyController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
+    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

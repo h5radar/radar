@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import java.util.Optional;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TechnologyRepository extends JpaRepository<Technology, Long>,
-    JpaSpecificationExecutor<Technology> {
-  Optional<Technology> findByTitle(String title);
+public interface RadarUserRepository extends JpaRepository<RadarUser, Long>,
+    JpaSpecificationExecutor<RadarUser> {
+  Optional<RadarUser> findByTitle(String title);
 }

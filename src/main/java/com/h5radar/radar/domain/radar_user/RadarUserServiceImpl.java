@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -24,22 +24,22 @@ import com.h5radar.radar.domain.ValidationException;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class TechnologyServiceImpl implements TechnologyService {
+public class RadarUserServiceImpl implements RadarUserService {
 
   private final Validator validator;
-  private final TechnologyRepository technologyRepository;
-  private final TechnologyMapper technologyMapper;
+  private final RadarUserRepository technologyRepository;
+  private final RadarUserMapper technologyMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<TechnologyDto> findAll() {
+  public Collection<RadarUserDto> findAll() {
     return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
         .stream().map(technologyMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<TechnologyDto> findAll(TechnologyFilter technologyFilter, Pageable pageable) {
+  public Page<RadarUserDto> findAll(RadarUserFilter technologyFilter, Pageable pageable) {
     return technologyRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
       if (technologyFilter != null && technologyFilter.getTitle() != null
@@ -56,25 +56,25 @@ public class TechnologyServiceImpl implements TechnologyService {
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<TechnologyDto> findById(Long id) {
+  public Optional<RadarUserDto> findById(Long id) {
     return technologyRepository.findById(id).map(technologyMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<TechnologyDto> findByTitle(String title) {
+  public Optional<RadarUserDto> findByTitle(String title) {
     return technologyRepository.findByTitle(title).map(technologyMapper::toDto);
   }
 
   @Override
   @Transactional
-  public TechnologyDto save(TechnologyDto technologyDto) {
-    Technology technology = technologyMapper.toEntity(technologyDto);
+  public RadarUserDto save(RadarUserDto technologyDto) {
+    RadarUser technology = technologyMapper.toEntity(technologyDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
-    Set<ConstraintViolation<Technology>> constraintViolationSet = validator.validate(technology);
+    Set<ConstraintViolation<RadarUser>> constraintViolationSet = validator.validate(technology);
     if (!constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<Technology> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<RadarUser> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
             constraintViolation.getPropertyPath().toString()));
       }

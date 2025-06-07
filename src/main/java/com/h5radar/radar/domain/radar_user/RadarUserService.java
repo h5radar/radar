@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -6,17 +6,17 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface TechnologyService {
+public interface RadarUserService {
 
-  Collection<TechnologyDto> findAll();
+  Collection<RadarUserDto> findAll();
 
-  Page<TechnologyDto> findAll(TechnologyFilter technologyFilter, Pageable pageable);
+  Page<RadarUserDto> findAll(RadarUserFilter technologyFilter, Pageable pageable);
 
-  Optional<TechnologyDto> findById(Long id);
+  Optional<RadarUserDto> findById(Long id);
 
-  Optional<TechnologyDto> findByTitle(String title);
+  Optional<RadarUserDto> findByTitle(String title);
 
-  TechnologyDto save(TechnologyDto technologyDto);
+  RadarUserDto save(RadarUserDto technologyDto);
 
   void deleteById(Long id);
 }
