@@ -34,24 +34,14 @@ public class Technology extends AbstractAuditable {
   private Long id;
 
   @NotBlank
-  @Size(min = 1, max = 64)
+  @Size(min = 1, max = 255)
   @TechnologyTrimTitleConstraint
-  @Column(name = "title", unique = true, nullable = false)
+  @Column(name = "sub", unique = true, nullable = false)
   private String title;
 
-  @Size(min = 0, max = 64)
-  @Column(name = "website", nullable = true)
-  private String website;
-
   @NotBlank
-  @Size(min = 1, max = 512)
-  @Column(name = "description", nullable = false)
-  private String description;
-
-  @Column(name = "moved", nullable = false)
-  private int moved = 0;
-
-  @Column(name = "is_active", nullable = false)
-  private boolean active = true;
-
+  @Size(min = 1, max = 255)
+  @TechnologyTrimTitleConstraint
+  @Column(name = "username", unique = true, nullable = false)
+  private String title;
 }
