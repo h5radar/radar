@@ -37,11 +37,11 @@ public class RadarUser extends AbstractAuditable {
   @Size(min = 1, max = 255)
   @RadarUserTrimSubConstraint
   @Column(name = "sub", unique = true, nullable = false)
-  private String title;
+  private String sub;
 
   @NotBlank
   @Size(min = 1, max = 255)
   @RadarUserTrimUsernameConstraint
   @Column(name = "username", unique = true, nullable = false)
-  private String title;
+  private String username;
 }

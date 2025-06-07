@@ -25,7 +25,7 @@ import com.h5radar.radar.domain.ValidationException;
 
 class RadarUserServiceTests extends AbstractServiceTests {
   @MockitoBean
-  private RadarUserRepository technologyRepository;
+  private RadarUserRepository radarUserRepository;
   @Autowired
   private RadarUserMapper technologyMapper;
   @Autowired
@@ -35,35 +35,29 @@ class RadarUserServiceTests extends AbstractServiceTests {
   void shouldFindAllTechnologies() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
     List<RadarUser> technologyList = List.of(technology);
-    Mockito.when(technologyRepository.findAll(any(Sort.class))).thenReturn(technologyList);
+    Mockito.when(radarUserRepository.findAll(any(Sort.class))).thenReturn(technologyList);
 
     Collection<RadarUserDto> technologyDtoCollection = radarUserService.findAll();
     Assertions.assertEquals(1, technologyDtoCollection.size());
     Assertions.assertEquals(technologyDtoCollection.iterator().next().getId(), technology.getId());
-    Assertions.assertEquals(technologyDtoCollection.iterator().next().getTitle(), technology.getTitle());
-    Assertions.assertEquals(technologyDtoCollection.iterator().next().getDescription(), technology.getDescription());
+    Assertions.assertEquals(technologyDtoCollection.iterator().next().getSub(), technology.getSub());
+    Assertions.assertEquals(technologyDtoCollection.iterator().next().getUsername(), technology.getUsername());
   }
 
   @Test
   void shouldFindAllTechnologiesWithEmptyFilter() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
     List<RadarUser> technologyList = List.of(technology);
     Page<RadarUser> page = new PageImpl<>(technologyList);
-    Mockito.when(technologyRepository.findAll(ArgumentMatchers.<Specification<RadarUser>>any(), any(Pageable.class)))
+    Mockito.when(radarUserRepository.findAll(ArgumentMatchers.<Specification<RadarUser>>any(), any(Pageable.class)))
         .thenReturn(page);
 
     RadarUserFilter technologyFilter = new RadarUserFilter();
@@ -73,10 +67,10 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getId(), technology.getId());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(), technology.getTitle());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(), technology.getDescription());
+    Assertions.assertEquals(technologyDtoPage.iterator().next().getSub(), technology.getSub());
+    Assertions.assertEquals(technologyDtoPage.iterator().next().getUsername(), technology.getUsername());
 
-    // Mockito.verify(technologyRepository).findAll(
+    // Mockito.verify(radarUserRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
@@ -84,79 +78,61 @@ class RadarUserServiceTests extends AbstractServiceTests {
   void shouldFindByIdRadarUser() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
-    Mockito.when(technologyRepository.findById(technology.getId())).thenReturn(Optional.of(technology));
+    Mockito.when(radarUserRepository.findById(technology.getId())).thenReturn(Optional.of(technology));
 
     Optional<RadarUserDto> technologyDtoOptional = radarUserService.findById(technology.getId());
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDtoOptional.get().getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
+    Assertions.assertEquals(technology.getSub(), technologyDtoOptional.get().getSub());
+    Assertions.assertEquals(technology.getUsername(), technologyDtoOptional.get().getUsername());
 
-    Mockito.verify(technologyRepository).findById(technology.getId());
+    Mockito.verify(radarUserRepository).findById(technology.getId());
   }
 
   @Test
   void shouldFindByTitleRadarUser() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
-    Mockito.when(technologyRepository.findByTitle(technology.getTitle())).thenReturn(Optional.of(technology));
+    Mockito.when(radarUserRepository.findByTitle(technology.getSub())).thenReturn(Optional.of(technology));
 
-    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findByTitle(technology.getTitle());
+    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findByTitle(technology.getSub());
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDtoOptional.get().getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
+    Assertions.assertEquals(technology.getSub(), technologyDtoOptional.get().getSub());
+    Assertions.assertEquals(technology.getUsername(), technologyDtoOptional.get().getUsername());
 
-    Mockito.verify(technologyRepository).findByTitle(technology.getTitle());
+    Mockito.verify(radarUserRepository).findByTitle(technology.getSub());
   }
 
   @Test
   void shouldSaveRadarUser() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
-    Mockito.when(technologyRepository.save(any())).thenReturn(technology);
+    Mockito.when(radarUserRepository.save(any())).thenReturn(technology);
 
     RadarUserDto technologyDto = radarUserService.save(technologyMapper.toDto(technology));
     Assertions.assertEquals(technology.getId(), technologyDto.getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDto.getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDto.getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDto.getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDto.getMoved());
+    Assertions.assertEquals(technology.getSub(), technologyDto.getSub());
+    Assertions.assertEquals(technology.getUsername(), technologyDto.getUsername());
 
-    Mockito.verify(technologyRepository).save(any());
+    Mockito.verify(radarUserRepository).save(any());
   }
 
   @Test
   void shouldFailToSaveRadarUserDueToTitleWithWhiteSpace() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle(" My technology ");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub(" My sub ");
+    technology.setUsername("My username");
 
     ValidationException exception = catchThrowableOfType(() ->
         radarUserService.save(technologyMapper.toDto(technology)), ValidationException.class);
@@ -168,15 +144,12 @@ class RadarUserServiceTests extends AbstractServiceTests {
   void shouldDeleteRadarUser() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    technology.setSub("My sub");
+    technology.setUsername("My username");
 
-    Mockito.doAnswer((i) -> null).when(technologyRepository).deleteById(technology.getId());
+    Mockito.doAnswer((i) -> null).when(radarUserRepository).deleteById(technology.getId());
 
     radarUserService.deleteById(technology.getId());
-    Mockito.verify(technologyRepository).deleteById(technology.getId());
+    Mockito.verify(radarUserRepository).deleteById(technology.getId());
   }
 }
