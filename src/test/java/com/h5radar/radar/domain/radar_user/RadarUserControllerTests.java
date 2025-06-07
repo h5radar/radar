@@ -50,7 +50,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content", hasSize(technologyDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(technologyDto.getId()), Long.class))
         .andExpect(jsonPath("$.content[0].sub", equalTo(technologyDto.getSub())))
-        .andExpect(jsonPath("$.content[0].username", equalTo(technologyDto.getUsername())))
+        .andExpect(jsonPath("$.content[0].username", equalTo(technologyDto.getUsername())));
 
     Mockito.verify(radarUserService).findAll(any(), any());
   }
@@ -76,8 +76,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldGetRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setTitle("My title");
-    technologyDto.setDescription("My description");
+    technologyDto.setSub("My sub");
+    technologyDto.setUsername("My username");
 
     Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
 
@@ -86,8 +86,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())));
+        .andExpect(jsonPath("$.sub", equalTo(technologyDto.getSub())))
+        .andExpect(jsonPath("$.username", equalTo(technologyDto.getUsername())));
 
     Mockito.verify(radarUserService).findById(technologyDto.getId());
   }
@@ -113,8 +113,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldCreateRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
+    technologyDto.setSub("My sub");
+    technologyDto.setUsername("My username");
 
     Mockito.when(radarUserService.save(any())).thenReturn(technologyDto);
 
@@ -125,8 +125,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())));
+        .andExpect(jsonPath("$.sub", equalTo(technologyDto.getSub())))
+        .andExpect(jsonPath("$.username", equalTo(technologyDto.getUsername())));
 
     Mockito.verify(radarUserService).save(any());
   }
@@ -158,8 +158,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldUpdateRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
+    technologyDto.setSub("My sub");
+    technologyDto.setUsername("My username");
 
     Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
     Mockito.when(radarUserService.save(any())).thenReturn(technologyDto);
@@ -206,8 +206,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldDeleteRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
+    technologyDto.setSub("My sub");
+    technologyDto.setUsername("My username");
 
     Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
     Mockito.doAnswer((i) -> null).when(radarUserService).deleteById(any());
