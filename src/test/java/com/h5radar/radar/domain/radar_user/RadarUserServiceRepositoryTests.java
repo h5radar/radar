@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import java.util.List;
 
@@ -13,24 +13,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 
-class TechnologyServiceRepositoryTests extends AbstractServiceTests {
+class RadarUserServiceRepositoryTests extends AbstractServiceTests {
   @Autowired
-  private TechnologyRepository technologyRepository;
+  private RadarUserRepository technologyRepository;
   @Autowired
-  private TechnologyService technologyService;
+  private RadarUserService technologyService;
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
-    List<Technology> technologyList = List.of(
-        new Technology(null, "My title", "My website", "My description", 0, true),
-        new Technology(null, "My new title", "My new website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
+    List<RadarUser> technologyList = List.of(
+        new RadarUser(null, "My title", "My website", "My description", 0, true),
+        new RadarUser(null, "My new title", "My new website", "My new description", 0, true));
+    for (RadarUser technology : technologyList) {
       technologyRepository.save(technology);
     }
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(null, pageable);
+    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(null, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -40,17 +40,17 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankTitleFilter() {
-    List<Technology> technologyList = List.of(
-        new Technology(null, "My title", "My website",  "My description", 0, true),
-        new Technology(null, "My new title", "My new website",  "My new description", 0, true));
-    for (Technology technology : technologyList) {
+    List<RadarUser> technologyList = List.of(
+        new RadarUser(null, "My title", "My website",  "My description", 0, true),
+        new RadarUser(null, "My new title", "My new website",  "My new description", 0, true));
+    for (RadarUser technology : technologyList) {
       technologyRepository.save(technology);
     }
 
-    TechnologyFilter technologyFilter = new TechnologyFilter();
+    RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setTitle("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -60,17 +60,17 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithTitleFilter() {
-    List<Technology> technologyList = List.of(
-        new Technology(null,  "My title",  "My website", "My description", 0, true),
-        new Technology(null, "My new title",  "My new website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
+    List<RadarUser> technologyList = List.of(
+        new RadarUser(null,  "My title",  "My website", "My description", 0, true),
+        new RadarUser(null, "My new title",  "My new website", "My new description", 0, true));
+    for (RadarUser technology : technologyList) {
       technologyRepository.save(technology);
     }
 
-    TechnologyFilter technologyFilter = new TechnologyFilter();
+    RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setTitle(technologyList.iterator().next().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -85,17 +85,17 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankWebsiteFilter() {
-    List<Technology> technologyList = List.of(
-        new Technology(null,  "My first title",  "My first website", "My description", 0, true),
-        new Technology(null, "My second title",  "My second website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
+    List<RadarUser> technologyList = List.of(
+        new RadarUser(null,  "My first title",  "My first website", "My description", 0, true),
+        new RadarUser(null, "My second title",  "My second website", "My new description", 0, true));
+    for (RadarUser technology : technologyList) {
       technologyRepository.save(technology);
     }
 
-    TechnologyFilter technologyFilter = new TechnologyFilter();
+    RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setWebsite("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -110,17 +110,17 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithWebsiteFilter() {
-    List<Technology> technologyList = List.of(
-        new Technology(null,  "My title",  "My first website", "My description", 0, true),
-        new Technology(null, "My new title",  "My second website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
+    List<RadarUser> technologyList = List.of(
+        new RadarUser(null,  "My title",  "My first website", "My description", 0, true),
+        new RadarUser(null, "My new title",  "My second website", "My new description", 0, true));
+    for (RadarUser technology : technologyList) {
       technologyRepository.save(technology);
     }
 
-    TechnologyFilter technologyFilter = new TechnologyFilter();
+    RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setWebsite(technologyList.iterator().next().getWebsite());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
@@ -13,16 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
 
-class TechnologyRepositoryTests extends AbstractRepositoryTests {
+class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Autowired
-  private TechnologyRepository technologyRepository;
+  private RadarUserRepository technologyRepository;
 
   @Test
-  void shouldSaveTechnologyWithAllFields() {
-    final Technology technology = new Technology();
+  void shouldSaveRadarUserWithAllFields() {
+    final RadarUser technology = new RadarUser();
     technology.setTitle("TEST");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("Very good description for RadarUser");
 
     Assertions.assertNull(technology.getId());
     technologyRepository.saveAndFlush(technology);
@@ -34,10 +34,10 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFindSavedTechnologyById() {
-    final Technology technology = new Technology();
+  void shouldFindSavedRadarUserById() {
+    final RadarUser technology = new RadarUser();
     technology.setTitle("MY");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("Very good description for RadarUser");
 
     Assertions.assertNull(technology.getId());
     technologyRepository.saveAndFlush(technology);
@@ -49,8 +49,8 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullTitle() {
-    final Technology technology = new Technology();
-    technology.setDescription("Very good description for Technology");
+    final RadarUser technology = new RadarUser();
+    technology.setDescription("Very good description for RadarUser");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -67,9 +67,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyTitle() {
-    final Technology technology = new Technology();
+    final RadarUser technology = new RadarUser();
     technology.setTitle("");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("Very good description for RadarUser");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -87,9 +87,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
-    final Technology technology = new Technology();
+    final RadarUser technology = new RadarUser();
     technology.setTitle(" ");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("Very good description for RadarUser");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -107,7 +107,7 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullDescription() {
-    final Technology technology = new Technology();
+    final RadarUser technology = new RadarUser();
     technology.setTitle("TEST");
 
     Assertions.assertNull(technology.getId());
@@ -125,7 +125,7 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyDescription() {
-    final Technology technology = new Technology();
+    final RadarUser technology = new RadarUser();
     technology.setTitle("TEST");
     technology.setDescription("");
 
@@ -145,7 +145,7 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
-    final Technology technology = new Technology();
+    final RadarUser technology = new RadarUser();
     technology.setTitle("TEST");
     technology.setDescription(" ");
 
@@ -163,9 +163,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFailToSaveTechnologyDueToTitleWithRightWhiteSpace() {
-    final Technology technology = new Technology();
-    technology.setTitle("My new test Technology ");
+  void shouldFailToSaveRadarUserDueToTitleWithRightWhiteSpace() {
+    final RadarUser technology = new RadarUser();
+    technology.setTitle("My new test RadarUser ");
 
     Assertions.assertNull(technology.getId());
     assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))
@@ -173,9 +173,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFailToSaveTechnologyDueToTitleWithLeftWhiteSpace() {
-    final Technology technology = new Technology();
-    technology.setTitle(" My new test Technology");
+  void shouldFailToSaveRadarUserDueToTitleWithLeftWhiteSpace() {
+    final RadarUser technology = new RadarUser();
+    technology.setTitle(" My new test RadarUser");
 
     Assertions.assertNull(technology.getId());
     assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))

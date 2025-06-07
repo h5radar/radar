@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,16 +10,16 @@ import reactor.core.publisher.Mono;
 import com.h5radar.radar.domain.AbstractIntegrationTests;
 
 
-class TechnologyIntegrationTests extends AbstractIntegrationTests {
+class RadarUserIntegrationTests extends AbstractIntegrationTests {
 
   @Autowired
-  private TechnologyService technologyService;
+  private RadarUserService technologyService;
 
   @Test
   @WithMockUser
   public void shouldGetTechnologies() {
     // Create technology
-    TechnologyDto technologyDto = new TechnologyDto();
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
@@ -49,9 +49,9 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnology() {
+  public void shouldGetRadarUser() {
     // Create technology
-    TechnologyDto technologyDto = new TechnologyDto();
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
@@ -80,8 +80,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldCreateTechnology() throws Exception {
-    TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldCreateRadarUser() throws Exception {
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -89,14 +89,14 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
 
-    TechnologyDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .body(Mono.just(technologyDto), RadarUserDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(TechnologyDto.class)
+        .expectBody(RadarUserDto.class)
         .returnResult()
         .getResponseBody();
 
@@ -112,8 +112,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldCreateTechnologyWithId() throws Exception {
-    TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldCreateRadarUserWithId() throws Exception {
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(99L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -121,14 +121,14 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
 
-    TechnologyDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .body(Mono.just(technologyDto), RadarUserDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(TechnologyDto.class)
+        .expectBody(RadarUserDto.class)
         .returnResult()
         .getResponseBody();
 
@@ -144,8 +144,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldUpdateTechnology() throws Exception {
-    TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldUpdateRadarUser() throws Exception {
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -157,7 +157,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     webTestClient.put().uri("/api/v1/technologies/{id}", technologyDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .body(Mono.just(technologyDto), RadarUserDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -169,8 +169,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldDeleteTechnology() throws Exception {
-    TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldDeleteRadarUser() throws Exception {
+    RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");

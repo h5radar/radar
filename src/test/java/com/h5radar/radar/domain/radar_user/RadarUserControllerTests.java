@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.radar_user;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -26,16 +26,16 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
 
-@WebMvcTest(TechnologyController.class)
-public class TechnologyControllerTests extends AbstractControllerTests {
+@WebMvcTest(RadarUserController.class)
+public class RadarUserControllerTests extends AbstractControllerTests {
 
   @MockitoBean
-  private TechnologyService technologyService;
+  private RadarUserService technologyService;
 
   @Test
   @WithMockUser
   public void shouldGetTechnologies() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
@@ -43,7 +43,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     technologyDto.setMoved(1);
     technologyDto.setActive(true);
 
-    Page<TechnologyDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
+    Page<RadarUserDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
     mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
@@ -79,8 +79,8 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldGetRadarUser() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
@@ -106,8 +106,8 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldFailToGetRadarUserDueToUnauthorized() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
     mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
@@ -115,15 +115,15 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToGetTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToGetRadarUserDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldCreateTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldCreateRadarUser() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -151,8 +151,8 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToCreateTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldFailToCreateRadarUserDueToUnauthorized() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
     mockMvc.perform(post("/api/v1/technologies")
@@ -162,19 +162,19 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToCreateTechnologyDueToEmptyTitle() throws Exception {
+  public void shouldFailToCreateRadarUserDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToCreateTechnologyDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToCreateRadarUserDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldUpdateTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldUpdateRadarUser() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -197,8 +197,8 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToUpdateTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldFailToUpdateRadarUserDueToUnauthorized() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
     mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
@@ -209,23 +209,23 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   }
 
-  public void shouldFailToUpdateTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToUpdateRadarUserDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateTechnologyDueToEmptyTitle() throws Exception {
+  public void shouldFailToUpdateRadarUserDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateTechnologyDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToUpdateRadarUserDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldDeleteTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldDeleteRadarUser() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
@@ -246,8 +246,8 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToDeleteTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
+  public void shouldFailToDeleteRadarUserDueToUnauthorized() throws Exception {
+    final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
     mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
@@ -255,7 +255,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToDeleteTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToDeleteRadarUserDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 }
