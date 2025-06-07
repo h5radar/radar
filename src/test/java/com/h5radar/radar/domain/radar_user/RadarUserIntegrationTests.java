@@ -13,7 +13,7 @@ import com.h5radar.radar.domain.AbstractIntegrationTests;
 class RadarUserIntegrationTests extends AbstractIntegrationTests {
 
   @Autowired
-  private RadarUserService technologyService;
+  private RadarUserService radarUserService;
 
   @Test
   @WithMockUser
@@ -26,9 +26,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setWebsite("My website");
     technologyDto.setMoved(1);
     technologyDto.setActive(true);
-    technologyDto = technologyService.save(technologyDto);
+    technologyDto = radarUserService.save(technologyDto);
 
-    webTestClient.get().uri("/api/v1/technologies")
+    webTestClient.get().uri("/api/v1/radar-users")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -44,7 +44,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].moved").isEqualTo(technologyDto.getMoved())
         .jsonPath("$.content[0].active").isEqualTo(technologyDto.isActive());
 
-    technologyService.deleteById(technologyDto.getId());
+    radarUserService.deleteById(technologyDto.getId());
   }
 
   @Test
@@ -58,9 +58,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setWebsite("My website");
     technologyDto.setMoved(1);
     technologyDto.setActive(true);
-    technologyDto = technologyService.save(technologyDto);
+    technologyDto = radarUserService.save(technologyDto);
 
-    webTestClient.get().uri("/api/v1/technologies/{id}", technologyDto.getId())
+    webTestClient.get().uri("/api/v1/radar-users/{id}", technologyDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -75,7 +75,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.moved").isEqualTo(technologyDto.getMoved())
         .jsonPath("$.active").isEqualTo(technologyDto.isActive());
 
-    technologyService.deleteById(technologyDto.getId());
+    radarUserService.deleteById(technologyDto.getId());
   }
 
   @Test
@@ -89,7 +89,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
 
-    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/radar-users")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
         .body(Mono.just(technologyDto), RadarUserDto.class)
@@ -107,7 +107,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(technologyDto.getMoved(), technologyDto1.getMoved());
     Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
 
-    technologyService.deleteById(technologyDto1.getId());
+    radarUserService.deleteById(technologyDto1.getId());
   }
 
   @Test
@@ -121,7 +121,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
 
-    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+    RadarUserDto technologyDto1 = webTestClient.post().uri("/api/v1/radar-users")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
         .body(Mono.just(technologyDto), RadarUserDto.class)
@@ -139,7 +139,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(technologyDto.getMoved(), technologyDto1.getMoved());
     Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
 
-    technologyService.deleteById(technologyDto1.getId());
+    radarUserService.deleteById(technologyDto1.getId());
   }
 
   @Test
@@ -152,9 +152,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setDescription("My technology description");
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
-    technologyDto = technologyService.save(technologyDto);
+    technologyDto = radarUserService.save(technologyDto);
 
-    webTestClient.put().uri("/api/v1/technologies/{id}", technologyDto.getId())
+    webTestClient.put().uri("/api/v1/radar-users/{id}", technologyDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
         .body(Mono.just(technologyDto), RadarUserDto.class)
@@ -163,7 +163,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody();
 
-    technologyService.deleteById(technologyDto.getId());
+    radarUserService.deleteById(technologyDto.getId());
   }
 
 
@@ -177,9 +177,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setDescription("My technology description");
     technologyDto.setMoved(0);
     technologyDto.setActive(true);
-    technologyDto = technologyService.save(technologyDto);
+    technologyDto = radarUserService.save(technologyDto);
 
-    webTestClient.delete().uri("/api/v1/technologies/{id}", technologyDto.getId())
+    webTestClient.delete().uri("/api/v1/radar-users/{id}", technologyDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isNoContent();

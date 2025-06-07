@@ -30,35 +30,29 @@ import com.h5radar.radar.domain.AbstractControllerTests;
 public class RadarUserControllerTests extends AbstractControllerTests {
 
   @MockitoBean
-  private RadarUserService technologyService;
+  private RadarUserService radarUserService;
 
   @Test
   @WithMockUser
   public void shouldGetTechnologies() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setTitle("My title");
-    technologyDto.setDescription("My description");
-    technologyDto.setWebsite("My website");
-    technologyDto.setMoved(1);
-    technologyDto.setActive(true);
+    technologyDto.setSub("My sub");
+    technologyDto.setUsername("My username");
 
     Page<RadarUserDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
-    Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
+    Mockito.when(radarUserService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
-    mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(technologyDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.content[0].description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.content[0].moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.content[0].active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.content[0].sub", equalTo(technologyDto.getSub())))
+        .andExpect(jsonPath("$.content[0].username", equalTo(technologyDto.getUsername())))
 
-    Mockito.verify(technologyService).findAll(any(), any());
+    Mockito.verify(radarUserService).findAll(any(), any());
   }
 
   public void shouldGetTechnologiesWithFilter() throws Exception {
@@ -72,7 +66,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
-    mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 
@@ -84,24 +78,18 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     technologyDto.setId(10L);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
-    technologyDto.setWebsite("My website");
-    technologyDto.setMoved(1);
-    technologyDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
+    Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
 
-    mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(get("/api/v1/radar-users/{id}", technologyDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())));
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
+    Mockito.verify(radarUserService).findById(technologyDto.getId());
   }
 
   @Test
@@ -110,7 +98,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
-    mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(get("/api/v1/radar-users/{id}", technologyDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -125,15 +113,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldCreateRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
 
-    Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
+    Mockito.when(radarUserService.save(any())).thenReturn(technologyDto);
 
-    mockMvc.perform(post("/api/v1/technologies")
+    mockMvc.perform(post("/api/v1/radar-users")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -141,12 +126,9 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())));
 
-    Mockito.verify(technologyService).save(any());
+    Mockito.verify(radarUserService).save(any());
   }
 
   @Test
@@ -155,7 +137,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
-    mockMvc.perform(post("/api/v1/technologies")
+    mockMvc.perform(post("/api/v1/radar-users")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -176,23 +158,20 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldUpdateRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
-    Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
+    Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
+    Mockito.when(radarUserService.save(any())).thenReturn(technologyDto);
 
-    mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(put("/api/v1/radar-users/{id}", technologyDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
         .andExpect(status().isOk());
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
-    Mockito.verify(technologyService).save(any());
+    Mockito.verify(radarUserService).findById(technologyDto.getId());
+    Mockito.verify(radarUserService).save(any());
   }
 
   @Test
@@ -201,7 +180,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
-    mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(put("/api/v1/radar-users/{id}", technologyDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -227,21 +206,18 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldDeleteRadarUser() throws Exception {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
-    technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
-    Mockito.doAnswer((i) -> null).when(technologyService).deleteById(any());
+    Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(technologyDto));
+    Mockito.doAnswer((i) -> null).when(radarUserService).deleteById(any());
 
-    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(delete("/api/v1/radar-users/{id}", technologyDto.getId())
             .with(csrf()))
         .andExpect(status().isNoContent());
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
-    Mockito.verify(technologyService).deleteById(technologyDto.getId());
+    Mockito.verify(radarUserService).findById(technologyDto.getId());
+    Mockito.verify(radarUserService).deleteById(technologyDto.getId());
   }
 
   @Test
@@ -250,7 +226,7 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     final RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(10L);
 
-    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(delete("/api/v1/radar-users/{id}", technologyDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

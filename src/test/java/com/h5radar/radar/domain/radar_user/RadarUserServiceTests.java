@@ -29,7 +29,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
   @Autowired
   private RadarUserMapper technologyMapper;
   @Autowired
-  private RadarUserService technologyService;
+  private RadarUserService radarUserService;
 
   @Test
   void shouldFindAllTechnologies() {
@@ -44,7 +44,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
     List<RadarUser> technologyList = List.of(technology);
     Mockito.when(technologyRepository.findAll(any(Sort.class))).thenReturn(technologyList);
 
-    Collection<RadarUserDto> technologyDtoCollection = technologyService.findAll();
+    Collection<RadarUserDto> technologyDtoCollection = radarUserService.findAll();
     Assertions.assertEquals(1, technologyDtoCollection.size());
     Assertions.assertEquals(technologyDtoCollection.iterator().next().getId(), technology.getId());
     Assertions.assertEquals(technologyDtoCollection.iterator().next().getTitle(), technology.getTitle());
@@ -68,7 +68,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     RadarUserFilter technologyFilter = new RadarUserFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(1, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -92,7 +92,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Mockito.when(technologyRepository.findById(technology.getId())).thenReturn(Optional.of(technology));
 
-    Optional<RadarUserDto> technologyDtoOptional = technologyService.findById(technology.getId());
+    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findById(technology.getId());
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
     Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
@@ -115,7 +115,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Mockito.when(technologyRepository.findByTitle(technology.getTitle())).thenReturn(Optional.of(technology));
 
-    Optional<RadarUserDto> technologyDtoOptional = technologyService.findByTitle(technology.getTitle());
+    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findByTitle(technology.getTitle());
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
     Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
@@ -138,7 +138,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Mockito.when(technologyRepository.save(any())).thenReturn(technology);
 
-    RadarUserDto technologyDto = technologyService.save(technologyMapper.toDto(technology));
+    RadarUserDto technologyDto = radarUserService.save(technologyMapper.toDto(technology));
     Assertions.assertEquals(technology.getId(), technologyDto.getId());
     Assertions.assertEquals(technology.getTitle(), technologyDto.getTitle());
     Assertions.assertEquals(technology.getWebsite(), technologyDto.getWebsite());
@@ -159,7 +159,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
     technology.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
-        technologyService.save(technologyMapper.toDto(technology)), ValidationException.class);
+        radarUserService.save(technologyMapper.toDto(technology)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
@@ -176,7 +176,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Mockito.doAnswer((i) -> null).when(technologyRepository).deleteById(technology.getId());
 
-    technologyService.deleteById(technology.getId());
+    radarUserService.deleteById(technology.getId());
     Mockito.verify(technologyRepository).deleteById(technology.getId());
   }
 }

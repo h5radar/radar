@@ -17,7 +17,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
   @Autowired
   private RadarUserRepository technologyRepository;
   @Autowired
-  private RadarUserService technologyService;
+  private RadarUserService radarUserService;
 
   @Test
   @Transactional
@@ -30,7 +30,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
     }
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(null, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(null, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -50,7 +50,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
     RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setTitle("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -70,7 +70,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
     RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setTitle(technologyList.iterator().next().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -95,7 +95,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
     RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setWebsite("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -120,7 +120,7 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
     RadarUserFilter technologyFilter = new RadarUserFilter();
     technologyFilter.setWebsite(technologyList.iterator().next().getWebsite());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarUserDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
