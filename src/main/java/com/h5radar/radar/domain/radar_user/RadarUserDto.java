@@ -16,19 +16,13 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "title", "website", "description", "moved", "active" })
+@JsonPropertyOrder({"id", "sub", "username" })
 public class RadarUserDto {
 
   private Long id;
 
-  private String title;
+  private String sub;
 
-  private String website;
-
-  private String description;
-
-  private int moved;
-
-  private boolean active;
+  private String username;
 
 }
