@@ -125,7 +125,6 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyUsername() {
-    // fuck
     final RadarUser technology = new RadarUser();
     technology.setSub("My sub");
     technology.setUsername("");
@@ -140,12 +139,12 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
       Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "username");
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
-          || constraintViolation.getMessage().equals("size must be between 1 and 512"));
+          || constraintViolation.getMessage().equals("size must be between 1 and 255"));
     }
   }
 
   @Test
-  void shouldFailOnWhiteSpaceUsername() { // fuck
+  void shouldFailOnWhiteSpaceUsername() {
     final RadarUser technology = new RadarUser();
     technology.setSub("My sub");
     technology.setUsername(" ");
@@ -156,10 +155,11 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
       Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "username");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
+          || constraintViolation.getMessage().equals("should be without whitespaces before and after"));
     }
   }
 
