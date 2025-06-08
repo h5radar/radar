@@ -28,13 +28,13 @@ public class RadarUserServiceImpl implements RadarUserService {
 
   private final Validator validator;
   private final RadarUserRepository technologyRepository;
-  private final RadarUserMapper technologyMapper;
+  private final RadarUserMapper radarUserMapper;
 
   @Override
   @Transactional(readOnly = true)
   public Collection<RadarUserDto> findAll() {
     return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(technologyMapper::toDto).collect(Collectors.toList());
+        .stream().map(radarUserMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
@@ -42,34 +42,34 @@ public class RadarUserServiceImpl implements RadarUserService {
   public Page<RadarUserDto> findAll(RadarUserFilter technologyFilter, Pageable pageable) {
     return technologyRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (technologyFilter != null && technologyFilter.getTitle() != null
-          && !technologyFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), technologyFilter.getTitle()));
+      if (technologyFilter != null && technologyFilter.getSub() != null
+          && !technologyFilter.getSub().isBlank()) {
+        predicateList.add(builder.like(root.get("sub"), technologyFilter.getSub()));
       }
-      if (technologyFilter != null && technologyFilter.getWebsite() != null
-          && !technologyFilter.getWebsite().isBlank()) {
-        predicateList.add(builder.like(root.get("website"), technologyFilter.getWebsite()));
+      if (technologyFilter != null && technologyFilter.getUsername() != null
+          && !technologyFilter.getUsername().isBlank()) {
+        predicateList.add(builder.like(root.get("username"), technologyFilter.getUsername()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(technologyMapper::toDto);
+    }, pageable).map(radarUserMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
   public Optional<RadarUserDto> findById(Long id) {
-    return technologyRepository.findById(id).map(technologyMapper::toDto);
+    return technologyRepository.findById(id).map(radarUserMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<RadarUserDto> findByTitle(String title) {
-    return technologyRepository.findByTitle(title).map(technologyMapper::toDto);
+  public Optional<RadarUserDto> findBySub(String sub) {
+    return technologyRepository.findBySub(sub).map(radarUserMapper::toDto);
   }
 
   @Override
   @Transactional
   public RadarUserDto save(RadarUserDto technologyDto) {
-    RadarUser technology = technologyMapper.toEntity(technologyDto);
+    RadarUser technology = radarUserMapper.toEntity(technologyDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
     Set<ConstraintViolation<RadarUser>> constraintViolationSet = validator.validate(technology);
@@ -81,7 +81,7 @@ public class RadarUserServiceImpl implements RadarUserService {
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return technologyMapper.toDto(technologyRepository.save(technology));
+    return radarUserMapper.toDto(technologyRepository.save(technology));
   }
 
   @Override

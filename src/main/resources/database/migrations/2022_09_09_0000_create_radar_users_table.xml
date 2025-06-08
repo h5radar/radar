@@ -39,7 +39,7 @@
         </sql>
         <sql>
             ALTER TABLE radar_users
-                ADD CONSTRAINT ck_radar_users_username_trim CHECK (trim(userame) = username)
+                ADD CONSTRAINT ck_radar_users_username_trim CHECK (trim(username) = username)
         </sql>
     </changeSet>
 </databaseChangeLog>

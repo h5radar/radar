@@ -27,7 +27,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
   @Autowired
-  private RadarUserMapper technologyMapper;
+  private RadarUserMapper radarUserMapper;
   @Autowired
   private RadarUserService radarUserService;
 
@@ -93,21 +93,21 @@ class RadarUserServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldFindByTitleRadarUser() {
+  void shouldfindBySubRadarUser() {
     final RadarUser technology = new RadarUser();
     technology.setId(10L);
     technology.setSub("My sub");
     technology.setUsername("My username");
 
-    Mockito.when(radarUserRepository.findByTitle(technology.getSub())).thenReturn(Optional.of(technology));
+    Mockito.when(radarUserRepository.findBySub(technology.getSub())).thenReturn(Optional.of(technology));
 
-    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findByTitle(technology.getSub());
+    Optional<RadarUserDto> technologyDtoOptional = radarUserService.findBySub(technology.getSub());
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
     Assertions.assertEquals(technology.getSub(), technologyDtoOptional.get().getSub());
     Assertions.assertEquals(technology.getUsername(), technologyDtoOptional.get().getUsername());
 
-    Mockito.verify(radarUserRepository).findByTitle(technology.getSub());
+    Mockito.verify(radarUserRepository).findBySub(technology.getSub());
   }
 
   @Test
@@ -119,7 +119,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarUserRepository.save(any())).thenReturn(technology);
 
-    RadarUserDto technologyDto = radarUserService.save(technologyMapper.toDto(technology));
+    RadarUserDto technologyDto = radarUserService.save(radarUserMapper.toDto(technology));
     Assertions.assertEquals(technology.getId(), technologyDto.getId());
     Assertions.assertEquals(technology.getSub(), technologyDto.getSub());
     Assertions.assertEquals(technology.getUsername(), technologyDto.getUsername());
@@ -135,7 +135,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
     technology.setUsername("My username");
 
     ValidationException exception = catchThrowableOfType(() ->
-        radarUserService.save(technologyMapper.toDto(technology)), ValidationException.class);
+        radarUserService.save(radarUserMapper.toDto(technology)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RadarUserRepository extends JpaRepository<RadarUser, Long>,
     JpaSpecificationExecutor<RadarUser> {
-  Optional<RadarUser> findByTitle(String title);
+  Optional<RadarUser> findBySub(String sub);
 }

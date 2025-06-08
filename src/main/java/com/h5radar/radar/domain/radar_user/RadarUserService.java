@@ -14,7 +14,7 @@ public interface RadarUserService {
 
   Optional<RadarUserDto> findById(Long id);
 
-  Optional<RadarUserDto> findByTitle(String title);
+  Optional<RadarUserDto> findBySub(String title);
 
   RadarUserDto save(RadarUserDto technologyDto);
 
