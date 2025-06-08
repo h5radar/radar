@@ -20,41 +20,41 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldSaveRadarUserWithAllFields() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("My sub");
-    technology.setUsername("My username");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
 
-    Assertions.assertNull(technology.getId());
-    radarUserRepository.saveAndFlush(technology);
-    Assertions.assertNotNull(technology.getId());
-    Assertions.assertNotNull(technology.getCreatedBy());
-    Assertions.assertNotNull(technology.getCreatedDate());
-    Assertions.assertNotNull(technology.getLastModifiedBy());
-    Assertions.assertNotNull(technology.getLastModifiedDate());
+    Assertions.assertNull(radarUser.getId());
+    radarUserRepository.saveAndFlush(radarUser);
+    Assertions.assertNotNull(radarUser.getId());
+    Assertions.assertNotNull(radarUser.getCreatedBy());
+    Assertions.assertNotNull(radarUser.getCreatedDate());
+    Assertions.assertNotNull(radarUser.getLastModifiedBy());
+    Assertions.assertNotNull(radarUser.getLastModifiedDate());
   }
 
   @Test
   void shouldFindSavedRadarUserById() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("MY");
-    technology.setUsername("Very good username for RadarUser");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("MY");
+    radarUser.setUsername("Very good username for RadarUser");
 
-    Assertions.assertNull(technology.getId());
-    radarUserRepository.saveAndFlush(technology);
-    Assertions.assertNotNull(technology.getId());
-    var id = technology.getId();
+    Assertions.assertNull(radarUser.getId());
+    radarUserRepository.saveAndFlush(radarUser);
+    Assertions.assertNotNull(radarUser.getId());
+    var id = radarUser.getId();
 
     Assertions.assertTrue(radarUserRepository.findById(id).isPresent());
   }
 
   @Test
   void shouldFailOnNullSub() {
-    final RadarUser technology = new RadarUser();
-    technology.setUsername("My username");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setUsername("My username");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -67,13 +67,13 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptySub() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("");
-    technology.setUsername("My username");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("");
+    radarUser.setUsername("My username");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -87,13 +87,13 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceSub() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub(" ");
-    technology.setUsername("My username");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub(" ");
+    radarUser.setUsername("My username");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -107,12 +107,12 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullUsername() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("My sub");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -125,13 +125,13 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyUsername() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("My sub");
-    technology.setUsername("");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -145,13 +145,13 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceUsername() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("My sub");
-    technology.setUsername(" ");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername(" ");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(radarUser.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> radarUserRepository.saveAndFlush(radarUser),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -165,21 +165,21 @@ class RadarUserRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailToSaveRadarUserDueToSubWithRightWhiteSpace() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub("My new test RadarUser ");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My new test RadarUser ");
 
-    Assertions.assertNull(technology.getId());
-    assertThatThrownBy(() -> radarUserRepository.saveAndFlush(technology))
+    Assertions.assertNull(radarUser.getId());
+    assertThatThrownBy(() -> radarUserRepository.saveAndFlush(radarUser))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailToSaveRadarUserDueToSubWithLeftWhiteSpace() {
-    final RadarUser technology = new RadarUser();
-    technology.setSub(" My new test RadarUser");
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub(" My new test RadarUser");
 
-    Assertions.assertNull(technology.getId());
-    assertThatThrownBy(() -> radarUserRepository.saveAndFlush(technology))
+    Assertions.assertNull(radarUser.getId());
+    assertThatThrownBy(() -> radarUserRepository.saveAndFlush(radarUser))
         .isInstanceOf(ValidationException.class);
   }
 }

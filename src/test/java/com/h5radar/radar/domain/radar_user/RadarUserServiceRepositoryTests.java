@@ -22,63 +22,63 @@ class RadarUserServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
-    List<RadarUser> technologyList = List.of(
+    List<RadarUser> radarUserList = List.of(
         new RadarUser(null, "My sub", "My username"),
         new RadarUser(null, "My new sub", "My new username"));
-    for (RadarUser technology : technologyList) {
-      radarUserRepository.save(technology);
+    for (RadarUser radarUser : radarUserList) {
+      radarUserRepository.save(radarUser);
     }
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "sub")));
-    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(null, pageable);
-    Assertions.assertEquals(10, technologyDtoPage.getSize());
-    Assertions.assertEquals(0, technologyDtoPage.getNumber());
-    Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
-    Assertions.assertEquals(2, technologyDtoPage.getNumberOfElements());
+    Page<RadarUserDto> radarUserDtoPage = radarUserService.findAll(null, pageable);
+    Assertions.assertEquals(10, radarUserDtoPage.getSize());
+    Assertions.assertEquals(0, radarUserDtoPage.getNumber());
+    Assertions.assertEquals(1, radarUserDtoPage.getTotalPages());
+    Assertions.assertEquals(2, radarUserDtoPage.getNumberOfElements());
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankSubFilter() {
-    List<RadarUser> technologyList = List.of(
+    List<RadarUser> radarUserList = List.of(
         new RadarUser(null, "My sub", "My username"),
         new RadarUser(null, "My new sub", "My new username"));
-    for (RadarUser technology : technologyList) {
-      radarUserRepository.save(technology);
+    for (RadarUser radarUser : radarUserList) {
+      radarUserRepository.save(radarUser);
     }
 
     RadarUserFilter radarUserFilter = new RadarUserFilter();
     radarUserFilter.setSub("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "sub")));
-    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(radarUserFilter, pageable);
-    Assertions.assertEquals(10, technologyDtoPage.getSize());
-    Assertions.assertEquals(0, technologyDtoPage.getNumber());
-    Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
-    Assertions.assertEquals(2, technologyDtoPage.getNumberOfElements());
+    Page<RadarUserDto> radarUserDtoPage = radarUserService.findAll(radarUserFilter, pageable);
+    Assertions.assertEquals(10, radarUserDtoPage.getSize());
+    Assertions.assertEquals(0, radarUserDtoPage.getNumber());
+    Assertions.assertEquals(1, radarUserDtoPage.getTotalPages());
+    Assertions.assertEquals(2, radarUserDtoPage.getNumberOfElements());
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithTitleFilter() {
-    List<RadarUser> technologyList = List.of(
+    List<RadarUser> radarUserList = List.of(
         new RadarUser(null,  "My sub",  "My username"),
         new RadarUser(null, "My new sub",  "My new username"));
-    for (RadarUser technology : technologyList) {
-      radarUserRepository.save(technology);
+    for (RadarUser radarUser : radarUserList) {
+      radarUserRepository.save(radarUser);
     }
 
     RadarUserFilter radarUserFilter = new RadarUserFilter();
-    radarUserFilter.setSub(technologyList.iterator().next().getSub());
+    radarUserFilter.setSub(radarUserList.iterator().next().getSub());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "sub")));
-    Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(radarUserFilter, pageable);
-    Assertions.assertEquals(10, technologyDtoPage.getSize());
-    Assertions.assertEquals(0, technologyDtoPage.getNumber());
-    Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
-    Assertions.assertEquals(1, technologyDtoPage.getNumberOfElements());
-    Assertions.assertNotNull(technologyDtoPage.iterator().next().getId());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getSub(),
-        technologyList.iterator().next().getSub());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getUsername(),
-        technologyList.iterator().next().getUsername());
+    Page<RadarUserDto> radarUserDtoPage = radarUserService.findAll(radarUserFilter, pageable);
+    Assertions.assertEquals(10, radarUserDtoPage.getSize());
+    Assertions.assertEquals(0, radarUserDtoPage.getNumber());
+    Assertions.assertEquals(1, radarUserDtoPage.getTotalPages());
+    Assertions.assertEquals(1, radarUserDtoPage.getNumberOfElements());
+    Assertions.assertNotNull(radarUserDtoPage.iterator().next().getId());
+    Assertions.assertEquals(radarUserDtoPage.iterator().next().getSub(),
+        radarUserList.iterator().next().getSub());
+    Assertions.assertEquals(radarUserDtoPage.iterator().next().getUsername(),
+        radarUserList.iterator().next().getUsername());
   }
 }
