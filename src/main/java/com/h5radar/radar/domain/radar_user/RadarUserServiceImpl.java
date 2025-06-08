@@ -33,7 +33,7 @@ public class RadarUserServiceImpl implements RadarUserService {
   @Override
   @Transactional(readOnly = true)
   public Collection<RadarUserDto> findAll() {
-    return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+    return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "sub"))
         .stream().map(radarUserMapper::toDto).collect(Collectors.toList());
   }
 

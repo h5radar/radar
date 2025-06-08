@@ -61,7 +61,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
         .thenReturn(page);
 
     RadarUserFilter technologyFilter = new RadarUserFilter();
-    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("sub,asc"));
     Page<RadarUserDto> technologyDtoPage = radarUserService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(1, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());

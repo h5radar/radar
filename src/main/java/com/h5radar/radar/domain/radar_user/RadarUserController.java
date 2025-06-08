@@ -37,7 +37,7 @@ public class RadarUserController {
       @Valid RadarUserFilter technologyFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
-      @RequestParam(defaultValue = "title,asc") String[] sort) {
+      @RequestParam(defaultValue = "sub,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);

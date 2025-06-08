@@ -17,7 +17,7 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnologies() {
+  public void shouldGetRadarUsers() {
     // Create technology
     RadarUserDto technologyDto = new RadarUserDto();
     technologyDto.setId(null);
@@ -60,8 +60,8 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(technologyDto.getId())
-        .jsonPath("$.title").isEqualTo(technologyDto.getSub())
-        .jsonPath("$.description").isEqualTo(technologyDto.getUsername());
+        .jsonPath("$.sub").isEqualTo(technologyDto.getSub())
+        .jsonPath("$.username").isEqualTo(technologyDto.getUsername());
 
     radarUserService.deleteById(technologyDto.getId());
   }
