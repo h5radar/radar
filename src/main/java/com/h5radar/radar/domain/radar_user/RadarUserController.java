@@ -29,57 +29,57 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RadarUserController {
 
-  private final RadarUserService technologyService;
+  private final RadarUserService radarUserService;
 
   @GetMapping("")
   public ResponseEntity<Page<RadarUserDto>> index(
       @AuthenticationPrincipal Jwt jwt,
-      @Valid RadarUserFilter technologyFilter,
+      @Valid RadarUserFilter radarUserFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "sub,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<RadarUserDto> technologyDtoPage =
-        technologyService.findAll(technologyFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage);
+    Page<RadarUserDto> radarUserDtoPage =
+        radarUserService.findAll(radarUserFilter, PageRequest.of(page - 1, size, Sort.by(order)));
+    return ResponseEntity.status(HttpStatus.OK).body(radarUserDtoPage);
   }
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<RadarUserDto> show(@PathVariable("id") Long id) {
-    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+    Optional<RadarUserDto> radarUserRecord = radarUserService.findById(id);
+    if (radarUserRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    return ResponseEntity.status(HttpStatus.OK).body(technologyRecord.get());
+    return ResponseEntity.status(HttpStatus.OK).body(radarUserRecord.get());
   }
 
   @PostMapping
-  public ResponseEntity<RadarUserDto> create(@RequestBody RadarUserDto technologyDto) {
-    technologyDto.setId(null);
-    technologyDto = technologyService.save(technologyDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
+  public ResponseEntity<RadarUserDto> create(@RequestBody RadarUserDto radarUserDto) {
+    radarUserDto.setId(null);
+    radarUserDto = radarUserService.save(radarUserDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(radarUserDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<RadarUserDto> update(@PathVariable("id") Long id, @RequestBody RadarUserDto technologyDto) {
-    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+  public ResponseEntity<RadarUserDto> update(@PathVariable("id") Long id, @RequestBody RadarUserDto radarUserDto) {
+    Optional<RadarUserDto> radarUserRecord = radarUserService.findById(id);
+    if (radarUserRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    technologyDto.setId(id);
-    technologyService.save(technologyDto);
-    return ResponseEntity.status(HttpStatus.OK).body(technologyDto);
+    radarUserDto.setId(id);
+    radarUserService.save(radarUserDto);
+    return ResponseEntity.status(HttpStatus.OK).body(radarUserDto);
   }
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-    Optional<RadarUserDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+    Optional<RadarUserDto> radarUserRecord = radarUserService.findById(id);
+    if (radarUserRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    technologyService.deleteById(id);
+    radarUserService.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

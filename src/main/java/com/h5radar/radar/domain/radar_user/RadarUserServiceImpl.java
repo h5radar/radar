@@ -27,28 +27,28 @@ import com.h5radar.radar.domain.ValidationException;
 public class RadarUserServiceImpl implements RadarUserService {
 
   private final Validator validator;
-  private final RadarUserRepository technologyRepository;
+  private final RadarUserRepository radarUserRepository;
   private final RadarUserMapper radarUserMapper;
 
   @Override
   @Transactional(readOnly = true)
   public Collection<RadarUserDto> findAll() {
-    return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "sub"))
+    return radarUserRepository.findAll(Sort.by(Sort.Direction.ASC, "sub"))
         .stream().map(radarUserMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<RadarUserDto> findAll(RadarUserFilter technologyFilter, Pageable pageable) {
-    return technologyRepository.findAll((root, query, builder) -> {
+  public Page<RadarUserDto> findAll(RadarUserFilter radarUserFilter, Pageable pageable) {
+    return radarUserRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (technologyFilter != null && technologyFilter.getSub() != null
-          && !technologyFilter.getSub().isBlank()) {
-        predicateList.add(builder.like(root.get("sub"), technologyFilter.getSub()));
+      if (radarUserFilter != null && radarUserFilter.getSub() != null
+          && !radarUserFilter.getSub().isBlank()) {
+        predicateList.add(builder.like(root.get("sub"), radarUserFilter.getSub()));
       }
-      if (technologyFilter != null && technologyFilter.getUsername() != null
-          && !technologyFilter.getUsername().isBlank()) {
-        predicateList.add(builder.like(root.get("username"), technologyFilter.getUsername()));
+      if (radarUserFilter != null && radarUserFilter.getUsername() != null
+          && !radarUserFilter.getUsername().isBlank()) {
+        predicateList.add(builder.like(root.get("username"), radarUserFilter.getUsername()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
     }, pageable).map(radarUserMapper::toDto);
@@ -57,22 +57,22 @@ public class RadarUserServiceImpl implements RadarUserService {
   @Override
   @Transactional(readOnly = true)
   public Optional<RadarUserDto> findById(Long id) {
-    return technologyRepository.findById(id).map(radarUserMapper::toDto);
+    return radarUserRepository.findById(id).map(radarUserMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
   public Optional<RadarUserDto> findBySub(String sub) {
-    return technologyRepository.findBySub(sub).map(radarUserMapper::toDto);
+    return radarUserRepository.findBySub(sub).map(radarUserMapper::toDto);
   }
 
   @Override
   @Transactional
-  public RadarUserDto save(RadarUserDto technologyDto) {
-    RadarUser technology = radarUserMapper.toEntity(technologyDto);
+  public RadarUserDto save(RadarUserDto radarUserDto) {
+    RadarUser radarUser = radarUserMapper.toEntity(radarUserDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
-    Set<ConstraintViolation<RadarUser>> constraintViolationSet = validator.validate(technology);
+    Set<ConstraintViolation<RadarUser>> constraintViolationSet = validator.validate(radarUser);
     if (!constraintViolationSet.isEmpty()) {
       for (ConstraintViolation<RadarUser> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
@@ -81,12 +81,12 @@ public class RadarUserServiceImpl implements RadarUserService {
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return radarUserMapper.toDto(technologyRepository.save(technology));
+    return radarUserMapper.toDto(radarUserRepository.save(radarUser));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    technologyRepository.deleteById(id);
+    radarUserRepository.deleteById(id);
   }
 }

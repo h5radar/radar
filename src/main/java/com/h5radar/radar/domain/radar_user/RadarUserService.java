@@ -10,13 +10,13 @@ public interface RadarUserService {
 
   Collection<RadarUserDto> findAll();
 
-  Page<RadarUserDto> findAll(RadarUserFilter technologyFilter, Pageable pageable);
+  Page<RadarUserDto> findAll(RadarUserFilter radarUserFilter, Pageable pageable);
 
   Optional<RadarUserDto> findById(Long id);
 
   Optional<RadarUserDto> findBySub(String sub);
 
-  RadarUserDto save(RadarUserDto technologyDto);
+  RadarUserDto save(RadarUserDto radarUserDto);
 
   void deleteById(Long id);
 }
