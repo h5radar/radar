@@ -20,7 +20,7 @@
         <testcontainers.version>1.17.6</testcontainers.version>
         <site.plugin.version>3.12.1</site.plugin.version>
         <liquibase.plugin.version>4.17.2</liquibase.plugin.version>
-        <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.13</jacoco.plugin.version>
         <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
         <jxr.plugin.version>3.6.0</jxr.plugin.version>
         <javadoc.plugin.version>3.4.1</javadoc.plugin.version>
@@ -216,11 +216,12 @@
                     </execution>
                     <execution>
                         <id>jacoco-check</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <phase>prepare-package</phase>
                         <configuration>
+                            <haltOnFailure>true</haltOnFailure>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
@@ -228,7 +229,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>99</minimum>
+                                            <minimum>0.67</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
