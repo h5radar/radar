@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/radar-users")
 @RequiredArgsConstructor
 public class RadarUserController {
+
+  private static final String RADAR_USERS_SUB_CONSTRAINTS = "uc_radar_users_sub";
 
   private final RadarUserService radarUserService;
 
@@ -57,10 +60,21 @@ public class RadarUserController {
 
   @PostMapping
   public ResponseEntity<RadarUserDto> create(@RequestBody RadarUserDto radarUserDto) {
-    radarUserDto.setId(null);
-    radarUserDto = radarUserService.save(radarUserDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(radarUserDto);
+    try {
+      radarUserDto.setId(null);
+      radarUserDto = radarUserService.save(radarUserDto);
+      return ResponseEntity.status(HttpStatus.CREATED).body(radarUserDto);
+    } catch (DataIntegrityViolationException exception) {
+      if (exception.getMessage().toLowerCase().contains(RADAR_USERS_SUB_CONSTRAINTS)) {
+        Optional<RadarUserDto> radarUserDtoOptional =  radarUserService.findBySub(radarUserDto.getSub());
+        if (radarUserDtoOptional.isPresent()) {
+          return ResponseEntity.status(HttpStatus.CREATED).body(radarUserDtoOptional.get());
+        }
+      }
+      throw exception;
+    }
   }
+
 
   @PutMapping(value = "/{id}")
   public ResponseEntity<RadarUserDto> update(@PathVariable("id") Long id, @RequestBody RadarUserDto radarUserDto) {
