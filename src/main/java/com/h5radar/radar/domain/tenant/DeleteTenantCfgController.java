@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.h5radar.radar.domain.FlashMessages;
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
 
