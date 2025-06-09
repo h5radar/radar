@@ -8,7 +8,7 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.h5radar</groupId>
+    <groupId>com.t9radar</groupId>
     <artifactId>radar</artifactId>
     <version>0.3.0-SNAPSHOT</version>
     <name>radar</name>
@@ -16,16 +16,15 @@
     <properties>
         <java.version>21</java.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
-        <mockito.version>5.14.2</mockito.version>
         <testcontainers.version>1.17.6</testcontainers.version>
         <site.plugin.version>3.12.1</site.plugin.version>
         <liquibase.plugin.version>4.17.2</liquibase.plugin.version>
-        <jacoco.plugin.version>0.8.13</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
         <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
         <jxr.plugin.version>3.6.0</jxr.plugin.version>
         <javadoc.plugin.version>3.4.1</javadoc.plugin.version>
         <micrometer.plugin.version>1.10.2</micrometer.plugin.version>
-        <release.plugin.version>3.1.1</release.plugin.version>
+        <release.plugin.version>3.0.1</release.plugin.version>
         <pmd.plugin.version>3.26.0</pmd.plugin.version>
         <spotbugs.plugin.version>4.8.6.2</spotbugs.plugin.version>
         <sonar.plugin.version>3.9.1.2184</sonar.plugin.version>
@@ -106,15 +105,15 @@
             <version>${micrometer.plugin.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
             <version>${release.plugin.version}</version>
             <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -130,12 +129,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -161,7 +154,7 @@
         </dependencies>
     </dependencyManagement>
     <scm>
-        <developerConnection>scm:git:git@github.com:h5radar/h5radar-app.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:t9radar/t9radar-app.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <build>
@@ -189,12 +182,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>
-                        -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
-                        -Xshare:off
-                    </argLine>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -216,12 +203,11 @@
                     </execution>
                     <execution>
                         <id>jacoco-check</id>
-                        <phase>prepare-package</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <phase>prepare-package</phase>
                         <configuration>
-                            <haltOnFailure>true</haltOnFailure>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
@@ -229,7 +215,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.67</minimum>
+                                            <minimum>0.77</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -252,7 +238,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
                 <configuration>
-                    <configLocation>configs/h5radar_checks.xml</configLocation>
+                    <configLocation>configs/google_checks.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <failOnViolation>true</failOnViolation>
