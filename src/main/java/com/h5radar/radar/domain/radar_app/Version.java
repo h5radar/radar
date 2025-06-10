@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.application;
+package com.h5radar.radar.domain.radar_app;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

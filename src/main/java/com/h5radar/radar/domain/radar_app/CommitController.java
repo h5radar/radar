@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.application;
+package com.h5radar.radar.domain.radar_app;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Application commit API")
-@RequestMapping("/api/v1/application/commit")
+@RequestMapping("/api/v1/radar-app/commit")
 @RequiredArgsConstructor
 @EnableConfigurationProperties(Commit.class)
 public class CommitController {
   private final Commit commit;
 
-  @GetMapping("/show")
+  @GetMapping("")
   public Commit show() {
     return commit;
   }
