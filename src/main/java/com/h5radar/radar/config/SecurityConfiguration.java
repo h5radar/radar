@@ -42,7 +42,7 @@ public class SecurityConfiguration {
         }))
         .authorizeHttpRequests((requests) -> requests
             .requestMatchers("/actuator/**").permitAll()
-            .requestMatchers("/api/v1/application/**").permitAll()
+            .requestMatchers("/api/v1/radar-app/**").permitAll()
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()
             .anyRequest().authenticated()

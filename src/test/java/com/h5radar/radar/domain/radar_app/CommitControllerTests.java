@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.application;
+package com.h5radar.radar.domain.radar_app;
 
 import static org.hamcrest.Matchers.hasKey;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -18,7 +18,7 @@ public class CommitControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldShowCommit() throws Exception {
-    mockMvc.perform(get("/api/v1/application/commit/show").contentType(APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/radar-app/commit").contentType(APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$").value(hasKey("branch")))
