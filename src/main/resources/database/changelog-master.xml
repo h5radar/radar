@@ -11,6 +11,7 @@
     <include file="migrations/2025_06_02_0000_create_licenses_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2025_06_03_0000_create_practices_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2025_06_04_0000_create_technologies_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2025_07_01_0000_create_products_table.xml" relativeToChangelogFile="true"/>
     <!--
     <include file="migrations/2022_09_10_0000_create_tenants_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2022_10_09_0000_create_products_table.xml" relativeToChangelogFile="true"/>
