@@ -12,6 +12,9 @@
                     generationType="ALWAYS">
                 <constraints primaryKey="true" primaryKeyName="pk_practices_id" nullable="false"/>
             </column>
+            <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
+                <constraints nullable="false" foreignKeyName="fk_practices_radar_user_id_2_radar_users" references="radar_users(id)"/>
+            </column>
             <column name="title" type="${text.type}" remarks="Practice title, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_practices_title" nullable="false"/>
             </column>
@@ -39,16 +42,4 @@
                 ADD CONSTRAINT ck_practices_title_trim CHECK (trim(title) = title)
         </sql>
     </changeSet>
-
-    <changeSet id="load_en_practices" author="h5radar" context="data" labels="locale_en">
-        <loadData tableName="practices"
-                  separator="|"
-                  file="database/data/practices_en.csv">
-            <column name="title" type="STRING"/>
-            <column name="description" type="STRING"/>
-            <column name="created_by" type="STRING"/>
-            <column name="last_modified_by" type="STRING"/>
-        </loadData>
-    </changeSet>
-
 </databaseChangeLog>
