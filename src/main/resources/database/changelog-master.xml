@@ -12,10 +12,9 @@
     <include file="migrations/2025_06_03_0000_create_practices_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2025_06_04_0000_create_technologies_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2025_07_01_0000_create_products_table.xml" relativeToChangelogFile="true"/>
-
-    <include file="migrations/2030_07_10_0000_create_teams_table.xml" relativeToChangelogFile="true"/>
-    <include file="migrations/2030_08_11_0000_create_repositories_table.xml" relativeToChangelogFile="true"/>
-    <include file="migrations/2030_09_10_0000_create_tenants_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2030_07_10_0000_create_tenants_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2030_08_10_0000_create_teams_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2030_09_11_0000_create_repositories_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2030_10_20_0000_create_radar_types_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2030_10_25_0000_create_radars_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2030_11_10_0000_create_rings_table.xml" relativeToChangelogFile="true"/>
