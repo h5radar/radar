@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.h5radar.radar.domain.radar.Radar;
+import com.h5radar.radar.domain.radar_user.RadarUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -33,8 +35,14 @@ class TechnologyServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldFindAllTechnologies() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     final Technology technology = new Technology();
     technology.setId(10L);
+    technology.setRadarUser(radarUser);
     technology.setTitle("My technology");
     technology.setWebsite("My website");
     technology.setDescription("My technology description");

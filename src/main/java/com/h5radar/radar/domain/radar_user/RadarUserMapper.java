@@ -1,10 +1,19 @@
 package com.h5radar.radar.domain.radar_user;
 
+import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
 import org.mapstruct.Mapper;
 
 import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
+import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfiguration.class)
-public interface RadarUserMapper extends PlainMapper<RadarUser, RadarUserDto> {
+@Mapper(config = MapperConfiguration.class,
+    uses = {TechnologyBlipMapper.class})
+public abstract class RadarUserMapper implements PlainMapper<RadarUser, RadarUserDto> {
+
+  @Mapping(source = "technologyList", target = "technologyDtoList")
+  public abstract RadarUserDto toDto(final RadarUser entity);
+
+  @Mapping(source = "technologyDtoList", target = "technologyList")
+  public abstract RadarUser toEntity(final RadarUserDto dto);
 }

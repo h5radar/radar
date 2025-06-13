@@ -1,12 +1,10 @@
 package com.h5radar.radar.domain.technology;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.h5radar.radar.domain.radar.Radar;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +30,11 @@ public class Technology extends AbstractAuditable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   private Long id;
+
+  @NotNull
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "radar_user_id", nullable = false)
+  private RadarUser radarUser;
 
   @NotBlank
   @Size(min = 1, max = 64)

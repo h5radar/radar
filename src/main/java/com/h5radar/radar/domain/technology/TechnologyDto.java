@@ -1,6 +1,6 @@
 package com.h5radar.radar.domain.technology;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +16,15 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "title", "website", "description", "moved", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "website", "description", "moved", "active" })
 public class TechnologyDto {
 
   private Long id;
+
+  @JsonProperty("radar_user_id")
+  @JsonIdentityReference(alwaysAsId = true)
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  private Long radarUserId;
 
   private String title;
 
