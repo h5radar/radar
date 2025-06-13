@@ -7,7 +7,11 @@
     <property name="now" value="now()" dbms="h2"/>
     <property name="now" value="current_timestamp" dbms="postgresql"/>
 
-    <include file="migrations/2022_09_09_0000_create_radar_users_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2025_06_01_0000_create_radar_users_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2025_06_02_0000_create_licenses_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2025_06_03_0000_create_practices_table.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/2025_06_04_0000_create_technologies_table.xml" relativeToChangelogFile="true"/>
+    <!--
     <include file="migrations/2022_09_10_0000_create_tenants_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2022_10_09_0000_create_products_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2022_10_10_0000_create_teams_table.xml" relativeToChangelogFile="true"/>
@@ -20,4 +24,5 @@
     <include file="migrations/2022_11_11_0000_create_segments_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2023_01_05_0000_create_technology_blips_table.xml" relativeToChangelogFile="true"/>
     <include file="migrations/2023_02_05_0000_create_practices_markers_table.xml" relativeToChangelogFile="true"/>
+    !-->
 </databaseChangeLog>
