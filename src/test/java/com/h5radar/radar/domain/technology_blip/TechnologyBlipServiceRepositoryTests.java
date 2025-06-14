@@ -64,11 +64,11 @@ class TechnologyBlipServiceRepositoryTests extends AbstractServiceTests {
         "My segment description", 1, null);
     segmentRepository.saveAndFlush(segment);
 
-    final Technology technology = new Technology(null, "My first technology title",
+    final Technology technology = new Technology(null, null, "My first technology title",
         "Website", "Description", 1, true);
     technologyRepository.saveAndFlush(technology);
 
-    final Technology technology1 = new Technology(null, "My second technology title",
+    final Technology technology1 = new Technology(null, null, "My second technology title",
         "Website", "Description", 1, true);
     technologyRepository.saveAndFlush(technology1);
 
@@ -119,12 +119,12 @@ class TechnologyBlipServiceRepositoryTests extends AbstractServiceTests {
     segmentRepository.saveAndFlush(segment);
 
     // Create technology for first blips
-    final Technology technology = new Technology(null, "My first technology title",
+    final Technology technology = new Technology(null, null, "My first technology title",
         "Website", "Description", 1, true);
     technologyRepository.saveAndFlush(technology);
 
     // Create technology for second blips
-    final Technology technology1 = new Technology(null, "My second technology title",
+    final Technology technology1 = new Technology(null, null, "My second technology title",
         "Website", "Description", 1, true);
     technologyRepository.saveAndFlush(technology1);
 

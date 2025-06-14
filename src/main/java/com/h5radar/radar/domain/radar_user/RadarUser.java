@@ -34,6 +34,11 @@ import com.h5radar.radar.domain.technology.Technology;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RadarUser extends AbstractAuditable {
+  public RadarUser(Long id, String sub, String username) {
+    this.id = id;
+    this.sub = sub;
+    this.username = username;
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

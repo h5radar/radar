@@ -22,12 +22,11 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
+    // fuck
     List<Technology> technologyList = List.of(
-        new Technology(null, "My title", "My website", "My description", 0, true),
-        new Technology(null, "My new title", "My new website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
-      technologyRepository.save(technology);
-    }
+        new Technology(null, null, "My title", "My website", "My description", 0, true),
+        new Technology(null, null, "My new title", "My new website", "My new description", 0, true));
+    technologyRepository.saveAll(technologyList);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
     Page<TechnologyDto> technologyDtoPage = technologyService.findAll(null, pageable);
@@ -41,11 +40,9 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Transactional
   void shouldFindAllTechnologiesWithBlankTitleFilter() {
     List<Technology> technologyList = List.of(
-        new Technology(null, "My title", "My website",  "My description", 0, true),
-        new Technology(null, "My new title", "My new website",  "My new description", 0, true));
-    for (Technology technology : technologyList) {
-      technologyRepository.save(technology);
-    }
+        new Technology(null, null, "My title", "My website",  "My description", 0, true),
+        new Technology(null, null, "My new title", "My new website",  "My new description", 0, true));
+    technologyRepository.saveAll(technologyList);
 
     TechnologyFilter technologyFilter = new TechnologyFilter();
     technologyFilter.setTitle("");
@@ -61,14 +58,12 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Transactional
   void shouldFindAllTechnologiesWithTitleFilter() {
     List<Technology> technologyList = List.of(
-        new Technology(null,  "My title",  "My website", "My description", 0, true),
-        new Technology(null, "My new title",  "My new website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
-      technologyRepository.save(technology);
-    }
+        new Technology(null, null,  "My title",  "My website", "My description", 0, true),
+        new Technology(null, null, "My new title",  "My new website", "My new description", 0, true));
+    technologyRepository.saveAll(technologyList);
 
     TechnologyFilter technologyFilter = new TechnologyFilter();
-    technologyFilter.setTitle(technologyList.iterator().next().getTitle());
+    technologyFilter.setTitle(technologyList.getFirst().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
     Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
@@ -77,20 +72,18 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
     Assertions.assertEquals(1, technologyDtoPage.getNumberOfElements());
     Assertions.assertNotNull(technologyDtoPage.iterator().next().getId());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(),
-        technologyList.iterator().next().getTitle());
+        technologyList.getFirst().getTitle());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(),
-        technologyList.iterator().next().getDescription());
+        technologyList.getFirst().getDescription());
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankWebsiteFilter() {
     List<Technology> technologyList = List.of(
-        new Technology(null,  "My first title",  "My first website", "My description", 0, true),
-        new Technology(null, "My second title",  "My second website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
-      technologyRepository.save(technology);
-    }
+        new Technology(null, null,  "My first title",  "My first website", "My description", 0, true),
+        new Technology(null, null, "My second title",  "My second website", "My new description", 0, true));
+    technologyRepository.saveAll(technologyList);
 
     TechnologyFilter technologyFilter = new TechnologyFilter();
     technologyFilter.setWebsite("");
@@ -102,23 +95,21 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
     Assertions.assertEquals(2, technologyDtoPage.getNumberOfElements());
     Assertions.assertNotNull(technologyDtoPage.iterator().next().getId());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getWebsite(),
-        technologyList.iterator().next().getWebsite());
+        technologyList.getFirst().getWebsite());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(),
-        technologyList.iterator().next().getDescription());
+        technologyList.getFirst().getDescription());
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithWebsiteFilter() {
     List<Technology> technologyList = List.of(
-        new Technology(null,  "My title",  "My first website", "My description", 0, true),
-        new Technology(null, "My new title",  "My second website", "My new description", 0, true));
-    for (Technology technology : technologyList) {
-      technologyRepository.save(technology);
-    }
+        new Technology(null, null,  "My title",  "My first website", "My description", 0, true),
+        new Technology(null, null, "My new title",  "My second website", "My new description", 0, true));
+    technologyRepository.saveAll(technologyList);
 
     TechnologyFilter technologyFilter = new TechnologyFilter();
-    technologyFilter.setWebsite(technologyList.iterator().next().getWebsite());
+    technologyFilter.setWebsite(technologyList.getFirst().getWebsite());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
     Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
     Assertions.assertEquals(10, technologyDtoPage.getSize());
@@ -127,8 +118,8 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
     Assertions.assertEquals(1, technologyDtoPage.getNumberOfElements());
     Assertions.assertNotNull(technologyDtoPage.iterator().next().getId());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(),
-        technologyList.iterator().next().getTitle());
+        technologyList.getFirst().getTitle());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(),
-        technologyList.iterator().next().getDescription());
+        technologyList.getFirst().getDescription());
   }
 }
