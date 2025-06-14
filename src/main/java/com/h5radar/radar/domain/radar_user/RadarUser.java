@@ -1,11 +1,17 @@
 package com.h5radar.radar.domain.radar_user;
 
-import com.h5radar.radar.domain.JpaConstants;
-import com.h5radar.radar.domain.ring.Ring;
-import com.h5radar.radar.domain.technology.Technology;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +22,8 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.h5radar.radar.domain.AbstractAuditable;
-
-import java.util.List;
+import com.h5radar.radar.domain.JpaConstants;
+import com.h5radar.radar.domain.technology.Technology;
 
 @Entity
 @Table(name = "radar_users")

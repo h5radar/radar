@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.h5radar.radar.domain.radar.Radar;
-import com.h5radar.radar.domain.radar_user.RadarUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -24,6 +22,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+
 
 class TechnologyServiceTests extends AbstractServiceTests {
   @MockitoBean

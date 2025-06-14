@@ -1,11 +1,11 @@
 package com.h5radar.radar.domain.radar_user;
 
-import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
-import org.mapstruct.Mapping;
+import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
 
 @Mapper(config = MapperConfiguration.class,
     uses = {TechnologyBlipMapper.class})
