@@ -5,10 +5,10 @@ import org.mapstruct.Mapping;
 
 import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
-import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
+import com.h5radar.radar.domain.technology.TechnologyMapper;
 
 @Mapper(config = MapperConfiguration.class,
-    uses = {TechnologyBlipMapper.class})
+    uses = {TechnologyMapper.class})
 public abstract class RadarUserMapper implements PlainMapper<RadarUser, RadarUserDto> {
 
   @Mapping(source = "technologyList", target = "technologyDtoList")
