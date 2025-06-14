@@ -10,7 +10,6 @@ import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
 import com.h5radar.radar.domain.radar_user.RadarUser;
 import com.h5radar.radar.domain.radar_user.RadarUserRepository;
-import com.h5radar.radar.domain.technology_blip.TechnologyBlip;
 
 
 @Mapper(config = MapperConfiguration.class)
@@ -22,7 +21,7 @@ public abstract class TechnologyMapper implements PlainMapper<Technology, Techno
   public abstract TechnologyDto toDto(final Technology entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
-  public abstract Technology toEntity(final TechnologyBlip dto);
+  public abstract Technology toEntity(final TechnologyDto dto);
 
   RadarUser getRadarUser(TechnologyDto technologyDto) {
     if (technologyDto.getRadarUserId() != null) {
