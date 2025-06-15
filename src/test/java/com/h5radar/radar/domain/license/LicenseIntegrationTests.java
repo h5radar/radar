@@ -34,8 +34,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -52,8 +50,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].radar_user_id").isEqualTo(licenseDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(licenseDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.content[0].website").isEqualTo(licenseDto.getWebsite())
-        .jsonPath("$.content[0].moved").isEqualTo(licenseDto.getMoved())
         .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -75,8 +71,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -92,8 +86,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(licenseDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(licenseDto.getTitle())
         .jsonPath("$.description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.website").isEqualTo(licenseDto.getWebsite())
-        .jsonPath("$.moved").isEqualTo(licenseDto.getMoved())
         .jsonPath("$.active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -113,10 +105,8 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
 
     LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
@@ -134,8 +124,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.getWebsite(), licenseDto1.getWebsite());
-    Assertions.assertEquals(licenseDto.getMoved(), licenseDto1.getMoved());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -155,10 +143,8 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(99L);
     licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
 
     LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
@@ -176,8 +162,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.getWebsite(), licenseDto1.getWebsite());
-    Assertions.assertEquals(licenseDto.getMoved(), licenseDto1.getMoved());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -197,10 +181,8 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -231,10 +213,8 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 

@@ -40,8 +40,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
     licenseDto.setRadarUserId(15L);
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
     licenseDto.setActive(true);
 
     Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
@@ -56,8 +54,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].website", equalTo(licenseDto.getWebsite())))
-        .andExpect(jsonPath("$.content[0].moved", equalTo(licenseDto.getMoved()), int.class))
         .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
 
     Mockito.verify(licenseService).findAll(any(), any());
@@ -87,8 +83,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
     licenseDto.setRadarUserId(15L);
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
     licenseDto.setActive(true);
 
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
@@ -101,8 +95,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
     Mockito.verify(licenseService).findById(licenseDto.getId());
@@ -130,10 +122,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(15L);
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
 
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
@@ -148,8 +138,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
     Mockito.verify(licenseService).save(any());
@@ -183,10 +171,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(15L);
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
 
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
@@ -235,10 +221,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(15L);
-    licenseDto.setWebsite("My website");
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
     licenseDto.setActive(true);
 
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));

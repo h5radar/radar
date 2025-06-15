@@ -34,8 +34,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
-    practiceDto.setWebsite("My website");
-    practiceDto.setMoved(1);
     practiceDto.setActive(true);
     practiceDto = practiceService.save(practiceDto);
 
@@ -52,8 +50,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].radar_user_id").isEqualTo(practiceDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(practiceDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(practiceDto.getDescription())
-        .jsonPath("$.content[0].website").isEqualTo(practiceDto.getWebsite())
-        .jsonPath("$.content[0].moved").isEqualTo(practiceDto.getMoved())
         .jsonPath("$.content[0].active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -75,8 +71,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
-    practiceDto.setWebsite("My website");
-    practiceDto.setMoved(1);
     practiceDto.setActive(true);
     practiceDto = practiceService.save(practiceDto);
 
@@ -92,8 +86,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(practiceDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(practiceDto.getTitle())
         .jsonPath("$.description").isEqualTo(practiceDto.getDescription())
-        .jsonPath("$.website").isEqualTo(practiceDto.getWebsite())
-        .jsonPath("$.moved").isEqualTo(practiceDto.getMoved())
         .jsonPath("$.active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -113,10 +105,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(null);
     practiceDto.setRadarUserId(radarUserDto.getId());
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
 
     PracticeDto practiceDto1 = webTestClient.post().uri("/api/v1/practices")
@@ -134,8 +124,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.getRadarUserId(), practiceDto1.getRadarUserId());
     Assertions.assertEquals(practiceDto.getTitle(), practiceDto1.getTitle());
     Assertions.assertEquals(practiceDto.getDescription(), practiceDto1.getDescription());
-    Assertions.assertEquals(practiceDto.getWebsite(), practiceDto1.getWebsite());
-    Assertions.assertEquals(practiceDto.getMoved(), practiceDto1.getMoved());
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -155,10 +143,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(99L);
     practiceDto.setRadarUserId(radarUserDto.getId());
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
 
     PracticeDto practiceDto1 = webTestClient.post().uri("/api/v1/practices")
@@ -176,8 +162,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.getRadarUserId(), practiceDto1.getRadarUserId());
     Assertions.assertEquals(practiceDto.getTitle(), practiceDto1.getTitle());
     Assertions.assertEquals(practiceDto.getDescription(), practiceDto1.getDescription());
-    Assertions.assertEquals(practiceDto.getWebsite(), practiceDto1.getWebsite());
-    Assertions.assertEquals(practiceDto.getMoved(), practiceDto1.getMoved());
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -197,10 +181,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(null);
     practiceDto.setRadarUserId(radarUserDto.getId());
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
     practiceDto = practiceService.save(practiceDto);
 
@@ -231,10 +213,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(null);
     practiceDto.setRadarUserId(radarUserDto.getId());
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
     practiceDto = practiceService.save(practiceDto);
 

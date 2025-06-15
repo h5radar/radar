@@ -40,8 +40,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
     practiceDto.setRadarUserId(15L);
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
-    practiceDto.setWebsite("My website");
-    practiceDto.setMoved(1);
     practiceDto.setActive(true);
 
     Page<PracticeDto> practiceDtoPage = new PageImpl<>(Arrays.asList(practiceDto));
@@ -56,8 +54,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(practiceDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].website", equalTo(practiceDto.getWebsite())))
-        .andExpect(jsonPath("$.content[0].moved", equalTo(practiceDto.getMoved()), int.class))
         .andExpect(jsonPath("$.content[0].active", equalTo(practiceDto.isActive())));
 
     Mockito.verify(practiceService).findAll(any(), any());
@@ -87,8 +83,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
     practiceDto.setRadarUserId(15L);
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
-    practiceDto.setWebsite("My website");
-    practiceDto.setMoved(1);
     practiceDto.setActive(true);
 
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
@@ -101,8 +95,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(practiceDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(practiceDto.getMoved()), int.class))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
 
     Mockito.verify(practiceService).findById(practiceDto.getId());
@@ -130,10 +122,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
     practiceDto.setRadarUserId(15L);
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
 
     Mockito.when(practiceService.save(any())).thenReturn(practiceDto);
@@ -148,8 +138,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(practiceDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(practiceDto.getMoved()), int.class))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
 
     Mockito.verify(practiceService).save(any());
@@ -183,10 +171,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
     practiceDto.setRadarUserId(15L);
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
 
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
@@ -235,10 +221,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
     practiceDto.setRadarUserId(15L);
-    practiceDto.setWebsite("My website");
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
-    practiceDto.setMoved(0);
     practiceDto.setActive(true);
 
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));

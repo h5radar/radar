@@ -48,9 +48,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     practice.setId(10L);
     practice.setRadarUser(radarUser);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     List<Practice> practiceList = List.of(practice);
@@ -68,9 +66,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     final Practice practice = new Practice();
     practice.setId(10L);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     List<Practice> practiceList = List.of(practice);
@@ -97,9 +93,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     final Practice practice = new Practice();
     practice.setId(10L);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     Mockito.when(practiceRepository.findById(practice.getId())).thenReturn(Optional.of(practice));
@@ -108,9 +102,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     Assertions.assertTrue(practiceDtoOptional.isPresent());
     Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
     Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
-    Assertions.assertEquals(practice.getWebsite(), practiceDtoOptional.get().getWebsite());
     Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
-    Assertions.assertEquals(practice.getMoved(), practiceDtoOptional.get().getMoved());
 
     Mockito.verify(practiceRepository).findById(practice.getId());
   }
@@ -120,9 +112,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     final Practice practice = new Practice();
     practice.setId(10L);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     Mockito.when(practiceRepository.findByTitle(practice.getTitle())).thenReturn(Optional.of(practice));
@@ -131,9 +121,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     Assertions.assertTrue(practiceDtoOptional.isPresent());
     Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
     Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
-    Assertions.assertEquals(practice.getWebsite(), practiceDtoOptional.get().getWebsite());
     Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
-    Assertions.assertEquals(practice.getMoved(), practiceDtoOptional.get().getMoved());
 
     Mockito.verify(practiceRepository).findByTitle(practice.getTitle());
   }
@@ -149,9 +137,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     practice.setId(10L);
     practice.setRadarUser(radarUser);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
@@ -160,9 +146,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     PracticeDto practiceDto = practiceService.save(practiceMapper.toDto(practice));
     Assertions.assertEquals(practice.getId(), practiceDto.getId());
     Assertions.assertEquals(practice.getTitle(), practiceDto.getTitle());
-    Assertions.assertEquals(practice.getWebsite(), practiceDto.getWebsite());
     Assertions.assertEquals(practice.getDescription(), practiceDto.getDescription());
-    Assertions.assertEquals(practice.getMoved(), practiceDto.getMoved());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
     Mockito.verify(practiceRepository).save(any());
@@ -173,9 +157,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     final Practice practice = new Practice();
     practice.setId(10L);
     practice.setTitle(" My practice ");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
@@ -189,9 +171,7 @@ class PracticeServiceTests extends AbstractServiceTests {
     final Practice practice = new Practice();
     practice.setId(10L);
     practice.setTitle("My practice");
-    practice.setWebsite("My website");
     practice.setDescription("My practice description");
-    practice.setMoved(0);
     practice.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(practiceRepository).deleteById(practice.getId());
