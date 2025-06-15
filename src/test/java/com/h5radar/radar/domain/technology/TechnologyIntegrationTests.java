@@ -8,9 +8,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.domain.AbstractIntegrationTests;
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 
 class TechnologyIntegrationTests extends AbstractIntegrationTests {
+  @Autowired
+  private RadarUserService radarUserService;
 
   @Autowired
   private TechnologyService technologyService;
@@ -18,9 +22,16 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   @Test
   @WithMockUser
   public void shouldGetTechnologies() {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
+    technologyDto.setRadarUserId(radarUserDto.getId());
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");
@@ -38,6 +49,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(technologyDto.getId())
+        .jsonPath("$.content[0].radar_user_id").isEqualTo(technologyDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(technologyDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(technologyDto.getDescription())
         .jsonPath("$.content[0].website").isEqualTo(technologyDto.getWebsite())
