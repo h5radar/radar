@@ -1,0 +1,269 @@
+package com.h5radar.radar.domain.license;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import com.h5radar.radar.domain.AbstractControllerTests;
+
+@WebMvcTest(LicenseController.class)
+public class LicenseControllerTests extends AbstractControllerTests {
+
+  @MockitoBean
+  private LicenseService licenseService;
+
+  @Test
+  @WithMockUser
+  public void shouldGetLicenses() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setWebsite("My website");
+    licenseDto.setMoved(1);
+    licenseDto.setActive(true);
+
+    Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
+    Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
+
+    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(licenseDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.content[0].website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.content[0].moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
+
+    Mockito.verify(licenseService).findAll(any(), any());
+  }
+
+  public void shouldGetLicensesWithFilter() throws Exception {
+    // TODO: get invalid it
+  }
+
+  public void shouldGetLicensesWithPaging() throws Exception {
+    // TODO: get invalid it
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToGetLicensesDueToUnauthorized() throws Exception {
+    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized());
+  }
+
+
+  @Test
+  @WithMockUser
+  public void shouldGetLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setWebsite("My website");
+    licenseDto.setMoved(1);
+    licenseDto.setActive(true);
+
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+
+    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+
+    Mockito.verify(licenseService).findById(licenseDto.getId());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToGetLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+
+    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized());
+  }
+
+  public void shouldFailToGetLicenseDueToInvalidId() throws Exception {
+    // TODO: get invalid it
+  }
+
+
+  @Test
+  @WithMockUser
+  public void shouldCreateLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
+
+    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+
+    mockMvc.perform(post("/api/v1/licenses")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(licenseDto))
+            .with(csrf()))
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+
+    Mockito.verify(licenseService).save(any());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToCreateLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+
+    mockMvc.perform(post("/api/v1/licenses")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(licenseDto))
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
+  }
+
+  public void shouldFailToCreateLicenseDueToEmptyTitle() throws Exception {
+    // TODO: get invalid it
+  }
+
+  public void shouldFailToCreateLicenseDueToTitleWithSpaces() throws Exception {
+    // TODO: get invalid it
+  }
+
+
+  @Test
+  @WithMockUser
+  public void shouldUpdateLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
+
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+
+    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(licenseDto))
+            .with(csrf()))
+        .andExpect(status().isOk());
+
+    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(licenseService).save(any());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToUpdateLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+
+    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(licenseDto))
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
+
+  }
+
+  public void shouldFailToUpdateLicenseDueToInvalidId() throws Exception {
+    // TODO: get invalid it
+  }
+
+  public void shouldFailToUpdateLicenseDueToEmptyTitle() throws Exception {
+    // TODO: get invalid it
+  }
+
+  public void shouldFailToUpdateLicenseDueToTitleWithSpaces() throws Exception {
+    // TODO: get invalid it
+  }
+
+
+  @Test
+  @WithMockUser
+  public void shouldDeleteLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
+
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
+
+    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(csrf()))
+        .andExpect(status().isNoContent());
+
+    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(licenseService).deleteById(licenseDto.getId());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToDeleteLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+
+    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
+  }
+
+  public void shouldFailToDeleteLicenseDueToInvalidId() throws Exception {
+    // TODO: get invalid it
+  }
+}
