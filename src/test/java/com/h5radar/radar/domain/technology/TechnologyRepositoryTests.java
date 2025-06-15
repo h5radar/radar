@@ -71,8 +71,16 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
-    technology.setDescription("Very good description for Technology");
+    technology.setRadarUser(radarUser);
+    technology.setDescription("My description");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -80,18 +88,26 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
   @Test
   void shouldFailOnEmptyTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
+    technology.setRadarUser(radarUser);
     technology.setTitle("");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("My description");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -99,9 +115,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 64"));
     }
@@ -109,9 +125,17 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
+    technology.setRadarUser(radarUser);
     technology.setTitle(" ");
-    technology.setDescription("Very good description for Technology");
+    technology.setDescription("My description");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -119,9 +143,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("should be without whitespaces before and after"));
     }
@@ -129,8 +153,16 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
-    technology.setTitle("TEST");
+    technology.setRadarUser(radarUser);
+    technology.setTitle("My title");
 
     Assertions.assertNull(technology.getId());
     ConstraintViolationException exception =
@@ -138,7 +170,7 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
       Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
       Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
@@ -147,8 +179,16 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
-    technology.setTitle("TEST");
+    technology.setRadarUser(radarUser);
+    technology.setTitle("My title");
     technology.setDescription("");
 
     Assertions.assertNull(technology.getId());
@@ -157,9 +197,9 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 512"));
     }
@@ -167,8 +207,16 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create technology
     final Technology technology = new Technology();
-    technology.setTitle("TEST");
+    technology.setRadarUser(radarUser);
+    technology.setTitle("My title");
     technology.setDescription(" ");
 
     Assertions.assertNull(technology.getId());
@@ -177,17 +225,17 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
   @Test
   void shouldFailToSaveTechnologyDueToTitleWithRightWhiteSpace() {
     final Technology technology = new Technology();
-    technology.setTitle("My new test Technology ");
+    technology.setTitle("My title with right white space");
 
     Assertions.assertNull(technology.getId());
     assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))
@@ -197,7 +245,7 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
   @Test
   void shouldFailToSaveTechnologyDueToTitleWithLeftWhiteSpace() {
     final Technology technology = new Technology();
-    technology.setTitle(" My new test Technology");
+    technology.setTitle(" My title with left white space");
 
     Assertions.assertNull(technology.getId());
     assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))
