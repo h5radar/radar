@@ -32,11 +32,7 @@ public class LicenseDto {
 
   private String title;
 
-  private String website;
-
   private String description;
-
-  private int moved;
 
   private boolean active;
 

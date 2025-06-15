@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -24,69 +24,69 @@ import com.h5radar.radar.domain.ValidationException;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class LicenseServiceImpl implements LicenseService {
+public class PracticeServiceImpl implements PracticeService {
 
   private final Validator validator;
-  private final LicenseRepository licenseRepository;
-  private final LicenseMapper licenseMapper;
+  private final PracticeRepository practiceRepository;
+  private final PracticeMapper practiceMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<LicenseDto> findAll() {
-    return licenseRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(licenseMapper::toDto).collect(Collectors.toList());
+  public Collection<PracticeDto> findAll() {
+    return practiceRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        .stream().map(practiceMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<LicenseDto> findAll(LicenseFilter licenseFilter, Pageable pageable) {
-    return licenseRepository.findAll((root, query, builder) -> {
+  public Page<PracticeDto> findAll(PracticeFilter practiceFilter, Pageable pageable) {
+    return practiceRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (licenseFilter != null && licenseFilter.getTitle() != null
-          && !licenseFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), licenseFilter.getTitle()));
+      if (practiceFilter != null && practiceFilter.getTitle() != null
+          && !practiceFilter.getTitle().isBlank()) {
+        predicateList.add(builder.like(root.get("title"), practiceFilter.getTitle()));
       }
-      if (licenseFilter != null && licenseFilter.getWebsite() != null
-          && !licenseFilter.getWebsite().isBlank()) {
-        predicateList.add(builder.like(root.get("website"), licenseFilter.getWebsite()));
+      if (practiceFilter != null && practiceFilter.getWebsite() != null
+          && !practiceFilter.getWebsite().isBlank()) {
+        predicateList.add(builder.like(root.get("website"), practiceFilter.getWebsite()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(licenseMapper::toDto);
+    }, pageable).map(practiceMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LicenseDto> findById(Long id) {
-    return licenseRepository.findById(id).map(licenseMapper::toDto);
+  public Optional<PracticeDto> findById(Long id) {
+    return practiceRepository.findById(id).map(practiceMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LicenseDto> findByTitle(String title) {
-    return licenseRepository.findByTitle(title).map(licenseMapper::toDto);
+  public Optional<PracticeDto> findByTitle(String title) {
+    return practiceRepository.findByTitle(title).map(practiceMapper::toDto);
   }
 
   @Override
   @Transactional
-  public LicenseDto save(LicenseDto licenseDto) {
-    License license = licenseMapper.toEntity(licenseDto);
+  public PracticeDto save(PracticeDto practiceDto) {
+    Practice practice = practiceMapper.toEntity(practiceDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
-    Set<ConstraintViolation<License>> constraintViolationSet = validator.validate(license);
+    Set<ConstraintViolation<Practice>> constraintViolationSet = validator.validate(practice);
     if (!constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<License> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<Practice> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
             constraintViolation.getPropertyPath().toString()));
       }
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return licenseMapper.toDto(licenseRepository.save(license));
+    return practiceMapper.toDto(practiceRepository.save(practice));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    licenseRepository.deleteById(id);
+    practiceRepository.deleteById(id);
   }
 }

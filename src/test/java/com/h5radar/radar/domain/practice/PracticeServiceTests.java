@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,176 +27,176 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 
 
-class LicenseServiceTests extends AbstractServiceTests {
+class PracticeServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
   @MockitoBean
-  private LicenseRepository licenseRepository;
+  private PracticeRepository practiceRepository;
   @Autowired
-  private LicenseMapper licenseMapper;
+  private PracticeMapper practiceMapper;
   @Autowired
-  private LicenseService licenseService;
+  private PracticeService practiceService;
 
   @Test
-  void shouldFindAllLicenses() {
+  void shouldFindAllPractices() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final License license = new License();
-    license.setId(10L);
-    license.setRadarUser(radarUser);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
-    List<License> licenseList = List.of(license);
-    Mockito.when(licenseRepository.findAll(any(Sort.class))).thenReturn(licenseList);
+    List<Practice> practiceList = List.of(practice);
+    Mockito.when(practiceRepository.findAll(any(Sort.class))).thenReturn(practiceList);
 
-    Collection<LicenseDto> licenseDtoCollection = licenseService.findAll();
-    Assertions.assertEquals(1, licenseDtoCollection.size());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getId(), license.getId());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getTitle(), license.getTitle());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getDescription(), license.getDescription());
+    Collection<PracticeDto> practiceDtoCollection = practiceService.findAll();
+    Assertions.assertEquals(1, practiceDtoCollection.size());
+    Assertions.assertEquals(practiceDtoCollection.iterator().next().getId(), practice.getId());
+    Assertions.assertEquals(practiceDtoCollection.iterator().next().getTitle(), practice.getTitle());
+    Assertions.assertEquals(practiceDtoCollection.iterator().next().getDescription(), practice.getDescription());
   }
 
   @Test
-  void shouldFindAllLicensesWithEmptyFilter() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+  void shouldFindAllPracticesWithEmptyFilter() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
-    List<License> licenseList = List.of(license);
-    Page<License> page = new PageImpl<>(licenseList);
-    Mockito.when(licenseRepository.findAll(ArgumentMatchers.<Specification<License>>any(), any(Pageable.class)))
+    List<Practice> practiceList = List.of(practice);
+    Page<Practice> page = new PageImpl<>(practiceList);
+    Mockito.when(practiceRepository.findAll(ArgumentMatchers.<Specification<Practice>>any(), any(Pageable.class)))
         .thenReturn(page);
 
-    LicenseFilter licenseFilter = new LicenseFilter();
+    PracticeFilter practiceFilter = new PracticeFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<LicenseDto> licenseDtoPage = licenseService.findAll(licenseFilter, pageable);
-    Assertions.assertEquals(1, licenseDtoPage.getSize());
-    Assertions.assertEquals(0, licenseDtoPage.getNumber());
-    Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getId(), license.getId());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
+    Page<PracticeDto> practiceDtoPage = practiceService.findAll(practiceFilter, pageable);
+    Assertions.assertEquals(1, practiceDtoPage.getSize());
+    Assertions.assertEquals(0, practiceDtoPage.getNumber());
+    Assertions.assertEquals(1, practiceDtoPage.getTotalPages());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getId(), practice.getId());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getTitle(), practice.getTitle());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getDescription(), practice.getDescription());
 
-    // Mockito.verify(licenseRepository).findAll(
+    // Mockito.verify(practiceRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindByIdLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+  void shouldFindByIdPractice() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
-    Mockito.when(licenseRepository.findById(license.getId())).thenReturn(Optional.of(license));
+    Mockito.when(practiceRepository.findById(practice.getId())).thenReturn(Optional.of(practice));
 
-    Optional<LicenseDto> licenseDtoOptional = licenseService.findById(license.getId());
-    Assertions.assertTrue(licenseDtoOptional.isPresent());
-    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
-    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
-    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
+    Optional<PracticeDto> practiceDtoOptional = practiceService.findById(practice.getId());
+    Assertions.assertTrue(practiceDtoOptional.isPresent());
+    Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
+    Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
+    Assertions.assertEquals(practice.getWebsite(), practiceDtoOptional.get().getWebsite());
+    Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
+    Assertions.assertEquals(practice.getMoved(), practiceDtoOptional.get().getMoved());
 
-    Mockito.verify(licenseRepository).findById(license.getId());
+    Mockito.verify(practiceRepository).findById(practice.getId());
   }
 
   @Test
-  void shouldFindByTitleLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+  void shouldFindByTitlePractice() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
-    Mockito.when(licenseRepository.findByTitle(license.getTitle())).thenReturn(Optional.of(license));
+    Mockito.when(practiceRepository.findByTitle(practice.getTitle())).thenReturn(Optional.of(practice));
 
-    Optional<LicenseDto> licenseDtoOptional = licenseService.findByTitle(license.getTitle());
-    Assertions.assertTrue(licenseDtoOptional.isPresent());
-    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
-    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
-    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
+    Optional<PracticeDto> practiceDtoOptional = practiceService.findByTitle(practice.getTitle());
+    Assertions.assertTrue(practiceDtoOptional.isPresent());
+    Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
+    Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
+    Assertions.assertEquals(practice.getWebsite(), practiceDtoOptional.get().getWebsite());
+    Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
+    Assertions.assertEquals(practice.getMoved(), practiceDtoOptional.get().getMoved());
 
-    Mockito.verify(licenseRepository).findByTitle(license.getTitle());
+    Mockito.verify(practiceRepository).findByTitle(practice.getTitle());
   }
 
   @Test
-  void shouldSaveLicense() {
+  void shouldSavePractice() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(3L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final License license = new License();
-    license.setId(10L);
-    license.setRadarUser(radarUser);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
-    Mockito.when(licenseRepository.save(any())).thenReturn(license);
+    Mockito.when(practiceRepository.save(any())).thenReturn(practice);
 
-    LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
-    Assertions.assertEquals(license.getId(), licenseDto.getId());
-    Assertions.assertEquals(license.getTitle(), licenseDto.getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDto.getWebsite());
-    Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDto.getMoved());
+    PracticeDto practiceDto = practiceService.save(practiceMapper.toDto(practice));
+    Assertions.assertEquals(practice.getId(), practiceDto.getId());
+    Assertions.assertEquals(practice.getTitle(), practiceDto.getTitle());
+    Assertions.assertEquals(practice.getWebsite(), practiceDto.getWebsite());
+    Assertions.assertEquals(practice.getDescription(), practiceDto.getDescription());
+    Assertions.assertEquals(practice.getMoved(), practiceDto.getMoved());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(licenseRepository).save(any());
+    Mockito.verify(practiceRepository).save(any());
   }
 
   @Test
-  void shouldFailToSaveLicenseDueToTitleWithWhiteSpace() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle(" My license ");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+  void shouldFailToSavePracticeDueToTitleWithWhiteSpace() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle(" My practice ");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
-        licenseService.save(licenseMapper.toDto(license)), ValidationException.class);
+        practiceService.save(practiceMapper.toDto(practice)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
 
   @Test
-  void shouldDeleteLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setWebsite("My website");
-    license.setDescription("My license description");
-    license.setMoved(0);
-    license.setActive(true);
+  void shouldDeletePractice() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle("My practice");
+    practice.setWebsite("My website");
+    practice.setDescription("My practice description");
+    practice.setMoved(0);
+    practice.setActive(true);
 
-    Mockito.doAnswer((i) -> null).when(licenseRepository).deleteById(license.getId());
+    Mockito.doAnswer((i) -> null).when(practiceRepository).deleteById(practice.getId());
 
-    licenseService.deleteById(license.getId());
-    Mockito.verify(licenseRepository).deleteById(license.getId());
+    practiceService.deleteById(practice.getId());
+    Mockito.verify(practiceRepository).deleteById(practice.getId());
   }
 }

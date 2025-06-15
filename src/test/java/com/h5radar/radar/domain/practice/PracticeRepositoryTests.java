@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
@@ -15,57 +15,57 @@ import com.h5radar.radar.domain.AbstractRepositoryTests;
 import com.h5radar.radar.domain.radar_user.RadarUser;
 import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
-class LicenseRepositoryTests extends AbstractRepositoryTests {
+class PracticeRepositoryTests extends AbstractRepositoryTests {
   @Autowired
   private RadarUserRepository radarUserRepository;
 
   @Autowired
-  private LicenseRepository licenseRepository;
+  private PracticeRepository practiceRepository;
 
   @Test
-  void shouldSaveLicenseWithAllFields() {
+  void shouldSavePracticeWithAllFields() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("My title");
-    license.setDescription("My description");
+    // Create practice
+    Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My title");
+    practice.setDescription("My description");
 
-    Assertions.assertNull(license.getId());
-    license = licenseRepository.saveAndFlush(license);
-    Assertions.assertNotNull(license.getId());
-    Assertions.assertNotNull(license.getRadarUser());
-    Assertions.assertNotNull(license.getTitle());
-    Assertions.assertNotNull(license.getDescription());
-    Assertions.assertNotNull(license.getCreatedBy());
-    Assertions.assertNotNull(license.getCreatedDate());
-    Assertions.assertNotNull(license.getLastModifiedBy());
-    Assertions.assertNotNull(license.getLastModifiedDate());
+    Assertions.assertNull(practice.getId());
+    practice = practiceRepository.saveAndFlush(practice);
+    Assertions.assertNotNull(practice.getId());
+    Assertions.assertNotNull(practice.getRadarUser());
+    Assertions.assertNotNull(practice.getTitle());
+    Assertions.assertNotNull(practice.getDescription());
+    Assertions.assertNotNull(practice.getCreatedBy());
+    Assertions.assertNotNull(practice.getCreatedDate());
+    Assertions.assertNotNull(practice.getLastModifiedBy());
+    Assertions.assertNotNull(practice.getLastModifiedDate());
   }
 
   @Test
-  void shouldFindSavedLicenseById() {
+  void shouldFindSavedPracticeById() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("My title");
-    license.setDescription("My description");
+    // Create practice
+    Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My title");
+    practice.setDescription("My description");
 
-    Assertions.assertNull(license.getId());
-    license = licenseRepository.saveAndFlush(license);
-    Assertions.assertNotNull(license.getId());
-    Assertions.assertTrue(licenseRepository.findById(license.getId()).isPresent());
+    Assertions.assertNull(practice.getId());
+    practice = practiceRepository.saveAndFlush(practice);
+    Assertions.assertNotNull(practice.getId());
+    Assertions.assertTrue(practiceRepository.findById(practice.getId()).isPresent());
   }
 
   @Test
@@ -76,14 +76,14 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setDescription("My description");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setDescription("My description");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -102,15 +102,15 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("");
-    license.setDescription("My description");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("");
+    practice.setDescription("My description");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -130,15 +130,15 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle(" ");
-    license.setDescription("My description");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle(" ");
+    practice.setDescription("My description");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -158,14 +158,14 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("My title");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My title");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -184,15 +184,15 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("My title");
-    license.setDescription("");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My title");
+    practice.setDescription("");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -212,15 +212,15 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create license
-    final License license = new License();
-    license.setRadarUser(radarUser);
-    license.setTitle("My title");
-    license.setDescription(" ");
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setRadarUser(radarUser);
+    practice.setTitle("My title");
+    practice.setDescription(" ");
 
-    Assertions.assertNull(license.getId());
+    Assertions.assertNull(practice.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -232,22 +232,22 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFailToSaveLicenseDueToTitleWithRightWhiteSpace() {
-    final License license = new License();
-    license.setTitle("My title with right white space");
+  void shouldFailToSavePracticeDueToTitleWithRightWhiteSpace() {
+    final Practice practice = new Practice();
+    practice.setTitle("My title with right white space");
 
-    Assertions.assertNull(license.getId());
-    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
+    Assertions.assertNull(practice.getId());
+    assertThatThrownBy(() -> practiceRepository.saveAndFlush(practice))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFailToSaveLicenseDueToTitleWithLeftWhiteSpace() {
-    final License license = new License();
-    license.setTitle(" My title with left white space");
+  void shouldFailToSavePracticeDueToTitleWithLeftWhiteSpace() {
+    final Practice practice = new Practice();
+    practice.setTitle(" My title with left white space");
 
-    Assertions.assertNull(license.getId());
-    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
+    Assertions.assertNull(practice.getId());
+    assertThatThrownBy(() -> practiceRepository.saveAndFlush(practice))
         .isInstanceOf(ValidationException.class);
   }
 }

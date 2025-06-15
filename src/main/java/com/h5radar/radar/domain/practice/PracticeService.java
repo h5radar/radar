@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -6,17 +6,17 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface LicenseService {
+public interface PracticeService {
 
-  Collection<LicenseDto> findAll();
+  Collection<PracticeDto> findAll();
 
-  Page<LicenseDto> findAll(LicenseFilter licenseFilter, Pageable pageable);
+  Page<PracticeDto> findAll(PracticeFilter practiceFilter, Pageable pageable);
 
-  Optional<LicenseDto> findById(Long id);
+  Optional<PracticeDto> findById(Long id);
 
-  Optional<LicenseDto> findByTitle(String title);
+  Optional<PracticeDto> findByTitle(String title);
 
-  LicenseDto save(LicenseDto licenseDto);
+  PracticeDto save(PracticeDto practiceDto);
 
   void deleteById(Long id);
 }

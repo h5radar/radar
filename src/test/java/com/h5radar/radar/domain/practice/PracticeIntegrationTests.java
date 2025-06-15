@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,34 +12,34 @@ import com.h5radar.radar.domain.radar_user.RadarUserDto;
 import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 
-class LicenseIntegrationTests extends AbstractIntegrationTests {
+class PracticeIntegrationTests extends AbstractIntegrationTests {
   @Autowired
   private RadarUserService radarUserService;
 
   @Autowired
-  private LicenseService licenseService;
+  private PracticeService practiceService;
 
   @Test
   @WithMockUser
-  public void shouldGetLicenses() {
+  public void shouldGetPractices() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setTitle("My title");
+    practiceDto.setDescription("My description");
+    practiceDto.setWebsite("My website");
+    practiceDto.setMoved(1);
+    practiceDto.setActive(true);
+    practiceDto = practiceService.save(practiceDto);
 
-    webTestClient.get().uri("/api/v1/licenses")
+    webTestClient.get().uri("/api/v1/practices")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -48,39 +48,39 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
-        .jsonPath("$.content[0].id").isEqualTo(licenseDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(licenseDto.getRadarUserId())
-        .jsonPath("$.content[0].title").isEqualTo(licenseDto.getTitle())
-        .jsonPath("$.content[0].description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.content[0].website").isEqualTo(licenseDto.getWebsite())
-        .jsonPath("$.content[0].moved").isEqualTo(licenseDto.getMoved())
-        .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
+        .jsonPath("$.content[0].id").isEqualTo(practiceDto.getId())
+        .jsonPath("$.content[0].radar_user_id").isEqualTo(practiceDto.getRadarUserId())
+        .jsonPath("$.content[0].title").isEqualTo(practiceDto.getTitle())
+        .jsonPath("$.content[0].description").isEqualTo(practiceDto.getDescription())
+        .jsonPath("$.content[0].website").isEqualTo(practiceDto.getWebsite())
+        .jsonPath("$.content[0].moved").isEqualTo(practiceDto.getMoved())
+        .jsonPath("$.content[0].active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
+    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
   @WithMockUser
-  public void shouldGetLicense() {
+  public void shouldGetPractice() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setWebsite("My website");
-    licenseDto.setMoved(1);
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setTitle("My title");
+    practiceDto.setDescription("My description");
+    practiceDto.setWebsite("My website");
+    practiceDto.setMoved(1);
+    practiceDto.setActive(true);
+    practiceDto = practiceService.save(practiceDto);
 
-    webTestClient.get().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.get().uri("/api/v1/practices/{id}", practiceDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -88,157 +88,157 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .expectBody()
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
-        .jsonPath("$.id").isEqualTo(licenseDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(licenseDto.getRadarUserId())
-        .jsonPath("$.title").isEqualTo(licenseDto.getTitle())
-        .jsonPath("$.description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.website").isEqualTo(licenseDto.getWebsite())
-        .jsonPath("$.moved").isEqualTo(licenseDto.getMoved())
-        .jsonPath("$.active").isEqualTo(licenseDto.isActive());
+        .jsonPath("$.id").isEqualTo(practiceDto.getId())
+        .jsonPath("$.radar_user_id").isEqualTo(practiceDto.getRadarUserId())
+        .jsonPath("$.title").isEqualTo(practiceDto.getTitle())
+        .jsonPath("$.description").isEqualTo(practiceDto.getDescription())
+        .jsonPath("$.website").isEqualTo(practiceDto.getWebsite())
+        .jsonPath("$.moved").isEqualTo(practiceDto.getMoved())
+        .jsonPath("$.active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
+    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
   @WithMockUser
-  public void shouldCreateLicense() throws Exception {
+  public void shouldCreatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
-    licenseDto.setActive(true);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setWebsite("My website");
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setMoved(0);
+    practiceDto.setActive(true);
 
-    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    PracticeDto practiceDto1 = webTestClient.post().uri("/api/v1/practices")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(practiceDto), PracticeDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(LicenseDto.class)
+        .expectBody(PracticeDto.class)
         .returnResult()
         .getResponseBody();
 
-    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
-    Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
-    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
-    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.getWebsite(), licenseDto1.getWebsite());
-    Assertions.assertEquals(licenseDto.getMoved(), licenseDto1.getMoved());
-    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+    Assertions.assertNotEquals(practiceDto.getId(), practiceDto1.getId());
+    Assertions.assertEquals(practiceDto.getRadarUserId(), practiceDto1.getRadarUserId());
+    Assertions.assertEquals(practiceDto.getTitle(), practiceDto1.getTitle());
+    Assertions.assertEquals(practiceDto.getDescription(), practiceDto1.getDescription());
+    Assertions.assertEquals(practiceDto.getWebsite(), practiceDto1.getWebsite());
+    Assertions.assertEquals(practiceDto.getMoved(), practiceDto1.getMoved());
+    Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto1.getId());
+    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
   @WithMockUser
-  public void shouldCreateLicenseWithId() throws Exception {
+  public void shouldCreatePracticeWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(99L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
-    licenseDto.setActive(true);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(99L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setWebsite("My website");
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setMoved(0);
+    practiceDto.setActive(true);
 
-    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    PracticeDto practiceDto1 = webTestClient.post().uri("/api/v1/practices")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(practiceDto), PracticeDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(LicenseDto.class)
+        .expectBody(PracticeDto.class)
         .returnResult()
         .getResponseBody();
 
-    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
-    Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
-    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
-    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.getWebsite(), licenseDto1.getWebsite());
-    Assertions.assertEquals(licenseDto.getMoved(), licenseDto1.getMoved());
-    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+    Assertions.assertNotEquals(practiceDto.getId(), practiceDto1.getId());
+    Assertions.assertEquals(practiceDto.getRadarUserId(), practiceDto1.getRadarUserId());
+    Assertions.assertEquals(practiceDto.getTitle(), practiceDto1.getTitle());
+    Assertions.assertEquals(practiceDto.getDescription(), practiceDto1.getDescription());
+    Assertions.assertEquals(practiceDto.getWebsite(), practiceDto1.getWebsite());
+    Assertions.assertEquals(practiceDto.getMoved(), practiceDto1.getMoved());
+    Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto1.getId());
+    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
   @WithMockUser
-  public void shouldUpdateLicense() throws Exception {
+  public void shouldUpdatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setWebsite("My website");
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setMoved(0);
+    practiceDto.setActive(true);
+    practiceDto = practiceService.save(practiceDto);
 
-    webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.put().uri("/api/v1/practices/{id}", practiceDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(practiceDto), PracticeDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
+    practiceService.deleteById(practiceDto.getId());
   }
 
 
   @Test
   @WithMockUser
-  public void shouldDeleteLicense() throws Exception {
+  public void shouldDeletePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setWebsite("My website");
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setMoved(0);
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setWebsite("My website");
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setMoved(0);
+    practiceDto.setActive(true);
+    practiceDto = practiceService.save(practiceDto);
 
-    webTestClient.delete().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.delete().uri("/api/v1/practices/{id}", practiceDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isNoContent();

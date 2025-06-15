@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import java.util.Optional;
 
@@ -13,19 +13,19 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 
 @Mapper(config = MapperConfiguration.class)
-public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> {
+public abstract class PracticeMapper implements PlainMapper<Practice, PracticeDto> {
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
   @Mapping(source = "radarUser.id", target = "radarUserId")
-  public abstract LicenseDto toDto(final License entity);
+  public abstract PracticeDto toDto(final Practice entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
-  public abstract License toEntity(final LicenseDto dto);
+  public abstract Practice toEntity(final PracticeDto dto);
 
-  RadarUser getRadarUser(LicenseDto licenseDto) {
-    if (licenseDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(licenseDto.getRadarUserId());
+  RadarUser getRadarUser(PracticeDto practiceDto) {
+    if (practiceDto.getRadarUserId() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(practiceDto.getRadarUserId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }

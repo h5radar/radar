@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -24,67 +24,67 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@Tag(name = "License API")
-@RequestMapping("/api/v1/licenses")
+@Tag(name = "Practice API")
+@RequestMapping("/api/v1/practices")
 @RequiredArgsConstructor
-public class LicenseController {
+public class PracticeController {
 
-  private final LicenseService licenseService;
+  private final PracticeService practiceService;
 
   @GetMapping("")
-  public ResponseEntity<Page<LicenseDto>> index(
+  public ResponseEntity<Page<PracticeDto>> index(
       @AuthenticationPrincipal Jwt jwt,
-      @Valid LicenseFilter licenseFilter,
+      @Valid PracticeFilter practiceFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<LicenseDto> licenseDtoPage =
-        licenseService.findAll(licenseFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(licenseDtoPage);
+    Page<PracticeDto> practiceDtoPage =
+        practiceService.findAll(practiceFilter, PageRequest.of(page - 1, size, Sort.by(order)));
+    return ResponseEntity.status(HttpStatus.OK).body(practiceDtoPage);
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> show(@PathVariable("id") Long id) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+  public ResponseEntity<PracticeDto> show(@PathVariable("id") Long id) {
+    Optional<PracticeDto> practiceRecord = practiceService.findById(id);
+    if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    return ResponseEntity.status(HttpStatus.OK).body(licenseRecord.get());
+    return ResponseEntity.status(HttpStatus.OK).body(practiceRecord.get());
   }
 
   @PostMapping
-  public ResponseEntity<LicenseDto> create(@RequestBody LicenseDto licenseDto) {
-    licenseDto.setId(null);
-    licenseDto = licenseService.save(licenseDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(licenseDto);
+  public ResponseEntity<PracticeDto> create(@RequestBody PracticeDto practiceDto) {
+    practiceDto.setId(null);
+    practiceDto = practiceService.save(practiceDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(practiceDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> update(@PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+  public ResponseEntity<PracticeDto> update(@PathVariable("id") Long id, @RequestBody PracticeDto practiceDto) {
+    Optional<PracticeDto> practiceRecord = practiceService.findById(id);
+    if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    licenseDto.setId(id);
-    licenseService.save(licenseDto);
-    return ResponseEntity.status(HttpStatus.OK).body(licenseDto);
+    practiceDto.setId(id);
+    practiceService.save(practiceDto);
+    return ResponseEntity.status(HttpStatus.OK).body(practiceDto);
   }
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+    Optional<PracticeDto> practiceRecord = practiceService.findById(id);
+    if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    licenseService.deleteById(id);
+    practiceService.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PostMapping(value = "/seed")
-  public ResponseEntity<LicenseDto> seed() {
+  public ResponseEntity<PracticeDto> seed() {
     return ResponseEntity.status(HttpStatus.CREATED).body(null);
   }
 

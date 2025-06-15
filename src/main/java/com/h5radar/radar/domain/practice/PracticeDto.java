@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.practice;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -21,7 +21,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "radar_user_id", "title", "website", "description", "moved", "active" })
-public class LicenseDto {
+public class PracticeDto {
 
   private Long id;
 
@@ -32,11 +32,7 @@ public class LicenseDto {
 
   private String title;
 
-  private String website;
-
   private String description;
-
-  private int moved;
 
   private boolean active;
 
