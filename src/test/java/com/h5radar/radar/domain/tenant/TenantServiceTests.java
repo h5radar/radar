@@ -19,10 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
-import org.springframework.transaction.annotation.Transactional;
 
 class TenantServiceTests extends AbstractServiceTests {
   @MockitoBean
@@ -111,7 +111,7 @@ class TenantServiceTests extends AbstractServiceTests {
     tenantRepository.saveAll(tenantList);
 
     TenantFilter tenantFilter = new TenantFilter();
-    tenantFilter.setTitle(tenantList.iterator().next().getTitle());
+    tenantFilter.setTitle(tenantList.getFirst().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
     Page<TenantDto> tenantDtoPage = tenantService.findAll(tenantFilter, pageable);
     Assertions.assertEquals(10, tenantDtoPage.getSize());
@@ -119,9 +119,9 @@ class TenantServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
     Assertions.assertEquals(1, tenantDtoPage.getNumberOfElements());
     Assertions.assertNotNull(tenantDtoPage.iterator().next().getId());
-    Assertions.assertEquals(tenantDtoPage.iterator().next().getTitle(), tenantList.iterator().next().getTitle());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getTitle(), tenantList.getFirst().getTitle());
     Assertions.assertEquals(tenantDtoPage.iterator().next().getDescription(),
-        tenantList.iterator().next().getDescription());
+        tenantList.getFirst().getDescription());
   }
 
   @Test
