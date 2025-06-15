@@ -22,6 +22,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
+import org.springframework.transaction.annotation.Transactional;
 
 class TenantServiceTests extends AbstractServiceTests {
   @MockitoBean
@@ -65,6 +66,62 @@ class TenantServiceTests extends AbstractServiceTests {
 
     // Mockito.verify(tenantRepository).findAll(
     //  Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTenantsWithNullFilter() {
+    List<Tenant> tenantList = List.of(
+        new Tenant(null, "My title", "My description"),
+        new Tenant(null, "His title", "His description"));
+    tenantRepository.saveAll(tenantList);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<TenantDto> tenantDtoPage = tenantService.findAll(null, pageable);
+    Assertions.assertEquals(10, tenantDtoPage.getSize());
+    Assertions.assertEquals(0, tenantDtoPage.getNumber());
+    Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
+    Assertions.assertEquals(2, tenantDtoPage.getNumberOfElements());
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTenantsWithBlankTitleFilter() {
+    List<Tenant> tenantList = List.of(
+        new Tenant(null, "My title", "My description"),
+        new Tenant(null, "His title", "His description"));
+    tenantRepository.saveAll(tenantList);
+
+    TenantFilter tenantFilter = new TenantFilter();
+    tenantFilter.setTitle("");
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<TenantDto> tenantDtoPage = tenantService.findAll(tenantFilter, pageable);
+    Assertions.assertEquals(10, tenantDtoPage.getSize());
+    Assertions.assertEquals(0, tenantDtoPage.getNumber());
+    Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
+    Assertions.assertEquals(2, tenantDtoPage.getNumberOfElements());
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTenantsWithTitleFilter() {
+    List<Tenant> tenantList = List.of(
+        new Tenant(null, "My title", "My description"),
+        new Tenant(null, "His title", "His description"));
+    tenantRepository.saveAll(tenantList);
+
+    TenantFilter tenantFilter = new TenantFilter();
+    tenantFilter.setTitle(tenantList.iterator().next().getTitle());
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<TenantDto> tenantDtoPage = tenantService.findAll(tenantFilter, pageable);
+    Assertions.assertEquals(10, tenantDtoPage.getSize());
+    Assertions.assertEquals(0, tenantDtoPage.getNumber());
+    Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
+    Assertions.assertEquals(1, tenantDtoPage.getNumberOfElements());
+    Assertions.assertNotNull(tenantDtoPage.iterator().next().getId());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getTitle(), tenantList.iterator().next().getTitle());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getDescription(),
+        tenantList.iterator().next().getDescription());
   }
 
   @Test

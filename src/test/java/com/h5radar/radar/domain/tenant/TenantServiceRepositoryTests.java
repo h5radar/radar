@@ -25,9 +25,7 @@ class TenantServiceRepositoryTests extends AbstractServiceTests {
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
-    for (Tenant tenant : tenantList) {
-      tenantRepository.save(tenant);
-    }
+    tenantRepository.saveAll(tenantList);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
     Page<TenantDto> tenantDtoPage = tenantService.findAll(null, pageable);
@@ -43,9 +41,7 @@ class TenantServiceRepositoryTests extends AbstractServiceTests {
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
-    for (Tenant tenant : tenantList) {
-      tenantRepository.save(tenant);
-    }
+    tenantRepository.saveAll(tenantList);
 
     TenantFilter tenantFilter = new TenantFilter();
     tenantFilter.setTitle("");
@@ -63,9 +59,7 @@ class TenantServiceRepositoryTests extends AbstractServiceTests {
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
-    for (Tenant tenant : tenantList) {
-      tenantRepository.save(tenant);
-    }
+    tenantRepository.saveAll(tenantList);
 
     TenantFilter tenantFilter = new TenantFilter();
     tenantFilter.setTitle(tenantList.iterator().next().getTitle());
