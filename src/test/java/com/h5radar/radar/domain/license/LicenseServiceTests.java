@@ -48,9 +48,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     license.setId(10L);
     license.setRadarUser(radarUser);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     List<License> licenseList = List.of(license);
@@ -68,9 +66,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     final License license = new License();
     license.setId(10L);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     List<License> licenseList = List.of(license);
@@ -97,9 +93,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     final License license = new License();
     license.setId(10L);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     Mockito.when(licenseRepository.findById(license.getId())).thenReturn(Optional.of(license));
@@ -108,9 +102,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     Assertions.assertTrue(licenseDtoOptional.isPresent());
     Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
     Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
     Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
 
     Mockito.verify(licenseRepository).findById(license.getId());
   }
@@ -120,9 +112,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     final License license = new License();
     license.setId(10L);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     Mockito.when(licenseRepository.findByTitle(license.getTitle())).thenReturn(Optional.of(license));
@@ -131,9 +121,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     Assertions.assertTrue(licenseDtoOptional.isPresent());
     Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
     Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
     Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
 
     Mockito.verify(licenseRepository).findByTitle(license.getTitle());
   }
@@ -149,9 +137,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     license.setId(10L);
     license.setRadarUser(radarUser);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
@@ -160,9 +146,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
     Assertions.assertEquals(license.getId(), licenseDto.getId());
     Assertions.assertEquals(license.getTitle(), licenseDto.getTitle());
-    Assertions.assertEquals(license.getWebsite(), licenseDto.getWebsite());
     Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
-    Assertions.assertEquals(license.getMoved(), licenseDto.getMoved());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
     Mockito.verify(licenseRepository).save(any());
@@ -173,9 +157,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     final License license = new License();
     license.setId(10L);
     license.setTitle(" My license ");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
@@ -189,9 +171,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     final License license = new License();
     license.setId(10L);
     license.setTitle("My license");
-    license.setWebsite("My website");
     license.setDescription("My license description");
-    license.setMoved(0);
     license.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(licenseRepository).deleteById(license.getId());
