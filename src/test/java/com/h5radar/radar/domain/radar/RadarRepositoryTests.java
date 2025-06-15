@@ -14,13 +14,11 @@ import com.h5radar.radar.domain.radar_type.RadarType;
 import com.h5radar.radar.domain.radar_type.RadarTypeRepository;
 
 class RadarRepositoryTests extends AbstractRepositoryTests {
+  @Autowired
+  private RadarTypeRepository radarTypeRepository;
 
   @Autowired
   private RadarRepository radarRepository;
-
-
-  @Autowired
-  private RadarTypeRepository radarTypeRepository;
 
   @Test
   void shouldSaveRadarWithAllFields() {

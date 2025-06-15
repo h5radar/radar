@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.domain.radar_type;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,22 +23,24 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.h5radar.radar.domain.AbstractAuditable;
 import com.h5radar.radar.domain.JpaConstants;
-import com.h5radar.radar.domain.technology.Technology;
+import com.h5radar.radar.domain.radar.Radar;
+
 
 @Entity
-@Table(name = "radar_users")
+@Table(name = "radar_types")
 @DynamicUpdate
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RadarUser extends AbstractAuditable {
-  public RadarUser(Long id, String sub, String username) {
-    this.id = id;
-    this.sub = sub;
-    this.username = username;
-  }
+public class RadarType extends AbstractAuditable {
+
+  public static final String CAPABILITY_RADAR = "capability";
+  public static final String PRACTICE_RADAR = "practice";
+  public static final String PROCESS_RADAR = "process";
+  public static final String TECHNOLOGY_RADAR = "technology";
+
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,19 +48,20 @@ public class RadarUser extends AbstractAuditable {
   private Long id;
 
   @NotBlank
-  @Size(min = 1, max = 255)
-  @RadarUserTrimSubConstraint
-  @Column(name = "sub", unique = true, nullable = false)
-  private String sub;
+  @Size(min = 1, max = 64)
+  @Column(name = "title", unique = true, nullable = false)
+  private String title;
+
+  @Size(min = 0, max = 64)
+  @Column(name = "code", nullable = true)
+  private String code;
 
   @NotBlank
-  @Size(min = 1, max = 255)
-  @RadarUserTrimUsernameConstraint
-  @Column(name = "username", unique = true, nullable = false)
-  private String username;
+  @Size(min = 1, max = 512)
+  @Column(name = "description", nullable = false)
+  private String description;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarType", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
-  private List<Technology> technologyList;
-
+  private List<Radar> radarList;
 }

@@ -1,11 +1,15 @@
 package com.h5radar.radar.domain.radar_user;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import com.h5radar.radar.domain.technology.TechnologyDto;
 
 /**
  * This class should not have any validation such as @NotNull etc
@@ -24,5 +28,7 @@ public class RadarUserDto {
   private String sub;
 
   private String username;
+
+  private List<TechnologyDto> technologyDtoList;
 
 }

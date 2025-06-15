@@ -37,6 +37,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   public void shouldGetTechnologies() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");
@@ -52,6 +53,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(technologyDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(technologyDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(technologyDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(technologyDto.getDescription())))
         .andExpect(jsonPath("$.content[0].website", equalTo(technologyDto.getWebsite())))
@@ -82,6 +84,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   public void shouldGetTechnology() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");
@@ -95,6 +98,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
         .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
@@ -125,6 +129,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   public void shouldCreateTechnology() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -140,6 +145,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
         .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
@@ -176,6 +182,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   public void shouldUpdateTechnology() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -227,6 +234,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   public void shouldDeleteTechnology() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");

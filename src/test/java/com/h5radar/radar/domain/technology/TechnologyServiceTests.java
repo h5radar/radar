@@ -22,8 +22,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
+
+
 
 class TechnologyServiceTests extends AbstractServiceTests {
+  @MockitoBean
+  private RadarUserRepository radarUserRepository;
   @MockitoBean
   private TechnologyRepository technologyRepository;
   @Autowired
@@ -33,8 +39,14 @@ class TechnologyServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldFindAllTechnologies() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     final Technology technology = new Technology();
     technology.setId(10L);
+    technology.setRadarUser(radarUser);
     technology.setTitle("My technology");
     technology.setWebsite("My website");
     technology.setDescription("My technology description");
@@ -128,14 +140,21 @@ class TechnologyServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldSaveTechnology() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(3L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     final Technology technology = new Technology();
     technology.setId(10L);
+    technology.setRadarUser(radarUser);
     technology.setTitle("My technology");
     technology.setWebsite("My website");
     technology.setDescription("My technology description");
     technology.setMoved(0);
     technology.setActive(true);
 
+    Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(technologyRepository.save(any())).thenReturn(technology);
 
     TechnologyDto technologyDto = technologyService.save(technologyMapper.toDto(technology));
@@ -145,6 +164,7 @@ class TechnologyServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technology.getDescription(), technologyDto.getDescription());
     Assertions.assertEquals(technology.getMoved(), technologyDto.getMoved());
 
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
     Mockito.verify(technologyRepository).save(any());
   }
 

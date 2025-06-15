@@ -82,4 +82,10 @@ public class TechnologyController {
     technologyService.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
+
+  @PostMapping(value = "/seed")
+  public ResponseEntity<TechnologyDto> seed() {
+    return ResponseEntity.status(HttpStatus.CREATED).body(null);
+  }
+
 }
