@@ -12,8 +12,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 class TechnologyServiceRepositoryTests extends AbstractServiceTests {
+  @Autowired
+  private RadarUserRepository radarUserRepository;
   @Autowired
   private TechnologyRepository technologyRepository;
   @Autowired
@@ -22,10 +26,15 @@ class TechnologyServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
+    RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUser = radarUserRepository.saveAndFlush(radarUser);
+
     // fuck
     List<Technology> technologyList = List.of(
-        new Technology(null, null, "My title", "My website", "My description", 0, true),
-        new Technology(null, null, "My new title", "My new website", "My new description", 0, true));
+        new Technology(null, radarUser, "My title", "My website", "My description", 0, true),
+        new Technology(null, radarUser, "My new title", "My new website", "My new description", 0, true));
     technologyRepository.saveAll(technologyList);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
