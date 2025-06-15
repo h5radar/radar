@@ -3,9 +3,6 @@ package com.h5radar.radar.domain.technology;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 
-import com.h5radar.radar.domain.radar_type.RadarType;
-import com.h5radar.radar.domain.radar_user.RadarUser;
-import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -15,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 class TechnologyRepositoryTests extends AbstractRepositoryTests {
   @Autowired
