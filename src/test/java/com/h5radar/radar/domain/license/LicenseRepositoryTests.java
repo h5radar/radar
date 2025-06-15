@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
@@ -15,57 +15,57 @@ import com.h5radar.radar.domain.AbstractRepositoryTests;
 import com.h5radar.radar.domain.radar_user.RadarUser;
 import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
-class TechnologyRepositoryTests extends AbstractRepositoryTests {
+class LicenseRepositoryTests extends AbstractRepositoryTests {
   @Autowired
   private RadarUserRepository radarUserRepository;
 
   @Autowired
-  private TechnologyRepository technologyRepository;
+  private LicenseRepository licenseRepository;
 
   @Test
-  void shouldSaveTechnologyWithAllFields() {
+  void shouldSaveLicenseWithAllFields() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My title");
-    technology.setDescription("My description");
+    // Create license
+    License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
+    license.setDescription("My description");
 
-    Assertions.assertNull(technology.getId());
-    technology = technologyRepository.saveAndFlush(technology);
-    Assertions.assertNotNull(technology.getId());
-    Assertions.assertNotNull(technology.getRadarUser());
-    Assertions.assertNotNull(technology.getTitle());
-    Assertions.assertNotNull(technology.getDescription());
-    Assertions.assertNotNull(technology.getCreatedBy());
-    Assertions.assertNotNull(technology.getCreatedDate());
-    Assertions.assertNotNull(technology.getLastModifiedBy());
-    Assertions.assertNotNull(technology.getLastModifiedDate());
+    Assertions.assertNull(license.getId());
+    license = licenseRepository.saveAndFlush(license);
+    Assertions.assertNotNull(license.getId());
+    Assertions.assertNotNull(license.getRadarUser());
+    Assertions.assertNotNull(license.getTitle());
+    Assertions.assertNotNull(license.getDescription());
+    Assertions.assertNotNull(license.getCreatedBy());
+    Assertions.assertNotNull(license.getCreatedDate());
+    Assertions.assertNotNull(license.getLastModifiedBy());
+    Assertions.assertNotNull(license.getLastModifiedDate());
   }
 
   @Test
-  void shouldFindSavedTechnologyById() {
+  void shouldFindSavedLicenseById() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My title");
-    technology.setDescription("My description");
+    // Create license
+    License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
+    license.setDescription("My description");
 
-    Assertions.assertNull(technology.getId());
-    technology = technologyRepository.saveAndFlush(technology);
-    Assertions.assertNotNull(technology.getId());
-    Assertions.assertTrue(technologyRepository.findById(technology.getId()).isPresent());
+    Assertions.assertNull(license.getId());
+    license = licenseRepository.saveAndFlush(license);
+    Assertions.assertNotNull(license.getId());
+    Assertions.assertTrue(licenseRepository.findById(license.getId()).isPresent());
   }
 
   @Test
@@ -76,14 +76,14 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setDescription("My description");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setDescription("My description");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -102,15 +102,15 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("");
-    technology.setDescription("My description");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("");
+    license.setDescription("My description");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -130,15 +130,15 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle(" ");
-    technology.setDescription("My description");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle(" ");
+    license.setDescription("My description");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -158,14 +158,14 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My title");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -184,15 +184,15 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My title");
-    technology.setDescription("");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
+    license.setDescription("");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -212,15 +212,15 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
-    // Create technology
-    final Technology technology = new Technology();
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My title");
-    technology.setDescription(" ");
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
+    license.setDescription(" ");
 
-    Assertions.assertNull(technology.getId());
+    Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
-        catchThrowableOfType(() -> technologyRepository.saveAndFlush(technology),
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
@@ -232,22 +232,22 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFailToSaveTechnologyDueToTitleWithRightWhiteSpace() {
-    final Technology technology = new Technology();
-    technology.setTitle("My title with right white space");
+  void shouldFailToSaveLicenseDueToTitleWithRightWhiteSpace() {
+    final License license = new License();
+    license.setTitle("My title with right white space");
 
-    Assertions.assertNull(technology.getId());
-    assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))
+    Assertions.assertNull(license.getId());
+    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFailToSaveTechnologyDueToTitleWithLeftWhiteSpace() {
-    final Technology technology = new Technology();
-    technology.setTitle(" My title with left white space");
+  void shouldFailToSaveLicenseDueToTitleWithLeftWhiteSpace() {
+    final License license = new License();
+    license.setTitle(" My title with left white space");
 
-    Assertions.assertNull(technology.getId());
-    assertThatThrownBy(() -> technologyRepository.saveAndFlush(technology))
+    Assertions.assertNull(license.getId());
+    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
         .isInstanceOf(ValidationException.class);
   }
 }

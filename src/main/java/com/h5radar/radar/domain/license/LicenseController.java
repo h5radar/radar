@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -24,67 +24,67 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@Tag(name = "Technology API")
-@RequestMapping("/api/v1/technologies")
+@Tag(name = "License API")
+@RequestMapping("/api/v1/licenses")
 @RequiredArgsConstructor
-public class TechnologyController {
+public class LicenseController {
 
-  private final TechnologyService technologyService;
+  private final LicenseService licenseService;
 
   @GetMapping("")
-  public ResponseEntity<Page<TechnologyDto>> index(
+  public ResponseEntity<Page<LicenseDto>> index(
       @AuthenticationPrincipal Jwt jwt,
-      @Valid TechnologyFilter technologyFilter,
+      @Valid LicenseFilter licenseFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<TechnologyDto> technologyDtoPage =
-        technologyService.findAll(technologyFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(technologyDtoPage);
+    Page<LicenseDto> licenseDtoPage =
+        licenseService.findAll(licenseFilter, PageRequest.of(page - 1, size, Sort.by(order)));
+    return ResponseEntity.status(HttpStatus.OK).body(licenseDtoPage);
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> show(@PathVariable("id") Long id) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+  public ResponseEntity<LicenseDto> show(@PathVariable("id") Long id) {
+    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
+    if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    return ResponseEntity.status(HttpStatus.OK).body(technologyRecord.get());
+    return ResponseEntity.status(HttpStatus.OK).body(licenseRecord.get());
   }
 
   @PostMapping
-  public ResponseEntity<TechnologyDto> create(@RequestBody TechnologyDto technologyDto) {
-    technologyDto.setId(null);
-    technologyDto = technologyService.save(technologyDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
+  public ResponseEntity<LicenseDto> create(@RequestBody LicenseDto licenseDto) {
+    licenseDto.setId(null);
+    licenseDto = licenseService.save(licenseDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(licenseDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> update(@PathVariable("id") Long id, @RequestBody TechnologyDto technologyDto) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+  public ResponseEntity<LicenseDto> update(@PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
+    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
+    if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    technologyDto.setId(id);
-    technologyService.save(technologyDto);
-    return ResponseEntity.status(HttpStatus.OK).body(technologyDto);
+    licenseDto.setId(id);
+    licenseService.save(licenseDto);
+    return ResponseEntity.status(HttpStatus.OK).body(licenseDto);
   }
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-    Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
-    if (technologyRecord.isEmpty()) {
+    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
+    if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    technologyService.deleteById(id);
+    licenseService.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PostMapping(value = "/seed")
-  public ResponseEntity<TechnologyDto> seed() {
+  public ResponseEntity<LicenseDto> seed() {
     return ResponseEntity.status(HttpStatus.CREATED).body(null);
   }
 

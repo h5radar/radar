@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -24,69 +24,69 @@ import com.h5radar.radar.domain.ValidationException;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class TechnologyServiceImpl implements TechnologyService {
+public class LicenseServiceImpl implements LicenseService {
 
   private final Validator validator;
-  private final TechnologyRepository technologyRepository;
-  private final TechnologyMapper technologyMapper;
+  private final LicenseRepository licenseRepository;
+  private final LicenseMapper licenseMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<TechnologyDto> findAll() {
-    return technologyRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(technologyMapper::toDto).collect(Collectors.toList());
+  public Collection<LicenseDto> findAll() {
+    return licenseRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        .stream().map(licenseMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<TechnologyDto> findAll(TechnologyFilter technologyFilter, Pageable pageable) {
-    return technologyRepository.findAll((root, query, builder) -> {
+  public Page<LicenseDto> findAll(LicenseFilter licenseFilter, Pageable pageable) {
+    return licenseRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (technologyFilter != null && technologyFilter.getTitle() != null
-          && !technologyFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), technologyFilter.getTitle()));
+      if (licenseFilter != null && licenseFilter.getTitle() != null
+          && !licenseFilter.getTitle().isBlank()) {
+        predicateList.add(builder.like(root.get("title"), licenseFilter.getTitle()));
       }
-      if (technologyFilter != null && technologyFilter.getWebsite() != null
-          && !technologyFilter.getWebsite().isBlank()) {
-        predicateList.add(builder.like(root.get("website"), technologyFilter.getWebsite()));
+      if (licenseFilter != null && licenseFilter.getWebsite() != null
+          && !licenseFilter.getWebsite().isBlank()) {
+        predicateList.add(builder.like(root.get("website"), licenseFilter.getWebsite()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(technologyMapper::toDto);
+    }, pageable).map(licenseMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<TechnologyDto> findById(Long id) {
-    return technologyRepository.findById(id).map(technologyMapper::toDto);
+  public Optional<LicenseDto> findById(Long id) {
+    return licenseRepository.findById(id).map(licenseMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<TechnologyDto> findByTitle(String title) {
-    return technologyRepository.findByTitle(title).map(technologyMapper::toDto);
+  public Optional<LicenseDto> findByTitle(String title) {
+    return licenseRepository.findByTitle(title).map(licenseMapper::toDto);
   }
 
   @Override
   @Transactional
-  public TechnologyDto save(TechnologyDto technologyDto) {
-    Technology technology = technologyMapper.toEntity(technologyDto);
+  public LicenseDto save(LicenseDto licenseDto) {
+    License license = licenseMapper.toEntity(licenseDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
-    Set<ConstraintViolation<Technology>> constraintViolationSet = validator.validate(technology);
+    Set<ConstraintViolation<License>> constraintViolationSet = validator.validate(license);
     if (!constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<Technology> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<License> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
             constraintViolation.getPropertyPath().toString()));
       }
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return technologyMapper.toDto(technologyRepository.save(technology));
+    return licenseMapper.toDto(licenseRepository.save(license));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    technologyRepository.deleteById(id);
+    licenseRepository.deleteById(id);
   }
 }

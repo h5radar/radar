@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -6,17 +6,17 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface TechnologyService {
+public interface LicenseService {
 
-  Collection<TechnologyDto> findAll();
+  Collection<LicenseDto> findAll();
 
-  Page<TechnologyDto> findAll(TechnologyFilter technologyFilter, Pageable pageable);
+  Page<LicenseDto> findAll(LicenseFilter licenseFilter, Pageable pageable);
 
-  Optional<TechnologyDto> findById(Long id);
+  Optional<LicenseDto> findById(Long id);
 
-  Optional<TechnologyDto> findByTitle(String title);
+  Optional<LicenseDto> findByTitle(String title);
 
-  TechnologyDto save(TechnologyDto technologyDto);
+  LicenseDto save(LicenseDto licenseDto);
 
   void deleteById(Long id);
 }

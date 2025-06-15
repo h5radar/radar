@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -26,244 +26,244 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
 
-@WebMvcTest(TechnologyController.class)
-public class TechnologyControllerTests extends AbstractControllerTests {
+@WebMvcTest(LicenseController.class)
+public class LicenseControllerTests extends AbstractControllerTests {
 
   @MockitoBean
-  private TechnologyService technologyService;
+  private LicenseService licenseService;
 
   @Test
   @WithMockUser
-  public void shouldGetTechnologies() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setTitle("My title");
-    technologyDto.setDescription("My description");
-    technologyDto.setWebsite("My website");
-    technologyDto.setMoved(1);
-    technologyDto.setActive(true);
+  public void shouldGetLicenses() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setWebsite("My website");
+    licenseDto.setMoved(1);
+    licenseDto.setActive(true);
 
-    Page<TechnologyDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
-    Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
+    Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
+    Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
-    mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(technologyDtoPage.getContent().size())))
-        .andExpect(jsonPath("$.content[0].id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.content[0].title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.content[0].description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.content[0].moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.content[0].active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.content", hasSize(licenseDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.content[0].website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.content[0].moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
 
-    Mockito.verify(technologyService).findAll(any(), any());
+    Mockito.verify(licenseService).findAll(any(), any());
   }
 
-  public void shouldGetTechnologiesWithFilter() throws Exception {
+  public void shouldGetLicensesWithFilter() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldGetTechnologiesWithPaging() throws Exception {
+  public void shouldGetLicensesWithPaging() throws Exception {
     // TODO: get invalid it
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
-    mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
+  public void shouldFailToGetLicensesDueToUnauthorized() throws Exception {
+    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 
 
   @Test
   @WithMockUser
-  public void shouldGetTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setTitle("My title");
-    technologyDto.setDescription("My description");
-    technologyDto.setWebsite("My website");
-    technologyDto.setMoved(1);
-    technologyDto.setActive(true);
+  public void shouldGetLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setWebsite("My website");
+    licenseDto.setMoved(1);
+    licenseDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
 
-    mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
+    Mockito.verify(licenseService).findById(licenseDto.getId());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
+  public void shouldFailToGetLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
 
-    mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToGetTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToGetLicenseDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldCreateTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setWebsite("My website");
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
+  public void shouldCreateLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
 
-    Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
+    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
-    mockMvc.perform(post("/api/v1/technologies")
+    mockMvc.perform(post("/api/v1/licenses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(technologyDto))
+            .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(technologyDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(technologyDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(technologyDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(technologyDto.getDescription())))
-        .andExpect(jsonPath("$.website", equalTo(technologyDto.getWebsite())))
-        .andExpect(jsonPath("$.moved", equalTo(technologyDto.getMoved()), int.class))
-        .andExpect(jsonPath("$.active", equalTo(technologyDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
+        .andExpect(jsonPath("$.website", equalTo(licenseDto.getWebsite())))
+        .andExpect(jsonPath("$.moved", equalTo(licenseDto.getMoved()), int.class))
+        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
-    Mockito.verify(technologyService).save(any());
+    Mockito.verify(licenseService).save(any());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToCreateTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
+  public void shouldFailToCreateLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
 
-    mockMvc.perform(post("/api/v1/technologies")
+    mockMvc.perform(post("/api/v1/licenses")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(technologyDto))
+            .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToCreateTechnologyDueToEmptyTitle() throws Exception {
+  public void shouldFailToCreateLicenseDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToCreateTechnologyDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToCreateLicenseDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldUpdateTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setWebsite("My website");
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
+  public void shouldUpdateLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
-    Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
-    mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(technologyDto))
+            .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
         .andExpect(status().isOk());
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
-    Mockito.verify(technologyService).save(any());
+    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(licenseService).save(any());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToUpdateTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
+  public void shouldFailToUpdateLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
 
-    mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(technologyDto))
+            .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
 
   }
 
-  public void shouldFailToUpdateTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToUpdateLicenseDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateTechnologyDueToEmptyTitle() throws Exception {
+  public void shouldFailToUpdateLicenseDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateTechnologyDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToUpdateLicenseDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser
-  public void shouldDeleteTechnology() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setWebsite("My website");
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
+  public void shouldDeleteLicense() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
+    licenseDto.setRadarUserId(15L);
+    licenseDto.setWebsite("My website");
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setMoved(0);
+    licenseDto.setActive(true);
 
-    Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
-    Mockito.doAnswer((i) -> null).when(technologyService).deleteById(any());
+    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
 
-    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
             .with(csrf()))
         .andExpect(status().isNoContent());
 
-    Mockito.verify(technologyService).findById(technologyDto.getId());
-    Mockito.verify(technologyService).deleteById(technologyDto.getId());
+    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(licenseService).deleteById(licenseDto.getId());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToDeleteTechnologyDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
+  public void shouldFailToDeleteLicenseDueToUnauthorized() throws Exception {
+    final LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(10L);
 
-    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToDeleteTechnologyDueToInvalidId() throws Exception {
+  public void shouldFailToDeleteLicenseDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 }

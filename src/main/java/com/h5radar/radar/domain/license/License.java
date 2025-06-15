@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,14 +24,14 @@ import com.h5radar.radar.domain.AbstractAuditable;
 import com.h5radar.radar.domain.radar_user.RadarUser;
 
 @Entity
-@Table(name = "technologies")
+@Table(name = "licenses")
 @DynamicUpdate
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Technology extends AbstractAuditable {
+public class License extends AbstractAuditable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class Technology extends AbstractAuditable {
 
   @NotBlank
   @Size(min = 1, max = 64)
-  @TechnologyTrimTitleConstraint
+  @LicenseTrimTitleConstraint
   @Column(name = "title", unique = true, nullable = false)
   private String title;
 

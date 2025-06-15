@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import jakarta.validation.constraints.Size;
 
@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TechnologyFilter {
+public class LicenseFilter {
 
   @Size(min = 0, max = 64)
   private String title;

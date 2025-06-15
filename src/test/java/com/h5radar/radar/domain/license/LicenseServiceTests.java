@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,176 +27,176 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 
 
-class TechnologyServiceTests extends AbstractServiceTests {
+class LicenseServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
   @MockitoBean
-  private TechnologyRepository technologyRepository;
+  private LicenseRepository licenseRepository;
   @Autowired
-  private TechnologyMapper technologyMapper;
+  private LicenseMapper licenseMapper;
   @Autowired
-  private TechnologyService technologyService;
+  private LicenseService licenseService;
 
   @Test
-  void shouldFindAllTechnologies() {
+  void shouldFindAllLicenses() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    final License license = new License();
+    license.setId(10L);
+    license.setRadarUser(radarUser);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
-    List<Technology> technologyList = List.of(technology);
-    Mockito.when(technologyRepository.findAll(any(Sort.class))).thenReturn(technologyList);
+    List<License> licenseList = List.of(license);
+    Mockito.when(licenseRepository.findAll(any(Sort.class))).thenReturn(licenseList);
 
-    Collection<TechnologyDto> technologyDtoCollection = technologyService.findAll();
-    Assertions.assertEquals(1, technologyDtoCollection.size());
-    Assertions.assertEquals(technologyDtoCollection.iterator().next().getId(), technology.getId());
-    Assertions.assertEquals(technologyDtoCollection.iterator().next().getTitle(), technology.getTitle());
-    Assertions.assertEquals(technologyDtoCollection.iterator().next().getDescription(), technology.getDescription());
+    Collection<LicenseDto> licenseDtoCollection = licenseService.findAll();
+    Assertions.assertEquals(1, licenseDtoCollection.size());
+    Assertions.assertEquals(licenseDtoCollection.iterator().next().getId(), license.getId());
+    Assertions.assertEquals(licenseDtoCollection.iterator().next().getTitle(), license.getTitle());
+    Assertions.assertEquals(licenseDtoCollection.iterator().next().getDescription(), license.getDescription());
   }
 
   @Test
-  void shouldFindAllTechnologiesWithEmptyFilter() {
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+  void shouldFindAllLicensesWithEmptyFilter() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
-    List<Technology> technologyList = List.of(technology);
-    Page<Technology> page = new PageImpl<>(technologyList);
-    Mockito.when(technologyRepository.findAll(ArgumentMatchers.<Specification<Technology>>any(), any(Pageable.class)))
+    List<License> licenseList = List.of(license);
+    Page<License> page = new PageImpl<>(licenseList);
+    Mockito.when(licenseRepository.findAll(ArgumentMatchers.<Specification<License>>any(), any(Pageable.class)))
         .thenReturn(page);
 
-    TechnologyFilter technologyFilter = new TechnologyFilter();
+    LicenseFilter licenseFilter = new LicenseFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
-    Assertions.assertEquals(1, technologyDtoPage.getSize());
-    Assertions.assertEquals(0, technologyDtoPage.getNumber());
-    Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getId(), technology.getId());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(), technology.getTitle());
-    Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(), technology.getDescription());
+    Page<LicenseDto> licenseDtoPage = licenseService.findAll(licenseFilter, pageable);
+    Assertions.assertEquals(1, licenseDtoPage.getSize());
+    Assertions.assertEquals(0, licenseDtoPage.getNumber());
+    Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getId(), license.getId());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
 
-    // Mockito.verify(technologyRepository).findAll(
+    // Mockito.verify(licenseRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindByIdTechnology() {
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+  void shouldFindByIdLicense() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
-    Mockito.when(technologyRepository.findById(technology.getId())).thenReturn(Optional.of(technology));
+    Mockito.when(licenseRepository.findById(license.getId())).thenReturn(Optional.of(license));
 
-    Optional<TechnologyDto> technologyDtoOptional = technologyService.findById(technology.getId());
-    Assertions.assertTrue(technologyDtoOptional.isPresent());
-    Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDtoOptional.get().getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
+    Optional<LicenseDto> licenseDtoOptional = licenseService.findById(license.getId());
+    Assertions.assertTrue(licenseDtoOptional.isPresent());
+    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
+    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
+    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
+    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
+    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
 
-    Mockito.verify(technologyRepository).findById(technology.getId());
+    Mockito.verify(licenseRepository).findById(license.getId());
   }
 
   @Test
-  void shouldFindByTitleTechnology() {
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+  void shouldFindByTitleLicense() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
-    Mockito.when(technologyRepository.findByTitle(technology.getTitle())).thenReturn(Optional.of(technology));
+    Mockito.when(licenseRepository.findByTitle(license.getTitle())).thenReturn(Optional.of(license));
 
-    Optional<TechnologyDto> technologyDtoOptional = technologyService.findByTitle(technology.getTitle());
-    Assertions.assertTrue(technologyDtoOptional.isPresent());
-    Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDtoOptional.get().getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
+    Optional<LicenseDto> licenseDtoOptional = licenseService.findByTitle(license.getTitle());
+    Assertions.assertTrue(licenseDtoOptional.isPresent());
+    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
+    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
+    Assertions.assertEquals(license.getWebsite(), licenseDtoOptional.get().getWebsite());
+    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
+    Assertions.assertEquals(license.getMoved(), licenseDtoOptional.get().getMoved());
 
-    Mockito.verify(technologyRepository).findByTitle(technology.getTitle());
+    Mockito.verify(licenseRepository).findByTitle(license.getTitle());
   }
 
   @Test
-  void shouldSaveTechnology() {
+  void shouldSaveLicense() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(3L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setRadarUser(radarUser);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+    final License license = new License();
+    license.setId(10L);
+    license.setRadarUser(radarUser);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
-    Mockito.when(technologyRepository.save(any())).thenReturn(technology);
+    Mockito.when(licenseRepository.save(any())).thenReturn(license);
 
-    TechnologyDto technologyDto = technologyService.save(technologyMapper.toDto(technology));
-    Assertions.assertEquals(technology.getId(), technologyDto.getId());
-    Assertions.assertEquals(technology.getTitle(), technologyDto.getTitle());
-    Assertions.assertEquals(technology.getWebsite(), technologyDto.getWebsite());
-    Assertions.assertEquals(technology.getDescription(), technologyDto.getDescription());
-    Assertions.assertEquals(technology.getMoved(), technologyDto.getMoved());
+    LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
+    Assertions.assertEquals(license.getId(), licenseDto.getId());
+    Assertions.assertEquals(license.getTitle(), licenseDto.getTitle());
+    Assertions.assertEquals(license.getWebsite(), licenseDto.getWebsite());
+    Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
+    Assertions.assertEquals(license.getMoved(), licenseDto.getMoved());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(technologyRepository).save(any());
+    Mockito.verify(licenseRepository).save(any());
   }
 
   @Test
-  void shouldFailToSaveTechnologyDueToTitleWithWhiteSpace() {
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setTitle(" My technology ");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+  void shouldFailToSaveLicenseDueToTitleWithWhiteSpace() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle(" My license ");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
-        technologyService.save(technologyMapper.toDto(technology)), ValidationException.class);
+        licenseService.save(licenseMapper.toDto(license)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
 
   @Test
-  void shouldDeleteTechnology() {
-    final Technology technology = new Technology();
-    technology.setId(10L);
-    technology.setTitle("My technology");
-    technology.setWebsite("My website");
-    technology.setDescription("My technology description");
-    technology.setMoved(0);
-    technology.setActive(true);
+  void shouldDeleteLicense() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle("My license");
+    license.setWebsite("My website");
+    license.setDescription("My license description");
+    license.setMoved(0);
+    license.setActive(true);
 
-    Mockito.doAnswer((i) -> null).when(technologyRepository).deleteById(technology.getId());
+    Mockito.doAnswer((i) -> null).when(licenseRepository).deleteById(license.getId());
 
-    technologyService.deleteById(technology.getId());
-    Mockito.verify(technologyRepository).deleteById(technology.getId());
+    licenseService.deleteById(license.getId());
+    Mockito.verify(licenseRepository).deleteById(license.getId());
   }
 }

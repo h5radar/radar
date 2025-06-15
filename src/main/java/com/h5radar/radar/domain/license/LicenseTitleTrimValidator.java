@@ -1,10 +1,10 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.domain.license;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 
-public class TechnologyTitleTrimValidator implements ConstraintValidator<TechnologyTrimTitleConstraint, String> {
+public class LicenseTitleTrimValidator implements ConstraintValidator<LicenseTrimTitleConstraint, String> {
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
