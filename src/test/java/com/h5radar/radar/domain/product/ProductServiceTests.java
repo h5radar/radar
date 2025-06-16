@@ -22,6 +22,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
+import org.springframework.transaction.annotation.Transactional;
 
 class ProductServiceTests extends AbstractServiceTests {
   @MockitoBean
@@ -72,6 +73,63 @@ class ProductServiceTests extends AbstractServiceTests {
 
     // Mockito.verify(productRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTechnologiesWithNullFilter() {
+    List<Product> productList = List.of(
+        new Product(null, "My title", "My description"),
+        new Product(null, "My new title", "My new description"));
+    productRepository.saveAll(productList);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<ProductDto> productDtoPage = productService.findAll(null, pageable);
+    Assertions.assertEquals(10, productDtoPage.getSize());
+    Assertions.assertEquals(0, productDtoPage.getNumber());
+    Assertions.assertEquals(1, productDtoPage.getTotalPages());
+    Assertions.assertEquals(2, productDtoPage.getNumberOfElements());
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTechnologiesWithBlankTitleFilter() {
+    List<Product> productList = List.of(
+        new Product(null, "My title", "My description"),
+        new Product(null, "My new title", "My new description"));
+    productRepository.saveAll(productList);
+
+    ProductFilter productFilter = new ProductFilter();
+    productFilter.setTitle("");
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<ProductDto> productDtoPage = productService.findAll(productFilter, pageable);
+    Assertions.assertEquals(10, productDtoPage.getSize());
+    Assertions.assertEquals(0, productDtoPage.getNumber());
+    Assertions.assertEquals(1, productDtoPage.getTotalPages());
+    Assertions.assertEquals(2, productDtoPage.getNumberOfElements());
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTechnologiesWithTitleFilter() {
+    List<Product> productList = List.of(
+        new Product(null,  "My title", "My description"),
+        new Product(null, "My new title", "My new description"));
+    productRepository.saveAll(productList);
+
+    ProductFilter productFilter = new ProductFilter();
+    productFilter.setTitle(productList.getFirst().getTitle());
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
+    Page<ProductDto> productDtoPage = productService.findAll(productFilter, pageable);
+    Assertions.assertEquals(10, productDtoPage.getSize());
+    Assertions.assertEquals(0, productDtoPage.getNumber());
+    Assertions.assertEquals(1, productDtoPage.getTotalPages());
+    Assertions.assertEquals(1, productDtoPage.getNumberOfElements());
+    Assertions.assertNotNull(productDtoPage.iterator().next().getId());
+    Assertions.assertEquals(productDtoPage.iterator().next().getTitle(),
+        productList.getFirst().getTitle());
+    Assertions.assertEquals(productDtoPage.iterator().next().getDescription(),
+        productList.getFirst().getDescription());
   }
 
   @Test
