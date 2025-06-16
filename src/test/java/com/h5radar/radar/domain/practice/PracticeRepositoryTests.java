@@ -171,8 +171,8 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     Assertions.assertNotNull(exception);
     Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 

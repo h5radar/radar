@@ -58,10 +58,10 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
@@ -77,9 +77,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 64"));
     }
@@ -97,9 +97,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("should be without whitespaces before and after"));
     }
@@ -116,10 +116,10 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
@@ -135,9 +135,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 512"));
     }
@@ -155,10 +155,10 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
