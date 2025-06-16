@@ -31,13 +31,13 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create practice
-    Practice practice = new Practice();
+    final Practice practice = new Practice();
     practice.setRadarUser(radarUser);
     practice.setTitle("My title");
     practice.setDescription("My description");
 
     Assertions.assertNull(practice.getId());
-    practice = practiceRepository.saveAndFlush(practice);
+    practiceRepository.saveAndFlush(practice);
     Assertions.assertNotNull(practice.getId());
     Assertions.assertNotNull(practice.getRadarUser());
     Assertions.assertNotNull(practice.getTitle());
@@ -57,13 +57,13 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create practice
-    Practice practice = new Practice();
+    final Practice practice = new Practice();
     practice.setRadarUser(radarUser);
     practice.setTitle("My title");
     practice.setDescription("My description");
 
     Assertions.assertNull(practice.getId());
-    practice = practiceRepository.saveAndFlush(practice);
+    practiceRepository.saveAndFlush(practice);
     Assertions.assertNotNull(practice.getId());
     Assertions.assertTrue(practiceRepository.findById(practice.getId()).isPresent());
   }
@@ -171,8 +171,8 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     Assertions.assertNotNull(exception);
     Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 

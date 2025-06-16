@@ -34,9 +34,10 @@ public class ProductControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnologies() throws Exception {
+  public void shouldGetProducts() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
+    productDto.setRadarUserId(15L);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
@@ -49,23 +50,24 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(productDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(productDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(productDto.getDescription())));
 
     Mockito.verify(productService).findAll(any(), any());
   }
 
-  public void shouldGetTechnologiesWithFilter() throws Exception {
+  public void shouldGetProductsWithFilter() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldGetTechnologiesWithPaging() throws Exception {
+  public void shouldGetProductsWithPaging() throws Exception {
     // TODO: get invalid it
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToGetProductsDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -76,17 +78,19 @@ public class ProductControllerTests extends AbstractControllerTests {
   public void shouldGetProduct() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
+    productDto.setRadarUserId(15L);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
 
     mockMvc.perform(get("/api/v1/products/{id}", productDto.getId()).contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").isMap())
-            .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
-            .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
-            .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
     Mockito.verify(productService).findById(productDto.getId());
   }
@@ -112,6 +116,7 @@ public class ProductControllerTests extends AbstractControllerTests {
   public void shouldCreateProduct() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
+    productDto.setRadarUserId(15L);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -124,6 +129,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
@@ -158,6 +164,7 @@ public class ProductControllerTests extends AbstractControllerTests {
   public void shouldUpdateProduct() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
+    productDto.setRadarUserId(15L);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -204,6 +211,7 @@ public class ProductControllerTests extends AbstractControllerTests {
   public void shouldDeleteProduct() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
+    productDto.setRadarUserId(15L);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 

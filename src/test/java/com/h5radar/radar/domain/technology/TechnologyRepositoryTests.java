@@ -31,13 +31,13 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create technology
-    Technology technology = new Technology();
+    final Technology technology = new Technology();
     technology.setRadarUser(radarUser);
     technology.setTitle("My title");
     technology.setDescription("My description");
 
     Assertions.assertNull(technology.getId());
-    technology = technologyRepository.saveAndFlush(technology);
+    technologyRepository.saveAndFlush(technology);
     Assertions.assertNotNull(technology.getId());
     Assertions.assertNotNull(technology.getRadarUser());
     Assertions.assertNotNull(technology.getTitle());
@@ -57,13 +57,13 @@ class TechnologyRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create technology
-    Technology technology = new Technology();
+    final Technology technology = new Technology();
     technology.setRadarUser(radarUser);
     technology.setTitle("My title");
     technology.setDescription("My description");
 
     Assertions.assertNull(technology.getId());
-    technology = technologyRepository.saveAndFlush(technology);
+    technologyRepository.saveAndFlush(technology);
     Assertions.assertNotNull(technology.getId());
     Assertions.assertTrue(technologyRepository.findById(technology.getId()).isPresent());
   }

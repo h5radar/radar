@@ -12,48 +12,68 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 class ProductRepositoryTests extends AbstractRepositoryTests {
+  @Autowired
+  private RadarUserRepository radarUserRepository;
 
   @Autowired
   private ProductRepository productRepository;
 
   @Test
   void shouldSaveProductWithAllFields() {
-    /* TODO
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
-      product.setDescription("My description");
+    product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);
     Assertions.assertNotNull(product.getId());
+    Assertions.assertNotNull(product.getRadarUser());
     Assertions.assertNotNull(product.getCreatedBy());
     Assertions.assertNotNull(product.getCreatedDate());
     Assertions.assertNotNull(product.getLastModifiedBy());
     Assertions.assertNotNull(product.getLastModifiedDate());
-     */
   }
 
   @Test
   void shouldFindSavedProductById() {
-    /* TODO
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("MY");
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);
     Assertions.assertNotNull(product.getId());
-    var id = product.getId();
-
-    Assertions.assertTrue(productRepository.findById(id).isPresent());
-     */
+    Assertions.assertTrue(productRepository.findById(product.getId()).isPresent());
   }
 
   @Test
   void shouldFailOnNullTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
@@ -62,16 +82,23 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
   @Test
   void shouldFailOnEmptyTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("");
     product.setDescription("My description");
 
@@ -81,9 +108,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 64"));
     }
@@ -91,7 +118,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle(" ");
     product.setDescription("My description");
 
@@ -101,9 +135,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "title");
+      Assertions.assertEquals("title", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("should be without whitespaces before and after"));
     }
@@ -111,7 +145,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
 
     Assertions.assertNull(product.getId());
@@ -120,16 +161,23 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
   @Test
   void shouldFailOnEmptyDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
     product.setDescription("");
 
@@ -139,9 +187,9 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 2);
+    Assertions.assertEquals(2, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
       Assertions.assertTrue(constraintViolation.getMessage().equals("must not be blank")
           || constraintViolation.getMessage().equals("size must be between 1 and 512"));
     }
@@ -149,7 +197,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
     product.setDescription(" ");
 
@@ -159,17 +214,17 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
             ConstraintViolationException.class);
 
     Assertions.assertNotNull(exception);
-    Assertions.assertEquals(exception.getConstraintViolations().size(), 1);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
     for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
-      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "description");
-      Assertions.assertEquals(constraintViolation.getMessage(), "must not be blank");
+      Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
   }
 
   @Test
   void shouldFailToSaveProductDueToTitleWithRightWhiteSpace() {
     final Product product = new Product();
-    product.setTitle("My new test Product ");
+    product.setTitle("My title ");
 
     Assertions.assertNull(product.getId());
     assertThatThrownBy(() -> productRepository.saveAndFlush(product))
@@ -179,7 +234,7 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
   @Test
   void shouldFailToSaveProductDueToTitleWithLeftWhiteSpace() {
     final Product product = new Product();
-    product.setTitle(" My new test Product");
+    product.setTitle(" My title");
 
     Assertions.assertNull(product.getId());
     assertThatThrownBy(() -> productRepository.saveAndFlush(product))

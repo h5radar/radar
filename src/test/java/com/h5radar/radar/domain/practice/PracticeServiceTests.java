@@ -30,10 +30,13 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 class PracticeServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
+
   @MockitoBean
   private PracticeRepository practiceRepository;
+
   @Autowired
   private PracticeMapper practiceMapper;
+
   @Autowired
   private PracticeService practiceService;
 
