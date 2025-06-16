@@ -31,13 +31,13 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create practice
-    Practice practice = new Practice();
+    final Practice practice = new Practice();
     practice.setRadarUser(radarUser);
     practice.setTitle("My title");
     practice.setDescription("My description");
 
     Assertions.assertNull(practice.getId());
-    practice = practiceRepository.saveAndFlush(practice);
+    practiceRepository.saveAndFlush(practice);
     Assertions.assertNotNull(practice.getId());
     Assertions.assertNotNull(practice.getRadarUser());
     Assertions.assertNotNull(practice.getTitle());
@@ -57,13 +57,13 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create practice
-    Practice practice = new Practice();
+    final Practice practice = new Practice();
     practice.setRadarUser(radarUser);
     practice.setTitle("My title");
     practice.setDescription("My description");
 
     Assertions.assertNull(practice.getId());
-    practice = practiceRepository.saveAndFlush(practice);
+    practiceRepository.saveAndFlush(practice);
     Assertions.assertNotNull(practice.getId());
     Assertions.assertTrue(practiceRepository.findById(practice.getId()).isPresent());
   }

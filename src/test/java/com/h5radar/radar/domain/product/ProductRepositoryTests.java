@@ -12,21 +12,33 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 class ProductRepositoryTests extends AbstractRepositoryTests {
+  @Autowired
+  private RadarUserRepository radarUserRepository;
 
   @Autowired
   private ProductRepository productRepository;
 
   @Test
   void shouldSaveProductWithAllFields() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);
     Assertions.assertNotNull(product.getId());
+    Assertions.assertNotNull(product.getRadarUser());
     Assertions.assertNotNull(product.getCreatedBy());
     Assertions.assertNotNull(product.getCreatedDate());
     Assertions.assertNotNull(product.getLastModifiedBy());
@@ -35,21 +47,33 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFindSavedProductById() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("MY");
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);
     Assertions.assertNotNull(product.getId());
-    var id = product.getId();
-
-    Assertions.assertTrue(productRepository.findById(id).isPresent());
+    Assertions.assertTrue(productRepository.findById(product.getId()).isPresent());
   }
 
   @Test
   void shouldFailOnNullTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
@@ -67,7 +91,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("");
     product.setDescription("My description");
 
@@ -87,7 +118,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle(" ");
     product.setDescription("My description");
 
@@ -107,7 +145,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
 
     Assertions.assertNull(product.getId());
@@ -125,7 +170,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnEmptyDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
     product.setDescription("");
 
@@ -145,7 +197,14 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
     final Product product = new Product();
+    product.setRadarUser(radarUser);
     product.setTitle("My title");
     product.setDescription(" ");
 
@@ -165,7 +224,7 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
   @Test
   void shouldFailToSaveProductDueToTitleWithRightWhiteSpace() {
     final Product product = new Product();
-    product.setTitle("My new test Product ");
+    product.setTitle("My title ");
 
     Assertions.assertNull(product.getId());
     assertThatThrownBy(() -> productRepository.saveAndFlush(product))
@@ -175,7 +234,7 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
   @Test
   void shouldFailToSaveProductDueToTitleWithLeftWhiteSpace() {
     final Product product = new Product();
-    product.setTitle(" My new test Product");
+    product.setTitle(" My title");
 
     Assertions.assertNull(product.getId());
     assertThatThrownBy(() -> productRepository.saveAndFlush(product))
