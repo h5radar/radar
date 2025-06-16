@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-// import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
@@ -68,10 +67,10 @@ class TenantServiceTests extends AbstractServiceTests {
     //  Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
+  /* TODO:
   @Test
   @Transactional
   void shouldFindAllTenantsWithNullFilter() {
-    /* TODO
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
@@ -83,13 +82,11 @@ class TenantServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(0, tenantDtoPage.getNumber());
     Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
     Assertions.assertEquals(2, tenantDtoPage.getNumberOfElements());
-    */
   }
 
   @Test
   @Transactional
   void shouldFindAllTenantsWithBlankTitleFilter() {
-    /* TODO
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
@@ -103,13 +100,11 @@ class TenantServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(0, tenantDtoPage.getNumber());
     Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
     Assertions.assertEquals(2, tenantDtoPage.getNumberOfElements());
-    */
   }
 
   @Test
   @Transactional
   void shouldFindAllTenantsWithTitleFilter() {
-    /* TODO:
     List<Tenant> tenantList = List.of(
         new Tenant(null, "My title", "My description"),
         new Tenant(null, "His title", "His description"));
@@ -127,8 +122,8 @@ class TenantServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(tenantDtoPage.iterator().next().getTitle(), tenantList.getFirst().getTitle());
     Assertions.assertEquals(tenantDtoPage.iterator().next().getDescription(),
         tenantList.getFirst().getDescription());
-     */
   }
+   */
 
   @Test
   void shouldFindByIdTenants() {
