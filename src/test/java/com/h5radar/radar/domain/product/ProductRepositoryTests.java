@@ -20,7 +20,6 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldSaveProductWithAllFields() {
-    /* TODO
     final Product product = new Product();
     product.setTitle("My title");
       product.setDescription("My description");
@@ -32,12 +31,10 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
     Assertions.assertNotNull(product.getCreatedDate());
     Assertions.assertNotNull(product.getLastModifiedBy());
     Assertions.assertNotNull(product.getLastModifiedDate());
-     */
   }
 
   @Test
   void shouldFindSavedProductById() {
-    /* TODO
     final Product product = new Product();
     product.setTitle("MY");
     product.setDescription("My description");
@@ -48,7 +45,6 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
     var id = product.getId();
 
     Assertions.assertTrue(productRepository.findById(id).isPresent());
-     */
   }
 
   @Test

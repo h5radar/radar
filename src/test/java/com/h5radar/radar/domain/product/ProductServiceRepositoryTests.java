@@ -22,7 +22,6 @@ class ProductServiceRepositoryTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
-    /* TODO
     List<Product> productList = List.of(
         new Product(null, "My title", "My description"),
         new Product(null, "My new title", "My new description"));
@@ -34,13 +33,11 @@ class ProductServiceRepositoryTests extends AbstractServiceTests {
     Assertions.assertEquals(0, productDtoPage.getNumber());
     Assertions.assertEquals(1, productDtoPage.getTotalPages());
     Assertions.assertEquals(2, productDtoPage.getNumberOfElements());
-     */
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankTitleFilter() {
-    /* TODO
     List<Product> productList = List.of(
         new Product(null, "My title", "My description"),
         new Product(null, "My new title", "My new description"));
@@ -54,13 +51,11 @@ class ProductServiceRepositoryTests extends AbstractServiceTests {
     Assertions.assertEquals(0, productDtoPage.getNumber());
     Assertions.assertEquals(1, productDtoPage.getTotalPages());
     Assertions.assertEquals(2, productDtoPage.getNumberOfElements());
-     */
   }
 
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithTitleFilter() {
-    /* TODO
     List<Product> productList = List.of(
         new Product(null,  "My title", "My description"),
         new Product(null, "My new title", "My new description"));
@@ -79,7 +74,5 @@ class ProductServiceRepositoryTests extends AbstractServiceTests {
         productList.getFirst().getTitle());
     Assertions.assertEquals(productDtoPage.iterator().next().getDescription(),
         productList.getFirst().getDescription());
-
-     */
   }
 }
