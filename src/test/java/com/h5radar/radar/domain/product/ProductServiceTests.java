@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+
 
 class ProductServiceTests extends AbstractServiceTests {
   @MockitoBean
@@ -34,8 +36,14 @@ class ProductServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldFindAllTechnologies() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     final Product product = new Product();
     product.setId(10L);
+    product.setRadarUser(radarUser);
     product.setTitle("My product");
     product.setDescription("My product description");
 
@@ -51,8 +59,14 @@ class ProductServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldFindAllTechnologiesWithEmptyFilter() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     final Product product = new Product();
     product.setId(10L);
+    product.setRadarUser(radarUser);
     product.setTitle("My product");
     product.setDescription("My product description");
 
@@ -78,9 +92,14 @@ class ProductServiceTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithNullFilter() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     List<Product> productList = List.of(
-        new Product(null, "My title", "My description"),
-        new Product(null, "My new title", "My new description"));
+        new Product(null, radarUser, "My title", "My description"),
+        new Product(null, radarUser, "My new title", "My new description"));
     productRepository.saveAll(productList);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
@@ -94,9 +113,14 @@ class ProductServiceTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithBlankTitleFilter() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     List<Product> productList = List.of(
-        new Product(null, "My title", "My description"),
-        new Product(null, "My new title", "My new description"));
+        new Product(null, radarUser, "My title", "My description"),
+        new Product(null, radarUser, "My new title", "My new description"));
     productRepository.saveAll(productList);
 
     ProductFilter productFilter = new ProductFilter();
@@ -112,9 +136,14 @@ class ProductServiceTests extends AbstractServiceTests {
   @Test
   @Transactional
   void shouldFindAllTechnologiesWithTitleFilter() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
     List<Product> productList = List.of(
-        new Product(null,  "My title", "My description"),
-        new Product(null, "My new title", "My new description"));
+        new Product(null, radarUser, "My title", "My description"),
+        new Product(null, radarUser, "My new title", "My new description"));
     productRepository.saveAll(productList);
 
     ProductFilter productFilter = new ProductFilter();
