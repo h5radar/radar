@@ -19,10 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
-import org.springframework.transaction.annotation.Transactional;
 
 class ProductServiceTests extends AbstractServiceTests {
   @MockitoBean

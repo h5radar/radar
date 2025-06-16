@@ -22,7 +22,7 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
   void shouldSaveProductWithAllFields() {
     final Product product = new Product();
     product.setTitle("My title");
-      product.setDescription("My description");
+    product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);

@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "radar_user_id", "title", "website", "description", "moved", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "active" })
 public class PracticeDto {
 
   private Long id;

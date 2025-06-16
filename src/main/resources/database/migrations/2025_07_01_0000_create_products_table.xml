@@ -15,7 +15,6 @@
             <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
                 <constraints nullable="false" foreignKeyName="fk_products_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-
             <column name="title" type="${text.type}" remarks="Product title, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_products_title" nullable="false"/>
             </column>
