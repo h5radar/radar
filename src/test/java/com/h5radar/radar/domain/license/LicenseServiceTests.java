@@ -62,6 +62,32 @@ class LicenseServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllLicensesWithNullFilter() {
+    final License license = new License();
+    license.setId(10L);
+    license.setTitle("My license");
+    license.setDescription("My license description");
+    license.setActive(true);
+
+    List<License> licenseList = List.of(license);
+    Page<License> page = new PageImpl<>(licenseList);
+    Mockito.when(licenseRepository.findAll(ArgumentMatchers.<Specification<License>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<LicenseDto> licenseDtoPage = licenseService.findAll(null, pageable);
+    Assertions.assertEquals(1, licenseDtoPage.getSize());
+    Assertions.assertEquals(0, licenseDtoPage.getNumber());
+    Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getId(), license.getId());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
+    Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
+
+    // Mockito.verify(licenseRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllLicensesWithEmptyFilter() {
     final License license = new License();
     license.setId(10L);

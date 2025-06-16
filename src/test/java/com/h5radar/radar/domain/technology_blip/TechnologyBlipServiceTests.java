@@ -101,6 +101,65 @@ class TechnologyBlipServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllTechnologyBlipWithNullFilter() {
+    final Radar radar = new Radar();
+    radar.setId(1L);
+    radar.setTitle("My radar");
+    radar.setDescription("My radar description");
+
+    final Segment segment = new Segment();
+    segment.setId(2L);
+    segment.setRadar(radar);
+    segment.setTitle("My segment title");
+    segment.setDescription("My segment description");
+    segment.setPosition(1);
+
+    final Ring ring = new Ring();
+    ring.setId(3L);
+    ring.setRadar(radar);
+    ring.setTitle("My ring title");
+    ring.setDescription("My ring description");
+    ring.setPosition(1);
+    ring.setColor("#fbdb84");
+
+    final Technology technology = new Technology();
+    technology.setId(4L);
+    technology.setTitle("My technology");
+    technology.setWebsite("My website");
+    technology.setDescription("My technology description");
+    technology.setMoved(1);
+    technology.setActive(true);
+
+    final TechnologyBlip technologyBlip = new TechnologyBlip();
+    technologyBlip.setId(5L);
+    technologyBlip.setRadar(radar);
+    technologyBlip.setRing(ring);
+    technologyBlip.setTechnology(technology);
+    technologyBlip.setSegment(segment);
+
+    List<TechnologyBlip> technologyBlipList = List.of(technologyBlip);
+    Page<TechnologyBlip> page = new PageImpl<>(technologyBlipList);
+    Mockito.when(technologyBlipRepository.findAll(any(Pageable.class))).thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("technology_blips.id,asc"));
+    Page<TechnologyBlipDto> technologyBlipDtoPage = technologyBlipService.findAll(null, pageable);
+    Assertions.assertEquals(1, technologyBlipDtoPage.getSize());
+    Assertions.assertEquals(0, technologyBlipDtoPage.getNumber());
+    Assertions.assertEquals(1, technologyBlipDtoPage.getSize());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getId(), technologyBlip.getId());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRadarId(),
+        technologyBlip.getRadar().getId());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getSegmentId(),
+        technologyBlip.getSegment().getId());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRingId(),
+        technologyBlip.getRing().getId());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getTechnologyId(),
+        technologyBlip.getTechnology().getId());
+
+    Mockito.verify(technologyBlipRepository).findAll(any(Pageable.class));
+  }
+
+  @Test
   void shouldFindAllTechnologyBlipWithEmptyFilter() {
     final Radar radar = new Radar();
     radar.setId(1L);
@@ -159,6 +218,137 @@ class TechnologyBlipServiceTests extends AbstractServiceTests {
 
     Mockito.verify(technologyBlipRepository).findAll(any(Pageable.class));
   }
+  /* TODO:
+
+
+  @Test
+  @Transactional
+  void shouldFindAllTechnologyBlipsWithBlankTitleFilter() {
+    final RadarType radarType = new RadarType();
+    radarType.setTitle("My radar type title");
+    radarType.setDescription("My radar type description");
+    radarType.setCode(RadarType.TECHNOLOGY_RADAR);
+    radarTypeRepository.saveAndFlush(radarType);
+
+    // Create radar for first blips
+    final Radar radar = new Radar(null, radarType,
+        "My first radar title", "Description", true, true);
+    radarRepository.saveAndFlush(radar);
+
+    // Create radar for second blips
+    final Radar radar1 = new Radar(null, radarType,
+        "My second radar title", "Description", true, true);
+    radarRepository.saveAndFlush(radar1);
+
+    final Ring ring = new Ring(null, radar, "ADOPT",
+        "Description", 0, "Color", null);
+    ringRepository.saveAndFlush(ring);
+
+    final Segment segment = new Segment(null, radar, "My segment title",
+        "My segment description", 1, null);
+    segmentRepository.saveAndFlush(segment);
+
+    // Create technology for first blips
+    final Technology technology = new Technology(null, null, "My first technology title",
+        "Website", "Description", 1, true);
+    technologyRepository.saveAndFlush(technology);
+
+    // Create technology for second blips
+    final Technology technology1 = new Technology(null, null, "My second technology title",
+        "Website", "Description", 1, true);
+    technologyRepository.saveAndFlush(technology1);
+
+    List<TechnologyBlip> technologyBlipList = List.of(
+        new TechnologyBlip(null, radar, technology, segment, ring),
+        new TechnologyBlip(null, radar1, technology1, segment, ring)
+    );
+    for (TechnologyBlip technologyBlip : technologyBlipList) {
+      technologyBlipRepository.save(technologyBlip);
+    }
+
+    TechnologyBlipFilter technologyBlipFilter = new TechnologyBlipFilter();
+    technologyBlipFilter.setTitle("");
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "radar.title"),
+        new Sort.Order(Sort.Direction.ASC, "technology.title"),
+        new Sort.Order(Sort.Direction.ASC, "segment.title"),
+        new Sort.Order(Sort.Direction.ASC, "ring.title")));
+    Page<TechnologyBlipDto> technologyBlipDtoPage = technologyBlipService.findAll(null, pageable);
+    Assertions.assertEquals(10, technologyBlipDtoPage.getSize());
+    Assertions.assertEquals(0, technologyBlipDtoPage.getNumber());
+    Assertions.assertEquals(1, technologyBlipDtoPage.getTotalPages());
+    Assertions.assertEquals(2, technologyBlipDtoPage.getNumberOfElements());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRadarTitle(),
+        technologyBlipList.iterator().next().getRadar().getTitle());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRadarId(),
+        technologyBlipList.iterator().next().getRadar().getId());
+  }
+
+  @Test
+  @Transactional
+  void shouldFindAllTechnologyBlipsWithTitleFilter() {
+    final RadarType radarType = new RadarType();
+    radarType.setTitle("My radar type title");
+    radarType.setDescription("My radar type description");
+    radarType.setCode(RadarType.TECHNOLOGY_RADAR);
+    radarTypeRepository.saveAndFlush(radarType);
+
+    // Create radar for first blips
+    final Radar radar = new Radar(null, radarType,
+        "My first radar title", "Description", true, true);
+    radarRepository.saveAndFlush(radar);
+
+    // Create radar for second blips
+    final Radar radar1 = new Radar(null, radarType,
+        "My second radar title", "Description", true, true);
+    radarRepository.saveAndFlush(radar1);
+
+    final Ring ring = new Ring(null, radar, "ADOPT",
+        "Description", 0, "Color", null);
+    ringRepository.saveAndFlush(ring);
+
+    final Segment segment = new Segment(null, radar, "My segment title",
+        "My segment description", 1, null);
+    segmentRepository.saveAndFlush(segment);
+
+    // Create technology for first blips
+    final Technology technology = new Technology(null, "My first technology title",
+        "Website", "Description", 1, true);
+    technologyRepository.saveAndFlush(technology);
+
+    // Create technology for second blips
+    final Technology technology1 = new Technology(null, "My second technology title",
+        "Website", "Description", 1, true);
+    technologyRepository.saveAndFlush(technology1);
+
+    List<TechnologyBlip> technologyBlipList = List.of(
+        new TechnologyBlip(null, radar, technology, segment, ring),
+        new TechnologyBlip(null, radar1, technology1, segment, ring)
+    );
+    for (TechnologyBlip technologyBlip : technologyBlipList) {
+      technologyBlipRepository.save(technologyBlip);
+    }
+
+    TechnologyBlipFilter technologyBlipFilter = new TechnologyBlipFilter();
+    technologyBlipFilter.setTitle(technologyBlipList.iterator().next().getRadar().getTitle());
+    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "radar.title"),
+        new Sort.Order(Sort.Direction.ASC, "technology.title"),
+        new Sort.Order(Sort.Direction.ASC, "segment.title"),
+        new Sort.Order(Sort.Direction.ASC, "ring.title")));
+    Page<TechnologyBlipDto> technologyBlipDtoPage = technologyBlipService.findAll(null, pageable);
+    System.out.println(technologyBlipDtoPage.iterator().next().getRadarTitle());
+    System.out.println(technologyBlipList.iterator().next().getRadar().getTitle());
+    System.out.println(technologyBlipDtoPage.getNumberOfElements());
+
+    Assertions.assertEquals(10, technologyBlipDtoPage.getSize());
+    Assertions.assertEquals(0, technologyBlipDtoPage.getNumber());
+    Assertions.assertEquals(1, technologyBlipDtoPage.getTotalPages());
+    Assertions.assertEquals(1, technologyBlipDtoPage.getNumberOfElements());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRadarTitle(),
+        technologyBlipList.iterator().next().getRadar().getTitle());
+    Assertions.assertEquals(technologyBlipDtoPage.iterator().next().getRadarId(),
+        technologyBlipList.iterator().next().getRadar().getId());
+  }
+   */
 
   @Test
   void shouldFindByIdTechnologyBlips() {

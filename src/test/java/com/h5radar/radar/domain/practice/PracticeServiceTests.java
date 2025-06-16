@@ -65,6 +65,32 @@ class PracticeServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllPracticesWithNullFilter() {
+    final Practice practice = new Practice();
+    practice.setId(10L);
+    practice.setTitle("My practice");
+    practice.setDescription("My practice description");
+    practice.setActive(true);
+
+    List<Practice> practiceList = List.of(practice);
+    Page<Practice> page = new PageImpl<>(practiceList);
+    Mockito.when(practiceRepository.findAll(ArgumentMatchers.<Specification<Practice>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<PracticeDto> practiceDtoPage = practiceService.findAll(null, pageable);
+    Assertions.assertEquals(1, practiceDtoPage.getSize());
+    Assertions.assertEquals(0, practiceDtoPage.getNumber());
+    Assertions.assertEquals(1, practiceDtoPage.getTotalPages());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getId(), practice.getId());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getTitle(), practice.getTitle());
+    Assertions.assertEquals(practiceDtoPage.iterator().next().getDescription(), practice.getDescription());
+
+    // Mockito.verify(practiceRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllPracticesWithEmptyFilter() {
     final Practice practice = new Practice();
     practice.setId(10L);
