@@ -59,6 +59,33 @@ class SegmentServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllSegmentsWithNullFilter() {
+    final Segment segment = new Segment();
+    segment.setId(10L);
+    segment.setRadar(null);
+    segment.setTitle("My segment");
+    segment.setDescription("My segment description");
+    segment.setPosition(1);
+
+    List<Segment> segmentList = List.of(segment);
+    Page<Segment> page = new PageImpl<>(segmentList);
+    Mockito.when(segmentRepository.findAll(ArgumentMatchers.<Specification<Segment>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<SegmentDto> segmentDtoPage = segmentService.findAll(null, pageable);
+    Assertions.assertEquals(1, segmentDtoPage.getSize());
+    Assertions.assertEquals(0, segmentDtoPage.getNumber());
+    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
+    Assertions.assertEquals(segmentDtoPage.iterator().next().getId(), segment.getId());
+    Assertions.assertEquals(segmentDtoPage.iterator().next().getTitle(), segment.getTitle());
+    Assertions.assertEquals(segmentDtoPage.iterator().next().getDescription(), segment.getDescription());
+
+    // Mockito.verify(segmentRepository).findAll(
+    //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllSegmentsWithEmptyFilter() {
     final Segment segment = new Segment();
     segment.setId(10L);
@@ -87,38 +114,6 @@ class SegmentServiceTests extends AbstractServiceTests {
   }
 
   /* TODO
-  @Test
-  @Transactional
-  void shouldFindAllSegmentsWithNullFilter() {
-    final RadarType radarType = new RadarType();
-    radarType.setTitle("My radar type title");
-    radarType.setDescription("My radar type description");
-    radarType.setCode(RadarType.TECHNOLOGY_RADAR);
-    radarTypeRepository.saveAndFlush(radarType);
-
-    final Radar radar = new Radar();
-    radar.setTitle("My radar title");
-    radar.setRadarType(radarType);
-    radar.setDescription("My radar description");
-    radar.setPrimary(false);
-    radar.setActive(false);
-    radarRepository.saveAndFlush(radar);
-
-    List<Segment> segmentList = List.of(
-        new Segment(null, radar, "My first segment title", "Description", 0, null),
-        new Segment(null, radar, "My second segment title", "New description", 1, null)
-    );
-    for (Segment segment : segmentList) {
-      segmentRepository.save(segment);
-    }
-
-    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<SegmentDto> segmentDtoPage = segmentService.findAll(null, pageable);
-    Assertions.assertEquals(10, segmentDtoPage.getSize());
-    Assertions.assertEquals(0, segmentDtoPage.getNumber());
-    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
-    Assertions.assertEquals(2, segmentDtoPage.getNumberOfElements());
-  }
 
   @Test
   @Transactional

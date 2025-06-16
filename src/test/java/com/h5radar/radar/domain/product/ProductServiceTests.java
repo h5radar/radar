@@ -64,6 +64,37 @@ class ProductServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllProductsWithNullFilter() {
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(1L);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+
+    final Product product = new Product();
+    product.setId(10L);
+    product.setRadarUser(radarUser);
+    product.setTitle("My product");
+    product.setDescription("My description");
+
+    List<Product> productList = List.of(product);
+    Page<Product> page = new PageImpl<>(productList);
+    Mockito.when(productRepository.findAll(ArgumentMatchers.<Specification<Product>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<ProductDto> productDtoPage = productService.findAll(null, pageable);
+    Assertions.assertEquals(1, productDtoPage.getSize());
+    Assertions.assertEquals(0, productDtoPage.getNumber());
+    Assertions.assertEquals(1, productDtoPage.getTotalPages());
+    Assertions.assertEquals(productDtoPage.iterator().next().getId(), product.getId());
+    Assertions.assertEquals(productDtoPage.iterator().next().getTitle(), product.getTitle());
+    Assertions.assertEquals(productDtoPage.iterator().next().getDescription(), product.getDescription());
+
+    // Mockito.verify(productRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllProductsWithEmptyFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
@@ -96,26 +127,6 @@ class ProductServiceTests extends AbstractServiceTests {
   }
 
   /* TODO:
-  @Test
-  @Transactional
-  void shouldFindAllProductsWithNullFilter() {
-    final RadarUser radarUser = new RadarUser();
-    radarUser.setId(1L);
-    radarUser.setSub("My sub");
-    radarUser.setUsername("My username");
-
-    List<Product> productList = List.of(
-        new Product(null, radarUser, "My title", "My description"),
-        new Product(null, radarUser, "My new title", "My new description"));
-    productRepository.saveAll(productList);
-
-    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<ProductDto> productDtoPage = productService.findAll(null, pageable);
-    Assertions.assertEquals(10, productDtoPage.getSize());
-    Assertions.assertEquals(0, productDtoPage.getNumber());
-    Assertions.assertEquals(1, productDtoPage.getTotalPages());
-    Assertions.assertEquals(2, productDtoPage.getNumberOfElements());
-  }
 
   @Test
   @Transactional

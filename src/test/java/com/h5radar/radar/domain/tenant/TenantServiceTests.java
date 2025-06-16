@@ -45,6 +45,28 @@ class TenantServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllTenantsWithNullFilter() {
+    final Tenant tenant = new Tenant(10L, "My title", "My description");
+
+    List<Tenant> tenantList = List.of(tenant);
+    Page<Tenant> page = new PageImpl<>(tenantList);
+    Mockito.when(tenantRepository.findAll(ArgumentMatchers.<Specification<Tenant>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<TenantDto> tenantDtoPage = tenantService.findAll(null, pageable);
+    Assertions.assertEquals(1, tenantDtoPage.getSize());
+    Assertions.assertEquals(0, tenantDtoPage.getNumber());
+    Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getId(), tenant.getId());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getTitle(), tenant.getTitle());
+    Assertions.assertEquals(tenantDtoPage.iterator().next().getDescription(), tenant.getDescription());
+
+    // Mockito.verify(tenantRepository).findAll(
+    //  Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllTenantsWithEmptyFilter() {
     final Tenant tenant = new Tenant(10L, "My title", "My description");
 
@@ -68,21 +90,6 @@ class TenantServiceTests extends AbstractServiceTests {
   }
 
   /* TODO:
-  @Test
-  @Transactional
-  void shouldFindAllTenantsWithNullFilter() {
-    List<Tenant> tenantList = List.of(
-        new Tenant(null, "My title", "My description"),
-        new Tenant(null, "His title", "His description"));
-    tenantRepository.saveAll(tenantList);
-
-    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<TenantDto> tenantDtoPage = tenantService.findAll(null, pageable);
-    Assertions.assertEquals(10, tenantDtoPage.getSize());
-    Assertions.assertEquals(0, tenantDtoPage.getNumber());
-    Assertions.assertEquals(1, tenantDtoPage.getTotalPages());
-    Assertions.assertEquals(2, tenantDtoPage.getNumberOfElements());
-  }
 
   @Test
   @Transactional

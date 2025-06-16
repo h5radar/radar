@@ -58,6 +58,31 @@ class RadarServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllRadarsWithNullFilter() {
+    final Radar radar = new Radar();
+    radar.setId(10L);
+    radar.setRadarType(null);
+    radar.setTitle("Radar title");
+    radar.setDescription("Radar Description");
+
+    List<Radar> radarList = List.of(radar);
+    Page<Radar> page = new PageImpl<>(radarList);
+    Mockito.when(radarRepository.findAll(ArgumentMatchers.<Specification<Radar>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title, asc"));
+    Page<RadarDto> radarDtoPage = radarService.findAll(null, pageable);
+    Assertions.assertEquals(1, radarDtoPage.getSize());
+    Assertions.assertEquals(0, radarDtoPage.getNumber());
+    Assertions.assertEquals(1, radarDtoPage.getTotalPages());
+    Assertions.assertEquals(radarDtoPage.iterator().next().getId(), radar.getId());
+    Assertions.assertEquals(radarDtoPage.iterator().next().getTitle(), radar.getTitle());
+    Assertions.assertEquals(radarDtoPage.iterator().next().getDescription(), radar.getDescription());
+
+    // Mockito.verify(radarRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllRadarsWithEmptyFilter() {
     final Radar radar = new Radar();
     radar.setId(10L);
@@ -84,30 +109,7 @@ class RadarServiceTests extends AbstractServiceTests {
   }
 
   /* TODO
-  @Test
-  @Transactional
-  void shouldFindAllRadarsWithNullFilter() {
-    final RadarType radarType = new RadarType();
-    radarType.setTitle("My radar type title");
-    radarType.setDescription("My radar type description");
-    radarType.setCode(RadarType.TECHNOLOGY_RADAR);
-    radarTypeRepository.saveAndFlush(radarType);
 
-    List<Radar> radarList = List.of(
-        new Radar(null, radarType, "My first radar title", "Description", false, false),
-        new Radar(null, radarType, "My second radar title", "New description", false, false)
-    );
-    for (Radar radar : radarList) {
-      radarRepository.save(radar);
-    }
-
-    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RadarDto> radarDtoPage = radarService.findAll(null, pageable);
-    Assertions.assertEquals(10, radarDtoPage.getSize());
-    Assertions.assertEquals(0, radarDtoPage.getNumber());
-    Assertions.assertEquals(1, radarDtoPage.getTotalPages());
-    Assertions.assertEquals(2, radarDtoPage.getNumberOfElements());
-  }
 
   @Test
   @Transactional

@@ -64,6 +64,34 @@ class TechnologyServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllTechnologiesWithNullFilter() {
+    final Technology technology = new Technology();
+    technology.setId(10L);
+    technology.setTitle("My technology");
+    technology.setWebsite("My website");
+    technology.setDescription("My technology description");
+    technology.setMoved(0);
+    technology.setActive(true);
+
+    List<Technology> technologyList = List.of(technology);
+    Page<Technology> page = new PageImpl<>(technologyList);
+    Mockito.when(technologyRepository.findAll(ArgumentMatchers.<Specification<Technology>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<TechnologyDto> technologyDtoPage = technologyService.findAll(null, pageable);
+    Assertions.assertEquals(1, technologyDtoPage.getSize());
+    Assertions.assertEquals(0, technologyDtoPage.getNumber());
+    Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
+    Assertions.assertEquals(technologyDtoPage.iterator().next().getId(), technology.getId());
+    Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(), technology.getTitle());
+    Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(), technology.getDescription());
+
+    // Mockito.verify(technologyRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllTechnologiesWithEmptyFilter() {
     final Technology technology = new Technology();
     technology.setId(10L);

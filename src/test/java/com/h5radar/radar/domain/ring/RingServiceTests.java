@@ -60,6 +60,32 @@ class RingServiceTests extends AbstractServiceTests {
   }
 
   @Test
+  void shouldFindAllRingsWithNullFilter() {
+    final Ring ring = new Ring();
+    ring.setId(10L);
+    ring.setTitle("My title");
+    ring.setDescription("My description");
+    ring.setColor("My color");
+    ring.setPosition(1);
+
+    List<Ring> ringList = List.of(ring);
+    Page<Ring> page = new PageImpl<>(ringList);
+    Mockito.when(ringRepository.findAll(ArgumentMatchers.<Specification<Ring>>any(), any(Pageable.class)))
+        .thenReturn(page);
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
+    Page<RingDto> ringDtoPage = ringService.findAll(null, pageable);
+    Assertions.assertEquals(1, ringDtoPage.getSize());
+    Assertions.assertEquals(0, ringDtoPage.getNumber());
+    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
+    Assertions.assertEquals(ringDtoPage.iterator().next().getId(), ring.getId());
+    Assertions.assertEquals(ringDtoPage.iterator().next().getTitle(), ring.getTitle());
+    Assertions.assertEquals(ringDtoPage.iterator().next().getDescription(), ring.getDescription());
+
+    // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+  }
+
+  @Test
   void shouldFindAllRingsWithEmptyFilter() {
     final Ring ring = new Ring();
     ring.setId(10L);
@@ -87,38 +113,6 @@ class RingServiceTests extends AbstractServiceTests {
   }
 
   /* TODO:
-    @Test
-  @Transactional
-  void shouldFindAllRingsWithNullFilter() {
-    final RadarType radarType = new RadarType();
-    radarType.setTitle("My radar type title");
-    radarType.setDescription("My radar type description");
-    radarType.setCode(RadarType.TECHNOLOGY_RADAR);
-    radarTypeRepository.saveAndFlush(radarType);
-
-    final Radar radar = new Radar();
-    radar.setTitle("My radar title");
-    radar.setRadarType(radarType);
-    radar.setDescription("My radar description");
-    radar.setPrimary(false);
-    radar.setActive(false);
-    radarRepository.saveAndFlush(radar);
-
-    List<Ring> ringList = List.of(
-        new Ring(null, radar, "TRIAL", "Description", 0, "Color", null),
-        new Ring(null, radar, "ADOPT", "New description", 1, "Color", null)
-    );
-    for (Ring ring : ringList) {
-      ringRepository.save(ring);
-    }
-
-    Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RingDto> ringDtoPage = ringService.findAll(null, pageable);
-    Assertions.assertEquals(10, ringDtoPage.getSize());
-    Assertions.assertEquals(0, ringDtoPage.getNumber());
-    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
-    Assertions.assertEquals(2, ringDtoPage.getNumberOfElements());
-  }
 
   @Test
   @Transactional
