@@ -31,13 +31,13 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create license
-    License license = new License();
+    final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription("My description");
 
     Assertions.assertNull(license.getId());
-    license = licenseRepository.saveAndFlush(license);
+    licenseRepository.saveAndFlush(license);
     Assertions.assertNotNull(license.getId());
     Assertions.assertNotNull(license.getRadarUser());
     Assertions.assertNotNull(license.getTitle());
@@ -57,13 +57,13 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUserRepository.saveAndFlush(radarUser);
 
     // Create license
-    License license = new License();
+    final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription("My description");
 
     Assertions.assertNull(license.getId());
-    license = licenseRepository.saveAndFlush(license);
+    licenseRepository.saveAndFlush(license);
     Assertions.assertNotNull(license.getId());
     Assertions.assertTrue(licenseRepository.findById(license.getId()).isPresent());
   }
