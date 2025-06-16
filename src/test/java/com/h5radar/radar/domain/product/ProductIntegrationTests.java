@@ -17,7 +17,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnologies() {
+  public void shouldGetProducts() {
     // Create product
     ProductDto productDto = new ProductDto();
     productDto.setId(null);

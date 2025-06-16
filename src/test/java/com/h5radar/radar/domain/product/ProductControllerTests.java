@@ -34,7 +34,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser
-  public void shouldGetTechnologies() throws Exception {
+  public void shouldGetProducts() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
     productDto.setTitle("My title");
@@ -55,17 +55,17 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.verify(productService).findAll(any(), any());
   }
 
-  public void shouldGetTechnologiesWithFilter() throws Exception {
+  public void shouldGetProductsWithFilter() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldGetTechnologiesWithPaging() throws Exception {
+  public void shouldGetProductsWithPaging() throws Exception {
     // TODO: get invalid it
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToGetProductsDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }

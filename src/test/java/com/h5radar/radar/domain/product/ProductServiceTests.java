@@ -35,7 +35,7 @@ class ProductServiceTests extends AbstractServiceTests {
   private ProductService productService;
 
   @Test
-  void shouldFindAllTechnologies() {
+  void shouldFindAllProducts() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
@@ -58,7 +58,7 @@ class ProductServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldFindAllTechnologiesWithEmptyFilter() {
+  void shouldFindAllProductsWithEmptyFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
@@ -91,7 +91,7 @@ class ProductServiceTests extends AbstractServiceTests {
 
   @Test
   @Transactional
-  void shouldFindAllTechnologiesWithNullFilter() {
+  void shouldFindAllProductsWithNullFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
@@ -112,7 +112,7 @@ class ProductServiceTests extends AbstractServiceTests {
 
   @Test
   @Transactional
-  void shouldFindAllTechnologiesWithBlankTitleFilter() {
+  void shouldFindAllProductsWithBlankTitleFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
@@ -135,7 +135,7 @@ class ProductServiceTests extends AbstractServiceTests {
 
   @Test
   @Transactional
-  void shouldFindAllTechnologiesWithTitleFilter() {
+  void shouldFindAllProductsWithTitleFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
