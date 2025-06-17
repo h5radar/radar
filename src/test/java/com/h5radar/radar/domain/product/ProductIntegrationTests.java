@@ -51,7 +51,6 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].description").isEqualTo(productDto.getDescription());
 
     radarUserService.deleteById(radarUserDto.getId());
-    productService.deleteById(productDto.getId());
   }
 
   @Test
@@ -120,7 +119,6 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
 
     radarUserService.deleteById(radarUserDto.getId());
-    productService.deleteById(productDto1.getId());
   }
 
   @Test
@@ -155,7 +153,6 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
 
     radarUserService.deleteById(radarUserDto.getId());
-    productService.deleteById(productDto1.getId());
   }
 
   @Test
@@ -184,7 +181,6 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    productService.deleteById(productDto.getId());
   }
 
 

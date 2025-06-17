@@ -57,7 +57,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].active").isEqualTo(technologyDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteById(technologyDto.getId());
   }
 
   @Test
@@ -97,7 +96,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.active").isEqualTo(technologyDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteById(technologyDto.getId());
   }
 
   @Test
@@ -139,7 +137,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteById(technologyDto1.getId());
   }
 
   @Test
@@ -181,7 +178,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteById(technologyDto1.getId());
   }
 
   @Test
@@ -214,7 +210,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteById(technologyDto.getId());
   }
 
 
@@ -261,6 +256,5 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .expectStatus().isOk();
 
     radarUserService.deleteById(radarUserDto.getId());
-    technologyService.deleteByRadarUserId(radarUserDto.getId());
   }
 }

@@ -53,7 +53,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
   }
 
   @Test
@@ -89,7 +88,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
   }
 
   @Test
@@ -127,7 +125,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto1.getId());
   }
 
   @Test
@@ -165,7 +162,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto1.getId());
   }
 
   @Test
@@ -196,7 +192,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    licenseService.deleteById(licenseDto.getId());
   }
 
 

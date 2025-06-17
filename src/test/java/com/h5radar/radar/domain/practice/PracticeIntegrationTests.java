@@ -53,7 +53,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
@@ -89,7 +88,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
@@ -127,7 +125,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
@@ -165,7 +162,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
@@ -196,7 +192,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
 
