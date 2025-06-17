@@ -93,11 +93,12 @@ public class TechnologyController {
         technologyService.seed(radarUserId);
       } catch (DataIntegrityViolationException exception) {
         if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
-          throw exception;
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+      } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
       }
     }
-
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 

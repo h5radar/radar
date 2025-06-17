@@ -24,5 +24,5 @@ public interface TechnologyService {
 
   long countByRadarUserId(Long radarUserId);
 
-  void seed(Long radarUserId);
+  void seed(Long radarUserId) throws Exception;
 }
