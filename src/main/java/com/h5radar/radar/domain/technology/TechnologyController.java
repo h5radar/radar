@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TechnologyController {
 
-  private static final String TECHNOLOGIES_TITLE_CONSTRAINTS = "uc_radar_users_sub";
+  private static final String TECHNOLOGIES_TITLE_CONSTRAINTS = "uc_technologies_radar_user_id_title";
 
   private final TechnologyService technologyService;
 
@@ -101,5 +101,4 @@ public class TechnologyController {
     }
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
-
 }
