@@ -288,9 +288,9 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(technologyService).seed(any());
 
     mockMvc.perform(post("/api/v1/technologies/seed/{radar_user_id}", radarUserDto.getId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .with(csrf()))
-    .andExpect(status().isOk());
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isOk());
 
     Mockito.verify(technologyService).countByRadarUserId(radarUserDto.getId());
     Mockito.verify(technologyService).seed(radarUserDto.getId());
