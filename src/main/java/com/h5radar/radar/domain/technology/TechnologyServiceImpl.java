@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
-import com.h5radar.radar.domain.radar_user.RadarUser;
 
 
 @RequiredArgsConstructor
@@ -94,9 +93,14 @@ public class TechnologyServiceImpl implements TechnologyService {
 
   @Override
   @Transactional
+  public long deleteByRadarUserId(Long radarUserId) {
+    return technologyRepository.deleteByRadarUserId(radarUserId);
+  }
+
+  @Override
+  @Transactional
   public long countByRadarUserId(Long radarUserId) {
-    final RadarUser radarUser = new RadarUser(radarUserId);
-    return this.technologyRepository.countByRadarUser(radarUser);
+    return this.technologyRepository.countByRadarUserId(radarUserId);
   }
 
   @Override

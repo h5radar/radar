@@ -20,6 +20,8 @@ public interface TechnologyService {
 
   void deleteById(Long id);
 
+  long deleteByRadarUserId(Long radarUserId);
+
   long countByRadarUserId(Long radarUserId);
 
   void seed(Long radarUserId);
