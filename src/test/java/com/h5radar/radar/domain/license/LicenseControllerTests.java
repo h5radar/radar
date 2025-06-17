@@ -25,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
 
 @WebMvcTest(LicenseController.class)
 public class LicenseControllerTests extends AbstractControllerTests {
@@ -249,5 +250,34 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   public void shouldFailToDeleteLicenseDueToInvalidId() throws Exception {
     // TODO: get invalid it
+  }
+
+  @Test
+  @WithMockUser
+  public void shouldSeedTechnologies() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(15L);
+
+    Mockito.when(licenseService.countByRadarUserId(any())).thenReturn(0L);
+    Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
+
+    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isOk());
+
+    Mockito.verify(licenseService).countByRadarUserId(radarUserDto.getId());
+    Mockito.verify(licenseService).seed(radarUserDto.getId());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(15L);
+
+    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
   }
 }
