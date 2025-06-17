@@ -220,4 +220,21 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
     radarUserService.deleteById(radarUserDto.getId());
   }
+
+  @Test
+  @WithMockUser
+  public void shouldSeedLicenses() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    webTestClient.post().uri("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
 }

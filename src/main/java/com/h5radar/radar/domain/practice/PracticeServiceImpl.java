@@ -116,7 +116,7 @@ public class PracticeServiceImpl implements PracticeService {
   @Transactional
   public void seed(Long radarUserId) throws Exception {
     // Read practice_blips
-    URL url = ResourceUtils.getURL("classpath:database/datasets/practice_en.csv");
+    URL url = ResourceUtils.getURL("classpath:database/datasets/practices_en.csv");
     String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
         .collect(Collectors.joining("\n"));
 

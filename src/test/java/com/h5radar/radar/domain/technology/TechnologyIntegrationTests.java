@@ -243,7 +243,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser
-  public void shouldSeedTechnology() throws Exception {
+  public void shouldSeedTechnologies() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
