@@ -77,12 +77,6 @@ public class LicenseServiceImpl implements LicenseService {
   }
 
   @Override
-  @Transactional(readOnly = true)
-  public Optional<LicenseDto> findByRadarUserIdAndTitle(Long radarUserId, String title) {
-    return licenseRepository.findByRadarUserIdAndTitle(radarUserId, title).map(licenseMapper::toDto);
-  }
-
-  @Override
   @Transactional
   public LicenseDto save(LicenseDto licenseDto) {
     License license = licenseMapper.toEntity(licenseDto);

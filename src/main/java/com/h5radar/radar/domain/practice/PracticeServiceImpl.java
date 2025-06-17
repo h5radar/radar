@@ -77,12 +77,6 @@ public class PracticeServiceImpl implements PracticeService {
   }
 
   @Override
-  @Transactional(readOnly = true)
-  public Optional<PracticeDto> findByRadarUserIdAndTitle(Long radarUserId, String title) {
-    return practiceRepository.findByRadarUserIdAndTitle(radarUserId, title).map(practiceMapper::toDto);
-  }
-
-  @Override
   @Transactional
   public PracticeDto save(PracticeDto practiceDto) {
     Practice practice = practiceMapper.toEntity(practiceDto);
