@@ -12,6 +12,8 @@ public interface TechnologyRepository extends JpaRepository<Technology, Long>,
     JpaSpecificationExecutor<Technology> {
   Optional<Technology> findByTitle(String title);
 
+  Optional<Technology> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
   long countByRadarUserId(@NotNull long radarUserId);
 
   long deleteByRadarUserId(@NotNull long radarUserId);

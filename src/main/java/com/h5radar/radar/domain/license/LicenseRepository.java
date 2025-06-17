@@ -12,6 +12,8 @@ public interface LicenseRepository extends JpaRepository<License, Long>,
     JpaSpecificationExecutor<License> {
   Optional<License> findByTitle(String title);
 
+  Optional<License> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
   long countByRadarUserId(@NotNull long radarUserId);
 
   long deleteByRadarUserId(@NotNull long radarUserId);

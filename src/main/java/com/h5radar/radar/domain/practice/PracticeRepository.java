@@ -12,6 +12,8 @@ public interface PracticeRepository extends JpaRepository<Practice, Long>,
     JpaSpecificationExecutor<Practice> {
   Optional<Practice> findByTitle(String title);
 
+  Optional<Practice> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
   long countByRadarUserId(@NotNull long radarUserId);
 
   long deleteByRadarUserId(@NotNull long radarUserId);

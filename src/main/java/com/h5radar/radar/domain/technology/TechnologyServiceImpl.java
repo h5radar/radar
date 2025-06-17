@@ -133,7 +133,7 @@ public class TechnologyServiceImpl implements TechnologyService {
       technology.setDescription(record[2]);
 
       // Create only if not exists
-      if (this.technologyRepository.findByTitle(technology.getTitle()).isEmpty()) {
+      if (this.technologyRepository.findByRadarUserIdAndTitle(radarUserId, technology.getTitle()).isEmpty()) {
         this.technologyRepository.save(technology);
       }
     }

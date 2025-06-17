@@ -16,6 +16,8 @@ public interface PracticeService {
 
   Optional<PracticeDto> findByTitle(String title);
 
+  Optional<PracticeDto> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
   PracticeDto save(PracticeDto practiceDto);
 
   void deleteById(Long id);

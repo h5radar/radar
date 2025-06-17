@@ -16,6 +16,8 @@ public interface LicenseService {
 
   Optional<LicenseDto> findByTitle(String title);
 
+  Optional<LicenseDto> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
   LicenseDto save(LicenseDto licenseDto);
 
   void deleteById(Long id);
