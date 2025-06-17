@@ -274,16 +274,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setRadarUserId(15L);
-    technologyDto.setWebsite("My website");
-    technologyDto.setTitle("My technology");
-    technologyDto.setDescription("My technology description");
-    technologyDto.setMoved(0);
-    technologyDto.setActive(true);
-
     Mockito.when(technologyService.countByRadarUserId(any())).thenReturn(0L);
     Mockito.doAnswer((i) -> null).when(technologyService).seed(any());
 
@@ -299,10 +289,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
-    final TechnologyDto technologyDto = new TechnologyDto();
-    technologyDto.setId(10L);
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(15L);
 
-    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+    mockMvc.perform(post("/api/v1/technologies/seed/{radar_user_id}", radarUserDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
