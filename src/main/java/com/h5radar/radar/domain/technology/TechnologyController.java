@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/technologies")
 @RequiredArgsConstructor
 public class TechnologyController {
+
+  private static final String TECHNOLOGIES_TITLE_CONSTRAINTS = "uc_radar_users_sub";
 
   private final TechnologyService technologyService;
 
@@ -83,9 +86,19 @@ public class TechnologyController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @PostMapping(value = "/seed")
-  public ResponseEntity<TechnologyDto> seed() {
-    return ResponseEntity.status(HttpStatus.CREATED).body(null);
+  @PostMapping(value = "/seed/{radar_user_id}")
+  public ResponseEntity<TechnologyDto> seed(@PathVariable("radar_user_id") Long radarUserId) {
+    if (this.technologyService.countByRadarUserId(radarUserId) == 0) {
+      try {
+        technologyService.seed(radarUserId);
+      } catch (DataIntegrityViolationException exception) {
+        if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
+          throw exception;
+        }
+      }
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 
 }

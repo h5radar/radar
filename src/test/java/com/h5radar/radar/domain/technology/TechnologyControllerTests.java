@@ -25,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
 
 @WebMvcTest(TechnologyController.class)
 public class TechnologyControllerTests extends AbstractControllerTests {
@@ -265,5 +266,44 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
   public void shouldFailToDeleteTechnologyDueToInvalidId() throws Exception {
     // TODO: get invalid it
+  }
+
+  @Test
+  @WithMockUser
+  public void shouldSeedTechnologies() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(15L);
+
+    final TechnologyDto technologyDto = new TechnologyDto();
+    technologyDto.setId(10L);
+    technologyDto.setRadarUserId(15L);
+    technologyDto.setRadarUserId(15L);
+    technologyDto.setWebsite("My website");
+    technologyDto.setTitle("My technology");
+    technologyDto.setDescription("My technology description");
+    technologyDto.setMoved(0);
+    technologyDto.setActive(true);
+
+    Mockito.when(technologyService.countByRadarUserId(any())).thenReturn(0L);
+    Mockito.doAnswer((i) -> null).when(technologyService).seed(any());
+
+    mockMvc.perform(post("/api/v1/technologies/seed/{radar_user_id}", radarUserDto.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .with(csrf()))
+    .andExpect(status().isOk());
+
+    Mockito.verify(technologyService).countByRadarUserId(radarUserDto.getId());
+    Mockito.verify(technologyService).seed(radarUserDto.getId());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+    final TechnologyDto technologyDto = new TechnologyDto();
+    technologyDto.setId(10L);
+
+    mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
   }
 }
