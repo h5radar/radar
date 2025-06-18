@@ -2,6 +2,7 @@ package com.h5radar.radar.domain.radar_user;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,11 +33,15 @@ public class RadarUserDto {
 
   private String username;
 
+  @JsonIgnore
   private List<LicenseDto> licenseDtoList;
 
+  @JsonIgnore
   private List<PracticeDto> practiceDtoList;
 
+  @JsonIgnore
   private List<TechnologyDto> technologyDtoList;
 
+  @JsonIgnore
   private List<ProductDto> productDtoList;
 }
