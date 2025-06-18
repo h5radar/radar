@@ -16,7 +16,7 @@
                 <constraints nullable="false" foreignKeyName="fk_licenses_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
             <column name="title" type="${text.type}" remarks="Technology title, unique.">
-                <constraints unique="true" uniqueConstraintName="uc_licenses_title" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="description" type="${text.type}" remarks="Description for license."/>
             <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
@@ -36,6 +36,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint columnNames="radar_user_id, title"
+                             constraintName="uc_licenses_radar_user_id_title"
+                             tableName="licenses"
+                             validate="true"/>
         <!-- current Liquibase ignores checkConstraint attribute -->
         <sql>
             ALTER TABLE licenses

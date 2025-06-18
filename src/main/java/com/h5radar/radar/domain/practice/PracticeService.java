@@ -19,4 +19,10 @@ public interface PracticeService {
   PracticeDto save(PracticeDto practiceDto);
 
   void deleteById(Long id);
+
+  long deleteByRadarUserId(Long radarUserId);
+
+  long countByRadarUserId(Long radarUserId);
+
+  void seed(Long radarUserId) throws Exception;
 }

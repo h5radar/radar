@@ -1,5 +1,6 @@
 package com.h5radar.radar.domain.practice;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,10 @@ import org.springframework.stereotype.Repository;
 public interface PracticeRepository extends JpaRepository<Practice, Long>,
     JpaSpecificationExecutor<Practice> {
   Optional<Practice> findByTitle(String title);
+
+  Optional<Practice> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
+  long countByRadarUserId(@NotNull long radarUserId);
+
+  long deleteByRadarUserId(@NotNull long radarUserId);
 }

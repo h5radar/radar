@@ -3,6 +3,10 @@ package com.h5radar.radar.domain.technology;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,15 +15,21 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+
 
 @RequiredArgsConstructor
 @Service
@@ -88,5 +98,44 @@ public class TechnologyServiceImpl implements TechnologyService {
   @Transactional
   public void deleteById(Long id) {
     technologyRepository.deleteById(id);
+  }
+
+  @Override
+  @Transactional
+  public long deleteByRadarUserId(Long radarUserId) {
+    return technologyRepository.deleteByRadarUserId(radarUserId);
+  }
+
+  @Override
+  @Transactional
+  public long countByRadarUserId(Long radarUserId) {
+    return this.technologyRepository.countByRadarUserId(radarUserId);
+  }
+
+  @Override
+  @Transactional
+  public void seed(Long radarUserId) throws Exception {
+    // Read technology_blips
+    URL url = ResourceUtils.getURL("classpath:database/datasets/technologies_en.csv");
+    String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
+        .collect(Collectors.joining("\n"));
+
+    String[] record = null;
+    final RadarUser radarUser = new RadarUser(radarUserId);
+    CSVReader csvReader = new CSVReaderBuilder(new StringReader(fileContent))
+        .withCSVParser(new CSVParserBuilder().withSeparator('|').build())
+        .withSkipLines(1).build();
+    while ((record = csvReader.readNext()) != null) {
+      Technology technology = new Technology();
+      technology.setRadarUser(radarUser);
+      technology.setTitle(record[0]);
+      technology.setWebsite(record[1]);
+      technology.setDescription(record[2]);
+
+      // Create only if not exists
+      if (this.technologyRepository.findByRadarUserIdAndTitle(radarUserId, technology.getTitle()).isEmpty()) {
+        this.technologyRepository.save(technology);
+      }
+    }
   }
 }

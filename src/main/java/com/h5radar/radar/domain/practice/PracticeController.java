@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/practices")
 @RequiredArgsConstructor
 public class PracticeController {
+
+  private static final String PRACTICES_TITLE_CONSTRAINTS = "uc_practices_radar_user_id_title";
 
   private final PracticeService practiceService;
 
@@ -83,9 +86,20 @@ public class PracticeController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @PostMapping(value = "/seed")
-  public ResponseEntity<PracticeDto> seed() {
-    return ResponseEntity.status(HttpStatus.CREATED).body(null);
+  @PostMapping(value = "/seed/{radar_user_id}")
+  public ResponseEntity<PracticeDto> seed(@PathVariable("radar_user_id") Long radarUserId) {
+    if (this.practiceService.countByRadarUserId(radarUserId) == 0) {
+      try {
+        practiceService.seed(radarUserId);
+      } catch (DataIntegrityViolationException exception) {
+        if (!exception.getMessage().toLowerCase().contains(PRACTICES_TITLE_CONSTRAINTS)) {
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+      } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+      }
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 
 }

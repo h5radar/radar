@@ -53,7 +53,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
@@ -89,7 +88,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.active").isEqualTo(practiceDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
   @Test
@@ -127,7 +125,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
@@ -165,7 +162,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto1.getId());
   }
 
   @Test
@@ -196,7 +192,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .expectBody();
 
     radarUserService.deleteById(radarUserDto.getId());
-    practiceService.deleteById(practiceDto.getId());
   }
 
 
@@ -222,6 +217,23 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isNoContent();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+  @Test
+  @WithMockUser
+  public void shouldSeedPractices() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    webTestClient.post().uri("/api/v1/practices/seed/{radar_user_id}", radarUserDto.getId())
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk();
 
     radarUserService.deleteById(radarUserDto.getId());
   }

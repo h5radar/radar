@@ -15,8 +15,8 @@
             <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
                 <constraints nullable="false" foreignKeyName="fk_technologies_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-            <column name="title" type="${text.type}" remarks="Technology title, unique.">
-                <constraints unique="true" uniqueConstraintName="uc_technologies_title" nullable="false"/>
+            <column name="title" type="${text.type}" remarks="Technology title.">
+                <constraints nullable="false"/>
             </column>
             <column name="website" type="${text.type}" remarks="Website for technology.">
                 <constraints nullable="true"/>
@@ -42,6 +42,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint columnNames="radar_user_id, title"
+                             constraintName="uc_technologies_radar_user_id_title"
+                             tableName="technologies"
+                             validate="true"/>
         <!-- current Liquibase ignores checkConstraint attribute -->
         <sql>
             ALTER TABLE technologies

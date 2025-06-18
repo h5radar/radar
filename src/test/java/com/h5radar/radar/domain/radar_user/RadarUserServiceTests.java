@@ -146,7 +146,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technologyDtoPage.iterator().next().getUsername(),
         technologyList.iterator().next().getUsername());
   }
-   */
+  */
 
   @Test
   void shouldFindByIdRadarUser() {
