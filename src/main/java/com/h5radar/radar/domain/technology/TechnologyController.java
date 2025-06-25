@@ -42,6 +42,11 @@ public class TechnologyController {
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
+    // Get user info from jwt token
+    String sub = (String) jwt.getClaims().get("sub");
+    String username = (String) jwt.getClaims().get("preferred_username");
+    System.out.println(sub + " : " + username);
+
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<TechnologyDto> technologyDtoPage =
