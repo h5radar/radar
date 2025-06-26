@@ -10,17 +10,14 @@ import java.util.Base64;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.h5radar.radar.RadarConstants;
-import com.h5radar.radar.domain.radar_user.RadarUser;
-import com.h5radar.radar.domain.radar_user.RadarUserRepository;
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 
-@Component
 @Order()
 public class AuthSecurityFilter extends GenericFilterBean {
   /*
@@ -28,11 +25,10 @@ public class AuthSecurityFilter extends GenericFilterBean {
    */
   protected static final String BEARER = "Bearer ";
 
-  private final RadarUserRepository radarUserRepository;
+  private final RadarUserService radarUserService;
 
-  @Autowired
-  public AuthSecurityFilter(RadarUserRepository radarUserRepository) {
-    this.radarUserRepository = radarUserRepository;
+  public AuthSecurityFilter(RadarUserService radarUserService) {
+    this.radarUserService = radarUserService;
   }
 
   @Override
@@ -53,9 +49,9 @@ public class AuthSecurityFilter extends GenericFilterBean {
       JsonNode rootNode = objectMapper.readTree(payload);
       String sub = rootNode.get("sub").asText();
       String username = rootNode.get("preferred_username").asText();
-      RadarUser radarUser = new RadarUser(null, sub, username);
-      radarUser = radarUserRepository.saveAndFlush(radarUser);
-      request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUser.getId());
+      RadarUserDto radarUserDto = new RadarUserDto(null, sub, username);
+      radarUserDto = radarUserService.save(radarUserDto);
+      request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUserDto.getId());
     }
 
     // Continue processing the request

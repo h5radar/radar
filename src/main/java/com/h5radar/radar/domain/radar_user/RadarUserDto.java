@@ -26,6 +26,15 @@ import com.h5radar.radar.domain.technology.TechnologyDto;
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "sub", "username" })
 public class RadarUserDto {
+  public RadarUserDto(Long id) {
+    this.id = id;
+  }
+
+  public RadarUserDto(Long id, String sub, String username) {
+    this.id = id;
+    this.sub = sub;
+    this.username = username;
+  }
 
   private Long id;
 

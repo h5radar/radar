@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.h5radar.radar.domain.radar_user.RadarUserRepository;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +35,7 @@ public class SecurityConfiguration {
   String jwkSetUri;
 
   @Autowired
-  private RadarUserRepository radarUserRepository;
+  private RadarUserService radarUserService;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,7 +56,7 @@ public class SecurityConfiguration {
         )
         .oauth2ResourceServer((oauth2) -> oauth2
             .jwt(withDefaults()))
-        .addFilterAfter(new AuthSecurityFilter(radarUserRepository), UsernamePasswordAuthenticationFilter.class);
+        .addFilterAfter(new AuthSecurityFilter(radarUserService), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 

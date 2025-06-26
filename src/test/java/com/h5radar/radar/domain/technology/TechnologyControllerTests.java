@@ -3,6 +3,7 @@ package com.h5radar.radar.domain.technology;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,9 +28,13 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
 import com.h5radar.radar.domain.radar_user.RadarUserDto;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 @WebMvcTest(TechnologyController.class)
 public class TechnologyControllerTests extends AbstractControllerTests {
+
+  @MockitoBean
+  private RadarUserService radarUserService;
 
   @MockitoBean
   private TechnologyService technologyService;
@@ -37,6 +42,11 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldGetTechnologies() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
     technologyDto.setRadarUserId(15L);
@@ -46,6 +56,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     technologyDto.setMoved(1);
     technologyDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<TechnologyDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
@@ -64,6 +75,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].moved", equalTo(technologyDto.getMoved()), int.class))
         .andExpect(jsonPath("$.content[0].active", equalTo(technologyDto.isActive())));
 
+    Mockito.verify(radarUserService, times(1)).save(any());
     Mockito.verify(technologyService).findAll(any(), any());
   }
 
