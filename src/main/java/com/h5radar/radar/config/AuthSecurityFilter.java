@@ -7,11 +7,15 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.h5radar.radar.RadarConstants;
@@ -35,6 +39,7 @@ public class AuthSecurityFilter extends GenericFilterBean {
   public void doFilter(ServletRequest request, ServletResponse response,
                        FilterChain chain) throws IOException, ServletException {
 
+    RadarUserDto radarUserDto = new RadarUserDto();
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     String authHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
     if (authHeader != null && authHeader.startsWith(BEARER)) {
@@ -47,9 +52,21 @@ public class AuthSecurityFilter extends GenericFilterBean {
       // Save radarUser and set id as attribute
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(payload);
-      String sub = rootNode.get("sub").asText();
-      String username = rootNode.get("preferred_username").asText();
-      RadarUserDto radarUserDto = new RadarUserDto(null, sub, username);
+      radarUserDto.setSub(rootNode.get("sub").asText());
+      radarUserDto.setUsername(rootNode.get("preferred_username").asText());
+    } else {
+      // This code primary for tests
+      SecurityContext securityContext = SecurityContextHolder.getContext();
+      Authentication auth = securityContext.getAuthentication();
+      radarUserDto.setSub(auth.getName());
+      radarUserDto.setUsername(auth.getName());
+    }
+
+    // Try to find radar user by sub
+    Optional<RadarUserDto> radarUserDtoOptional =  radarUserService.findBySub(radarUserDto.getSub());
+    if (radarUserDtoOptional.isPresent()) {
+      request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUserDtoOptional.get().getId());
+    } else {
       radarUserDto = radarUserService.save(radarUserDto);
       request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUserDto.getId());
     }

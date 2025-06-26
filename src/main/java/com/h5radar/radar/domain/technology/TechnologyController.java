@@ -42,8 +42,6 @@ public class TechnologyController {
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
-    System.out.println(radarUserId);
-
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
     Page<TechnologyDto> technologyDtoPage =
@@ -88,18 +86,17 @@ public class TechnologyController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @PostMapping(value = "/seed/{radar_user_id}")
-  public ResponseEntity<TechnologyDto> seed(@PathVariable("radar_user_id") Long radarUserId) {
-    if (this.technologyService.countByRadarUserId(radarUserId) == 0) {
-      try {
-        technologyService.seed(radarUserId);
-      } catch (DataIntegrityViolationException exception) {
-        if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-      } catch (Exception e) {
+  @PostMapping(value = "/seed")
+  public ResponseEntity<TechnologyDto> seed(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
+    try {
+      technologyService.seed(radarUserId);
+    } catch (DataIntegrityViolationException exception) {
+      if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
       }
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
