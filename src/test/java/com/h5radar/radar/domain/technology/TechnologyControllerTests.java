@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -48,7 +49,9 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Page<TechnologyDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
-    mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/technologies")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_HEADER))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())

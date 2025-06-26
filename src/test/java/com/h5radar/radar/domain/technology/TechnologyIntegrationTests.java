@@ -3,6 +3,7 @@ package com.h5radar.radar.domain.technology;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
@@ -40,6 +41,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     technologyDto = technologyService.save(technologyDto);
 
     webTestClient.get().uri("/api/v1/technologies")
+        .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_HEADER)
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
