@@ -35,13 +35,19 @@ public class PracticeControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldGetPractices() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<PracticeDto> practiceDtoPage = new PageImpl<>(Arrays.asList(practiceDto));
     Mockito.when(practiceService.findAll(any(), any())).thenReturn(practiceDtoPage);
 
@@ -56,6 +62,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(practiceDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).findAll(any(), any());
   }
 
@@ -253,14 +260,14 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser
-  public void shouldSeedTechnologies() throws Exception {
+  public void shouldSeedPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
     Mockito.when(practiceService.countByRadarUserId(any())).thenReturn(0L);
     Mockito.doAnswer((i) -> null).when(practiceService).seed(any());
 
-    mockMvc.perform(post("/api/v1/practices/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/practices/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -271,7 +278,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToSeedPracticesDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 

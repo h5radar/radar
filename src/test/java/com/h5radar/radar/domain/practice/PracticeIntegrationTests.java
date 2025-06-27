@@ -227,7 +227,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    webTestClient.post().uri("/api/v1/practices/seed/{radar_user_id}", radarUserDto.getId())
+    webTestClient.post().uri("/api/v1/practices/seed")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk();

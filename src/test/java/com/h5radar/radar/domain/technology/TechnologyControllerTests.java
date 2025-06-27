@@ -34,7 +34,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
+  @WithMockUser
   public void shouldGetTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -277,7 +277,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
+  @WithMockUser
   public void shouldSeedTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);

@@ -20,7 +20,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
+  @WithMockUser
   public void shouldGetTechnologies() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
