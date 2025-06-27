@@ -33,7 +33,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
   private LicenseService licenseService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -83,7 +83,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -131,7 +131,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -187,7 +187,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -244,7 +244,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeleteLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -287,7 +287,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldSeedLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);

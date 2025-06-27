@@ -33,7 +33,7 @@ public class ProductControllerTests extends AbstractControllerTests {
   private ProductService productService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetProducts() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -81,7 +81,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -126,7 +126,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -181,7 +181,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -235,7 +235,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeleteProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);

@@ -26,7 +26,7 @@ public class TenantControllerTests extends AbstractControllerTests {
   private TenantService tenantService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetTenants() throws Exception {
     final TenantDto tenantDto = new TenantDto(10L, "My title", "My description");
     Page<TenantDto> tenantPage = new PageImpl<>(Arrays.asList(tenantDto));

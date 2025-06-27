@@ -20,7 +20,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetTechnologies() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -61,7 +61,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetTechnology() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -100,7 +100,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -141,7 +141,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateTechnologyWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -182,7 +182,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -215,7 +215,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeleteTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -243,7 +243,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldSeedTechnologies() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -251,7 +251,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    webTestClient.post().uri("/api/v1/technologies/seed/{radar_user_id}", radarUserDto.getId())
+    webTestClient.post().uri("/api/v1/technologies/seed")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk();

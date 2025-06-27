@@ -27,7 +27,7 @@ public class RingControllerTests extends AbstractControllerTests {
   private RingService ringService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetRings() throws Exception {
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(12L);

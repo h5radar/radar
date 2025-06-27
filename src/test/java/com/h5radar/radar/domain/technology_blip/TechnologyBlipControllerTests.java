@@ -30,7 +30,7 @@ public class TechnologyBlipControllerTests extends AbstractControllerTests {
   private TechnologyBlipService technologyBlipService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetTechnologyBlips() throws Exception {
     /* TODO:
     final RadarDto radarDto = new RadarDto();

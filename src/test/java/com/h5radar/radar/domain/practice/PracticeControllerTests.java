@@ -33,7 +33,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -83,7 +83,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -131,7 +131,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -187,7 +187,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -244,7 +244,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -287,7 +287,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldSeedPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);

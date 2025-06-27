@@ -17,7 +17,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractices() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -53,7 +53,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractice() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -88,7 +88,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -125,7 +125,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreatePracticeWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -162,7 +162,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -193,7 +193,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -219,7 +219,7 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldSeedPractices() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

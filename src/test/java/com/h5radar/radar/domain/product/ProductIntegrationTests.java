@@ -17,7 +17,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
   private ProductService productService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetProducts() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -51,7 +51,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetProduct() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -85,7 +85,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateProduct() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -119,7 +119,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateProductWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -153,7 +153,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdateProduct() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -182,7 +182,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeleteProduct() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
