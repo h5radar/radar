@@ -54,7 +54,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     technologyDto.setMoved(1);
     technologyDto.setActive(true);
 
-    Mockito.when(radarUserService.findBySub(any())).thenReturn(Optional.of(radarUserDto));
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<TechnologyDto> technologyDtoPage = new PageImpl<>(Arrays.asList(technologyDto));
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
@@ -72,7 +72,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].moved", equalTo(technologyDto.getMoved()), int.class))
         .andExpect(jsonPath("$.content[0].active", equalTo(technologyDto.isActive())));
 
-    Mockito.verify(radarUserService).findBySub(any());
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(technologyService).findAll(any(), any());
   }
 

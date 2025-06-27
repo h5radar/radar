@@ -4,7 +4,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.h5radar.radar.domain.radar_user.RadarUserService;
+// import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -34,8 +34,8 @@ public class SecurityConfiguration {
   @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
   String jwkSetUri;
 
-  @Autowired
-  private RadarUserService radarUserService;
+  // @Autowired
+  // private RadarUserService radarUserService;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -55,8 +55,8 @@ public class SecurityConfiguration {
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer((oauth2) -> oauth2
-            .jwt(withDefaults()))
-        .addFilterAfter(new AuthSecurityFilter(radarUserService), UsernamePasswordAuthenticationFilter.class);
+            .jwt(withDefaults()));
+    // .addFilterAfter(new AuthSecurityFilter(radarUserService), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
