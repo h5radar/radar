@@ -1,27 +1,25 @@
 package com.h5radar.radar.config;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.h5radar.radar.RadarConstants;
-import com.h5radar.radar.domain.radar_user.RadarUserDto;
-import com.h5radar.radar.domain.radar_user.RadarUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.util.Base64;
-import java.util.Enumeration;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
+
 
 @Component
 public class AuthRequestInterceptor implements HandlerInterceptor {
@@ -79,17 +77,5 @@ public class AuthRequestInterceptor implements HandlerInterceptor {
 
     // Continue processing the request
     return true;
-  }
-
-  @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                         Object handler, org.springframework.web.servlet.ModelAndView modelAndView) throws Exception {
-    System.out.println("PostHandle: Processing request completed.");
-  }
-
-  @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-                              Object handler, Exception ex) throws Exception {
-    System.out.println("AfterCompletion: Request processing completed.");
   }
 }

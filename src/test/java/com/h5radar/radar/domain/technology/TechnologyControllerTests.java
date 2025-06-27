@@ -32,9 +32,6 @@ import com.h5radar.radar.domain.radar_user.RadarUserService;
 public class TechnologyControllerTests extends AbstractControllerTests {
 
   @MockitoBean
-  private RadarUserService radarUserService;
-
-  @MockitoBean
   private TechnologyService technologyService;
 
   @Test

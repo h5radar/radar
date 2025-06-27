@@ -29,9 +29,6 @@ import com.h5radar.radar.domain.AbstractControllerTests;
 @WebMvcTest(RadarUserController.class)
 public class RadarUserControllerTests extends AbstractControllerTests {
 
-  @MockitoBean
-  private RadarUserService radarUserService;
-
   @Test
   @WithMockUser
   public void shouldGetTechnologies() throws Exception {

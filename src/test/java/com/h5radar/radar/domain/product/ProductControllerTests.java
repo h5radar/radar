@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +29,6 @@ import com.h5radar.radar.domain.AbstractControllerTests;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTests extends AbstractControllerTests {
-
   @MockitoBean
   private ProductService productService;
 

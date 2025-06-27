@@ -14,9 +14,6 @@ import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 class LicenseIntegrationTests extends AbstractIntegrationTests {
   @Autowired
-  private RadarUserService radarUserService;
-
-  @Autowired
   private LicenseService licenseService;
 
   @Test

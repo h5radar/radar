@@ -26,8 +26,10 @@ import com.h5radar.radar.domain.ValidationException;
 class RadarUserServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
+
   @Autowired
   private RadarUserMapper radarUserMapper;
+
   @Autowired
   private RadarUserService radarUserService;
 

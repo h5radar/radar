@@ -6,15 +6,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WebMvcTest(VersionController.class)
 public class VersionControllerTests extends AbstractControllerTests {
-
   @Test
   @WithAnonymousUser
   public void shouldShowVersion() throws Exception {
