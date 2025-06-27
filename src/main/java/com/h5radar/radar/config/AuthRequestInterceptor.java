@@ -63,7 +63,8 @@ public class AuthRequestInterceptor implements HandlerInterceptor {
 
     try {
       radarUserDto = radarUserService.save(radarUserDto);
-      request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUserDto.getId());
+      Long radarUserId = radarUserDto == null ? 0 : radarUserDto.getId();
+      request.setAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME, radarUserId);
     } catch (DataIntegrityViolationException exception) {
       if (exception.getMessage().toLowerCase().contains(RADAR_USERS_SUB_CONSTRAINTS)) {
         Optional<RadarUserDto> radarUserDtoOptional =  radarUserService.findBySub(radarUserDto.getSub());
