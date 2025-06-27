@@ -12,6 +12,7 @@ import com.h5radar.radar.domain.radar_user.RadarUserDto;
 
 
 class LicenseIntegrationTests extends AbstractIntegrationTests {
+
   @Autowired
   private LicenseService licenseService;
 
@@ -226,7 +227,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    webTestClient.post().uri("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    webTestClient.post().uri("/api/v1/licenses/seed")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk();

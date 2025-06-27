@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,7 +18,7 @@ public abstract class AbstractIntegrationTests extends AbstractAnyTests {
   // @Autowired
   protected WebTestClient webTestClient;
 
-  @MockitoBean
+  @Autowired
   protected RadarUserService radarUserService;
 
   @Autowired

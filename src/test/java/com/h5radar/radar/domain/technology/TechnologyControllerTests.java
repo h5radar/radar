@@ -43,7 +43,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
-    technologyDto.setRadarUserId(15L);
+    technologyDto.setRadarUserId(radarUserDto.getId());
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");

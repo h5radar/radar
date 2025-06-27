@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.h5radar.radar.RadarConstants;
 
 @RestController
 @Tag(name = "Practice API")
@@ -86,8 +88,9 @@ public class PracticeController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @PostMapping(value = "/seed/{radar_user_id}")
-  public ResponseEntity<PracticeDto> seed(@PathVariable("radar_user_id") Long radarUserId) {
+  @PostMapping(value = "/seed")
+  public ResponseEntity<PracticeDto> seed(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
     if (this.practiceService.countByRadarUserId(radarUserId) == 0) {
       try {
         practiceService.seed(radarUserId);

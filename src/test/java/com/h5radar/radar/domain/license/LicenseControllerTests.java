@@ -35,13 +35,19 @@ public class LicenseControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldGetLicenses() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
     Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
@@ -56,6 +62,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).findAll(any(), any());
   }
 
@@ -253,14 +260,14 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser
-  public void shouldSeedTechnologies() throws Exception {
+  public void shouldSeedLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
     Mockito.when(licenseService.countByRadarUserId(any())).thenReturn(0L);
     Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
 
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/licenses/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -271,7 +278,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
