@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.h5radar.radar.domain.radar_user.RadarUserDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,12 +35,18 @@ public class ProductControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldGetProducts() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(15L);
+    productDto.setRadarUserId(radarUserDto.getId());
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<ProductDto> productDtoPage = new PageImpl<>(Arrays.asList(productDto));
     Mockito.when(productService.findAll(any(), any())).thenReturn(productDtoPage);
 
@@ -53,6 +60,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(productDto.getDescription())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(productService).findAll(any(), any());
   }
 
@@ -75,12 +83,18 @@ public class ProductControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldGetProduct() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(15L);
+    productDto.setRadarUserId(radarUserDto.getId());
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
 
     mockMvc.perform(get("/api/v1/products/{id}", productDto.getId()).contentType(MediaType.APPLICATION_JSON))
@@ -91,6 +105,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(productService).findById(productDto.getId());
   }
 
@@ -113,12 +128,18 @@ public class ProductControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldCreateProduct() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(15L);
+    productDto.setRadarUserId(radarUserDto.getId());
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
     mockMvc.perform(post("/api/v1/products")
@@ -132,6 +153,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(productService).save(any());
   }
 
@@ -161,12 +183,18 @@ public class ProductControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldUpdateProduct() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(15L);
+    productDto.setRadarUserId(radarUserDto.getId());
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
@@ -176,6 +204,7 @@ public class ProductControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isOk());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(productService).findById(productDto.getId());
     Mockito.verify(productService).save(any());
   }
@@ -208,12 +237,18 @@ public class ProductControllerTests extends AbstractControllerTests {
   @Test
   @WithMockUser
   public void shouldDeleteProduct() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(15L);
+    productDto.setRadarUserId(radarUserDto.getId());
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
     Mockito.doAnswer((i) -> null).when(productService).deleteById(any());
 
@@ -221,6 +256,7 @@ public class ProductControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isNoContent());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(productService).findById(productDto.getId());
     Mockito.verify(productService).deleteById(productDto.getId());
   }
