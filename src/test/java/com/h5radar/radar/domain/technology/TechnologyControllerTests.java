@@ -26,7 +26,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
 import com.h5radar.radar.domain.radar_user.RadarUserDto;
-import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 @WebMvcTest(TechnologyController.class)
 public class TechnologyControllerTests extends AbstractControllerTests {
