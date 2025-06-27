@@ -89,15 +89,18 @@ public class TechnologyController {
   @PostMapping(value = "/seed")
   public ResponseEntity<TechnologyDto> seed(
       @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
-    try {
-      technologyService.seed(radarUserId);
-    } catch (DataIntegrityViolationException exception) {
-      if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
+    if (this.technologyService.countByRadarUserId(radarUserId) == 0) {
+      try {
+        technologyService.seed(radarUserId);
+      } catch (DataIntegrityViolationException exception) {
+        if (!exception.getMessage().toLowerCase().contains(TECHNOLOGIES_TITLE_CONSTRAINTS)) {
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+      } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
       }
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }
