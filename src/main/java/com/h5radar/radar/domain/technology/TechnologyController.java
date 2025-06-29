@@ -50,7 +50,9 @@ public class TechnologyController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> show(@PathVariable("id") Long id) {
+  public ResponseEntity<TechnologyDto> show(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -59,25 +61,33 @@ public class TechnologyController {
   }
 
   @PostMapping
-  public ResponseEntity<TechnologyDto> create(@RequestBody TechnologyDto technologyDto) {
+  public ResponseEntity<TechnologyDto> create(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestBody TechnologyDto technologyDto) {
     technologyDto.setId(null);
+    technologyDto.setRadarUserId(radarUserId);
     technologyDto = technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<TechnologyDto> update(@PathVariable("id") Long id, @RequestBody TechnologyDto technologyDto) {
+  public ResponseEntity<TechnologyDto> update(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id, @RequestBody TechnologyDto technologyDto) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     technologyDto.setId(id);
+    technologyDto.setRadarUserId(radarUserId);
     technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.OK).body(technologyDto);
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

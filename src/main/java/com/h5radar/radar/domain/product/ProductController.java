@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.h5radar.radar.RadarConstants;
 
 
 @RestController
@@ -31,6 +34,7 @@ public class ProductController {
 
   @GetMapping("")
   public ResponseEntity<Page<ProductDto>> index(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid ProductFilter productFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -44,7 +48,9 @@ public class ProductController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<ProductDto> show(@PathVariable("id") Long id) {
+  public ResponseEntity<ProductDto> show(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -53,25 +59,33 @@ public class ProductController {
   }
 
   @PostMapping
-  public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
+  public ResponseEntity<ProductDto> create(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestBody ProductDto productDto) {
     productDto.setId(null);
+    productDto.setRadarUserId(radarUserId);
     productDto = productService.save(productDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(productDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<ProductDto> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
+  public ResponseEntity<ProductDto> update(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id, @RequestBody ProductDto productDto) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     productDto.setId(id);
+    productDto.setRadarUserId(radarUserId);
     productService.save(productDto);
     return ResponseEntity.status(HttpStatus.OK).body(productDto);
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

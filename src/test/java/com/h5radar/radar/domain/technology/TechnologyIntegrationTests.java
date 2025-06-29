@@ -183,6 +183,47 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
+  public void shouldCreateTechnologyWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create technology
+    TechnologyDto technologyDto = new TechnologyDto();
+    technologyDto.setId(null);
+    technologyDto.setRadarUserId(null);
+    technologyDto.setWebsite("My website");
+    technologyDto.setTitle("My technology");
+    technologyDto.setDescription("My technology description");
+    technologyDto.setMoved(0);
+    technologyDto.setActive(true);
+
+    TechnologyDto technologyDto1 = webTestClient.post().uri("/api/v1/technologies")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(TechnologyDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
+    Assertions.assertEquals(radarUserDto.getId(), technologyDto1.getRadarUserId());
+    Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
+    Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
+    Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
+    Assertions.assertEquals(technologyDto.getMoved(), technologyDto1.getMoved());
+    Assertions.assertEquals(technologyDto.isActive(), technologyDto1.isActive());
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -213,6 +254,38 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     radarUserService.deleteById(radarUserDto.getId());
   }
 
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldUpdateTechnologyWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create technology
+    TechnologyDto technologyDto = new TechnologyDto();
+    technologyDto.setId(null);
+    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setWebsite("My website");
+    technologyDto.setTitle("My technology");
+    technologyDto.setDescription("My technology description");
+    technologyDto.setMoved(0);
+    technologyDto.setActive(true);
+    technologyDto = technologyService.save(technologyDto);
+
+    technologyDto.setRadarUserId(null);
+    webTestClient.put().uri("/api/v1/technologies/{id}", technologyDto.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(technologyDto), TechnologyDto.class)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
 
   @Test
   @WithMockUser(value = "My sub")

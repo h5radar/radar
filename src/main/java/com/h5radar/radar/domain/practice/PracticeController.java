@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +36,7 @@ public class PracticeController {
 
   @GetMapping("")
   public ResponseEntity<Page<PracticeDto>> index(
-      @AuthenticationPrincipal Jwt jwt,
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid PracticeFilter practiceFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -52,7 +50,9 @@ public class PracticeController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<PracticeDto> show(@PathVariable("id") Long id) {
+  public ResponseEntity<PracticeDto> show(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,25 +61,33 @@ public class PracticeController {
   }
 
   @PostMapping
-  public ResponseEntity<PracticeDto> create(@RequestBody PracticeDto practiceDto) {
+  public ResponseEntity<PracticeDto> create(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestBody PracticeDto practiceDto) {
     practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserId);
     practiceDto = practiceService.save(practiceDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(practiceDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<PracticeDto> update(@PathVariable("id") Long id, @RequestBody PracticeDto practiceDto) {
+  public ResponseEntity<PracticeDto> update(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id, @RequestBody PracticeDto practiceDto) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     practiceDto.setId(id);
+    practiceDto.setRadarUserId(radarUserId);
     practiceService.save(practiceDto);
     return ResponseEntity.status(HttpStatus.OK).body(practiceDto);
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

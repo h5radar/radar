@@ -163,6 +163,44 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
+  public void shouldCreatePracticeWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(null);
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setActive(true);
+
+    PracticeDto practiceDto1 = webTestClient.post().uri("/api/v1/practices")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(practiceDto), PracticeDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(PracticeDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(practiceDto.getId(), practiceDto1.getId());
+    Assertions.assertEquals(radarUserDto.getId(), practiceDto1.getRadarUserId());
+    Assertions.assertEquals(practiceDto.getTitle(), practiceDto1.getTitle());
+    Assertions.assertEquals(practiceDto.getDescription(), practiceDto1.getDescription());
+    Assertions.assertEquals(practiceDto.isActive(), practiceDto1.isActive());
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+
+  @Test
+  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -191,6 +229,36 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
     radarUserService.deleteById(radarUserDto.getId());
   }
 
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldUpdatePracticeWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create practice
+    PracticeDto practiceDto = new PracticeDto();
+    practiceDto.setId(null);
+    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setTitle("My practice");
+    practiceDto.setDescription("My practice description");
+    practiceDto.setActive(true);
+    practiceDto = practiceService.save(practiceDto);
+
+    practiceDto.setRadarUserId(null);
+    webTestClient.put().uri("/api/v1/practices/{id}", practiceDto.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(practiceDto), PracticeDto.class)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
 
   @Test
   @WithMockUser(value = "My sub")
