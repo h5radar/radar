@@ -25,9 +25,8 @@ public class RadarControllerTests extends AbstractControllerTests {
   @MockitoBean
   private RadarService radarService;
 
-
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetRadars() throws Exception {
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(10L);

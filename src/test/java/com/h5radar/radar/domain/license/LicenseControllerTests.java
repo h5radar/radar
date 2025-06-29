@@ -29,20 +29,25 @@ import com.h5radar.radar.domain.radar_user.RadarUserDto;
 
 @WebMvcTest(LicenseController.class)
 public class LicenseControllerTests extends AbstractControllerTests {
-
   @MockitoBean
   private LicenseService licenseService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetLicenses() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
     Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
@@ -57,6 +62,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).findAll(any(), any());
   }
 
@@ -77,15 +83,21 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetLicense() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
 
     mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
@@ -98,6 +110,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).findById(licenseDto.getId());
   }
 
@@ -118,15 +131,21 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreateLicense() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
     mockMvc.perform(post("/api/v1/licenses")
@@ -141,6 +160,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).save(any());
   }
 
@@ -167,15 +187,21 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdateLicense() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
@@ -185,6 +211,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isOk());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).findById(licenseDto.getId());
     Mockito.verify(licenseService).save(any());
   }
@@ -217,15 +244,21 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeleteLicense() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(15L);
+    licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
     Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
 
@@ -233,6 +266,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isNoContent());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).findById(licenseDto.getId());
     Mockito.verify(licenseService).deleteById(licenseDto.getId());
   }
@@ -253,26 +287,30 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser
-  public void shouldSeedTechnologies() throws Exception {
+  @WithMockUser(value = "My sub")
+  public void shouldSeedLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(licenseService.countByRadarUserId(any())).thenReturn(0L);
     Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
 
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/licenses/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(licenseService).countByRadarUserId(radarUserDto.getId());
     Mockito.verify(licenseService).seed(radarUserDto.getId());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 

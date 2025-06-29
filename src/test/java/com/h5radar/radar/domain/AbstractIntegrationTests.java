@@ -10,12 +10,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.h5radar.radar.RadarApplication;
+import com.h5radar.radar.domain.radar_user.RadarUserService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RadarApplication.class)
 public abstract class AbstractIntegrationTests extends AbstractAnyTests {
 
   // @Autowired
   protected WebTestClient webTestClient;
+
+  @Autowired
+  protected RadarUserService radarUserService;
 
   @Autowired
   public void setWebApplicationContext(final WebApplicationContext context) {

@@ -14,7 +14,6 @@ import com.h5radar.radar.domain.AbstractControllerTests;
 
 @WebMvcTest(VersionController.class)
 public class VersionControllerTests extends AbstractControllerTests {
-
   @Test
   @WithAnonymousUser
   public void shouldShowVersion() throws Exception {

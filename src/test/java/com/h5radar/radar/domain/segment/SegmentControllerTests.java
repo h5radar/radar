@@ -27,7 +27,7 @@ public class SegmentControllerTests extends AbstractControllerTests {
   private SegmentService segmentService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetSegments() throws Exception {
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(1L);

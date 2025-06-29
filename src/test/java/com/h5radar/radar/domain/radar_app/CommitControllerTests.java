@@ -14,7 +14,6 @@ import com.h5radar.radar.domain.AbstractControllerTests;
 
 @WebMvcTest(CommitController.class)
 public class CommitControllerTests extends AbstractControllerTests {
-
   @Test
   @WithAnonymousUser
   public void shouldShowCommit() throws Exception {

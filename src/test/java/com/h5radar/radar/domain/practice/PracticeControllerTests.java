@@ -29,20 +29,25 @@ import com.h5radar.radar.domain.radar_user.RadarUserDto;
 
 @WebMvcTest(PracticeController.class)
 public class PracticeControllerTests extends AbstractControllerTests {
-
   @MockitoBean
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractices() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<PracticeDto> practiceDtoPage = new PageImpl<>(Arrays.asList(practiceDto));
     Mockito.when(practiceService.findAll(any(), any())).thenReturn(practiceDtoPage);
 
@@ -57,6 +62,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(practiceDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).findAll(any(), any());
   }
 
@@ -77,15 +83,21 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldGetPractice() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
 
     mockMvc.perform(get("/api/v1/practices/{id}", practiceDto.getId())
@@ -98,6 +110,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).findById(practiceDto.getId());
   }
 
@@ -118,15 +131,21 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(practiceService.save(any())).thenReturn(practiceDto);
 
     mockMvc.perform(post("/api/v1/practices")
@@ -141,6 +160,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).save(any());
   }
 
@@ -167,15 +187,21 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
     Mockito.when(practiceService.save(any())).thenReturn(practiceDto);
 
@@ -185,6 +211,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isOk());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).findById(practiceDto.getId());
     Mockito.verify(practiceService).save(any());
   }
@@ -217,15 +244,21 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser
+  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(15L);
+    practiceDto.setRadarUserId(radarUserDto.getId());
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);
 
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
     Mockito.doAnswer((i) -> null).when(practiceService).deleteById(any());
 
@@ -233,6 +266,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
             .with(csrf()))
         .andExpect(status().isNoContent());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).findById(practiceDto.getId());
     Mockito.verify(practiceService).deleteById(practiceDto.getId());
   }
@@ -253,26 +287,31 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser
-  public void shouldSeedTechnologies() throws Exception {
+  @WithMockUser(value = "My sub")
+  public void shouldSeedPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
 
+
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(practiceService.countByRadarUserId(any())).thenReturn(0L);
     Mockito.doAnswer((i) -> null).when(practiceService).seed(any());
 
-    mockMvc.perform(post("/api/v1/practices/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/practices/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
 
+    Mockito.verify(radarUserService).save(any());
     Mockito.verify(practiceService).countByRadarUserId(radarUserDto.getId());
     Mockito.verify(practiceService).seed(radarUserDto.getId());
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
+  public void shouldFailToSeedPracticesDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
