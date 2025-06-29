@@ -1,4 +1,4 @@
-package com.h5radar.radar.config;
+package com.h5radar.radar.domain;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
