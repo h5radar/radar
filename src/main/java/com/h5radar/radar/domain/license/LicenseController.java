@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +36,7 @@ public class LicenseController {
 
   @GetMapping("")
   public ResponseEntity<Page<LicenseDto>> index(
-      @AuthenticationPrincipal Jwt jwt,
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid LicenseFilter licenseFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -52,7 +50,9 @@ public class LicenseController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> show(@PathVariable("id") Long id) {
+  public ResponseEntity<LicenseDto> show(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,25 +61,33 @@ public class LicenseController {
   }
 
   @PostMapping
-  public ResponseEntity<LicenseDto> create(@RequestBody LicenseDto licenseDto) {
+  public ResponseEntity<LicenseDto> create(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestBody LicenseDto licenseDto) {
     licenseDto.setId(null);
+    licenseDto.setRadarUserId(radarUserId);
     licenseDto = licenseService.save(licenseDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(licenseDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> update(@PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
+  public ResponseEntity<LicenseDto> update(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     licenseDto.setId(id);
+    licenseDto.setRadarUserId(radarUserId);
     licenseService.save(licenseDto);
     return ResponseEntity.status(HttpStatus.OK).body(licenseDto);
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(
+      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

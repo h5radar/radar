@@ -126,6 +126,42 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
+  public void shouldCreateLicenseWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create license
+    LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(null);
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setActive(true);
+
+    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(licenseDto), LicenseDto.class)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody(LicenseDto.class)
+        .returnResult()
+        .getResponseBody();
+
+    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
+    Assertions.assertEquals(radarUserDto.getId(), licenseDto1.getRadarUserId());
+    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
+    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
+    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
   public void shouldCreateLicenseWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -179,6 +215,37 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
+    webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(Mono.just(licenseDto), LicenseDto.class)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldUpdateLicenseWithoutUser() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create license
+    LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(null);
+    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setTitle("My license");
+    licenseDto.setDescription("My license description");
+    licenseDto.setActive(true);
+    licenseDto = licenseService.save(licenseDto);
+
+    licenseDto.setRadarUserId(null);
     webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
