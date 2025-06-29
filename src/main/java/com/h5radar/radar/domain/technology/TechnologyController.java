@@ -36,7 +36,7 @@ public class TechnologyController {
 
   @GetMapping("")
   public ResponseEntity<Page<TechnologyDto>> index(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) String radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) String radarUserId,
       @Valid TechnologyFilter technologyFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -51,7 +51,7 @@ public class TechnologyController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<TechnologyDto> show(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
@@ -62,7 +62,7 @@ public class TechnologyController {
 
   @PostMapping
   public ResponseEntity<TechnologyDto> create(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody TechnologyDto technologyDto) {
     technologyDto.setId(null);
     technologyDto.setRadarUserId(radarUserId);
@@ -72,7 +72,7 @@ public class TechnologyController {
 
   @PutMapping(value = "/{id}")
   public ResponseEntity<TechnologyDto> update(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id, @RequestBody TechnologyDto technologyDto) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
@@ -86,7 +86,7 @@ public class TechnologyController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<TechnologyDto> technologyRecord = technologyService.findById(id);
     if (technologyRecord.isEmpty()) {
@@ -98,7 +98,7 @@ public class TechnologyController {
 
   @PostMapping(value = "/seed")
   public ResponseEntity<TechnologyDto> seed(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
     if (this.technologyService.countByRadarUserId(radarUserId) == 0) {
       try {
         technologyService.seed(radarUserId);

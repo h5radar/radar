@@ -18,9 +18,7 @@ public class MessageConfiguration implements WebMvcConfigurer {
         "classpath:/messages/radar",
         "classpath:/messages/ring",
         "classpath:/messages/segment",
-        "classpath:/messages/technology",
-        "classpath:/messages/technology_blip",
-        "classpath:/messages/tenant"
+        "classpath:/messages/technology_blip"
     );
     messageSource.setDefaultEncoding("UTF-8");
     return messageSource;

@@ -36,7 +36,7 @@ public class LicenseController {
 
   @GetMapping("")
   public ResponseEntity<Page<LicenseDto>> index(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid LicenseFilter licenseFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -51,7 +51,7 @@ public class LicenseController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<LicenseDto> show(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
@@ -62,7 +62,7 @@ public class LicenseController {
 
   @PostMapping
   public ResponseEntity<LicenseDto> create(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody LicenseDto licenseDto) {
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserId);
@@ -72,7 +72,7 @@ public class LicenseController {
 
   @PutMapping(value = "/{id}")
   public ResponseEntity<LicenseDto> update(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
@@ -86,7 +86,7 @@ public class LicenseController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<LicenseDto> licenseRecord = licenseService.findById(id);
     if (licenseRecord.isEmpty()) {
@@ -98,7 +98,7 @@ public class LicenseController {
 
   @PostMapping(value = "/seed")
   public ResponseEntity<LicenseDto> seed(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
   ) {
     if (this.licenseService.countByRadarUserId(radarUserId) == 0) {
       try {

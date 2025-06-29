@@ -34,7 +34,7 @@ public class ProductController {
 
   @GetMapping("")
   public ResponseEntity<Page<ProductDto>> index(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid ProductFilter productFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -49,7 +49,7 @@ public class ProductController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<ProductDto> show(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {
@@ -60,7 +60,7 @@ public class ProductController {
 
   @PostMapping
   public ResponseEntity<ProductDto> create(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody ProductDto productDto) {
     productDto.setId(null);
     productDto.setRadarUserId(radarUserId);
@@ -70,7 +70,7 @@ public class ProductController {
 
   @PutMapping(value = "/{id}")
   public ResponseEntity<ProductDto> update(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id, @RequestBody ProductDto productDto) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {
@@ -84,7 +84,7 @@ public class ProductController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<ProductDto> productRecord = productService.findById(id);
     if (productRecord.isEmpty()) {

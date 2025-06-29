@@ -36,7 +36,7 @@ public class PracticeController {
 
   @GetMapping("")
   public ResponseEntity<Page<PracticeDto>> index(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid PracticeFilter practiceFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -51,7 +51,7 @@ public class PracticeController {
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<PracticeDto> show(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
@@ -62,7 +62,7 @@ public class PracticeController {
 
   @PostMapping
   public ResponseEntity<PracticeDto> create(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody PracticeDto practiceDto) {
     practiceDto.setId(null);
     practiceDto.setRadarUserId(radarUserId);
@@ -72,7 +72,7 @@ public class PracticeController {
 
   @PutMapping(value = "/{id}")
   public ResponseEntity<PracticeDto> update(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id, @RequestBody PracticeDto practiceDto) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
@@ -86,7 +86,7 @@ public class PracticeController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
     Optional<PracticeDto> practiceRecord = practiceService.findById(id);
     if (practiceRecord.isEmpty()) {
@@ -98,7 +98,7 @@ public class PracticeController {
 
   @PostMapping(value = "/seed")
   public ResponseEntity<PracticeDto> seed(
-      @RequestAttribute(RadarConstants.RARDAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId) {
     if (this.practiceService.countByRadarUserId(radarUserId) == 0) {
       try {
         practiceService.seed(radarUserId);
