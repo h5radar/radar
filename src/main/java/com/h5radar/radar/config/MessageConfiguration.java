@@ -14,7 +14,8 @@ public class MessageConfiguration implements WebMvcConfigurer {
     ReloadableResourceBundleMessageSource messageSource =
         new ReloadableResourceBundleMessageSource();
     messageSource.setBasenames(
-        "classpath:/messages/application"
+        "classpath:/messages/application",
+        "classpath:/messages/technology_blip"
     );
     messageSource.setDefaultEncoding("UTF-8");
     return messageSource;
