@@ -5,7 +5,7 @@ Technical and business radar. Demo available at https://app.h5radar.com. Spring 
 * add release notes file to docs
 * update version at antora.yml file
 * run command mvn release:prepare and mvn release:perform
-* create archive by command: tar -zcvf Binaries.tar.gz h5radar*.jar
+* create archive by command: tar -zcvf Binaries.tar.gz radar*.jar
 * setup version at antora.yml file at latest value
 * create and publish the new release at GitHub
 
