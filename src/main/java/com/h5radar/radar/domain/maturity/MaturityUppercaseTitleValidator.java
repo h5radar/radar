@@ -3,13 +3,13 @@ package com.h5radar.radar.domain.maturity;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang3.StmaturityUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
-public class MaturityUppercaseTitleValidator implements ConstraintValidator<MaturityUppercaseTitleConstraint, Stmaturity> {
+public class MaturityUppercaseTitleValidator implements ConstraintValidator<MaturityUppercaseTitleConstraint, String> {
 
   @Override
-  public boolean isValid(Stmaturity value, ConstraintValidatorContext context) {
-    return StmaturityUtils.isAllUpperCase(value);
+  public boolean isValid(String value, ConstraintValidatorContext context) {
+    return StringUtils.isAllUpperCase(value);
   }
 }

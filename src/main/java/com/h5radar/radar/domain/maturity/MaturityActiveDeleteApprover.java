@@ -13,7 +13,7 @@ import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
 
 @RequiredArgsConstructor
-public class RadarActiveDeleteApprover implements ModelApprover {
+public class MaturityActiveDeleteApprover implements ModelApprover {
 
   private final MessageSource messageSource;
 

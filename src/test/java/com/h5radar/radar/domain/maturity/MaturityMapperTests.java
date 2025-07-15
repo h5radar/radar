@@ -108,7 +108,8 @@ class MaturityMapperTests extends AbstractMapperTests {
 
     Assertions.assertNotNull(maturityDto.getTechnologyBlipDtoList());
     Assertions.assertEquals(1, maturityDto.getTechnologyBlipDtoList().size());
-    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getId(), technologyBlipDto.getId());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getId(),
+      technologyBlipDto.getId());
     Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getRadarId(),
         technologyBlipDto.getRadarId());
     Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getRadarTitle(),

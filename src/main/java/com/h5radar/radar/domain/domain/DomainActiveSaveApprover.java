@@ -15,7 +15,7 @@ import com.h5radar.radar.domain.ValidationException;
 import com.h5radar.radar.domain.radar.Radar;
 
 @RequiredArgsConstructor
-public class RadarActiveSaveApprover implements ModelApprover {
+public class DomainActiveSaveApprover implements ModelApprover {
 
   private final MessageSource messageSource;
 
