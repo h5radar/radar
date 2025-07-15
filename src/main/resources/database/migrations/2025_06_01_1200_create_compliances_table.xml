@@ -6,19 +6,19 @@
 
     <include file="../properties.yml" relativeToChangelogFile="true"/>
 
-    <changeSet id="create_licenses_table" author="h5radar">
-        <createTable tableName="licenses" remarks="Holds information about licenses.">
-            <column name="id" type="${bigint.type}" remarks="License id, primary key." autoIncrement="true"
+    <changeSet id="create_compliances_table" author="h5radar">
+        <createTable tableName="compliances" remarks="Holds information about compliances.">
+            <column name="id" type="${bigint.type}" remarks="Compliance id, primary key." autoIncrement="true"
                     generationType="ALWAYS">
-                <constraints primaryKey="true" primaryKeyName="pk_licenses_id" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="pk_compliances_id" nullable="false"/>
             </column>
             <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
-                <constraints nullable="false" foreignKeyName="fk_licenses_radar_user_id_2_radar_users" references="radar_users(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_compliances_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
             <column name="title" type="${text.type}" remarks="Technology title, unique.">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="${text.type}" remarks="Description for license."/>
+            <column name="description" type="${text.type}" remarks="Description for compliance."/>
             <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
@@ -37,13 +37,13 @@
             </column>
         </createTable>
         <addUniqueConstraint columnNames="radar_user_id, title"
-                             constraintName="uc_licenses_radar_user_id_title"
-                             tableName="licenses"
+                             constraintName="uc_compliances_radar_user_id_title"
+                             tableName="compliances"
                              validate="true"/>
         <!-- current Liquibase ignores checkConstraint attribute -->
         <sql>
-            ALTER TABLE licenses
-                ADD CONSTRAINT ck_licenses_title_trim CHECK (trim(title) = title)
+            ALTER TABLE compliances
+                ADD CONSTRAINT ck_compliances_title_trim CHECK (trim(title) = title)
         </sql>
     </changeSet>
 </databaseChangeLog>

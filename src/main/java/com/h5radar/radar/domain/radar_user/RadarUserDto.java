@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.h5radar.radar.domain.compliance.ComplianceDto;
 import com.h5radar.radar.domain.license.LicenseDto;
 import com.h5radar.radar.domain.practice.PracticeDto;
 import com.h5radar.radar.domain.product.ProductDto;
@@ -41,6 +42,9 @@ public class RadarUserDto {
   private String sub;
 
   private String username;
+
+  @JsonIgnore
+  private List<ComplianceDto> complianceDtoList;
 
   @JsonIgnore
   private List<LicenseDto> licenseDtoList;
