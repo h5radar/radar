@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.compliance;
 
 import java.util.Optional;
 
@@ -13,19 +13,19 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 
 @Mapper(config = MapperConfiguration.class)
-public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> {
+public abstract class ComplianceMapper implements PlainMapper<Compliance, ComplianceDto> {
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
   @Mapping(source = "radarUser.id", target = "radarUserId")
-  public abstract LicenseDto toDto(final License entity);
+  public abstract ComplianceDto toDto(final Compliance entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
-  public abstract License toEntity(final LicenseDto dto);
+  public abstract Compliance toEntity(final ComplianceDto dto);
 
-  RadarUser getRadarUser(LicenseDto licenseDto) {
-    if (licenseDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(licenseDto.getRadarUserId());
+  RadarUser getRadarUser(ComplianceDto complianceDto) {
+    if (complianceDto.getRadarUserId() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(complianceDto.getRadarUserId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }

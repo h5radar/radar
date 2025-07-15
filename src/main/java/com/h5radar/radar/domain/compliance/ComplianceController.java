@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.compliance;
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -25,84 +25,84 @@ import org.springframework.web.bind.annotation.RestController;
 import com.h5radar.radar.RadarConstants;
 
 @RestController
-@Tag(name = "License API")
-@RequestMapping("/api/v1/licenses")
+@Tag(name = "Compliance API")
+@RequestMapping("/api/v1/compliances")
 @RequiredArgsConstructor
-public class LicenseController {
+public class ComplianceController {
 
-  private static final String LICENSES_TITLE_CONSTRAINTS = "uc_licenses_radar_user_id_title";
+  private static final String LICENSES_TITLE_CONSTRAINTS = "uc_compliances_radar_user_id_title";
 
-  private final LicenseService licenseService;
+  private final ComplianceService complianceService;
 
   @GetMapping("")
-  public ResponseEntity<Page<LicenseDto>> index(
+  public ResponseEntity<Page<ComplianceDto>> index(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
-      @Valid LicenseFilter licenseFilter,
+      @Valid ComplianceFilter complianceFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
       @RequestParam(defaultValue = "title,asc") String[] sort) {
 
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<LicenseDto> licenseDtoPage =
-        licenseService.findAll(licenseFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return ResponseEntity.status(HttpStatus.OK).body(licenseDtoPage);
+    Page<ComplianceDto> complianceDtoPage =
+        complianceService.findAll(complianceFilter, PageRequest.of(page - 1, size, Sort.by(order)));
+    return ResponseEntity.status(HttpStatus.OK).body(complianceDtoPage);
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> show(
+  public ResponseEntity<ComplianceDto> show(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+    Optional<ComplianceDto> complianceRecord = complianceService.findById(id);
+    if (complianceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    return ResponseEntity.status(HttpStatus.OK).body(licenseRecord.get());
+    return ResponseEntity.status(HttpStatus.OK).body(complianceRecord.get());
   }
 
   @PostMapping
-  public ResponseEntity<LicenseDto> create(
+  public ResponseEntity<ComplianceDto> create(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
-      @RequestBody LicenseDto licenseDto) {
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserId);
-    licenseDto = licenseService.save(licenseDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(licenseDto);
+      @RequestBody ComplianceDto complianceDto) {
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserId);
+    complianceDto = complianceService.save(complianceDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(complianceDto);
   }
 
   @PutMapping(value = "/{id}")
-  public ResponseEntity<LicenseDto> update(
+  public ResponseEntity<ComplianceDto> update(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
-      @PathVariable("id") Long id, @RequestBody LicenseDto licenseDto) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+      @PathVariable("id") Long id, @RequestBody ComplianceDto complianceDto) {
+    Optional<ComplianceDto> complianceRecord = complianceService.findById(id);
+    if (complianceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    licenseDto.setId(id);
-    licenseDto.setRadarUserId(radarUserId);
-    licenseService.save(licenseDto);
-    return ResponseEntity.status(HttpStatus.OK).body(licenseDto);
+    complianceDto.setId(id);
+    complianceDto.setRadarUserId(radarUserId);
+    complianceService.save(complianceDto);
+    return ResponseEntity.status(HttpStatus.OK).body(complianceDto);
   }
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @PathVariable("id") Long id) {
-    Optional<LicenseDto> licenseRecord = licenseService.findById(id);
-    if (licenseRecord.isEmpty()) {
+    Optional<ComplianceDto> complianceRecord = complianceService.findById(id);
+    if (complianceRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    licenseService.deleteById(id);
+    complianceService.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PostMapping(value = "/seed")
-  public ResponseEntity<LicenseDto> seed(
+  public ResponseEntity<ComplianceDto> seed(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
   ) {
-    if (this.licenseService.countByRadarUserId(radarUserId) == 0) {
+    if (this.complianceService.countByRadarUserId(radarUserId) == 0) {
       try {
-        licenseService.seed(radarUserId);
+        complianceService.seed(radarUserId);
       } catch (DataIntegrityViolationException exception) {
         if (!exception.getMessage().toLowerCase().contains(LICENSES_TITLE_CONSTRAINTS)) {
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

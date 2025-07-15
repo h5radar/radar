@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.compliance;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -34,89 +34,89 @@ import com.h5radar.radar.domain.radar_user.RadarUser;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class LicenseServiceImpl implements LicenseService {
+public class ComplianceServiceImpl implements ComplianceService {
 
   private final Validator validator;
-  private final LicenseRepository licenseRepository;
-  private final LicenseMapper licenseMapper;
+  private final ComplianceRepository complianceRepository;
+  private final ComplianceMapper complianceMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<LicenseDto> findAll() {
-    return licenseRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(licenseMapper::toDto).collect(Collectors.toList());
+  public Collection<ComplianceDto> findAll() {
+    return complianceRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        .stream().map(complianceMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<LicenseDto> findAll(LicenseFilter licenseFilter, Pageable pageable) {
-    return licenseRepository.findAll((root, query, builder) -> {
+  public Page<ComplianceDto> findAll(ComplianceFilter complianceFilter, Pageable pageable) {
+    return complianceRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (licenseFilter != null && licenseFilter.getTitle() != null
-          && !licenseFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), licenseFilter.getTitle()));
+      if (complianceFilter != null && complianceFilter.getTitle() != null
+          && !complianceFilter.getTitle().isBlank()) {
+        predicateList.add(builder.like(root.get("title"), complianceFilter.getTitle()));
       }
-      if (licenseFilter != null && licenseFilter.getWebsite() != null
-          && !licenseFilter.getWebsite().isBlank()) {
-        predicateList.add(builder.like(root.get("website"), licenseFilter.getWebsite()));
+      if (complianceFilter != null && complianceFilter.getWebsite() != null
+          && !complianceFilter.getWebsite().isBlank()) {
+        predicateList.add(builder.like(root.get("website"), complianceFilter.getWebsite()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(licenseMapper::toDto);
+    }, pageable).map(complianceMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LicenseDto> findById(Long id) {
-    return licenseRepository.findById(id).map(licenseMapper::toDto);
+  public Optional<ComplianceDto> findById(Long id) {
+    return complianceRepository.findById(id).map(complianceMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LicenseDto> findByTitle(String title) {
-    return licenseRepository.findByTitle(title).map(licenseMapper::toDto);
+  public Optional<ComplianceDto> findByTitle(String title) {
+    return complianceRepository.findByTitle(title).map(complianceMapper::toDto);
   }
 
   @Override
   @Transactional
-  public LicenseDto save(LicenseDto licenseDto) {
-    License license = licenseMapper.toEntity(licenseDto);
+  public ComplianceDto save(ComplianceDto complianceDto) {
+    Compliance compliance = complianceMapper.toEntity(complianceDto);
     // Throw exception if violations are exists
     List<ModelError> modelErrorList = new LinkedList<>();
-    Set<ConstraintViolation<License>> constraintViolationSet = validator.validate(license);
+    Set<ConstraintViolation<Compliance>> constraintViolationSet = validator.validate(compliance);
     if (!constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<License> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<Compliance> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
             constraintViolation.getPropertyPath().toString()));
       }
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return licenseMapper.toDto(licenseRepository.save(license));
+    return complianceMapper.toDto(complianceRepository.save(compliance));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    licenseRepository.deleteById(id);
+    complianceRepository.deleteById(id);
   }
 
   @Override
   @Transactional
   public long deleteByRadarUserId(Long radarUserId) {
-    return licenseRepository.deleteByRadarUserId(radarUserId);
+    return complianceRepository.deleteByRadarUserId(radarUserId);
   }
 
   @Override
   @Transactional
   public long countByRadarUserId(Long radarUserId) {
-    return this.licenseRepository.countByRadarUserId(radarUserId);
+    return this.complianceRepository.countByRadarUserId(radarUserId);
   }
 
   @Override
   @Transactional
   public void seed(Long radarUserId) throws Exception {
-    // Read license_blips
-    URL url = ResourceUtils.getURL("classpath:database/datasets/licenses_en.csv");
+    // Read compliance_blips
+    URL url = ResourceUtils.getURL("classpath:database/datasets/compliances_en.csv");
     String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
         .collect(Collectors.joining("\n"));
 
@@ -126,14 +126,14 @@ public class LicenseServiceImpl implements LicenseService {
         .withCSVParser(new CSVParserBuilder().withSeparator('|').build())
         .withSkipLines(1).build();
     while ((record = csvReader.readNext()) != null) {
-      License license = new License();
-      license.setRadarUser(radarUser);
-      license.setTitle(record[0]);
-      license.setDescription(record[1]);
+      Compliance compliance = new Compliance();
+      compliance.setRadarUser(radarUser);
+      compliance.setTitle(record[0]);
+      compliance.setDescription(record[1]);
 
       // Create only if not exists
-      if (this.licenseRepository.findByRadarUserIdAndTitle(radarUserId, license.getTitle()).isEmpty()) {
-        this.licenseRepository.save(license);
+      if (this.complianceRepository.findByRadarUserIdAndTitle(radarUserId, compliance.getTitle()).isEmpty()) {
+        this.complianceRepository.save(compliance);
       }
     }
   }

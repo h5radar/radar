@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.compliance;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = LicenseTitleTrimValidator.class)
+@Constraint(validatedBy = ComplianceTitleTrimValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LicenseTrimTitleConstraint {
+public @interface ComplianceTrimTitleConstraint {
   String message() default "should be without whitespaces before and after";
 
   Class<?>[] groups() default {};

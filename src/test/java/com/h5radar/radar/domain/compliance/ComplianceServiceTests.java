@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.domain.compliance;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,182 +27,182 @@ import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
 
 
-class LicenseServiceTests extends AbstractServiceTests {
+class ComplianceServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
   @MockitoBean
-  private LicenseRepository licenseRepository;
+  private ComplianceRepository complianceRepository;
   @Autowired
-  private LicenseMapper licenseMapper;
+  private ComplianceMapper complianceMapper;
   @Autowired
-  private LicenseService licenseService;
+  private ComplianceService complianceService;
 
   @Test
-  void shouldFindAllLicenses() {
+  void shouldFindAllCompliances() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final License license = new License();
-    license.setId(10L);
-    license.setRadarUser(radarUser);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    List<License> licenseList = List.of(license);
-    Mockito.when(licenseRepository.findAll(any(Sort.class))).thenReturn(licenseList);
+    List<Compliance> complianceList = List.of(compliance);
+    Mockito.when(complianceRepository.findAll(any(Sort.class))).thenReturn(complianceList);
 
-    Collection<LicenseDto> licenseDtoCollection = licenseService.findAll();
-    Assertions.assertEquals(1, licenseDtoCollection.size());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getId(), license.getId());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getTitle(), license.getTitle());
-    Assertions.assertEquals(licenseDtoCollection.iterator().next().getDescription(), license.getDescription());
+    Collection<ComplianceDto> complianceDtoCollection = complianceService.findAll();
+    Assertions.assertEquals(1, complianceDtoCollection.size());
+    Assertions.assertEquals(complianceDtoCollection.iterator().next().getId(), compliance.getId());
+    Assertions.assertEquals(complianceDtoCollection.iterator().next().getTitle(), compliance.getTitle());
+    Assertions.assertEquals(complianceDtoCollection.iterator().next().getDescription(), compliance.getDescription());
   }
 
   @Test
-  void shouldFindAllLicensesWithNullFilter() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldFindAllCompliancesWithNullFilter() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    List<License> licenseList = List.of(license);
-    Page<License> page = new PageImpl<>(licenseList);
-    Mockito.when(licenseRepository.findAll(ArgumentMatchers.<Specification<License>>any(), any(Pageable.class)))
+    List<Compliance> complianceList = List.of(compliance);
+    Page<Compliance> page = new PageImpl<>(complianceList);
+    Mockito.when(complianceRepository.findAll(ArgumentMatchers.<Specification<Compliance>>any(), any(Pageable.class)))
         .thenReturn(page);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<LicenseDto> licenseDtoPage = licenseService.findAll(null, pageable);
-    Assertions.assertEquals(1, licenseDtoPage.getSize());
-    Assertions.assertEquals(0, licenseDtoPage.getNumber());
-    Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getId(), license.getId());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
+    Page<ComplianceDto> complianceDtoPage = complianceService.findAll(null, pageable);
+    Assertions.assertEquals(1, complianceDtoPage.getSize());
+    Assertions.assertEquals(0, complianceDtoPage.getNumber());
+    Assertions.assertEquals(1, complianceDtoPage.getTotalPages());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getId(), compliance.getId());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getTitle(), compliance.getTitle());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getDescription(), compliance.getDescription());
 
-    // Mockito.verify(licenseRepository).findAll(
+    // Mockito.verify(complianceRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindAllLicensesWithEmptyFilter() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldFindAllCompliancesWithEmptyFilter() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    List<License> licenseList = List.of(license);
-    Page<License> page = new PageImpl<>(licenseList);
-    Mockito.when(licenseRepository.findAll(ArgumentMatchers.<Specification<License>>any(), any(Pageable.class)))
+    List<Compliance> complianceList = List.of(compliance);
+    Page<Compliance> page = new PageImpl<>(complianceList);
+    Mockito.when(complianceRepository.findAll(ArgumentMatchers.<Specification<Compliance>>any(), any(Pageable.class)))
         .thenReturn(page);
 
-    LicenseFilter licenseFilter = new LicenseFilter();
+    ComplianceFilter complianceFilter = new ComplianceFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<LicenseDto> licenseDtoPage = licenseService.findAll(licenseFilter, pageable);
-    Assertions.assertEquals(1, licenseDtoPage.getSize());
-    Assertions.assertEquals(0, licenseDtoPage.getNumber());
-    Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getId(), license.getId());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
-    Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
+    Page<ComplianceDto> complianceDtoPage = complianceService.findAll(complianceFilter, pageable);
+    Assertions.assertEquals(1, complianceDtoPage.getSize());
+    Assertions.assertEquals(0, complianceDtoPage.getNumber());
+    Assertions.assertEquals(1, complianceDtoPage.getTotalPages());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getId(), compliance.getId());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getTitle(), compliance.getTitle());
+    Assertions.assertEquals(complianceDtoPage.iterator().next().getDescription(), compliance.getDescription());
 
-    // Mockito.verify(licenseRepository).findAll(
+    // Mockito.verify(complianceRepository).findAll(
     //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindByIdLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldFindByIdCompliance() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    Mockito.when(licenseRepository.findById(license.getId())).thenReturn(Optional.of(license));
+    Mockito.when(complianceRepository.findById(compliance.getId())).thenReturn(Optional.of(compliance));
 
-    Optional<LicenseDto> licenseDtoOptional = licenseService.findById(license.getId());
-    Assertions.assertTrue(licenseDtoOptional.isPresent());
-    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
-    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
+    Optional<ComplianceDto> complianceDtoOptional = complianceService.findById(compliance.getId());
+    Assertions.assertTrue(complianceDtoOptional.isPresent());
+    Assertions.assertEquals(compliance.getId(), complianceDtoOptional.get().getId());
+    Assertions.assertEquals(compliance.getTitle(), complianceDtoOptional.get().getTitle());
+    Assertions.assertEquals(compliance.getDescription(), complianceDtoOptional.get().getDescription());
 
-    Mockito.verify(licenseRepository).findById(license.getId());
+    Mockito.verify(complianceRepository).findById(compliance.getId());
   }
 
   @Test
-  void shouldFindByTitleLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldFindByTitleCompliance() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    Mockito.when(licenseRepository.findByTitle(license.getTitle())).thenReturn(Optional.of(license));
+    Mockito.when(complianceRepository.findByTitle(compliance.getTitle())).thenReturn(Optional.of(compliance));
 
-    Optional<LicenseDto> licenseDtoOptional = licenseService.findByTitle(license.getTitle());
-    Assertions.assertTrue(licenseDtoOptional.isPresent());
-    Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
-    Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
-    Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
+    Optional<ComplianceDto> complianceDtoOptional = complianceService.findByTitle(compliance.getTitle());
+    Assertions.assertTrue(complianceDtoOptional.isPresent());
+    Assertions.assertEquals(compliance.getId(), complianceDtoOptional.get().getId());
+    Assertions.assertEquals(compliance.getTitle(), complianceDtoOptional.get().getTitle());
+    Assertions.assertEquals(compliance.getDescription(), complianceDtoOptional.get().getDescription());
 
-    Mockito.verify(licenseRepository).findByTitle(license.getTitle());
+    Mockito.verify(complianceRepository).findByTitle(compliance.getTitle());
   }
 
   @Test
-  void shouldSaveLicense() {
+  void shouldSaveCompliance() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(3L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
-    final License license = new License();
-    license.setId(10L);
-    license.setRadarUser(radarUser);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
-    Mockito.when(licenseRepository.save(any())).thenReturn(license);
+    Mockito.when(complianceRepository.save(any())).thenReturn(compliance);
 
-    LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
-    Assertions.assertEquals(license.getId(), licenseDto.getId());
-    Assertions.assertEquals(license.getTitle(), licenseDto.getTitle());
-    Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
+    ComplianceDto complianceDto = complianceService.save(complianceMapper.toDto(compliance));
+    Assertions.assertEquals(compliance.getId(), complianceDto.getId());
+    Assertions.assertEquals(compliance.getTitle(), complianceDto.getTitle());
+    Assertions.assertEquals(compliance.getDescription(), complianceDto.getDescription());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(licenseRepository).save(any());
+    Mockito.verify(complianceRepository).save(any());
   }
 
   @Test
-  void shouldFailToSaveLicenseDueToTitleWithWhiteSpace() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle(" My license ");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldFailToSaveComplianceDueToTitleWithWhiteSpace() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle(" My compliance ");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
     ValidationException exception = catchThrowableOfType(() ->
-        licenseService.save(licenseMapper.toDto(license)), ValidationException.class);
+        complianceService.save(complianceMapper.toDto(compliance)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
 
   @Test
-  void shouldDeleteLicense() {
-    final License license = new License();
-    license.setId(10L);
-    license.setTitle("My license");
-    license.setDescription("My license description");
-    license.setActive(true);
+  void shouldDeleteCompliance() {
+    final Compliance compliance = new Compliance();
+    compliance.setId(10L);
+    compliance.setTitle("My compliance");
+    compliance.setDescription("My compliance description");
+    compliance.setActive(true);
 
-    Mockito.doAnswer((i) -> null).when(licenseRepository).deleteById(license.getId());
+    Mockito.doAnswer((i) -> null).when(complianceRepository).deleteById(compliance.getId());
 
-    licenseService.deleteById(license.getId());
-    Mockito.verify(licenseRepository).deleteById(license.getId());
+    complianceService.deleteById(compliance.getId());
+    Mockito.verify(complianceRepository).deleteById(compliance.getId());
   }
 }
