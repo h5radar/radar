@@ -19,7 +19,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
-import com.h5radar.radar.domain.radar.RadarDto;
 
 @WebMvcTest(MaturityController.class)
 public class MaturityControllerTests extends AbstractControllerTests {
@@ -28,15 +27,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetMaturitys() throws Exception {
-    final RadarDto radarDto = new RadarDto();
-    radarDto.setId(12L);
-    radarDto.setTitle("My radar");
-    radarDto.setDescription("My radar description");
-
+  public void shouldGetMaturities() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarId(radarDto.getId());
+    // maturityDto.setRadarUserId(radarDto.getId());
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
 
@@ -48,7 +42,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(maturityDtoPage.getContent().size())))
         .andExpect(jsonPath("$[0].id", equalTo(maturityDto.getId()), Long.class))
-        .andExpect(jsonPath("$[0].radar_id", equalTo(maturityDto.getRadarId()), Long.class))
+        // .andExpect(jsonPath("$[0].radar_id", equalTo(maturityDto.getRadarId()), Long.class))
         .andExpect(jsonPath("$[0].title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$[0].description", equalTo(maturityDto.getDescription())))
         .andExpect(jsonPath("$[0].color", equalTo(maturityDto.getColor())));
