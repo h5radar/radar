@@ -30,7 +30,7 @@ import com.h5radar.radar.RadarConstants;
 @RequiredArgsConstructor
 public class ComplianceController {
 
-  private static final String LICENSES_TITLE_CONSTRAINTS = "uc_compliances_radar_user_id_title";
+  private static final String COMPLIANCE_TITLE_CONSTRAINTS = "uc_compliances_radar_user_id_title";
 
   private final ComplianceService complianceService;
 
@@ -104,7 +104,7 @@ public class ComplianceController {
       try {
         complianceService.seed(radarUserId);
       } catch (DataIntegrityViolationException exception) {
-        if (!exception.getMessage().toLowerCase().contains(LICENSES_TITLE_CONSTRAINTS)) {
+        if (!exception.getMessage().toLowerCase().contains(COMPLIANCE_TITLE_CONSTRAINTS)) {
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
       } catch (Exception e) {
