@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Tag(name = "Segment API")
-@RequestMapping("/api/v1/segments")
+@Tag(name = "Domain API")
+@RequestMapping("/api/v1/domains")
 @RequiredArgsConstructor
-public class SegmentController {
+public class DomainController {
 
-  private final SegmentService segmentService;
+  private final DomainService domainService;
 
   @GetMapping("")
-  public Collection<SegmentDto> index(@Valid SegmentFilter segmentFilter,
+  public Collection<DomainDto> index(@Valid DomainFilter domainFilter,
                                       @RequestParam(defaultValue = "${application.paging.page}") int page,
                                       @RequestParam(defaultValue = "${application.paging.size}") int size,
                                       @RequestParam(defaultValue = "title,asc") String[] sort) {
     Sort.Direction direction = sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Sort.Order order = new Sort.Order(direction, sort[0]);
-    Page<SegmentDto> segmentPage =
-        segmentService.findAll(segmentFilter, PageRequest.of(page - 1, size, Sort.by(order)));
-    return segmentPage.getContent();
+    Page<DomainDto> domainPage =
+        domainService.findAll(domainFilter, PageRequest.of(page - 1, size, Sort.by(order)));
+    return domainPage.getContent();
   }
 }

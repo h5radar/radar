@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -12,102 +12,102 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.spmaturityframework.beans.factory.annotation.Autowired;
+import org.spmaturityframework.data.domain.Page;
+import org.spmaturityframework.data.domain.PageImpl;
+import org.spmaturityframework.data.domain.PageRequest;
+import org.spmaturityframework.data.domain.Pageable;
+import org.spmaturityframework.data.domain.Sort;
+import org.spmaturityframework.data.jpa.domain.Specification;
+import org.spmaturityframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractServiceTests;
 import com.h5radar.radar.domain.ValidationException;
 import com.h5radar.radar.domain.radar.Radar;
 import com.h5radar.radar.domain.radar.RadarRepository;
 
-class RingServiceTests extends AbstractServiceTests {
+class MaturityServiceTests extends AbstractServiceTests {
 
   @MockitoBean
-  private RingRepository ringRepository;
+  private MaturityRepository maturityRepository;
   @MockitoBean
   private RadarRepository radarRepository;
   @Autowired
-  private RingMapper ringMapper;
+  private MaturityMapper maturityMapper;
   @Autowired
-  private RingService ringService;
+  private MaturityService maturityService;
 
   @Test
-  void shouldFindAllRings() {
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("My color");
-    ring.setPosition(1);
+  void shouldFindAllMaturitys() {
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("My color");
+    maturity.setPosition(1);
 
-    List<Ring> ringList = List.of(ring);
-    Mockito.when(ringRepository.findAll(any(Sort.class))).thenReturn(ringList);
+    List<Maturity> maturityList = List.of(maturity);
+    Mockito.when(maturityRepository.findAll(any(Sort.class))).thenReturn(maturityList);
 
-    Collection<RingDto> ringDtoCollection = ringService.findAll();
-    Assertions.assertEquals(1, ringDtoCollection.size());
-    Assertions.assertEquals(ringDtoCollection.iterator().next().getId(), ring.getId());
-    Assertions.assertEquals(ringDtoCollection.iterator().next().getTitle(), ring.getTitle());
-    Assertions.assertEquals(ringDtoCollection.iterator().next().getDescription(), ring.getDescription());
-    Assertions.assertEquals(ringDtoCollection.iterator().next().getColor(), ring.getColor());
-    Assertions.assertEquals(ringDtoCollection.iterator().next().getPosition(), ring.getPosition());
+    Collection<MaturityDto> maturityDtoCollection = maturityService.findAll();
+    Assertions.assertEquals(1, maturityDtoCollection.size());
+    Assertions.assertEquals(maturityDtoCollection.iterator().next().getId(), maturity.getId());
+    Assertions.assertEquals(maturityDtoCollection.iterator().next().getTitle(), maturity.getTitle());
+    Assertions.assertEquals(maturityDtoCollection.iterator().next().getDescription(), maturity.getDescription());
+    Assertions.assertEquals(maturityDtoCollection.iterator().next().getColor(), maturity.getColor());
+    Assertions.assertEquals(maturityDtoCollection.iterator().next().getPosition(), maturity.getPosition());
 
   }
 
   @Test
-  void shouldFindAllRingsWithNullFilter() {
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("My color");
-    ring.setPosition(1);
+  void shouldFindAllMaturitysWithNullFilter() {
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("My color");
+    maturity.setPosition(1);
 
-    List<Ring> ringList = List.of(ring);
-    Page<Ring> page = new PageImpl<>(ringList);
-    Mockito.when(ringRepository.findAll(ArgumentMatchers.<Specification<Ring>>any(), any(Pageable.class)))
+    List<Maturity> maturityList = List.of(maturity);
+    Page<Maturity> page = new PageImpl<>(maturityList);
+    Mockito.when(maturityRepository.findAll(ArgumentMatchers.<Specification<Maturity>>any(), any(Pageable.class)))
         .thenReturn(page);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<RingDto> ringDtoPage = ringService.findAll(null, pageable);
-    Assertions.assertEquals(1, ringDtoPage.getSize());
-    Assertions.assertEquals(0, ringDtoPage.getNumber());
-    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getId(), ring.getId());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getTitle(), ring.getTitle());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getDescription(), ring.getDescription());
+    Page<MaturityDto> maturityDtoPage = maturityService.findAll(null, pageable);
+    Assertions.assertEquals(1, maturityDtoPage.getSize());
+    Assertions.assertEquals(0, maturityDtoPage.getNumber());
+    Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getId(), maturity.getId());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getTitle(), maturity.getTitle());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getDescription(), maturity.getDescription());
 
     // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindAllRingsWithEmptyFilter() {
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("My color");
-    ring.setPosition(1);
+  void shouldFindAllMaturitysWithEmptyFilter() {
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("My color");
+    maturity.setPosition(1);
 
-    List<Ring> ringList = List.of(ring);
-    Page<Ring> page = new PageImpl<>(ringList);
-    Mockito.when(ringRepository.findAll(ArgumentMatchers.<Specification<Ring>>any(), any(Pageable.class)))
+    List<Maturity> maturityList = List.of(maturity);
+    Page<Maturity> page = new PageImpl<>(maturityList);
+    Mockito.when(maturityRepository.findAll(ArgumentMatchers.<Specification<Maturity>>any(), any(Pageable.class)))
         .thenReturn(page);
 
-    RingFilter ringFilter = new RingFilter();
+    MaturityFilter maturityFilter = new MaturityFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<RingDto> ringDtoPage = ringService.findAll(ringFilter, pageable);
-    Assertions.assertEquals(1, ringDtoPage.getSize());
-    Assertions.assertEquals(0, ringDtoPage.getNumber());
-    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getId(), ring.getId());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getTitle(), ring.getTitle());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getDescription(), ring.getDescription());
+    Page<MaturityDto> maturityDtoPage = maturityService.findAll(maturityFilter, pageable);
+    Assertions.assertEquals(1, maturityDtoPage.getSize());
+    Assertions.assertEquals(0, maturityDtoPage.getNumber());
+    Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getId(), maturity.getId());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getTitle(), maturity.getTitle());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getDescription(), maturity.getDescription());
 
     // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
@@ -116,7 +116,7 @@ class RingServiceTests extends AbstractServiceTests {
 
   @Test
   @Transactional
-  void shouldFindAllRingsWithBlankTitleFilter() {
+  void shouldFindAllMaturitysWithBlankTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
     radarType.setDescription("My radar type description");
@@ -131,27 +131,27 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    List<Ring> ringList = List.of(
-        new Ring(null, radar, "TRIAL", "Description", 0, "Color", null),
-        new Ring(null, radar, "ADOPT", "New description", 1, "Color", null)
+    List<Maturity> maturityList = List.of(
+        new Maturity(null, radar, "TRIAL", "Description", 0, "Color", null),
+        new Maturity(null, radar, "ADOPT", "New description", 1, "Color", null)
     );
-    for (Ring ring : ringList) {
-      ringRepository.save(ring);
+    for (Maturity maturity : maturityList) {
+      maturityRepository.save(maturity);
     }
 
-    RingFilter ringFilter = new RingFilter();
-    ringFilter.setTitle("");
+    MaturityFilter maturityFilter = new MaturityFilter();
+    maturityFilter.setTitle("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RingDto> ringDtoPage = ringService.findAll(ringFilter, pageable);
-    Assertions.assertEquals(10, ringDtoPage.getSize());
-    Assertions.assertEquals(0, ringDtoPage.getNumber());
-    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
-    Assertions.assertEquals(2, ringDtoPage.getNumberOfElements());
+    Page<MaturityDto> maturityDtoPage = maturityService.findAll(maturityFilter, pageable);
+    Assertions.assertEquals(10, maturityDtoPage.getSize());
+    Assertions.assertEquals(0, maturityDtoPage.getNumber());
+    Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
+    Assertions.assertEquals(2, maturityDtoPage.getNumberOfElements());
   }
 
   @Test
   @Transactional
-  void shouldFindAllRingsWithTitleFilter() {
+  void shouldFindAllMaturitysWithTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
     radarType.setDescription("My radar type description");
@@ -166,73 +166,73 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    List<Ring> ringList = List.of(
-        new Ring(null, radar, "TRIAL", "Description", 0, "Color", null),
-        new Ring(null, radar, "ADOPT", "New description", 1, "Color", null)
+    List<Maturity> maturityList = List.of(
+        new Maturity(null, radar, "TRIAL", "Description", 0, "Color", null),
+        new Maturity(null, radar, "ADOPT", "New description", 1, "Color", null)
     );
-    for (Ring ring : ringList) {
-      ringRepository.save(ring);
+    for (Maturity maturity : maturityList) {
+      maturityRepository.save(maturity);
     }
 
-    RingFilter ringFilter = new RingFilter();
-    ringFilter.setTitle(ringList.iterator().next().getTitle());
+    MaturityFilter maturityFilter = new MaturityFilter();
+    maturityFilter.setTitle(maturityList.iterator().next().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<RingDto> ringDtoPage = ringService.findAll(ringFilter, pageable);
-    Assertions.assertEquals(10, ringDtoPage.getSize());
-    Assertions.assertEquals(0, ringDtoPage.getNumber());
-    Assertions.assertEquals(1, ringDtoPage.getTotalPages());
-    Assertions.assertEquals(1, ringDtoPage.getNumberOfElements());
-    Assertions.assertNotNull(ringDtoPage.iterator().next().getId());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getTitle(), ringList.iterator().next().getTitle());
-    Assertions.assertEquals(ringDtoPage.iterator().next().getDescription(),
-        ringList.iterator().next().getDescription());
+    Page<MaturityDto> maturityDtoPage = maturityService.findAll(maturityFilter, pageable);
+    Assertions.assertEquals(10, maturityDtoPage.getSize());
+    Assertions.assertEquals(0, maturityDtoPage.getNumber());
+    Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
+    Assertions.assertEquals(1, maturityDtoPage.getNumberOfElements());
+    Assertions.assertNotNull(maturityDtoPage.iterator().next().getId());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getTitle(), maturityList.iterator().next().getTitle());
+    Assertions.assertEquals(maturityDtoPage.iterator().next().getDescription(),
+        maturityList.iterator().next().getDescription());
   }
    */
 
   @Test
-  void shouldFindByIdRing() {
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+  void shouldFindByIdMaturity() {
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
-    Mockito.when(ringRepository.findById(ring.getId())).thenReturn(Optional.of(ring));
+    Mockito.when(maturityRepository.findById(maturity.getId())).thenReturn(Optional.of(maturity));
 
-    Optional<RingDto> ringDtoOptional = ringService.findById(ring.getId());
-    Assertions.assertTrue(ringDtoOptional.isPresent());
-    Assertions.assertEquals(ring.getId(), ringDtoOptional.get().getId());
-    Assertions.assertEquals(ring.getTitle(), ringDtoOptional.get().getTitle());
-    Assertions.assertEquals(ring.getDescription(), ringDtoOptional.get().getDescription());
+    Optional<MaturityDto> maturityDtoOptional = maturityService.findById(maturity.getId());
+    Assertions.assertTrue(maturityDtoOptional.isPresent());
+    Assertions.assertEquals(maturity.getId(), maturityDtoOptional.get().getId());
+    Assertions.assertEquals(maturity.getTitle(), maturityDtoOptional.get().getTitle());
+    Assertions.assertEquals(maturity.getDescription(), maturityDtoOptional.get().getDescription());
 
-    Mockito.verify(ringRepository).findById(ring.getId());
+    Mockito.verify(maturityRepository).findById(maturity.getId());
   }
 
   @Test
-  void shouldFindByTitleRing() {
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+  void shouldFindByTitleMaturity() {
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
-    Mockito.when(ringRepository.findByTitle(ring.getTitle())).thenReturn(Optional.of(ring));
+    Mockito.when(maturityRepository.findByTitle(maturity.getTitle())).thenReturn(Optional.of(maturity));
 
-    Optional<RingDto> ringDtoOptional = ringService.findByTitle(ring.getTitle());
-    Assertions.assertTrue(ringDtoOptional.isPresent());
-    Assertions.assertEquals(ring.getId(), ringDtoOptional.get().getId());
-    Assertions.assertEquals(ring.getTitle(), ringDtoOptional.get().getTitle());
-    Assertions.assertEquals(ring.getDescription(), ringDtoOptional.get().getDescription());
-    Assertions.assertEquals(ring.getColor(), ringDtoOptional.get().getColor());
-    Assertions.assertEquals(ring.getPosition(), ringDtoOptional.get().getPosition());
+    Optional<MaturityDto> maturityDtoOptional = maturityService.findByTitle(maturity.getTitle());
+    Assertions.assertTrue(maturityDtoOptional.isPresent());
+    Assertions.assertEquals(maturity.getId(), maturityDtoOptional.get().getId());
+    Assertions.assertEquals(maturity.getTitle(), maturityDtoOptional.get().getTitle());
+    Assertions.assertEquals(maturity.getDescription(), maturityDtoOptional.get().getDescription());
+    Assertions.assertEquals(maturity.getColor(), maturityDtoOptional.get().getColor());
+    Assertions.assertEquals(maturity.getPosition(), maturityDtoOptional.get().getPosition());
 
-    Mockito.verify(ringRepository).findByTitle(ring.getTitle());
+    Mockito.verify(maturityRepository).findByTitle(maturity.getTitle());
   }
 
   @Test
-  void shouldSaveRing() {
+  void shouldSaveMaturity() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -241,28 +241,28 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(false);
 
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setRadar(radar);
-    ring.setTitle("ADOPT");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setRadar(radar);
+    maturity.setTitle("ADOPT");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
-    Mockito.when(ringRepository.save(any())).thenReturn(ring);
+    Mockito.when(maturityRepository.save(any())).thenReturn(maturity);
 
-    RingDto ringDto = ringService.save(ringMapper.toDto(ring));
-    Assertions.assertEquals(ring.getId(), ringDto.getId());
-    Assertions.assertEquals(ring.getTitle(), ringDto.getTitle());
-    Assertions.assertEquals(ring.getDescription(), ringDto.getDescription());
+    MaturityDto maturityDto = maturityService.save(maturityMapper.toDto(maturity));
+    Assertions.assertEquals(maturity.getId(), maturityDto.getId());
+    Assertions.assertEquals(maturity.getTitle(), maturityDto.getTitle());
+    Assertions.assertEquals(maturity.getDescription(), maturityDto.getDescription());
 
-    Mockito.verify(ringRepository).save(any());
+    Mockito.verify(maturityRepository).save(any());
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
   }
 
   @Test
-  void shouldFailToSaveRingDueToTitleWithWhiteSpace() {
+  void shouldFailToSaveMaturityDueToTitleWithWhiteSpace() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -271,18 +271,18 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(false);
 
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setRadar(radar);
-    ring.setTitle(" ADOPT ");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setRadar(radar);
+    maturity.setTitle(" ADOPT ");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
     ValidationException exception =
-        catchThrowableOfType(() -> ringService.save(ringMapper.toDto(ring)), ValidationException.class);
+        catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
 
@@ -290,7 +290,7 @@ class RingServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldFailToSaveRingDueToRadarIsActive() {
+  void shouldFailToSaveMaturityDueToRadarIsActive() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -299,27 +299,27 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(true);
 
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setRadar(radar);
-    ring.setTitle("ADOPT");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setRadar(radar);
+    maturity.setTitle("ADOPT");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
-    Mockito.when(ringRepository.findById(any())).thenReturn(Optional.of(ring));
+    Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
 
     ValidationException exception =
-        catchThrowableOfType(() -> ringService.save(ringMapper.toDto(ring)), ValidationException.class);
+        catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
 
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
-    Mockito.verify(ringRepository).findById(ring.getId());
+    Mockito.verify(maturityRepository).findById(maturity.getId());
   }
 
   @Test
-  void shouldFailToSaveRingDueToBelongActiveRadar() {
+  void shouldFailToSaveMaturityDueToBelongActiveRadar() {
     final Radar radar = new Radar();
     radar.setId(2L);
     radar.setTitle("My radar title");
@@ -334,19 +334,19 @@ class RingServiceTests extends AbstractServiceTests {
     radarActive.setPrimary(true);
     radarActive.setActive(true);
 
-    final Ring ring = new Ring();
-    ring.setId(3L);
-    ring.setRadar(radarActive);
-    ring.setTitle("ADOPT");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(3L);
+    maturity.setRadar(radarActive);
+    maturity.setTitle("ADOPT");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
-    Mockito.when(radarRepository.findById(ring.getRadar().getId())).thenReturn(Optional.of(radar));
-    Mockito.when(ringRepository.findById(ring.getId())).thenReturn(Optional.of(ring));
+    Mockito.when(radarRepository.findById(maturity.getRadar().getId())).thenReturn(Optional.of(radar));
+    Mockito.when(maturityRepository.findById(maturity.getId())).thenReturn(Optional.of(maturity));
 
     ValidationException exception =
-            catchThrowableOfType(() -> ringService.save(ringMapper.toDto(ring)), ValidationException.class);
+            catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("can't be saved for active radar"));
 
@@ -354,7 +354,7 @@ class RingServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldDeleteRing() {
+  void shouldDeleteMaturity() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -363,24 +363,24 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(false);
 
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setRadar(radar);
-    ring.setTitle("ADOPT");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setRadar(radar);
+    maturity.setTitle("ADOPT");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
-    Mockito.when(ringRepository.findById(any())).thenReturn(Optional.of(ring));
-    Mockito.doAnswer((i) -> null).when(ringRepository).deleteById(ring.getId());
+    Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
+    Mockito.doAnswer((i) -> null).when(maturityRepository).deleteById(maturity.getId());
 
-    ringService.deleteById(ring.getId());
-    Mockito.verify(ringRepository).findById(ring.getId());
-    Mockito.verify(ringRepository).deleteById(ring.getId());
+    maturityService.deleteById(maturity.getId());
+    Mockito.verify(maturityRepository).findById(maturity.getId());
+    Mockito.verify(maturityRepository).deleteById(maturity.getId());
   }
 
   @Test
-  void shouldFailToDeleteRingDueToRadarIsActive() {
+  void shouldFailToDeleteMaturityDueToRadarIsActive() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -389,22 +389,22 @@ class RingServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(true);
 
-    final Ring ring = new Ring();
-    ring.setId(10L);
-    ring.setRadar(radar);
-    ring.setTitle("ADOPT");
-    ring.setDescription("My description");
-    ring.setColor("my color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(10L);
+    maturity.setRadar(radar);
+    maturity.setTitle("ADOPT");
+    maturity.setDescription("My description");
+    maturity.setColor("my color");
+    maturity.setPosition(1);
 
-    Mockito.when(ringRepository.findById(any())).thenReturn(Optional.of(ring));
+    Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
 
     ValidationException exception =
-        catchThrowableOfType(() -> ringService.deleteById(ring.getId()), ValidationException.class);
+        catchThrowableOfType(() -> maturityService.deleteById(maturity.getId()), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
-    Assertions.assertEquals(exception.getMessage(), "Ring can't be deleted for active radar.");
-    Assertions.assertTrue(ring.getId().describeConstable().isPresent());
+    Assertions.assertEquals(exception.getMessage(), "Maturity can't be deleted for active radar.");
+    Assertions.assertTrue(maturity.getId().describeConstable().isPresent());
 
-    Mockito.verify(ringRepository).findById(ring.getId());
+    Mockito.verify(maturityRepository).findById(maturity.getId());
   }
 }

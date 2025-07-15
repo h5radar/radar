@@ -1,10 +1,10 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 
-public class SegmentTitleTrimValidator implements ConstraintValidator<SegmentTrimTitleConstraint, String> {
+public class DomainTitleTrimValidator implements ConstraintValidator<DomainTrimTitleConstraint, String> {
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {

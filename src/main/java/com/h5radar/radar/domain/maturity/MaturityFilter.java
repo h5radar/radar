@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.validation.constraints.Size;
 
@@ -6,16 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import lombok.ToStmaturity;
 
 @Getter
 @Setter
-@ToString
+@ToStmaturity
 @NoArgsConstructor
 @AllArgsConstructor
-public class RingFilter {
+public class MaturityFilter {
 
   @Size(min = 0, max = 64)
-  private String title;
+  private Stmaturity title;
 
 }

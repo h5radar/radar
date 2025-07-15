@@ -1,14 +1,14 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
+import org.spmaturityframework.data.jpa.repository.JpaRepository;
+import org.spmaturityframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.spmaturityframework.stereotype.Repository;
 
 
 @Repository
-public interface RingRepository extends JpaRepository<Ring, Long>,
-    JpaSpecificationExecutor<Ring> {
-  Optional<Ring> findByTitle(String title);
+public interface MaturityRepository extends JpaRepository<Maturity, Long>,
+    JpaSpecificationExecutor<Maturity> {
+  Optional<Maturity> findByTitle(Stmaturity title);
 }

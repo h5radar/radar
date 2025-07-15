@@ -1,8 +1,8 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.spmaturityframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
@@ -12,7 +12,7 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
 
 @Mapper(config = MapperConfiguration.class,
     uses = {TechnologyBlipMapper.class})
-public abstract class RingMapper implements PlainMapper<Ring, RingDto> {
+public abstract class MaturityMapper implements PlainMapper<Maturity, MaturityDto> {
 
   @Autowired
   protected RadarRepository radarRepository;
@@ -20,15 +20,15 @@ public abstract class RingMapper implements PlainMapper<Ring, RingDto> {
   @Mapping(source = "radar.id", target = "radarId")
   @Mapping(source = "radar.title", target = "radarTitle")
   @Mapping(source = "technologyBlipList", target = "technologyBlipDtoList")
-  public abstract RingDto toDto(final Ring entity);
+  public abstract MaturityDto toDto(final Maturity entity);
 
   @Mapping(target = "radar", expression = "java(getRadar(dto))")
   @Mapping(source = "technologyBlipDtoList", target = "technologyBlipList")
-  public abstract Ring toEntity(final RingDto dto);
+  public abstract Maturity toEntity(final MaturityDto dto);
 
-  Radar getRadar(RingDto ringDto) {
-    if (ringDto.getRadarId() != null) {
-      return radarRepository.findById(ringDto.getRadarId()).get();
+  Radar getRadar(MaturityDto maturityDto) {
+    if (maturityDto.getRadarId() != null) {
+      return radarRepository.findById(maturityDto.getRadarId()).get();
     }
     return null;
   }

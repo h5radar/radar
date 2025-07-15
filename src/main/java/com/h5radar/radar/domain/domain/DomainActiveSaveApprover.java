@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 
 import java.util.LinkedList;
@@ -21,14 +21,14 @@ public class RadarActiveSaveApprover implements ModelApprover {
 
   private final Radar radar;
 
-  private final Optional<Segment> segmentOptional;
+  private final Optional<Domain> domainOptional;
 
   @Override
   public List<ModelError> approve() throws ValidationException {
-    if (radar.isActive() || segmentOptional.isPresent() && radar.getId() != segmentOptional.get().getRadar().getId()
-        && segmentOptional.get().getRadar().isActive()) {
+    if (radar.isActive() || domainOptional.isPresent() && radar.getId() != domainOptional.get().getRadar().getId()
+        && domainOptional.get().getRadar().isActive()) {
       return List.of(new ModelError("unable_to_save_due_to_active_radar",
-          messageSource.getMessage("segment.error.unable_to_save_due_to_active_radar", null,
+          messageSource.getMessage("domain.error.unable_to_save_due_to_active_radar", null,
               LocaleContextHolder.getLocale()), null));
     }
     return new LinkedList<>();

@@ -1,10 +1,10 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import static org.mockito.ArgumentMatchers.any;
 
 import com.h5radar.radar.domain.AbstractMapperTests;
 
-class RingMapperTests extends AbstractMapperTests {
+class MaturityMapperTests extends AbstractMapperTests {
   /* TODO: uncomment
 
   @MockitoBean
@@ -14,30 +14,30 @@ class RingMapperTests extends AbstractMapperTests {
   private TechnologyBlipMapper technologyBlipMapper;
 
   @Autowired
-  private RingMapper ringMapper;
+  private MaturityMapper maturityMapper;
 
   @Test
   void testToDtoWithNull() {
-    final var ringDto = ringMapper.toDto(null);
+    final var maturityDto = maturityMapper.toDto(null);
 
-    Assertions.assertNull(ringDto);
+    Assertions.assertNull(maturityDto);
   }
 
   @Test
   void testToDtoAllFields() {
-    final Ring ring = new Ring();
-    ring.setId(0L);
-    ring.setTitle("My ring title");
-    ring.setDescription("My ring description");
-    ring.setColor("color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(0L);
+    maturity.setTitle("My maturity title");
+    maturity.setDescription("My maturity description");
+    maturity.setColor("color");
+    maturity.setPosition(1);
 
-    final var ringDto = ringMapper.toDto(ring);
+    final var maturityDto = maturityMapper.toDto(maturity);
 
-    Assertions.assertEquals(ringDto.getTitle(), ring.getTitle());
-    Assertions.assertEquals(ringDto.getDescription(), ring.getDescription());
-    Assertions.assertEquals(ringDto.getColor(), ring.getColor());
-    Assertions.assertEquals(ringDto.getPosition(), ring.getPosition());
+    Assertions.assertEquals(maturityDto.getTitle(), maturity.getTitle());
+    Assertions.assertEquals(maturityDto.getDescription(), maturity.getDescription());
+    Assertions.assertEquals(maturityDto.getColor(), maturity.getColor());
+    Assertions.assertEquals(maturityDto.getPosition(), maturity.getPosition());
   }
 
   @Test
@@ -56,18 +56,18 @@ class RingMapperTests extends AbstractMapperTests {
     radar.setDescription("My description");
     radar.setPrimary(true);
     radar.setActive(true);
-    radar.setRingList(List.of(new Ring()));
+    radar.setMaturityList(List.of(new Maturity()));
     radar.setTechnologyBlipList(List.of(new TechnologyBlip()));
 
-    // Create ring
-    final Ring ring = new Ring();
-    ring.setId(2L);
-    ring.setRadar(radar);
-    ring.setTitle("My title");
-    ring.setDescription("My description");
-    ring.setColor("My color");
-    ring.setPosition(1);
-    ring.setTechnologyBlipList(List.of(new TechnologyBlip()));
+    // Create maturity
+    final Maturity maturity = new Maturity();
+    maturity.setId(2L);
+    maturity.setRadar(radar);
+    maturity.setTitle("My title");
+    maturity.setDescription("My description");
+    maturity.setColor("My color");
+    maturity.setPosition(1);
+    maturity.setTechnologyBlipList(List.of(new TechnologyBlip()));
 
     // Create segment
     final var segmentDto = new SegmentDto();
@@ -89,52 +89,52 @@ class RingMapperTests extends AbstractMapperTests {
     final var technologyBlipDto = new TechnologyBlipDto();
     technologyBlipDto.setId(5L);
     technologyBlipDto.setRadarId(radar.getId());
-    technologyBlipDto.setRingId(ring.getId());
+    technologyBlipDto.setMaturityId(maturity.getId());
     technologyBlipDto.setTechnologyId(technologyDto.getId());
     technologyBlipDto.setSegmentId(segmentDto.getId());
 
     Mockito.when(technologyBlipMapper.toDto(any())).thenReturn(technologyBlipDto);
 
-    RingDto ringDto = ringMapper.toDto(ring);
+    MaturityDto maturityDto = maturityMapper.toDto(maturity);
 
-    Assertions.assertEquals(ring.getId(), ringDto.getId());
-    Assertions.assertEquals(ring.getTitle(), ringDto.getTitle());
-    Assertions.assertEquals(ring.getDescription(), ringDto.getDescription());
-    Assertions.assertEquals(ring.getColor(), ringDto.getColor());
-    Assertions.assertEquals(ring.getPosition(), ringDto.getPosition());
+    Assertions.assertEquals(maturity.getId(), maturityDto.getId());
+    Assertions.assertEquals(maturity.getTitle(), maturityDto.getTitle());
+    Assertions.assertEquals(maturity.getDescription(), maturityDto.getDescription());
+    Assertions.assertEquals(maturity.getColor(), maturityDto.getColor());
+    Assertions.assertEquals(maturity.getPosition(), maturityDto.getPosition());
 
-    Assertions.assertEquals(ring.getRadar().getId(), ringDto.getRadarId());
-    Assertions.assertEquals(ring.getRadar().getTitle(), ringDto.getRadarTitle());
+    Assertions.assertEquals(maturity.getRadar().getId(), maturityDto.getRadarId());
+    Assertions.assertEquals(maturity.getRadar().getTitle(), maturityDto.getRadarTitle());
 
-    Assertions.assertNotNull(ringDto.getTechnologyBlipDtoList());
-    Assertions.assertEquals(1, ringDto.getTechnologyBlipDtoList().size());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getId(), technologyBlipDto.getId());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getRadarId(),
+    Assertions.assertNotNull(maturityDto.getTechnologyBlipDtoList());
+    Assertions.assertEquals(1, maturityDto.getTechnologyBlipDtoList().size());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getId(), technologyBlipDto.getId());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getRadarId(),
         technologyBlipDto.getRadarId());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getRadarTitle(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getRadarTitle(),
         technologyBlipDto.getRadarTitle());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getTechnologyId(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getTechnologyId(),
         technologyBlipDto.getTechnologyId());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getTechnologyTitle(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getTechnologyTitle(),
         technologyBlipDto.getTechnologyTitle());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getTechnologyWebsite(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getTechnologyWebsite(),
         technologyBlipDto.getTechnologyWebsite());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getTechnologyMoved(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getTechnologyMoved(),
         technologyBlipDto.getTechnologyMoved());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().isTechnologyActive(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().isTechnologyActive(),
         technologyBlipDto.isTechnologyActive());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getSegmentId(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getSegmentId(),
         technologyBlipDto.getSegmentId());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getSegmentTitle(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getSegmentTitle(),
         technologyBlipDto.getSegmentTitle());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getSegmentPosition(),
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getSegmentPosition(),
         technologyBlipDto.getSegmentPosition());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getRingId(),
-        technologyBlipDto.getRingId());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getRingTitle(),
-        technologyBlipDto.getRingTitle());
-    Assertions.assertEquals(ringDto.getTechnologyBlipDtoList().iterator().next().getRingPosition(),
-        technologyBlipDto.getRingPosition());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getMaturityId(),
+        technologyBlipDto.getMaturityId());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getMaturityTitle(),
+        technologyBlipDto.getMaturityTitle());
+    Assertions.assertEquals(maturityDto.getTechnologyBlipDtoList().iterator().next().getMaturityPosition(),
+        technologyBlipDto.getMaturityPosition());
 
     Mockito.verify(technologyBlipMapper).toDto(any());
   }
@@ -150,20 +150,20 @@ class RingMapperTests extends AbstractMapperTests {
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
-    final RingDto ringDto = new RingDto();
-    ringDto.setId(2L);
-    ringDto.setRadarId(radar.getId());
-    ringDto.setTitle("My ring title1");
-    ringDto.setDescription("My ring description1");
-    ringDto.setColor("color");
-    ringDto.setPosition(1);
-    final var ring = ringMapper.toEntity(ringDto);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(2L);
+    maturityDto.setRadarId(radar.getId());
+    maturityDto.setTitle("My maturity title1");
+    maturityDto.setDescription("My maturity description1");
+    maturityDto.setColor("color");
+    maturityDto.setPosition(1);
+    final var maturity = maturityMapper.toEntity(maturityDto);
 
-    Assertions.assertEquals(ring.getId(), ringDto.getId());
-    Assertions.assertEquals(ring.getTitle(), ringDto.getTitle());
-    Assertions.assertEquals(ring.getDescription(), ringDto.getDescription());
-    Assertions.assertEquals(ringDto.getColor(), ring.getColor());
-    Assertions.assertEquals(ringDto.getPosition(), ring.getPosition());
+    Assertions.assertEquals(maturity.getId(), maturityDto.getId());
+    Assertions.assertEquals(maturity.getTitle(), maturityDto.getTitle());
+    Assertions.assertEquals(maturity.getDescription(), maturityDto.getDescription());
+    Assertions.assertEquals(maturityDto.getColor(), maturity.getColor());
+    Assertions.assertEquals(maturityDto.getPosition(), maturity.getPosition());
 
     Mockito.verify(radarRepository).findById(radar.getId());
   }
@@ -186,65 +186,65 @@ class RingMapperTests extends AbstractMapperTests {
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
-    final Ring ring = new Ring();
-    ring.setId(2L);
-    ring.setRadar(radar);
-    ring.setTitle("My ring title");
-    ring.setDescription("My ring description");
-    ring.setColor("My color");
-    ring.setPosition(1);
+    final Maturity maturity = new Maturity();
+    maturity.setId(2L);
+    maturity.setRadar(radar);
+    maturity.setTitle("My maturity title");
+    maturity.setDescription("My maturity description");
+    maturity.setColor("My color");
+    maturity.setPosition(1);
 
-    final RingDto ringDto = new RingDto();
-    ringDto.setId(2L);
-    ringDto.setRadarId(radar.getId());
-    ringDto.setRadarTitle(radar.getTitle());
-    ringDto.setTitle("My ring title");
-    ringDto.setDescription("My ring description");
-    ringDto.setColor("color");
-    ringDto.setPosition(1);
-    ringDto.setTechnologyBlipDtoList(List.of(new TechnologyBlipDto()));
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(2L);
+    maturityDto.setRadarId(radar.getId());
+    maturityDto.setRadarTitle(radar.getTitle());
+    maturityDto.setTitle("My maturity title");
+    maturityDto.setDescription("My maturity description");
+    maturityDto.setColor("color");
+    maturityDto.setPosition(1);
+    maturityDto.setTechnologyBlipDtoList(List.of(new TechnologyBlipDto()));
 
     final var technologyBlip = new TechnologyBlip();
     technologyBlip.setId(3L);
     technologyBlip.setRadar(radar);
-    technologyBlip.setRing(ring);
+    technologyBlip.setMaturity(maturity);
 
     Mockito.when(technologyBlipMapper.toEntity(any())).thenReturn(technologyBlip);
 
-    final var mappedRing = ringMapper.toEntity(ringDto);
+    final var mappedMaturity = maturityMapper.toEntity(maturityDto);
 
-    Assertions.assertEquals(mappedRing.getId(), ringDto.getId());
-    Assertions.assertEquals(mappedRing.getTitle(), ringDto.getTitle());
-    Assertions.assertEquals(mappedRing.getDescription(), ringDto.getDescription());
-    Assertions.assertEquals(mappedRing.getColor(), ringDto.getColor());
-    Assertions.assertEquals(mappedRing.getPosition(), ringDto.getPosition());
-    Assertions.assertEquals(mappedRing.getId(),
-        mappedRing.getTechnologyBlipList().iterator().next().getRing().getId());
-    Assertions.assertEquals(mappedRing.getTitle(),
-        mappedRing.getTechnologyBlipList().iterator().next().getRing().getTitle());
-    Assertions.assertEquals(mappedRing.getDescription(),
-        mappedRing.getTechnologyBlipList().iterator().next().getRing().getDescription());
-    Assertions.assertEquals(mappedRing.getPosition(),
-        mappedRing.getTechnologyBlipList().iterator().next().getRing().getPosition());
-    Assertions.assertEquals(mappedRing.getRadar().getId(),
-        mappedRing.getTechnologyBlipList().iterator().next().getRadar().getId());
+    Assertions.assertEquals(mappedMaturity.getId(), maturityDto.getId());
+    Assertions.assertEquals(mappedMaturity.getTitle(), maturityDto.getTitle());
+    Assertions.assertEquals(mappedMaturity.getDescription(), maturityDto.getDescription());
+    Assertions.assertEquals(mappedMaturity.getColor(), maturityDto.getColor());
+    Assertions.assertEquals(mappedMaturity.getPosition(), maturityDto.getPosition());
+    Assertions.assertEquals(mappedMaturity.getId(),
+        mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getId());
+    Assertions.assertEquals(mappedMaturity.getTitle(),
+        mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getTitle());
+    Assertions.assertEquals(mappedMaturity.getDescription(),
+        mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getDescription());
+    Assertions.assertEquals(mappedMaturity.getPosition(),
+        mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getPosition());
+    Assertions.assertEquals(mappedMaturity.getRadar().getId(),
+        mappedMaturity.getTechnologyBlipList().iterator().next().getRadar().getId());
 
-    Assertions.assertEquals(mappedRing.getRadar().getId(), ringDto.getRadarId());
-    Assertions.assertEquals(mappedRing.getRadar().getTitle(), ringDto.getRadarTitle());
+    Assertions.assertEquals(mappedMaturity.getRadar().getId(), maturityDto.getRadarId());
+    Assertions.assertEquals(mappedMaturity.getRadar().getTitle(), maturityDto.getRadarTitle());
 
-    Assertions.assertNotNull(mappedRing.getTechnologyBlipList());
-    Assertions.assertEquals(1, mappedRing.getTechnologyBlipList().size());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getId(), technologyBlip.getId());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getRadar().getId(),
+    Assertions.assertNotNull(mappedMaturity.getTechnologyBlipList());
+    Assertions.assertEquals(1, mappedMaturity.getTechnologyBlipList().size());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getId(), technologyBlip.getId());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getRadar().getId(),
         technologyBlip.getRadar().getId());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getRing().getId(),
-        technologyBlip.getRing().getId());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getRing().getTitle(),
-        technologyBlip.getRing().getTitle());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getRing().getDescription(),
-        technologyBlip.getRing().getDescription());
-    Assertions.assertEquals(mappedRing.getTechnologyBlipList().iterator().next().getRing().getPosition(),
-        technologyBlip.getRing().getPosition());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getId(),
+        technologyBlip.getMaturity().getId());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getTitle(),
+        technologyBlip.getMaturity().getTitle());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getDescription(),
+        technologyBlip.getMaturity().getDescription());
+    Assertions.assertEquals(mappedMaturity.getTechnologyBlipList().iterator().next().getMaturity().getPosition(),
+        technologyBlip.getMaturity().getPosition());
 
     Mockito.verify(radarRepository).findById(radar.getId());
     Mockito.verify(technologyBlipMapper).toEntity(any());

@@ -1,22 +1,22 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.spmaturityframework.data.domain.Page;
+import org.spmaturityframework.data.domain.Pageable;
 
-public interface RingService {
+public interface MaturityService {
 
-  Collection<RingDto> findAll();
+  Collection<MaturityDto> findAll();
 
-  Page<RingDto> findAll(RingFilter ringFilter, Pageable pageable);
+  Page<MaturityDto> findAll(MaturityFilter maturityFilter, Pageable pageable);
 
-  Optional<RingDto> findById(Long id);
+  Optional<MaturityDto> findById(Long id);
 
-  Optional<RingDto> findByTitle(String title);
+  Optional<MaturityDto> findByTitle(Stmaturity title);
 
-  RingDto save(RingDto ringDto);
+  MaturityDto save(MaturityDto maturityDto);
 
   void deleteById(Long id);
 }

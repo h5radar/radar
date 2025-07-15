@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,90 +26,90 @@ import com.h5radar.radar.domain.ValidationException;
 import com.h5radar.radar.domain.radar.Radar;
 import com.h5radar.radar.domain.radar.RadarRepository;
 
-class SegmentServiceTests extends AbstractServiceTests {
+class DomainServiceTests extends AbstractServiceTests {
   @MockitoBean
-  private SegmentRepository segmentRepository;
+  private DomainRepository domainRepository;
 
   @MockitoBean
   private RadarRepository radarRepository;
 
   @Autowired
-  private SegmentMapper segmentMapper;
+  private DomainMapper domainMapper;
 
   @Autowired
-  private SegmentService segmentService;
+  private DomainService domainService;
 
   @Test
-  void shouldFindAllSegments() {
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setRadar(null);
-    segment.setTitle("My segment");
-    segment.setDescription("My segment description");
-    segment.setPosition(1);
+  void shouldFindAllDomains() {
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setRadar(null);
+    domain.setTitle("My domain");
+    domain.setDescription("My domain description");
+    domain.setPosition(1);
 
-    List<Segment> segmentList = List.of(segment);
-    Mockito.when(segmentRepository.findAll(any(Sort.class))).thenReturn(segmentList);
+    List<Domain> domainList = List.of(domain);
+    Mockito.when(domainRepository.findAll(any(Sort.class))).thenReturn(domainList);
 
-    Collection<SegmentDto> segmentDtoCollection = segmentService.findAll();
-    Assertions.assertEquals(1, segmentDtoCollection.size());
-    Assertions.assertEquals(segmentDtoCollection.iterator().next().getId(), segment.getId());
-    Assertions.assertEquals(segmentDtoCollection.iterator().next().getTitle(), segment.getTitle());
-    Assertions.assertEquals(segmentDtoCollection.iterator().next().getDescription(), segment.getDescription());
+    Collection<DomainDto> domainDtoCollection = domainService.findAll();
+    Assertions.assertEquals(1, domainDtoCollection.size());
+    Assertions.assertEquals(domainDtoCollection.iterator().next().getId(), domain.getId());
+    Assertions.assertEquals(domainDtoCollection.iterator().next().getTitle(), domain.getTitle());
+    Assertions.assertEquals(domainDtoCollection.iterator().next().getDescription(), domain.getDescription());
   }
 
   @Test
-  void shouldFindAllSegmentsWithNullFilter() {
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setRadar(null);
-    segment.setTitle("My segment");
-    segment.setDescription("My segment description");
-    segment.setPosition(1);
+  void shouldFindAllDomainsWithNullFilter() {
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setRadar(null);
+    domain.setTitle("My domain");
+    domain.setDescription("My domain description");
+    domain.setPosition(1);
 
-    List<Segment> segmentList = List.of(segment);
-    Page<Segment> page = new PageImpl<>(segmentList);
-    Mockito.when(segmentRepository.findAll(ArgumentMatchers.<Specification<Segment>>any(), any(Pageable.class)))
+    List<Domain> domainList = List.of(domain);
+    Page<Domain> page = new PageImpl<>(domainList);
+    Mockito.when(domainRepository.findAll(ArgumentMatchers.<Specification<Domain>>any(), any(Pageable.class)))
         .thenReturn(page);
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<SegmentDto> segmentDtoPage = segmentService.findAll(null, pageable);
-    Assertions.assertEquals(1, segmentDtoPage.getSize());
-    Assertions.assertEquals(0, segmentDtoPage.getNumber());
-    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getId(), segment.getId());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getTitle(), segment.getTitle());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getDescription(), segment.getDescription());
+    Page<DomainDto> domainDtoPage = domainService.findAll(null, pageable);
+    Assertions.assertEquals(1, domainDtoPage.getSize());
+    Assertions.assertEquals(0, domainDtoPage.getNumber());
+    Assertions.assertEquals(1, domainDtoPage.getTotalPages());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getId(), domain.getId());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getTitle(), domain.getTitle());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getDescription(), domain.getDescription());
 
-    // Mockito.verify(segmentRepository).findAll(
+    // Mockito.verify(domainRepository).findAll(
     //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
-  void shouldFindAllSegmentsWithEmptyFilter() {
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setRadar(null);
-    segment.setTitle("My segment");
-    segment.setDescription("My segment description");
-    segment.setPosition(1);
+  void shouldFindAllDomainsWithEmptyFilter() {
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setRadar(null);
+    domain.setTitle("My domain");
+    domain.setDescription("My domain description");
+    domain.setPosition(1);
 
-    List<Segment> segmentList = List.of(segment);
-    Page<Segment> page = new PageImpl<>(segmentList);
-    Mockito.when(segmentRepository.findAll(ArgumentMatchers.<Specification<Segment>>any(), any(Pageable.class)))
+    List<Domain> domainList = List.of(domain);
+    Page<Domain> page = new PageImpl<>(domainList);
+    Mockito.when(domainRepository.findAll(ArgumentMatchers.<Specification<Domain>>any(), any(Pageable.class)))
         .thenReturn(page);
 
-    SegmentFilter segmentFilter = new SegmentFilter();
+    DomainFilter domainFilter = new DomainFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
-    Page<SegmentDto> segmentDtoPage = segmentService.findAll(segmentFilter, pageable);
-    Assertions.assertEquals(1, segmentDtoPage.getSize());
-    Assertions.assertEquals(0, segmentDtoPage.getNumber());
-    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getId(), segment.getId());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getTitle(), segment.getTitle());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getDescription(), segment.getDescription());
+    Page<DomainDto> domainDtoPage = domainService.findAll(domainFilter, pageable);
+    Assertions.assertEquals(1, domainDtoPage.getSize());
+    Assertions.assertEquals(0, domainDtoPage.getNumber());
+    Assertions.assertEquals(1, domainDtoPage.getTotalPages());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getId(), domain.getId());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getTitle(), domain.getTitle());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getDescription(), domain.getDescription());
 
-    // Mockito.verify(segmentRepository).findAll(
+    // Mockito.verify(domainRepository).findAll(
     //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
@@ -117,7 +117,7 @@ class SegmentServiceTests extends AbstractServiceTests {
 
   @Test
   @Transactional
-  void shouldFindAllSegmentsWithBlankTitleFilter() {
+  void shouldFindAllDomainsWithBlankTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
     radarType.setDescription("My radar type description");
@@ -133,27 +133,27 @@ class SegmentServiceTests extends AbstractServiceTests {
     radarType.setRadarList(List.of(radar));
     radarRepository.saveAndFlush(radar);
 
-    List<Segment> segmentList = List.of(
-        new Segment(null, radar, "My first segment title", "Description", 0, null),
-        new Segment(null, radar, "My second segment title", "New description", 1, null)
+    List<Domain> domainList = List.of(
+        new Domain(null, radar, "My first domain title", "Description", 0, null),
+        new Domain(null, radar, "My second domain title", "New description", 1, null)
     );
-    for (Segment segment : segmentList) {
-      segmentRepository.save(segment);
+    for (Domain domain : domainList) {
+      domainRepository.save(domain);
     }
 
-    SegmentFilter segmentFilter = new SegmentFilter();
-    segmentFilter.setTitle("");
+    DomainFilter domainFilter = new DomainFilter();
+    domainFilter.setTitle("");
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<SegmentDto> segmentDtoPage = segmentService.findAll(segmentFilter, pageable);
-    Assertions.assertEquals(10, segmentDtoPage.getSize());
-    Assertions.assertEquals(0, segmentDtoPage.getNumber());
-    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
-    Assertions.assertEquals(2, segmentDtoPage.getNumberOfElements());
+    Page<DomainDto> domainDtoPage = domainService.findAll(domainFilter, pageable);
+    Assertions.assertEquals(10, domainDtoPage.getSize());
+    Assertions.assertEquals(0, domainDtoPage.getNumber());
+    Assertions.assertEquals(1, domainDtoPage.getTotalPages());
+    Assertions.assertEquals(2, domainDtoPage.getNumberOfElements());
   }
 
   @Test
   @Transactional
-  void shouldFindAllSegmentsWithTitleFilter() {
+  void shouldFindAllDomainsWithTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
     radarType.setDescription("My radar type description");
@@ -169,69 +169,69 @@ class SegmentServiceTests extends AbstractServiceTests {
     radarType.setRadarList(List.of(radar));
     radarRepository.saveAndFlush(radar);
 
-    List<Segment> segmentList = List.of(
-        new Segment(null, radar, "My first segment title", "Description", 0, null),
-        new Segment(null, radar, "My second segment title", "New description", 1, null)
+    List<Domain> domainList = List.of(
+        new Domain(null, radar, "My first domain title", "Description", 0, null),
+        new Domain(null, radar, "My second domain title", "New description", 1, null)
     );
-    for (Segment segment : segmentList) {
-      segmentRepository.save(segment);
+    for (Domain domain : domainList) {
+      domainRepository.save(domain);
     }
 
-    SegmentFilter segmentFilter = new SegmentFilter();
-    segmentFilter.setTitle(segmentList.iterator().next().getTitle());
+    DomainFilter domainFilter = new DomainFilter();
+    domainFilter.setTitle(domainList.iterator().next().getTitle());
     Pageable pageable = PageRequest.of(0, 10, Sort.by(new Sort.Order(Sort.Direction.ASC, "title")));
-    Page<SegmentDto> segmentDtoPage = segmentService.findAll(segmentFilter, pageable);
-    Assertions.assertEquals(10, segmentDtoPage.getSize());
-    Assertions.assertEquals(0, segmentDtoPage.getNumber());
-    Assertions.assertEquals(1, segmentDtoPage.getTotalPages());
-    Assertions.assertEquals(1, segmentDtoPage.getNumberOfElements());
-    Assertions.assertNotNull(segmentDtoPage.iterator().next().getId());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getTitle(), segmentList.iterator().next().getTitle());
-    Assertions.assertEquals(segmentDtoPage.iterator().next().getDescription(),
-        segmentList.iterator().next().getDescription());
+    Page<DomainDto> domainDtoPage = domainService.findAll(domainFilter, pageable);
+    Assertions.assertEquals(10, domainDtoPage.getSize());
+    Assertions.assertEquals(0, domainDtoPage.getNumber());
+    Assertions.assertEquals(1, domainDtoPage.getTotalPages());
+    Assertions.assertEquals(1, domainDtoPage.getNumberOfElements());
+    Assertions.assertNotNull(domainDtoPage.iterator().next().getId());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getTitle(), domainList.iterator().next().getTitle());
+    Assertions.assertEquals(domainDtoPage.iterator().next().getDescription(),
+        domainList.iterator().next().getDescription());
   }
    */
 
   @Test
-  void shouldFindByIdSegment() {
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+  void shouldFindByIdDomain() {
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(segmentRepository.findById(segment.getId())).thenReturn(Optional.of(segment));
+    Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
 
-    Optional<SegmentDto> segmentDtoOptional = segmentService.findById(segment.getId());
-    Assertions.assertTrue(segmentDtoOptional.isPresent());
-    Assertions.assertEquals(segment.getId(), segmentDtoOptional.get().getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDtoOptional.get().getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDtoOptional.get().getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDtoOptional.get().getPosition());
-    Mockito.verify(segmentRepository).findById(segment.getId());
+    Optional<DomainDto> domainDtoOptional = domainService.findById(domain.getId());
+    Assertions.assertTrue(domainDtoOptional.isPresent());
+    Assertions.assertEquals(domain.getId(), domainDtoOptional.get().getId());
+    Assertions.assertEquals(domain.getTitle(), domainDtoOptional.get().getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDtoOptional.get().getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDtoOptional.get().getPosition());
+    Mockito.verify(domainRepository).findById(domain.getId());
   }
 
   @Test
-  void shouldFindByTitleSegment() {
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+  void shouldFindByTitleDomain() {
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(segmentRepository.findByTitle(segment.getTitle())).thenReturn(Optional.of(segment));
+    Mockito.when(domainRepository.findByTitle(domain.getTitle())).thenReturn(Optional.of(domain));
 
-    Optional<SegmentDto> segmentDtoOptional = segmentService.findByTitle(segment.getTitle());
-    Assertions.assertTrue(segmentDtoOptional.isPresent());
-    Assertions.assertEquals(segment.getId(), segmentDtoOptional.get().getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDtoOptional.get().getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDtoOptional.get().getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDtoOptional.get().getPosition());
-    Mockito.verify(segmentRepository).findByTitle(segment.getTitle());
+    Optional<DomainDto> domainDtoOptional = domainService.findByTitle(domain.getTitle());
+    Assertions.assertTrue(domainDtoOptional.isPresent());
+    Assertions.assertEquals(domain.getId(), domainDtoOptional.get().getId());
+    Assertions.assertEquals(domain.getTitle(), domainDtoOptional.get().getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDtoOptional.get().getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDtoOptional.get().getPosition());
+    Mockito.verify(domainRepository).findByTitle(domain.getTitle());
   }
 
   @Test
-  void shouldSaveSegment() {
+  void shouldSaveDomain() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setRadarType(null);
@@ -240,28 +240,28 @@ class SegmentServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(false);
 
-    final Segment segment = new Segment();
-    segment.setId(2L);
-    segment.setRadar(radar);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(2L);
+    domain.setRadar(radar);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(segmentRepository.save(any())).thenReturn(segment);
+    Mockito.when(domainRepository.save(any())).thenReturn(domain);
     Mockito.when(radarRepository.findById(radar.getId())).thenReturn(Optional.of(radar));
 
-    SegmentDto segmentDto = segmentService.save(segmentMapper.toDto(segment));
-    Assertions.assertEquals(segment.getId(), segmentDto.getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDto.getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDto.getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDto.getPosition());
+    DomainDto domainDto = domainService.save(domainMapper.toDto(domain));
+    Assertions.assertEquals(domain.getId(), domainDto.getId());
+    Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
 
-    Mockito.verify(segmentRepository).save(any());
+    Mockito.verify(domainRepository).save(any());
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
   }
 
   @Test
-  void shouldFailToSaveSegmentDueToRadarIsActive() {
+  void shouldFailToSaveDomainDueToRadarIsActive() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setRadarType(null);
@@ -270,26 +270,26 @@ class SegmentServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(true);
 
-    final Segment segment = new Segment();
-    segment.setId(2L);
-    segment.setRadar(radar);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(2L);
+    domain.setRadar(radar);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
     Mockito.when(radarRepository.findById(radar.getId())).thenReturn(Optional.of(radar));
-    Mockito.when(segmentRepository.findById(segment.getId())).thenReturn(Optional.of(segment));
+    Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
 
     ValidationException exception =
-        catchThrowableOfType(() -> segmentService.save(segmentMapper.toDto(segment)), ValidationException.class);
+        catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
 
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
-    Mockito.verify(segmentRepository).findById(segment.getId());
+    Mockito.verify(domainRepository).findById(domain.getId());
   }
 
   @Test
-  void shouldFailToSaveSegmentDueToBelongActiveRadar() {
+  void shouldFailToSaveDomainDueToBelongActiveRadar() {
     final Radar radar = new Radar();
     radar.setId(2L);
     radar.setTitle("My radar title");
@@ -304,18 +304,18 @@ class SegmentServiceTests extends AbstractServiceTests {
     radarActive.setPrimary(true);
     radarActive.setActive(true);
 
-    final Segment segment = new Segment();
-    segment.setId(3L);
-    segment.setRadar(radarActive);
-    segment.setTitle("ADOPT");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(3L);
+    domain.setRadar(radarActive);
+    domain.setTitle("ADOPT");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(radarRepository.findById(segment.getRadar().getId())).thenReturn(Optional.of(radar));
-    Mockito.when(segmentRepository.findById(segment.getId())).thenReturn(Optional.of(segment));
+    Mockito.when(radarRepository.findById(domain.getRadar().getId())).thenReturn(Optional.of(radar));
+    Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
 
     ValidationException exception =
-            catchThrowableOfType(() -> segmentService.save(segmentMapper.toDto(segment)), ValidationException.class);
+            catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("can't be saved for active radar"));
 
@@ -323,7 +323,7 @@ class SegmentServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldFailToSaveSegmentDueToTitleWithWhiteSpace() {
+  void shouldFailToSaveDomainDueToTitleWithWhiteSpace() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -332,17 +332,17 @@ class SegmentServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(true);
 
-    final Segment segment = new Segment();
-    segment.setId(2L);
-    segment.setRadar(radar);
-    segment.setTitle(" My title ");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(2L);
+    domain.setRadar(radar);
+    domain.setTitle(" My title ");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
     ValidationException exception =
-        catchThrowableOfType(() -> segmentService.save(segmentMapper.toDto(segment)), ValidationException.class);
+        catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
 
@@ -350,7 +350,7 @@ class SegmentServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldDeleteSegment() {
+  void shouldDeleteDomain() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -359,23 +359,23 @@ class SegmentServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(false);
 
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setRadar(radar);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setRadar(radar);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(segmentRepository.findById(any())).thenReturn(Optional.of(segment));
-    Mockito.doAnswer((i) -> null).when(segmentRepository).deleteById(segment.getId());
+    Mockito.when(domainRepository.findById(any())).thenReturn(Optional.of(domain));
+    Mockito.doAnswer((i) -> null).when(domainRepository).deleteById(domain.getId());
 
-    segmentService.deleteById(segment.getId());
-    Mockito.verify(segmentRepository).findById(segment.getId());
-    Mockito.verify(segmentRepository).deleteById(segment.getId());
+    domainService.deleteById(domain.getId());
+    Mockito.verify(domainRepository).findById(domain.getId());
+    Mockito.verify(domainRepository).deleteById(domain.getId());
   }
 
   @Test
-  void shouldFailToDeleteSegmentDueToRadarIsActive() {
+  void shouldFailToDeleteDomainDueToRadarIsActive() {
     final Radar radar = new Radar();
     radar.setId(1L);
     radar.setTitle("My radar title");
@@ -384,21 +384,21 @@ class SegmentServiceTests extends AbstractServiceTests {
     radar.setPrimary(true);
     radar.setActive(true);
 
-    final Segment segment = new Segment();
-    segment.setId(10L);
-    segment.setRadar(radar);
-    segment.setTitle("My title");
-    segment.setDescription("My description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(10L);
+    domain.setRadar(radar);
+    domain.setTitle("My title");
+    domain.setDescription("My description");
+    domain.setPosition(1);
 
-    Mockito.when(segmentRepository.findById(any())).thenReturn(Optional.of(segment));
+    Mockito.when(domainRepository.findById(any())).thenReturn(Optional.of(domain));
 
     ValidationException exception =
-        catchThrowableOfType(() -> segmentService.deleteById(segment.getId()), ValidationException.class);
+        catchThrowableOfType(() -> domainService.deleteById(domain.getId()), ValidationException.class);
     Assertions.assertFalse(exception.getMessage().isEmpty());
-    Assertions.assertEquals(exception.getMessage(), "Segment can't be deleted for active radar.");
-    Assertions.assertTrue(segment.getId().describeConstable().isPresent());
+    Assertions.assertEquals(exception.getMessage(), "Domain can't be deleted for active radar.");
+    Assertions.assertTrue(domain.getId().describeConstable().isPresent());
 
-    Mockito.verify(segmentRepository).findById(segment.getId());
+    Mockito.verify(domainRepository).findById(domain.getId());
   }
 }

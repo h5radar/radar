@@ -1,15 +1,15 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StmaturityUtils;
 
 
-public class RingUppercaseTitleValidator implements ConstraintValidator<RingUppercaseTitleConstraint, String> {
+public class MaturityUppercaseTitleValidator implements ConstraintValidator<MaturityUppercaseTitleConstraint, Stmaturity> {
 
   @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
-    return StringUtils.isAllUpperCase(value);
+  public boolean isValid(Stmaturity value, ConstraintValidatorContext context) {
+    return StmaturityUtils.isAllUpperCase(value);
   }
 }

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.spmaturityframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
 import com.h5radar.radar.domain.radar.Radar;
@@ -14,7 +14,7 @@ import com.h5radar.radar.domain.radar.RadarRepository;
 import com.h5radar.radar.domain.radar_type.RadarType;
 import com.h5radar.radar.domain.radar_type.RadarTypeRepository;
 
-class RingRepositoryTests extends AbstractRepositoryTests {
+class MaturityRepositoryTests extends AbstractRepositoryTests {
   @Autowired
   private RadarRepository radarRepository;
 
@@ -22,10 +22,10 @@ class RingRepositoryTests extends AbstractRepositoryTests {
   private RadarTypeRepository radarTypeRepository;
 
   @Autowired
-  private RingRepository ringRepository;
+  private MaturityRepository maturityRepository;
 
   @Test
-  void shouldSaveRingWithAllFields() {
+  void shouldSaveMaturityWithAllFields() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("Technology radars 1");
     radarType.setCode("technology_radar_1");
@@ -40,14 +40,14 @@ class RingRepositoryTests extends AbstractRepositoryTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    final Ring ring = new Ring();
-    ring.setTitle("ADOPT");
-    ring.setRadar(radar);
-    ring.setColor("d42d");
-    ring.setDescription("Very good description for ring");
+    final Maturity maturity = new Maturity();
+    maturity.setTitle("ADOPT");
+    maturity.setRadar(radar);
+    maturity.setColor("d42d");
+    maturity.setDescription("Very good description for maturity");
 
-    Assertions.assertNull(ring.getId());
-    Ring saved = ringRepository.saveAndFlush(ring);
+    Assertions.assertNull(maturity.getId());
+    Maturity saved = maturityRepository.saveAndFlush(maturity);
     Assertions.assertNotNull(saved.getId());
     Assertions.assertNotNull(saved.getRadar());
     Assertions.assertNotNull(saved.getTitle());
@@ -61,81 +61,81 @@ class RingRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullTitle() {
-    final Ring r = new Ring();
-    r.setDescription("Very good description for Ring");
+    final Maturity r = new Maturity();
+    r.setDescription("Very good description for Maturity");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnEmptyTitle() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle("");
-    r.setDescription("Very good description for Ring");
+    r.setDescription("Very good description for Maturity");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle(" ");
-    r.setDescription("Very good description for Ring");
+    r.setDescription("Very good description for Maturity");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnNullDescription() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle("TEST");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnEmptyDescription() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle("TEST");
     r.setDescription("");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle("TEST");
     r.setDescription(" ");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnLowerTitle() {
-    final Ring r = new Ring();
+    final Maturity r = new Maturity();
     r.setTitle("test");
-    r.setDescription("Very good description for Ring");
+    r.setDescription("Very good description for Maturity");
 
     Assertions.assertNull(r.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(r))
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
         .isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFindSavedRingById() {
+  void shouldFindSavedMaturityById() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("Technology radars 1");
     radarType.setCode("technology_radar_1");
@@ -150,22 +150,22 @@ class RingRepositoryTests extends AbstractRepositoryTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    final Ring ring = new Ring();
-    ring.setTitle("ADOPT");
-    ring.setRadar(radar);
-    ring.setColor("d42d");
-    ring.setDescription("Very good description for ring");
+    final Maturity maturity = new Maturity();
+    maturity.setTitle("ADOPT");
+    maturity.setRadar(radar);
+    maturity.setColor("d42d");
+    maturity.setDescription("Very good description for maturity");
 
-    Assertions.assertNull(ring.getId());
-    ringRepository.saveAndFlush(ring);
-    Assertions.assertNotNull(ring.getId());
-    var id = ring.getId();
+    Assertions.assertNull(maturity.getId());
+    maturityRepository.saveAndFlush(maturity);
+    Assertions.assertNotNull(maturity.getId());
+    var id = maturity.getId();
 
-    Assertions.assertTrue(ringRepository.findById(id).isPresent());
+    Assertions.assertTrue(maturityRepository.findById(id).isPresent());
   }
 
   @Test
-  void shouldFindSavedRingByTitle() {
+  void shouldFindSavedMaturityByTitle() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("Technology radars 1");
     radarType.setCode("technology_radar_1");
@@ -180,38 +180,38 @@ class RingRepositoryTests extends AbstractRepositoryTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    String title = "SUPER";
-    final Ring ring = new Ring();
-    ring.setTitle(title);
-    ring.setRadar(radar);
-    ring.setColor("d42d");
-    ring.setDescription("Very good description for Ring");
+    Stmaturity title = "SUPER";
+    final Maturity maturity = new Maturity();
+    maturity.setTitle(title);
+    maturity.setRadar(radar);
+    maturity.setColor("d42d");
+    maturity.setDescription("Very good description for Maturity");
 
-    Assertions.assertNull(ring.getId());
-    ringRepository.saveAndFlush(ring);
-    Assertions.assertNotNull(ring.getId());
+    Assertions.assertNull(maturity.getId());
+    maturityRepository.saveAndFlush(maturity);
+    Assertions.assertNotNull(maturity.getId());
 
     // todo: use service (not repository?)
-    Assertions.assertTrue(ringRepository.findByTitle(title).isPresent());
+    Assertions.assertTrue(maturityRepository.findByTitle(title).isPresent());
   }
 
   @Test
-  void shouldFailToSaveRingDueToTitleWithRightWhiteSpace() {
-    final Ring ring = new Ring();
-    ring.setTitle("My new test Ring ");
+  void shouldFailToSaveMaturityDueToTitleWithRightWhiteSpace() {
+    final Maturity maturity = new Maturity();
+    maturity.setTitle("My new test Maturity ");
 
-    Assertions.assertNull(ring.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(ring))
+    Assertions.assertNull(maturity.getId());
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(maturity))
             .isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFailToSaveRingDueToTitleWithLeftWhiteSpace() {
-    final Ring ring = new Ring();
-    ring.setTitle(" My new test Ring");
+  void shouldFailToSaveMaturityDueToTitleWithLeftWhiteSpace() {
+    final Maturity maturity = new Maturity();
+    maturity.setTitle(" My new test Maturity");
 
-    Assertions.assertNull(ring.getId());
-    assertThatThrownBy(() -> ringRepository.saveAndFlush(ring))
+    Assertions.assertNull(maturity.getId());
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(maturity))
             .isInstanceOf(ValidationException.class);
   }
 }

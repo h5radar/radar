@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -27,86 +27,86 @@ import com.h5radar.radar.domain.radar.RadarRepository;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class SegmentServiceImpl implements SegmentService {
+public class DomainServiceImpl implements DomainService {
   private final Validator validator;
   private final MessageSource messageSource;
-  private final SegmentRepository segmentRepository;
+  private final DomainRepository domainRepository;
   private final RadarRepository radarRepository;
-  private final SegmentMapper segmentMapper;
+  private final DomainMapper domainMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<SegmentDto> findAll() {
-    return segmentRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(segmentMapper::toDto).collect(Collectors.toList());
+  public Collection<DomainDto> findAll() {
+    return domainRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        .stream().map(domainMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<SegmentDto> findAll(SegmentFilter segmentFilter, Pageable pageable) {
-    return segmentRepository.findAll((root, query, builder) -> {
+  public Page<DomainDto> findAll(DomainFilter domainFilter, Pageable pageable) {
+    return domainRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (segmentFilter != null && segmentFilter.getTitle() != null
-          && !segmentFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), segmentFilter.getTitle()));
+      if (domainFilter != null && domainFilter.getTitle() != null
+          && !domainFilter.getTitle().isBlank()) {
+        predicateList.add(builder.like(root.get("title"), domainFilter.getTitle()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(segmentMapper::toDto);
+    }, pageable).map(domainMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<SegmentDto> findById(Long id) {
-    return segmentRepository.findById(id).map(segmentMapper::toDto);
+  public Optional<DomainDto> findById(Long id) {
+    return domainRepository.findById(id).map(domainMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<SegmentDto> findByTitle(String title) {
-    return segmentRepository.findByTitle(title).map(segmentMapper::toDto);
+  public Optional<DomainDto> findByTitle(String title) {
+    return domainRepository.findByTitle(title).map(domainMapper::toDto);
   }
 
 
   @Override
   @Transactional
-  public SegmentDto save(SegmentDto segmentDto) {
+  public DomainDto save(DomainDto domainDto) {
     List<ModelError> modelErrorList = new LinkedList<>();
-    Optional<Radar> radarOptional = radarRepository.findById(segmentDto.getRadarId());
+    Optional<Radar> radarOptional = radarRepository.findById(domainDto.getRadarId());
     if (radarOptional.isPresent()) {
-      Optional<Segment> segmentOptional = Optional.empty();
-      if (segmentDto.getId() != null) {
-        segmentOptional = segmentRepository.findById(segmentDto.getId());
+      Optional<Domain> domainOptional = Optional.empty();
+      if (domainDto.getId() != null) {
+        domainOptional = domainRepository.findById(domainDto.getId());
       }
       modelErrorList.addAll(
-          new RadarActiveSaveApprover(messageSource, radarOptional.get(), segmentOptional).approve());
+          new RadarActiveSaveApprover(messageSource, radarOptional.get(), domainOptional).approve());
     }
 
-    Segment segment = segmentMapper.toEntity(segmentDto);
+    Domain domain = domainMapper.toEntity(domainDto);
     // Throw exception if violations are exists
-    Set<ConstraintViolation<Segment>> constraintViolationSet = validator.validate(segment);
+    Set<ConstraintViolation<Domain>> constraintViolationSet = validator.validate(domain);
     if (!modelErrorList.isEmpty() || !constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<Segment> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<Domain> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
             constraintViolation.getPropertyPath().toString()));
       }
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return segmentMapper.toDto(segmentRepository.save(segment));
+    return domainMapper.toDto(domainRepository.save(domain));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    Optional<Segment> segmentOptional = segmentRepository.findById(id);
-    if (segmentOptional.isPresent()) {
+    Optional<Domain> domainOptional = domainRepository.findById(id);
+    if (domainOptional.isPresent()) {
       List<ModelError> modelErrorList = new LinkedList<>();
-      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, segmentOptional.get()).approve());
+      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, domainOptional.get()).approve());
       if (!modelErrorList.isEmpty()) {
         String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
         throw new ValidationException(errorMessage, modelErrorList);
       }
-      segmentRepository.deleteById(id);
+      domainRepository.deleteById(id);
     }
   }
 }

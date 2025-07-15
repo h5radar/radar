@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,14 +32,14 @@ import com.h5radar.radar.domain.radar.Radar;
 import com.h5radar.radar.domain.technology_blip.TechnologyBlip;
 
 @Entity
-@Table(name = "segments")
+@Table(name = "domains")
 @DynamicUpdate
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Segment extends AbstractAuditable {
+public class Domain extends AbstractAuditable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +53,7 @@ public class Segment extends AbstractAuditable {
 
   @NotBlank
   @Size(min = 1, max = 64)
-  @SegmentTrimTitleConstraint
+  @DomainTrimTitleConstraint
   @Column(name = "title", unique = true, nullable = false)
   private String title;
 
@@ -66,7 +66,7 @@ public class Segment extends AbstractAuditable {
   @Column(name = "position", nullable = false)
   private int position;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "segment", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "domain", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
   private List<TechnologyBlip> technologyBlipList;
 

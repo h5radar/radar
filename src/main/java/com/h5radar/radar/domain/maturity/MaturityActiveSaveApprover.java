@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 
 import java.util.LinkedList;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.spmaturityframework.context.MessageSource;
+import org.spmaturityframework.context.i18n.LocaleContextHolder;
 
 import com.h5radar.radar.domain.ModelApprover;
 import com.h5radar.radar.domain.ModelError;
@@ -21,14 +21,14 @@ public class RadarActiveSaveApprover implements ModelApprover {
 
   private final Radar radar;
 
-  private final Optional<Ring> ringOptional;
+  private final Optional<Maturity> maturityOptional;
 
   @Override
   public List<ModelError> approve() throws ValidationException {
-    if (radar.isActive() || ringOptional.isPresent() && radar.getId() != ringOptional.get().getRadar().getId()
-        && ringOptional.get().getRadar().isActive()) {
+    if (radar.isActive() || maturityOptional.isPresent() && radar.getId() != maturityOptional.get().getRadar().getId()
+        && maturityOptional.get().getRadar().isActive()) {
       return List.of(new ModelError("unable_to_save_due_to_active_radar",
-          messageSource.getMessage("ring.error.unable_to_save_due_to_active_radar", null,
+          messageSource.getMessage("maturity.error.unable_to_save_due_to_active_radar", null,
               LocaleContextHolder.getLocale()), null));
     }
     return new LinkedList<>();

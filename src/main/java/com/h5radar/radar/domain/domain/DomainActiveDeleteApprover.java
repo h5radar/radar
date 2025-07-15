@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 
 import java.util.LinkedList;
@@ -17,13 +17,13 @@ public class RadarActiveDeleteApprover implements ModelApprover {
 
   private final MessageSource messageSource;
 
-  private final Segment segment;
+  private final Domain domain;
 
   @Override
   public List<ModelError> approve() throws ValidationException {
-    if (segment.getRadar().isActive()) {
+    if (domain.getRadar().isActive()) {
       return List.of(new ModelError("unable_to_delete_due_to_active_radar",
-          messageSource.getMessage("segment.error.unable_to_delete_due_to_active_radar", null,
+          messageSource.getMessage("domain.error.unable_to_delete_due_to_active_radar", null,
               LocaleContextHolder.getLocale()), null));
     }
     return new LinkedList<>();

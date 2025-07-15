@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -14,7 +14,7 @@ import com.h5radar.radar.domain.radar.RadarRepository;
 import com.h5radar.radar.domain.radar_type.RadarType;
 import com.h5radar.radar.domain.radar_type.RadarTypeRepository;
 
-class SegmentRepositoryTests extends AbstractRepositoryTests {
+class DomainRepositoryTests extends AbstractRepositoryTests {
   @Autowired
   private RadarRepository radarRepository;
 
@@ -22,10 +22,10 @@ class SegmentRepositoryTests extends AbstractRepositoryTests {
   private RadarTypeRepository radarTypeRepository;
 
   @Autowired
-  private SegmentRepository segmentRepository;
+  private DomainRepository domainRepository;
 
   @Test
-  void shouldSaveSegmentWithAllFields() {
+  void shouldSaveDomainWithAllFields() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("Technology radars 1");
     radarType.setCode("technology_radar_1");
@@ -40,13 +40,13 @@ class SegmentRepositoryTests extends AbstractRepositoryTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    final Segment segment = new Segment();
-    segment.setTitle("My segment title");
-    segment.setRadar(radar);
-    segment.setDescription("My segment description");
+    final Domain domain = new Domain();
+    domain.setTitle("My domain title");
+    domain.setRadar(radar);
+    domain.setDescription("My domain description");
 
-    Assertions.assertNull(segment.getId());
-    Segment saved = segmentRepository.saveAndFlush(segment);
+    Assertions.assertNull(domain.getId());
+    Domain saved = domainRepository.saveAndFlush(domain);
     Assertions.assertNotNull(saved.getId());
     Assertions.assertNotNull(saved.getRadar());
     Assertions.assertNotNull(saved.getTitle());
@@ -59,79 +59,79 @@ class SegmentRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullTitle() {
-    final Segment segment = new Segment();
-    segment.setDescription("My awesome description");
+    final Domain domain = new Domain();
+    domain.setDescription("My awesome description");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnNullDescription() {
-    final Segment segment = new Segment();
-    segment.setTitle("My new test Segment");
+    final Domain domain = new Domain();
+    domain.setTitle("My new test Domain");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnEmptyTitle() {
-    final Segment segment = new Segment();
-    segment.setTitle("");
-    segment.setDescription("My awesome description");
+    final Domain domain = new Domain();
+    domain.setTitle("");
+    domain.setDescription("My awesome description");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnWhiteSpaceTitle() {
-    final Segment segment = new Segment();
-    segment.setTitle(" ");
-    segment.setDescription("My awesome description");
+    final Domain domain = new Domain();
+    domain.setTitle(" ");
+    domain.setDescription("My awesome description");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnEmptyDescription() {
-    final Segment segment = new Segment();
-    segment.setTitle("Hello");
-    segment.setDescription("");
+    final Domain domain = new Domain();
+    domain.setTitle("Hello");
+    domain.setDescription("");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
   void shouldFailOnWhiteSpaceDescription() {
-    final Segment segment = new Segment();
-    segment.setTitle("Hello");
-    segment.setDescription(" ");
+    final Domain domain = new Domain();
+    domain.setTitle("Hello");
+    domain.setDescription(" ");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment)).isInstanceOf(ValidationException.class);
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFailToSaveSegmentDueToTitleWithRightWhiteSpace() {
-    final Segment segment = new Segment();
-    segment.setTitle("My new test Segment ");
+  void shouldFailToSaveDomainDueToTitleWithRightWhiteSpace() {
+    final Domain domain = new Domain();
+    domain.setTitle("My new test Domain ");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment))
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain))
             .isInstanceOf(ValidationException.class);
   }
 
   @Test
-  void shouldFailToSaveSegmentDueToTitleWithLeftWhiteSpace() {
-    final Segment segment = new Segment();
-    segment.setTitle(" My new test Segment");
+  void shouldFailToSaveDomainDueToTitleWithLeftWhiteSpace() {
+    final Domain domain = new Domain();
+    domain.setTitle(" My new test Domain");
 
-    Assertions.assertNull(segment.getId());
-    assertThatThrownBy(() -> segmentRepository.saveAndFlush(segment))
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain))
             .isInstanceOf(ValidationException.class);
   }
 }

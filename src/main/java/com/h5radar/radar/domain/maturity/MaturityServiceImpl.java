@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -12,12 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.spmaturityframework.context.MessageSource;
+import org.spmaturityframework.data.domain.Page;
+import org.spmaturityframework.data.domain.Pageable;
+import org.spmaturityframework.data.domain.Sort;
+import org.spmaturityframework.stereotype.Service;
+import org.spmaturityframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
@@ -27,85 +27,85 @@ import com.h5radar.radar.domain.radar.RadarRepository;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class RingServiceImpl implements RingService {
+public class MaturityServiceImpl implements MaturityService {
   private final Validator validator;
   private final MessageSource messageSource;
-  private final RingRepository ringRepository;
+  private final MaturityRepository maturityRepository;
   private final RadarRepository radarRepository;
-  private final RingMapper ringMapper;
+  private final MaturityMapper maturityMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<RingDto> findAll() {
-    return ringRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
-        .stream().map(ringMapper::toDto).collect(Collectors.toList());
+  public Collection<MaturityDto> findAll() {
+    return maturityRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        .stream().map(maturityMapper::toDto).collect(Collectors.toList());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Page<RingDto> findAll(RingFilter ringFilter, Pageable pageable) {
-    return ringRepository.findAll((root, query, builder) -> {
+  public Page<MaturityDto> findAll(MaturityFilter maturityFilter, Pageable pageable) {
+    return maturityRepository.findAll((root, query, builder) -> {
       List<Predicate> predicateList = new ArrayList<>();
-      if (ringFilter != null && ringFilter.getTitle() != null
-          && !ringFilter.getTitle().isBlank()) {
-        predicateList.add(builder.like(root.get("title"), ringFilter.getTitle()));
+      if (maturityFilter != null && maturityFilter.getTitle() != null
+          && !maturityFilter.getTitle().isBlank()) {
+        predicateList.add(builder.like(root.get("title"), maturityFilter.getTitle()));
       }
       return builder.and(predicateList.toArray(new Predicate[] {}));
-    }, pageable).map(ringMapper::toDto);
+    }, pageable).map(maturityMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<RingDto> findById(Long id) {
-    return ringRepository.findById(id).map(ringMapper::toDto);
+  public Optional<MaturityDto> findById(Long id) {
+    return maturityRepository.findById(id).map(maturityMapper::toDto);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<RingDto> findByTitle(String title) {
-    return ringRepository.findByTitle(title).map(ringMapper::toDto);
+  public Optional<MaturityDto> findByTitle(Stmaturity title) {
+    return maturityRepository.findByTitle(title).map(maturityMapper::toDto);
   }
 
   @Override
   @Transactional
-  public RingDto save(RingDto ringDto) {
+  public MaturityDto save(MaturityDto maturityDto) {
     List<ModelError> modelErrorList = new LinkedList<>();
-    Optional<Radar> radarOptional = radarRepository.findById(ringDto.getRadarId());
+    Optional<Radar> radarOptional = radarRepository.findById(maturityDto.getRadarId());
     if (radarOptional.isPresent()) {
-      Optional<Ring> ringOptional = Optional.empty();
-      if (ringDto.getId() != null) {
-        ringOptional = ringRepository.findById(ringDto.getId());
+      Optional<Maturity> maturityOptional = Optional.empty();
+      if (maturityDto.getId() != null) {
+        maturityOptional = maturityRepository.findById(maturityDto.getId());
       }
       modelErrorList.addAll(
-          new RadarActiveSaveApprover(messageSource, radarOptional.get(), ringOptional).approve());
+          new RadarActiveSaveApprover(messageSource, radarOptional.get(), maturityOptional).approve());
     }
 
-    Ring ring = ringMapper.toEntity(ringDto);
+    Maturity maturity = maturityMapper.toEntity(maturityDto);
     // Throw exception if violations are exists
-    Set<ConstraintViolation<Ring>> constraintViolationSet = validator.validate(ring);
+    Set<ConstraintViolation<Maturity>> constraintViolationSet = validator.validate(maturity);
     if (!modelErrorList.isEmpty() || !constraintViolationSet.isEmpty()) {
-      for (ConstraintViolation<Ring> constraintViolation : constraintViolationSet) {
+      for (ConstraintViolation<Maturity> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
-            constraintViolation.getPropertyPath().toString()));
+            constraintViolation.getPropertyPath().toStmaturity()));
       }
-      String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
+      Stmaturity errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
-    return ringMapper.toDto(ringRepository.save(ring));
+    return maturityMapper.toDto(maturityRepository.save(maturity));
   }
 
   @Override
   @Transactional
   public void deleteById(Long id) {
-    Optional<Ring> ringOptional = ringRepository.findById(id);
-    if (ringOptional.isPresent()) {
+    Optional<Maturity> maturityOptional = maturityRepository.findById(id);
+    if (maturityOptional.isPresent()) {
       List<ModelError> modelErrorList = new LinkedList<>();
-      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, ringOptional.get()).approve());
+      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, maturityOptional.get()).approve());
       if (!modelErrorList.isEmpty()) {
-        String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
+        Stmaturity errorMessage = ValidationException.buildErrorMessage(modelErrorList);
         throw new ValidationException(errorMessage, modelErrorList);
       }
-      ringRepository.deleteById(id);
+      maturityRepository.deleteById(id);
     }
   }
 }

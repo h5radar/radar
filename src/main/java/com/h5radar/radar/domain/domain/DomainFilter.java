@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.validation.constraints.Size;
 
@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SegmentFilter {
+public class DomainFilter {
 
   @Size(min = 0, max = 64)
   private String title;

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = SegmentTitleTrimValidator.class)
+@Constraint(validatedBy = DomainTitleTrimValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SegmentTrimTitleConstraint {
+public @interface DomainTrimTitleConstraint {
   String message() default "should be without whitespaces before and after";
 
   Class<?>[] groups() default {};

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -6,17 +6,17 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface SegmentService {
+public interface DomainService {
 
-  Collection<SegmentDto> findAll();
+  Collection<DomainDto> findAll();
 
-  Page<SegmentDto> findAll(SegmentFilter segmentFilter, Pageable pageable);
+  Page<DomainDto> findAll(DomainFilter domainFilter, Pageable pageable);
 
-  Optional<SegmentDto> findById(Long id);
+  Optional<DomainDto> findById(Long id);
 
-  Optional<SegmentDto> findByTitle(String title);
+  Optional<DomainDto> findByTitle(String title);
 
-  SegmentDto save(SegmentDto segmentDto);
+  DomainDto save(DomainDto domainDto);
 
   void deleteById(Long id);
 }

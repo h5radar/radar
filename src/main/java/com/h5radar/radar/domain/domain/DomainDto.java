@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "radar_id", "title", "description", "position", "active" })
-public class SegmentDto {
+public class DomainDto {
 
   private Long id;
 

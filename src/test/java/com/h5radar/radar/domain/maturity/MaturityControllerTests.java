@@ -1,58 +1,58 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.spmaturityframework.http.MediaType.APPLICATION_JSON;
+import static org.spmaturityframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.spmaturityframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.spmaturityframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.spmaturityframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.spmaturityframework.data.domain.Page;
+import org.spmaturityframework.data.domain.PageImpl;
+import org.spmaturityframework.security.test.context.support.WithMockUser;
+import org.spmaturityframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.domain.AbstractControllerTests;
 import com.h5radar.radar.domain.radar.RadarDto;
 
-@WebMvcTest(RingController.class)
-public class RingControllerTests extends AbstractControllerTests {
+@WebMvcTest(MaturityController.class)
+public class MaturityControllerTests extends AbstractControllerTests {
   @MockitoBean
-  private RingService ringService;
+  private MaturityService maturityService;
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetRings() throws Exception {
+  public void shouldGetMaturitys() throws Exception {
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(12L);
     radarDto.setTitle("My radar");
     radarDto.setDescription("My radar description");
 
-    final RingDto ringDto = new RingDto();
-    ringDto.setId(10L);
-    ringDto.setRadarId(radarDto.getId());
-    ringDto.setTitle("My title");
-    ringDto.setDescription("My description");
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarId(radarDto.getId());
+    maturityDto.setTitle("My title");
+    maturityDto.setDescription("My description");
 
-    Page<RingDto> ringDtoPage = new PageImpl<>(Arrays.asList(ringDto));
-    Mockito.when(ringService.findAll(any(), any())).thenReturn(ringDtoPage);
+    Page<MaturityDto> maturityDtoPage = new PageImpl<>(Arrays.asList(maturityDto));
+    Mockito.when(maturityService.findAll(any(), any())).thenReturn(maturityDtoPage);
 
-    mockMvc.perform(get("/api/v1/rings").contentType(APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/maturities").contentType(APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
-        .andExpect(jsonPath("$", hasSize(ringDtoPage.getContent().size())))
-        .andExpect(jsonPath("$[0].id", equalTo(ringDto.getId()), Long.class))
-        .andExpect(jsonPath("$[0].radar_id", equalTo(ringDto.getRadarId()), Long.class))
-        .andExpect(jsonPath("$[0].title", equalTo(ringDto.getTitle())))
-        .andExpect(jsonPath("$[0].description", equalTo(ringDto.getDescription())))
-        .andExpect(jsonPath("$[0].color", equalTo(ringDto.getColor())));
+        .andExpect(jsonPath("$", hasSize(maturityDtoPage.getContent().size())))
+        .andExpect(jsonPath("$[0].id", equalTo(maturityDto.getId()), Long.class))
+        .andExpect(jsonPath("$[0].radar_id", equalTo(maturityDto.getRadarId()), Long.class))
+        .andExpect(jsonPath("$[0].title", equalTo(maturityDto.getTitle())))
+        .andExpect(jsonPath("$[0].description", equalTo(maturityDto.getDescription())))
+        .andExpect(jsonPath("$[0].color", equalTo(maturityDto.getColor())));
 
-    Mockito.verify(ringService).findAll(any(), any());
+    Mockito.verify(maturityService).findAll(any(), any());
   }
 }

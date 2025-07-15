@@ -1,13 +1,13 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 
-public class RingTrimTitleValidator implements ConstraintValidator<RingTrimTitleConstraint, String> {
+public class MaturityTrimTitleValidator implements ConstraintValidator<MaturityTrimTitleConstraint, Stmaturity> {
 
   @Override
-  public boolean isValid(String value, ConstraintValidatorContext context) {
+  public boolean isValid(Stmaturity value, ConstraintValidatorContext context) {
     return value == null || value.length() == value.trim().length();
   }
 }

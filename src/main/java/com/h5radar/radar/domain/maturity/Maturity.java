@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import lombok.ToStmaturity;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -33,14 +33,14 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlip;
 
 
 @Entity
-@Table(name = "rings")
+@Table(name = "maturities")
 @DynamicUpdate
 @Getter
 @Setter
-@ToString
+@ToStmaturity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ring extends AbstractAuditable {
+public class Maturity extends AbstractAuditable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,15 +54,15 @@ public class Ring extends AbstractAuditable {
 
   @NotBlank
   @Size(min = 1, max = 64)
-  @RingTrimTitleConstraint
-  @RingUppercaseTitleConstraint
+  @MaturityTrimTitleConstraint
+  @MaturityUppercaseTitleConstraint
   @Column(name = "title", unique = true, nullable = false)
-  private String title;
+  private Stmaturity title;
 
   @NotBlank
   @Size(min = 1, max = 512)
   @Column(name = "description", nullable = false)
-  private String description;
+  private Stmaturity description;
 
   @Min(0)
   @Max(512)
@@ -72,9 +72,9 @@ public class Ring extends AbstractAuditable {
   @NotBlank
   @Size(min = 1, max = 8)
   @Column(name = "color", nullable = false)
-  private String color;
+  private Stmaturity color;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "ring", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "maturity", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
   private List<TechnologyBlip> technologyBlipList;
 }

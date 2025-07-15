@@ -1,10 +1,10 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import static org.mockito.ArgumentMatchers.any;
 
 import com.h5radar.radar.domain.AbstractMapperTests;
 
-class SegmentMapperTests extends AbstractMapperTests {
+class DomainMapperTests extends AbstractMapperTests {
   /* TODO: uncomment
 
   @MockitoBean
@@ -14,29 +14,29 @@ class SegmentMapperTests extends AbstractMapperTests {
   private TechnologyBlipMapper technologyBlipMapper;
 
   @Autowired
-  private SegmentMapper segmentMapper;
+  private DomainMapper domainMapper;
 
   @Test
   public void testToDtoWithNull() {
-    final var segmentDto = segmentMapper.toDto(null);
+    final var domainDto = domainMapper.toDto(null);
 
-    Assertions.assertNull(segmentDto);
+    Assertions.assertNull(domainDto);
   }
 
   @Test
   public void testToDtoAllFields() {
-    final var segment = new Segment();
-    segment.setId(1L);
-    segment.setTitle("My segment title");
-    segment.setDescription("My segment description");
-    segment.setPosition(1);
+    final var domain = new Domain();
+    domain.setId(1L);
+    domain.setTitle("My domain title");
+    domain.setDescription("My domain description");
+    domain.setPosition(1);
 
-    final var segmentDto = segmentMapper.toDto(segment);
+    final var domainDto = domainMapper.toDto(domain);
 
-    Assertions.assertEquals(segment.getId(), segmentDto.getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDto.getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDto.getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDto.getPosition());
+    Assertions.assertEquals(domain.getId(), domainDto.getId());
+    Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
   }
 
   @Test
@@ -57,7 +57,7 @@ class SegmentMapperTests extends AbstractMapperTests {
     radar.setActive(true);
     radar.setRingList(List.of(new Ring()));
     radar.setTechnologyBlipList(List.of(new TechnologyBlip()));
-    radar.setSegmentList(List.of(new Segment()));
+    radar.setDomainList(List.of(new Domain()));
 
     // Create ring
     final RingDto ringDto = new RingDto();
@@ -70,14 +70,14 @@ class SegmentMapperTests extends AbstractMapperTests {
     ringDto.setPosition(1);
     ringDto.setTechnologyBlipDtoList(List.of(new TechnologyBlipDto()));
 
-    // Create segment
-    final Segment segment = new Segment();
-    segment.setId(3L);
-    segment.setRadar(radar);
-    segment.setTitle("My segment title");
-    segment.setDescription("My segment description");
-    segment.setPosition(2);
-    segment.setTechnologyBlipList(List.of(new TechnologyBlip()));
+    // Create domain
+    final Domain domain = new Domain();
+    domain.setId(3L);
+    domain.setRadar(radar);
+    domain.setTitle("My domain title");
+    domain.setDescription("My domain description");
+    domain.setPosition(2);
+    domain.setTechnologyBlipList(List.of(new TechnologyBlip()));
 
     // Create technology
     final var technologyDto = new TechnologyDto();
@@ -92,9 +92,9 @@ class SegmentMapperTests extends AbstractMapperTests {
     final var technologyBlipDto = new TechnologyBlipDto();
     technologyBlipDto.setId(5L);
     technologyBlipDto.setRadarId(radar.getId());
-    technologyBlipDto.setSegmentId(segment.getId());
-    technologyBlipDto.setSegmentTitle(segment.getTitle());
-    technologyBlipDto.setSegmentPosition(segment.getPosition());
+    technologyBlipDto.setDomainId(domain.getId());
+    technologyBlipDto.setDomainTitle(domain.getTitle());
+    technologyBlipDto.setDomainPosition(domain.getPosition());
     technologyBlipDto.setTechnologyId(technologyDto.getId());
     technologyBlipDto.setTechnologyTitle(technologyDto.getTitle());
     technologyBlipDto.setTechnologyWebsite(technologyDto.getWebsite());
@@ -105,42 +105,42 @@ class SegmentMapperTests extends AbstractMapperTests {
 
     Mockito.when(technologyBlipMapper.toDto(any())).thenReturn(technologyBlipDto);
 
-    final var segmentDto = segmentMapper.toDto(segment);
+    final var domainDto = domainMapper.toDto(domain);
 
-    Assertions.assertEquals(segment.getId(), segmentDto.getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDto.getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDto.getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDto.getPosition());
+    Assertions.assertEquals(domain.getId(), domainDto.getId());
+    Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
 
-    Assertions.assertEquals(segment.getRadar().getId(), segmentDto.getRadarId());
-    Assertions.assertEquals(segment.getRadar().getTitle(), segmentDto.getRadarTitle());
+    Assertions.assertEquals(domain.getRadar().getId(), domainDto.getRadarId());
+    Assertions.assertEquals(domain.getRadar().getTitle(), domainDto.getRadarTitle());
 
-    Assertions.assertNotNull(segmentDto.getTechnologyBlipDtoList());
-    Assertions.assertEquals(1, segmentDto.getTechnologyBlipDtoList().size());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getId(), technologyBlipDto.getId());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getRadarTitle(),
+    Assertions.assertNotNull(domainDto.getTechnologyBlipDtoList());
+    Assertions.assertEquals(1, domainDto.getTechnologyBlipDtoList().size());
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getId(), technologyBlipDto.getId());
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getRadarTitle(),
         technologyBlipDto.getRadarTitle());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getTechnologyId(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getTechnologyId(),
         technologyBlipDto.getTechnologyId());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getTechnologyTitle(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getTechnologyTitle(),
         technologyBlipDto.getTechnologyTitle());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getTechnologyWebsite(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getTechnologyWebsite(),
         technologyBlipDto.getTechnologyWebsite());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getTechnologyMoved(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getTechnologyMoved(),
         technologyBlipDto.getTechnologyMoved());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().isTechnologyActive(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().isTechnologyActive(),
         technologyBlipDto.isTechnologyActive());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getSegmentId(),
-        technologyBlipDto.getSegmentId());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getSegmentTitle(),
-        technologyBlipDto.getSegmentTitle());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getSegmentPosition(),
-        technologyBlipDto.getSegmentPosition());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getRingId(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getDomainId(),
+        technologyBlipDto.getDomainId());
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getDomainTitle(),
+        technologyBlipDto.getDomainTitle());
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getDomainPosition(),
+        technologyBlipDto.getDomainPosition());
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getRingId(),
         technologyBlipDto.getRingId());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getRingTitle(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getRingTitle(),
         technologyBlipDto.getRingTitle());
-    Assertions.assertEquals(segmentDto.getTechnologyBlipDtoList().iterator().next().getRingPosition(),
+    Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getRingPosition(),
         technologyBlipDto.getRingPosition());
 
     Mockito.verify(technologyBlipMapper).toDto(any());
@@ -148,9 +148,9 @@ class SegmentMapperTests extends AbstractMapperTests {
 
   @Test
   public void testToEntityWithNull() {
-    final var segment = segmentMapper.toEntity(null);
+    final var domain = domainMapper.toEntity(null);
 
-    Assertions.assertNull(segment);
+    Assertions.assertNull(domain);
   }
 
   @Test
@@ -164,22 +164,22 @@ class SegmentMapperTests extends AbstractMapperTests {
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
-    final var segmentDto = new SegmentDto();
-    segmentDto.setId(1L);
-    segmentDto.setRadarId(radar.getId());
-    segmentDto.setRadarTitle(radar.getTitle());
-    segmentDto.setTitle("My segment title");
-    segmentDto.setDescription("My segment description");
-    segmentDto.setPosition(1);
+    final var domainDto = new DomainDto();
+    domainDto.setId(1L);
+    domainDto.setRadarId(radar.getId());
+    domainDto.setRadarTitle(radar.getTitle());
+    domainDto.setTitle("My domain title");
+    domainDto.setDescription("My domain description");
+    domainDto.setPosition(1);
 
-    final var segment = segmentMapper.toEntity(segmentDto);
+    final var domain = domainMapper.toEntity(domainDto);
 
-    Assertions.assertEquals(segment.getId(), segmentDto.getId());
-    Assertions.assertEquals(segment.getTitle(), segmentDto.getTitle());
-    Assertions.assertEquals(segment.getDescription(), segmentDto.getDescription());
-    Assertions.assertEquals(segment.getPosition(), segmentDto.getPosition());
+    Assertions.assertEquals(domain.getId(), domainDto.getId());
+    Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
+    Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
+    Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
 
-    Mockito.verify(radarRepository).findById(segment.getRadar().getId());
+    Mockito.verify(radarRepository).findById(domain.getRadar().getId());
   }
 
   @Test
@@ -197,69 +197,69 @@ class SegmentMapperTests extends AbstractMapperTests {
     radar.setDescription("My radar description");
     radar.setPrimary(true);
     radar.setActive(true);
-    radar.setSegmentList(List.of(new Segment()));
+    radar.setDomainList(List.of(new Domain()));
     radar.setTechnologyBlipList(List.of(new TechnologyBlip()));
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
 
-    final Segment segment = new Segment();
-    segment.setId(3L);
-    segment.setRadar(radar);
-    segment.setTitle("My segment title");
-    segment.setDescription("My segment description");
-    segment.setPosition(1);
+    final Domain domain = new Domain();
+    domain.setId(3L);
+    domain.setRadar(radar);
+    domain.setTitle("My domain title");
+    domain.setDescription("My domain description");
+    domain.setPosition(1);
 
-    final var segmentDto = new SegmentDto();
-    segmentDto.setId(3L);
-    segmentDto.setRadarId(radar.getId());
-    segmentDto.setRadarTitle(radar.getTitle());
-    segmentDto.setTitle("My segment title");
-    segmentDto.setDescription("My segment description");
-    segmentDto.setPosition(1);
-    segmentDto.setTechnologyBlipDtoList(List.of(new TechnologyBlipDto()));
+    final var domainDto = new DomainDto();
+    domainDto.setId(3L);
+    domainDto.setRadarId(radar.getId());
+    domainDto.setRadarTitle(radar.getTitle());
+    domainDto.setTitle("My domain title");
+    domainDto.setDescription("My domain description");
+    domainDto.setPosition(1);
+    domainDto.setTechnologyBlipDtoList(List.of(new TechnologyBlipDto()));
 
     final var technologyBlip = new TechnologyBlip();
     technologyBlip.setId(4L);
     technologyBlip.setRadar(radar);
-    technologyBlip.setSegment(segment);
+    technologyBlip.setDomain(domain);
 
     Mockito.when(technologyBlipMapper.toEntity(any())).thenReturn(technologyBlip);
 
-    final var MappedSegment = segmentMapper.toEntity(segmentDto);
+    final var MappedDomain = domainMapper.toEntity(domainDto);
 
-    Assertions.assertEquals(MappedSegment.getId(), segmentDto.getId());
-    Assertions.assertEquals(MappedSegment.getTitle(), segmentDto.getTitle());
-    Assertions.assertEquals(MappedSegment.getDescription(), segmentDto.getDescription());
-    Assertions.assertEquals(MappedSegment.getPosition(), segmentDto.getPosition());
+    Assertions.assertEquals(MappedDomain.getId(), domainDto.getId());
+    Assertions.assertEquals(MappedDomain.getTitle(), domainDto.getTitle());
+    Assertions.assertEquals(MappedDomain.getDescription(), domainDto.getDescription());
+    Assertions.assertEquals(MappedDomain.getPosition(), domainDto.getPosition());
 
-    Assertions.assertEquals(MappedSegment.getRadar().getId(), segmentDto.getRadarId());
-    Assertions.assertEquals(MappedSegment.getRadar().getTitle(), segmentDto.getRadarTitle());
-    Assertions.assertEquals(MappedSegment.getId(),
-        MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getId());
-    Assertions.assertEquals(MappedSegment.getTitle(),
-        MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getTitle());
-    Assertions.assertEquals(MappedSegment.getDescription(),
-        MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getDescription());
-    Assertions.assertEquals(MappedSegment.getPosition(),
-        MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getPosition());
-    Assertions.assertEquals(MappedSegment.getRadar().getId(),
-        MappedSegment.getTechnologyBlipList().iterator().next().getRadar().getId());
+    Assertions.assertEquals(MappedDomain.getRadar().getId(), domainDto.getRadarId());
+    Assertions.assertEquals(MappedDomain.getRadar().getTitle(), domainDto.getRadarTitle());
+    Assertions.assertEquals(MappedDomain.getId(),
+        MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getId());
+    Assertions.assertEquals(MappedDomain.getTitle(),
+        MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getTitle());
+    Assertions.assertEquals(MappedDomain.getDescription(),
+        MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getDescription());
+    Assertions.assertEquals(MappedDomain.getPosition(),
+        MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getPosition());
+    Assertions.assertEquals(MappedDomain.getRadar().getId(),
+        MappedDomain.getTechnologyBlipList().iterator().next().getRadar().getId());
 
-    Assertions.assertNotNull(MappedSegment.getTechnologyBlipList());
-    Assertions.assertEquals(1, MappedSegment.getTechnologyBlipList().size());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getId(), technologyBlip.getId());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getRadar().getId(),
+    Assertions.assertNotNull(MappedDomain.getTechnologyBlipList());
+    Assertions.assertEquals(1, MappedDomain.getTechnologyBlipList().size());
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getId(), technologyBlip.getId());
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getRadar().getId(),
         technologyBlip.getRadar().getId());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getRadar().getTitle(),
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getRadar().getTitle(),
         technologyBlip.getRadar().getTitle());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getId(),
-        technologyBlip.getSegment().getId());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getTitle(),
-        technologyBlip.getSegment().getTitle());
-    Assertions.assertEquals(MappedSegment.getTechnologyBlipList().iterator().next().getSegment().getPosition(),
-        technologyBlip.getSegment().getPosition());
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getId(),
+        technologyBlip.getDomain().getId());
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getTitle(),
+        technologyBlip.getDomain().getTitle());
+    Assertions.assertEquals(MappedDomain.getTechnologyBlipList().iterator().next().getDomain().getPosition(),
+        technologyBlip.getDomain().getPosition());
 
-    Mockito.verify(radarRepository).findById(MappedSegment.getRadar().getId());
+    Mockito.verify(radarRepository).findById(MappedDomain.getRadar().getId());
     Mockito.verify(technologyBlipMapper).toEntity(any());
   }
   */

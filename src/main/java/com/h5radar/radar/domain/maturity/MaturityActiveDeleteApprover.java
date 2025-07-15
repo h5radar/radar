@@ -1,12 +1,12 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 
 import java.util.LinkedList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.spmaturityframework.context.MessageSource;
+import org.spmaturityframework.context.i18n.LocaleContextHolder;
 
 import com.h5radar.radar.domain.ModelApprover;
 import com.h5radar.radar.domain.ModelError;
@@ -17,13 +17,13 @@ public class RadarActiveDeleteApprover implements ModelApprover {
 
   private final MessageSource messageSource;
 
-  private final Ring ring;
+  private final Maturity maturity;
 
   @Override
   public List<ModelError> approve() throws ValidationException {
-    if (ring.getRadar().isActive()) {
+    if (maturity.getRadar().isActive()) {
       return List.of(new ModelError("unable_to_delete_due_to_active_radar",
-          messageSource.getMessage("ring.error.unable_to_delete_due_to_active_radar", null,
+          messageSource.getMessage("maturity.error.unable_to_delete_due_to_active_radar", null,
               LocaleContextHolder.getLocale()), null));
     }
     return new LinkedList<>();

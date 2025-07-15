@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -9,11 +9,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = RingUppercaseTitleValidator.class)
+@Constraint(validatedBy = MaturityUppercaseTitleValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RingUppercaseTitleConstraint {
-  String message() default "should be uppercase";
+public @interface MaturityUppercaseTitleConstraint {
+  Stmaturity message() default "should be uppercase";
 
   Class<?>[] groups() default {};
 

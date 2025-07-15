@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.segment;
+package com.h5radar.radar.domain.domain;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -21,36 +21,36 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.h5radar.radar.domain.AbstractControllerTests;
 import com.h5radar.radar.domain.radar.RadarDto;
 
-@WebMvcTest(SegmentController.class)
-public class SegmentControllerTests extends AbstractControllerTests {
+@WebMvcTest(DomainController.class)
+public class DomainControllerTests extends AbstractControllerTests {
   @MockitoBean
-  private SegmentService segmentService;
+  private DomainService domainService;
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetSegments() throws Exception {
+  public void shouldGetDomains() throws Exception {
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(1L);
 
-    final SegmentDto segmentDto = new SegmentDto();
-    segmentDto.setId(10L);
-    segmentDto.setRadarId(radarDto.getId());
-    segmentDto.setRadarTitle(radarDto.getTitle());
-    segmentDto.setTitle("My title");
-    segmentDto.setDescription("My description");
-    segmentDto.setPosition(1);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarId(radarDto.getId());
+    domainDto.setRadarTitle(radarDto.getTitle());
+    domainDto.setTitle("My title");
+    domainDto.setDescription("My description");
+    domainDto.setPosition(1);
 
-    Page<SegmentDto> segmentDtoPage = new PageImpl<>(Arrays.asList(segmentDto));
-    Mockito.when(segmentService.findAll(any(), any())).thenReturn(segmentDtoPage);
+    Page<DomainDto> domainDtoPage = new PageImpl<>(Arrays.asList(domainDto));
+    Mockito.when(domainService.findAll(any(), any())).thenReturn(domainDtoPage);
 
-    mockMvc.perform(get("/api/v1/segments").contentType(APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/domains").contentType(APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
-        .andExpect(jsonPath("$", hasSize(segmentDtoPage.getContent().size())))
-        .andExpect(jsonPath("$[0].id", equalTo(segmentDto.getId()), Long.class))
-        .andExpect(jsonPath("$[0].radar_id", equalTo(segmentDto.getRadarId()), Long.class))
-        .andExpect(jsonPath("$[0].title", equalTo(segmentDto.getTitle())))
-        .andExpect(jsonPath("$[0].description", equalTo(segmentDto.getDescription())))
-        .andExpect(jsonPath("$[0].position", equalTo(segmentDto.getPosition()), int.class));
+        .andExpect(jsonPath("$", hasSize(domainDtoPage.getContent().size())))
+        .andExpect(jsonPath("$[0].id", equalTo(domainDto.getId()), Long.class))
+        .andExpect(jsonPath("$[0].radar_id", equalTo(domainDto.getRadarId()), Long.class))
+        .andExpect(jsonPath("$[0].title", equalTo(domainDto.getTitle())))
+        .andExpect(jsonPath("$[0].description", equalTo(domainDto.getDescription())))
+        .andExpect(jsonPath("$[0].position", equalTo(domainDto.getPosition()), int.class));
   }
 }

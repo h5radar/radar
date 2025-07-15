@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.ring;
+package com.h5radar.radar.domain.maturity;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import lombok.ToStmaturity;
 
 import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
 
@@ -21,11 +21,11 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
  */
 @Getter
 @Setter
-@ToString
+@ToStmaturity
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "radar_id", "title", "description", "position", "color", "active" })
-public class RingDto {
+public class MaturityDto {
 
   private Long id;
 
@@ -34,15 +34,15 @@ public class RingDto {
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Long radarId;
 
-  private String radarTitle;
+  private Stmaturity radarTitle;
 
-  private String title;
+  private Stmaturity title;
 
-  private String description;
+  private Stmaturity description;
 
   private int position;
 
-  private String color;
+  private Stmaturity color;
 
   private List<TechnologyBlipDto> technologyBlipDtoList;
 }
