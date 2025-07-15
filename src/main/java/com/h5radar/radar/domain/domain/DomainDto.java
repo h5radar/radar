@@ -32,8 +32,6 @@ public class DomainDto {
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Long radarUserId;
 
-  private String radarTitle;
-
   private String title;
 
   private String description;

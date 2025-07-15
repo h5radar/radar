@@ -1,7 +1,5 @@
 package com.h5radar.radar.domain.maturity;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,8 +29,6 @@ public class MaturityDto {
   @JsonIdentityReference(alwaysAsId = true)
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Long radarUserId;
-
-  private String radarTitle;
 
   private String title;
 

@@ -1,14 +1,14 @@
 package com.h5radar.radar.domain.domain;
 
 import jakarta.persistence.criteria.Predicate;
-import jakarta.validation.ConstraintViolation;
+// import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+// import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
-import com.h5radar.radar.domain.radar.Radar;
-import com.h5radar.radar.domain.radar.RadarRepository;
+// import com.h5radar.radar.domain.technology.Technology;
+import com.h5radar.radar.domain.technology.TechnologyRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +31,7 @@ public class DomainServiceImpl implements DomainService {
   private final Validator validator;
   private final MessageSource messageSource;
   private final DomainRepository domainRepository;
-  private final RadarRepository radarRepository;
+  private final TechnologyRepository technologyRepository;
   private final DomainMapper domainMapper;
 
   @Override
@@ -70,18 +70,21 @@ public class DomainServiceImpl implements DomainService {
   @Override
   @Transactional
   public DomainDto save(DomainDto domainDto) {
+    /* TODO: uncomment
     List<ModelError> modelErrorList = new LinkedList<>();
-    Optional<Radar> radarOptional = radarRepository.findById(domainDto.getRadarId());
+    Optional<Technology> radarOptional = technologyRepository.findById(domainDto.getRadarId());
     if (radarOptional.isPresent()) {
       Optional<Domain> domainOptional = Optional.empty();
       if (domainDto.getId() != null) {
         domainOptional = domainRepository.findById(domainDto.getId());
       }
       modelErrorList.addAll(
-          new RadarActiveSaveApprover(messageSource, radarOptional.get(), domainOptional).approve());
+          new DomainActiveSaveApprover(messageSource, radarOptional.get(), domainOptional).approve());
     }
+    */
 
     Domain domain = domainMapper.toEntity(domainDto);
+    /* TODO: uncomment
     // Throw exception if violations are exists
     Set<ConstraintViolation<Domain>> constraintViolationSet = validator.validate(domain);
     if (!modelErrorList.isEmpty() || !constraintViolationSet.isEmpty()) {
@@ -92,6 +95,7 @@ public class DomainServiceImpl implements DomainService {
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
+     */
     return domainMapper.toDto(domainRepository.save(domain));
   }
 
@@ -101,7 +105,7 @@ public class DomainServiceImpl implements DomainService {
     Optional<Domain> domainOptional = domainRepository.findById(id);
     if (domainOptional.isPresent()) {
       List<ModelError> modelErrorList = new LinkedList<>();
-      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, domainOptional.get()).approve());
+      modelErrorList.addAll(new DomainActiveDeleteApprover(messageSource, domainOptional.get()).approve());
       if (!modelErrorList.isEmpty()) {
         String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
         throw new ValidationException(errorMessage, modelErrorList);

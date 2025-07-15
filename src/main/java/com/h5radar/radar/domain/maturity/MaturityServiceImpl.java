@@ -1,14 +1,14 @@
 package com.h5radar.radar.domain.maturity;
 
 import jakarta.persistence.criteria.Predicate;
-import jakarta.validation.ConstraintViolation;
+// import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+// import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
-import com.h5radar.radar.domain.radar.Radar;
-import com.h5radar.radar.domain.radar.RadarRepository;
+// import com.h5radar.radar.domain.technology.Technology;
+import com.h5radar.radar.domain.technology.TechnologyRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +31,7 @@ public class MaturityServiceImpl implements MaturityService {
   private final Validator validator;
   private final MessageSource messageSource;
   private final MaturityRepository maturityRepository;
-  private final RadarRepository radarRepository;
+  private final TechnologyRepository technologyRepository;
   private final MaturityMapper maturityMapper;
 
   @Override
@@ -69,8 +69,9 @@ public class MaturityServiceImpl implements MaturityService {
   @Override
   @Transactional
   public MaturityDto save(MaturityDto maturityDto) {
+    /* TODO: uncomment
     List<ModelError> modelErrorList = new LinkedList<>();
-    Optional<Radar> radarOptional = radarRepository.findById(maturityDto.getRadarId());
+    Optional<Radar> radarOptional = technologyRepository.findById(maturityDto.getRadarId());
     if (radarOptional.isPresent()) {
       Optional<Maturity> maturityOptional = Optional.empty();
       if (maturityDto.getId() != null) {
@@ -79,8 +80,10 @@ public class MaturityServiceImpl implements MaturityService {
       modelErrorList.addAll(
           new RadarActiveSaveApprover(messageSource, radarOptional.get(), maturityOptional).approve());
     }
+     */
 
     Maturity maturity = maturityMapper.toEntity(maturityDto);
+    /* TODO: uncomment
     // Throw exception if violations are exists
     Set<ConstraintViolation<Maturity>> constraintViolationSet = validator.validate(maturity);
     if (!modelErrorList.isEmpty() || !constraintViolationSet.isEmpty()) {
@@ -91,6 +94,7 @@ public class MaturityServiceImpl implements MaturityService {
       String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
+     */
     return maturityMapper.toDto(maturityRepository.save(maturity));
   }
 
@@ -100,7 +104,7 @@ public class MaturityServiceImpl implements MaturityService {
     Optional<Maturity> maturityOptional = maturityRepository.findById(id);
     if (maturityOptional.isPresent()) {
       List<ModelError> modelErrorList = new LinkedList<>();
-      modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, maturityOptional.get()).approve());
+      modelErrorList.addAll(new MaturityActiveDeleteApprover(messageSource, maturityOptional.get()).approve());
       if (!modelErrorList.isEmpty()) {
         String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
         throw new ValidationException(errorMessage, modelErrorList);
