@@ -6,21 +6,21 @@
 
     <include file="../properties.yml" relativeToChangelogFile="true"/>
 
-    <changeSet id="create_segments_table" author="h5radar">
-        <createTable tableName="segments" remarks="Holds information about segments.">
-            <column name="id" type="${bigint.type}" remarks="Segment id, primary key." autoIncrement="true"
+    <changeSet id="create_domains_table" author="h5radar">
+        <createTable tableName="domains" remarks="Holds information about domains.">
+            <column name="id" type="${bigint.type}" remarks="Domain id, primary key." autoIncrement="true"
                     generationType="ALWAYS">
-                <constraints primaryKey="true" primaryKeyName="pk_segments_id" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="pk_domains_id" nullable="false"/>
             </column>
-            <column name="radar_id" type="${bigint.type}" remarks="Reference to radar.">
-                <constraints nullable="false" foreignKeyName="fk_segments_radar_id_2_radars" references="radars(id)"/>
+            <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
+                <constraints nullable="false" foreignKeyName="fk_domains_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-            <column name="title" type="${text.type}" remarks="Segment title, unique.">
-                <constraints unique="true" uniqueConstraintName="uc_segments_title" nullable="false"/>
+            <column name="title" type="${text.type}" remarks="Domain title, unique.">
+                <constraints unique="true" uniqueConstraintName="uc_domains_title" nullable="false"/>
             </column>
-            <column name="description" type="${text.type}" remarks="Description for segment."/>
+            <column name="description" type="${text.type}" remarks="Description for domain."/>
             <column name="position" type="integer"
-                    remarks="Represents segment position in radar starting from lower to higher value.">
+                    remarks="Represents domain position in radar starting from lower to higher value.">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="${user.type}" remarks="User who created the record.">
@@ -37,10 +37,14 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint columnNames="radar_user_id, title"
+                             constraintName="uc_domains_radar_user_id_title"
+                             tableName="maturities"
+                             validate="true"/>
         <!-- current Liquibase ignores checkConstraint attribute -->
         <sql>
-            ALTER TABLE segments
-                ADD CONSTRAINT ck_segments_title_trim CHECK (trim(title) = title)
+            ALTER TABLE domains
+                ADD CONSTRAINT ck_domains_title_trim CHECK (trim(title) = title)
         </sql>
     </changeSet>
 </databaseChangeLog>

@@ -79,6 +79,14 @@ public class RadarUser extends AbstractAuditable {
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
+  private List<Maturity> maturityList;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
+  @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
+  private List<Domain> domainList;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
+  @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
   private List<Technology> technologyList;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
