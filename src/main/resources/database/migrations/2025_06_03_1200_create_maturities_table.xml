@@ -18,14 +18,12 @@
             <column name="title" type="${text.type}" remarks="Maturity title.">
                 <constraints nullable="false"/>
             </column>
-            <column name="website" type="${text.type}" remarks="Website for maturity.">
-                <constraints nullable="true"/>
-            </column>
             <column name="description" type="${text.type}" remarks="Description for maturity."/>
-            <column name="moved" type="int" remarks="Direction of movements (up - greater than 0; down - less than 0)" defaultValue="0">
+            <column name="position" type="integer"
+                    remarks="Represents ring position in radar starting from lower to higher value.">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
+            <column name="color" type="${ring.color}" remarks="Ring color.">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="${user.type}" remarks="User who created the record.">
