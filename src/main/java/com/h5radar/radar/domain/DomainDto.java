@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.domain;
+package com.h5radar.radar.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

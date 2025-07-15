@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.maturity;
+package com.h5radar.radar.maturity;
 
 import java.util.Collection;
 import java.util.Optional;

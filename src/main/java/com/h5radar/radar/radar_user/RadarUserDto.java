@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import com.h5radar.radar.domain.compliance.ComplianceDto;
-import com.h5radar.radar.domain.domain.DomainDto;
-import com.h5radar.radar.domain.license.LicenseDto;
-import com.h5radar.radar.domain.maturity.MaturityDto;
-import com.h5radar.radar.domain.practice.PracticeDto;
-import com.h5radar.radar.domain.product.ProductDto;
-import com.h5radar.radar.domain.technology.TechnologyDto;
+import com.h5radar.radar.compliance.ComplianceDto;
+import com.h5radar.radar.domain.DomainDto;
+import com.h5radar.radar.license.LicenseDto;
+import com.h5radar.radar.maturity.MaturityDto;
+import com.h5radar.radar.practice.PracticeDto;
+import com.h5radar.radar.product.ProductDto;
+import com.h5radar.radar.technology.TechnologyDto;
 
 /**
  * This class should not have any validation such as @NotNull etc

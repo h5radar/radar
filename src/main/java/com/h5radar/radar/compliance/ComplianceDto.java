@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.compliance;
+package com.h5radar.radar.compliance;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;

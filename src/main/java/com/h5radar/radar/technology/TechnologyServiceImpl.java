@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.technology;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
@@ -26,9 +26,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 
-import com.h5radar.radar.domain.ModelError;
-import com.h5radar.radar.domain.ValidationException;
-import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.ModelError;
+import com.h5radar.radar.ValidationException;
+import com.h5radar.radar.radar_user.RadarUser;
 
 
 @RequiredArgsConstructor

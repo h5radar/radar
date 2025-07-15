@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.domain;
+package com.h5radar.radar.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,8 +22,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.h5radar.radar.domain.AbstractAuditable;
-import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.AbstractAuditable;
+import com.h5radar.radar.radar_user.RadarUser;
 
 @Entity
 @Table(name = "domains")

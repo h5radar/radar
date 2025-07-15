@@ -1,8 +1,8 @@
-package com.h5radar.radar.domain.domain;
+package com.h5radar.radar.domain;
 
 import static org.mockito.ArgumentMatchers.any;
 
-import com.h5radar.radar.domain.AbstractMapperTests;
+import com.h5radar.radar.AbstractMapperTests;
 
 class DomainMapperTests extends AbstractMapperTests {
   /* TODO: uncomment

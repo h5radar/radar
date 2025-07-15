@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.domain;
+package com.h5radar.radar.domain;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -18,8 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.h5radar.radar.domain.AbstractControllerTests;
-import com.h5radar.radar.domain.technology.TechnologyDto;
+import com.h5radar.radar.AbstractControllerTests;
+import com.h5radar.radar.technology.TechnologyDto;
 
 @WebMvcTest(DomainController.class)
 public class DomainControllerTests extends AbstractControllerTests {

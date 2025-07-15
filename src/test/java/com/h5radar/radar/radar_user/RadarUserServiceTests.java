@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,8 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.h5radar.radar.domain.AbstractServiceTests;
-import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.AbstractServiceTests;
+import com.h5radar.radar.ValidationException;
 
 class RadarUserServiceTests extends AbstractServiceTests {
   @MockitoBean

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_app;
+package com.h5radar.radar.radar_app;
 
 import static org.hamcrest.Matchers.hasKey;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
-import com.h5radar.radar.domain.AbstractControllerTests;
+import com.h5radar.radar.AbstractControllerTests;
 
 @WebMvcTest(VersionController.class)
 public class VersionControllerTests extends AbstractControllerTests {

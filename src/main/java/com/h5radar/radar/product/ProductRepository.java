@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.product;
+package com.h5radar.radar.product;
 
 import java.util.Optional;
 

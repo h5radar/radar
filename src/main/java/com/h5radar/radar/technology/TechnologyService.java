@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.technology;
+package com.h5radar.radar.technology;
 
 import java.util.Collection;
 import java.util.Optional;

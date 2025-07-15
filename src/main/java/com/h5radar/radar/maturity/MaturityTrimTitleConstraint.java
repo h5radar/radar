@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.maturity;
+package com.h5radar.radar.maturity;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

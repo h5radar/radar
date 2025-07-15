@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.practice;
+package com.h5radar.radar.practice;
 
 import jakarta.validation.Valid;
 import java.util.Optional;

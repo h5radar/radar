@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.maturity;
+package com.h5radar.radar.maturity;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.h5radar.radar.domain.AbstractRepositoryTests;
+import com.h5radar.radar.AbstractRepositoryTests;
 
 class MaturityRepositoryTests extends AbstractRepositoryTests {
 

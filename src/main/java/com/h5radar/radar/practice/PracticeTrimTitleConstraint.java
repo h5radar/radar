@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.practice;
+package com.h5radar.radar.practice;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

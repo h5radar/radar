@@ -1,11 +1,11 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.h5radar.radar.domain.AbstractIntegrationTests;
+import com.h5radar.radar.AbstractIntegrationTests;
 
 
 class RadarUserIntegrationTests extends AbstractIntegrationTests {

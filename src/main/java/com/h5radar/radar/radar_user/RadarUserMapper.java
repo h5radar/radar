@@ -1,17 +1,17 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.h5radar.radar.PlainMapper;
+import com.h5radar.radar.compliance.ComplianceMapper;
 import com.h5radar.radar.config.MapperConfiguration;
-import com.h5radar.radar.domain.PlainMapper;
-import com.h5radar.radar.domain.compliance.ComplianceMapper;
-import com.h5radar.radar.domain.domain.DomainMapper;
-import com.h5radar.radar.domain.license.LicenseMapper;
-import com.h5radar.radar.domain.maturity.MaturityMapper;
-import com.h5radar.radar.domain.practice.PracticeMapper;
-import com.h5radar.radar.domain.product.ProductMapper;
-import com.h5radar.radar.domain.technology.TechnologyMapper;
+import com.h5radar.radar.domain.DomainMapper;
+import com.h5radar.radar.license.LicenseMapper;
+import com.h5radar.radar.maturity.MaturityMapper;
+import com.h5radar.radar.practice.PracticeMapper;
+import com.h5radar.radar.product.ProductMapper;
+import com.h5radar.radar.technology.TechnologyMapper;
 
 @Mapper(config = MapperConfiguration.class,
     uses = {ComplianceMapper.class, DomainMapper.class, LicenseMapper.class, MaturityMapper.class,

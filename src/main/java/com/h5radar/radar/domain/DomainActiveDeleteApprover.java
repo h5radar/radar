@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.domain;
+package com.h5radar.radar.domain;
 
 
 import java.util.LinkedList;
@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 // import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.h5radar.radar.domain.ModelApprover;
-import com.h5radar.radar.domain.ModelError;
-import com.h5radar.radar.domain.ValidationException;
+import com.h5radar.radar.ModelApprover;
+import com.h5radar.radar.ModelError;
+import com.h5radar.radar.ValidationException;
 
 @RequiredArgsConstructor
 public class DomainActiveDeleteApprover implements ModelApprover {

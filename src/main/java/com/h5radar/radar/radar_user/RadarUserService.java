@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.practice;
+package com.h5radar.radar.practice;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.h5radar.radar.domain.AbstractRepositoryTests;
-import com.h5radar.radar.domain.radar_user.RadarUser;
-import com.h5radar.radar.domain.radar_user.RadarUserRepository;
+import com.h5radar.radar.AbstractRepositoryTests;
+import com.h5radar.radar.radar_user.RadarUser;
+import com.h5radar.radar.radar_user.RadarUserRepository;
 
 class PracticeRepositoryTests extends AbstractRepositoryTests {
   @Autowired

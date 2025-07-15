@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.license;
+package com.h5radar.radar.license;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,8 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
-import com.h5radar.radar.domain.AbstractIntegrationTests;
-import com.h5radar.radar.domain.radar_user.RadarUserDto;
+import com.h5radar.radar.AbstractIntegrationTests;
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 
 class LicenseIntegrationTests extends AbstractIntegrationTests {

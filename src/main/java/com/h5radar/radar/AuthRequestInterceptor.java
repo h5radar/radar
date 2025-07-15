@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain;
+package com.h5radar.radar;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,9 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.h5radar.radar.RadarConstants;
-import com.h5radar.radar.domain.radar_user.RadarUserDto;
-import com.h5radar.radar.domain.radar_user.RadarUserService;
+import com.h5radar.radar.radar_user.RadarUserDto;
+import com.h5radar.radar.radar_user.RadarUserService;
 
 
 @Component

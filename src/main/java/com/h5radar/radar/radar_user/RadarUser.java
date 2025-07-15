@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,15 +21,15 @@ import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.h5radar.radar.domain.AbstractAuditable;
-import com.h5radar.radar.domain.JpaConstants;
-import com.h5radar.radar.domain.compliance.Compliance;
-import com.h5radar.radar.domain.domain.Domain;
-import com.h5radar.radar.domain.license.License;
-import com.h5radar.radar.domain.maturity.Maturity;
-import com.h5radar.radar.domain.practice.Practice;
-import com.h5radar.radar.domain.product.Product;
-import com.h5radar.radar.domain.technology.Technology;
+import com.h5radar.radar.AbstractAuditable;
+import com.h5radar.radar.JpaConstants;
+import com.h5radar.radar.compliance.Compliance;
+import com.h5radar.radar.domain.Domain;
+import com.h5radar.radar.license.License;
+import com.h5radar.radar.maturity.Maturity;
+import com.h5radar.radar.practice.Practice;
+import com.h5radar.radar.product.Product;
+import com.h5radar.radar.technology.Technology;
 
 @Entity
 @Table(name = "radar_users")

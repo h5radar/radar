@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.radar_user;
+package com.h5radar.radar.radar_user;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.h5radar.radar.domain.AbstractControllerTests;
+import com.h5radar.radar.AbstractControllerTests;
 
 @WebMvcTest(RadarUserController.class)
 public class RadarUserControllerTests extends AbstractControllerTests {

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.maturity;
+package com.h5radar.radar.maturity;
 
 import jakarta.validation.Valid;
 import java.util.Collection;

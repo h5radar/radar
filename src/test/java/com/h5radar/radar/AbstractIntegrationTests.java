@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain;
+package com.h5radar.radar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.h5radar.radar.RadarApplication;
-import com.h5radar.radar.domain.radar_user.RadarUserService;
+import com.h5radar.radar.radar_user.RadarUserService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RadarApplication.class)
 public abstract class AbstractIntegrationTests extends AbstractAnyTests {

@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain.maturity;
+package com.h5radar.radar.maturity;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.h5radar.radar.domain.AbstractControllerTests;
+import com.h5radar.radar.AbstractControllerTests;
 
 @WebMvcTest(MaturityController.class)
 public class MaturityControllerTests extends AbstractControllerTests {

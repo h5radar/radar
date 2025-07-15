@@ -1,4 +1,4 @@
-package com.h5radar.radar.domain;
+package com.h5radar.radar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.h5radar.radar.config.ApplicationTestBaseConfig;
 import com.h5radar.radar.config.SecurityConfiguration;
-import com.h5radar.radar.domain.radar_user.RadarUserService;
+import com.h5radar.radar.radar_user.RadarUserService;
 
 @ApplicationTestBaseConfig
 @Import(SecurityConfiguration.class)
