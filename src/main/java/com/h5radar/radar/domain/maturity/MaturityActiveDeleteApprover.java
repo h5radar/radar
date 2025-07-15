@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.spmaturityframework.context.MessageSource;
-import org.spmaturityframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.h5radar.radar.domain.ModelApprover;
 import com.h5radar.radar.domain.ModelError;

@@ -12,12 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
-import org.spmaturityframework.context.MessageSource;
-import org.spmaturityframework.data.domain.Page;
-import org.spmaturityframework.data.domain.Pageable;
-import org.spmaturityframework.data.domain.Sort;
-import org.spmaturityframework.stereotype.Service;
-import org.spmaturityframework.transaction.annotation.Transactional;
+import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.h5radar.radar.domain.ModelError;
 import com.h5radar.radar.domain.ValidationException;
@@ -62,7 +62,7 @@ public class MaturityServiceImpl implements MaturityService {
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<MaturityDto> findByTitle(Stmaturity title) {
+  public Optional<MaturityDto> findByTitle(String title) {
     return maturityRepository.findByTitle(title).map(maturityMapper::toDto);
   }
 
@@ -86,9 +86,9 @@ public class MaturityServiceImpl implements MaturityService {
     if (!modelErrorList.isEmpty() || !constraintViolationSet.isEmpty()) {
       for (ConstraintViolation<Maturity> constraintViolation : constraintViolationSet) {
         modelErrorList.add(new ModelError(constraintViolation.getMessageTemplate(), constraintViolation.getMessage(),
-            constraintViolation.getPropertyPath().toStmaturity()));
+            constraintViolation.getPropertyPath().toString()));
       }
-      Stmaturity errorMessage = ValidationException.buildErrorMessage(modelErrorList);
+      String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
       throw new ValidationException(errorMessage, modelErrorList);
     }
     return maturityMapper.toDto(maturityRepository.save(maturity));
@@ -102,7 +102,7 @@ public class MaturityServiceImpl implements MaturityService {
       List<ModelError> modelErrorList = new LinkedList<>();
       modelErrorList.addAll(new RadarActiveDeleteApprover(messageSource, maturityOptional.get()).approve());
       if (!modelErrorList.isEmpty()) {
-        Stmaturity errorMessage = ValidationException.buildErrorMessage(modelErrorList);
+        String errorMessage = ValidationException.buildErrorMessage(modelErrorList);
         throw new ValidationException(errorMessage, modelErrorList);
       }
       maturityRepository.deleteById(id);

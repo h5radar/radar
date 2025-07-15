@@ -11,9 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToStmaturity;
-
-import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
+import lombok.ToString;
 
 /**
  * This class should not have any validation such as @NotNull etc
@@ -21,28 +19,26 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
  */
 @Getter
 @Setter
-@ToStmaturity
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "radar_id", "title", "description", "position", "color", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "position", "color", "active" })
 public class MaturityDto {
 
   private Long id;
 
-  @JsonProperty("radar_id")
+  @JsonProperty("radar_user_id")
   @JsonIdentityReference(alwaysAsId = true)
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  private Long radarId;
+  private Long radarUserId;
 
-  private Stmaturity radarTitle;
+  private String radarTitle;
 
-  private Stmaturity title;
+  private String title;
 
-  private Stmaturity description;
+  private String description;
 
   private int position;
 
-  private Stmaturity color;
-
-  private List<TechnologyBlipDto> technologyBlipDtoList;
+  private String color;
 }

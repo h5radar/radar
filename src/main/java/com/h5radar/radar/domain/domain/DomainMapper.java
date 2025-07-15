@@ -1,33 +1,33 @@
 package com.h5radar.radar.domain.domain;
 
+import java.util.Optional;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.domain.PlainMapper;
-import com.h5radar.radar.domain.radar.Radar;
-import com.h5radar.radar.domain.radar.RadarRepository;
-import com.h5radar.radar.domain.technology_blip.TechnologyBlipMapper;
+import com.h5radar.radar.domain.radar_user.RadarUser;
+import com.h5radar.radar.domain.radar_user.RadarUserRepository;
 
-@Mapper(config = MapperConfiguration.class,
-    uses = {TechnologyBlipMapper.class})
+@Mapper(config = MapperConfiguration.class)
 public abstract class DomainMapper implements PlainMapper<Domain, DomainDto> {
   @Autowired
-  protected RadarRepository radarRepository;
+  protected RadarUserRepository radarUserRepository;
 
-  @Mapping(source = "radar.id", target = "radarId")
-  @Mapping(source = "radar.title", target = "radarTitle")
-  @Mapping(source = "technologyBlipList", target = "technologyBlipDtoList")
+  @Mapping(source = "radarUser.id", target = "radarUserId")
   public abstract DomainDto toDto(final Domain entity);
 
-  @Mapping(target = "radar", expression = "java(getRadar(dto))")
-  @Mapping(source = "technologyBlipDtoList", target = "technologyBlipList")
+  @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
   public abstract Domain toEntity(final DomainDto dto);
 
-  Radar getRadar(DomainDto domainDto) {
-    if (domainDto.getRadarId() != null) {
-      return radarRepository.findById(domainDto.getRadarId()).get();
+  RadarUser getRadarUser(DomainDto domainDto) {
+    if (domainDto.getRadarUserId() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(domainDto.getRadarUserId());
+      if (radarUserOptional.isPresent()) {
+        return radarUserOptional.get();
+      }
     }
     return null;
   }

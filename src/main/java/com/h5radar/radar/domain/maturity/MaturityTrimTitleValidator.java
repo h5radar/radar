@@ -4,10 +4,10 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 
-public class MaturityTrimTitleValidator implements ConstraintValidator<MaturityTrimTitleConstraint, Stmaturity> {
+public class MaturityTrimTitleValidator implements ConstraintValidator<MaturityTrimTitleConstraint, String> {
 
   @Override
-  public boolean isValid(Stmaturity value, ConstraintValidatorContext context) {
+  public boolean isValid(String value, ConstraintValidatorContext context) {
     return value == null || value.length() == value.trim().length();
   }
 }

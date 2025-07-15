@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MaturityTrimTitleConstraint {
-  Stmaturity message() default "should be without whitespaces before and after";
+  String message() default "should be without whitespaces before and after";
 
   Class<?>[] groups() default {};
 

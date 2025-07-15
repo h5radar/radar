@@ -3,8 +3,8 @@ package com.h5radar.radar.domain.maturity;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.spmaturityframework.data.domain.Page;
-import org.spmaturityframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface MaturityService {
 
@@ -14,7 +14,7 @@ public interface MaturityService {
 
   Optional<MaturityDto> findById(Long id);
 
-  Optional<MaturityDto> findByTitle(Stmaturity title);
+  Optional<MaturityDto> findByTitle(String title);
 
   MaturityDto save(MaturityDto maturityDto);
 

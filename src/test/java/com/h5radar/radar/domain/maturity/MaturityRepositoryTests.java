@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.spmaturityframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.domain.AbstractRepositoryTests;
 import com.h5radar.radar.domain.radar.Radar;
@@ -180,7 +180,7 @@ class MaturityRepositoryTests extends AbstractRepositoryTests {
     radar.setActive(false);
     radarRepository.saveAndFlush(radar);
 
-    Stmaturity title = "SUPER";
+    String title = "SUPER";
     final Maturity maturity = new Maturity();
     maturity.setTitle(title);
     maturity.setRadar(radar);

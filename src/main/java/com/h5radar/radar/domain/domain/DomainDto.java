@@ -1,6 +1,5 @@
 package com.h5radar.radar.domain.domain;
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
 
 /**
  * This class should not have any validation such as @NotNull etc
@@ -24,15 +22,15 @@ import com.h5radar.radar.domain.technology_blip.TechnologyBlipDto;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "radar_id", "title", "description", "position", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "position", "active" })
 public class DomainDto {
 
   private Long id;
 
-  @JsonProperty("radar_id")
+  @JsonProperty("radar_user_id")
   @JsonIdentityReference(alwaysAsId = true)
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  private Long radarId;
+  private Long radarUserId;
 
   private String radarTitle;
 
@@ -41,6 +39,4 @@ public class DomainDto {
   private String description;
 
   private int position;
-
-  private List<TechnologyBlipDto> technologyBlipDtoList;
 }
