@@ -24,7 +24,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.h5radar.radar.domain.AbstractAuditable;
 import com.h5radar.radar.domain.JpaConstants;
 import com.h5radar.radar.domain.compliance.Compliance;
+import com.h5radar.radar.domain.domain.Domain;
 import com.h5radar.radar.domain.license.License;
+import com.h5radar.radar.domain.maturity.Maturity;
 import com.h5radar.radar.domain.practice.Practice;
 import com.h5radar.radar.domain.product.Product;
 import com.h5radar.radar.domain.technology.Technology;
@@ -76,6 +78,14 @@ public class RadarUser extends AbstractAuditable {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
   private List<Practice> practiceList;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
+  @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
+  private List<Maturity> maturityList;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
+  @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
+  private List<Domain> domainList;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
