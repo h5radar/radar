@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.h5radar.radar.domain.compliance.ComplianceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.h5radar.radar.domain.compliance.ComplianceDto;
 import com.h5radar.radar.domain.license.LicenseDto;
 import com.h5radar.radar.domain.practice.PracticeDto;
 import com.h5radar.radar.domain.product.ProductDto;

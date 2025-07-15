@@ -1,6 +1,5 @@
 package com.h5radar.radar.domain.radar_user;
 
-import com.h5radar.radar.domain.compliance.Compliance;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +11,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.util.Comparator;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +23,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.h5radar.radar.domain.AbstractAuditable;
 import com.h5radar.radar.domain.JpaConstants;
+import com.h5radar.radar.domain.compliance.Compliance;
 import com.h5radar.radar.domain.license.License;
 import com.h5radar.radar.domain.practice.Practice;
 import com.h5radar.radar.domain.product.Product;
