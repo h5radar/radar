@@ -47,7 +47,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].radar_user_id").isEqualTo(maturityDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(maturityDto.getDescription())
-        .jsonPath("$.content[0].position").isEqualTo(maturityDto.getPosition());
+        .jsonPath("$.content[0].position").isEqualTo(maturityDto.getPosition())
+        .jsonPath("$.content[0].color").isEqualTo(maturityDto.getColor());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -82,7 +83,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(maturityDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.description").isEqualTo(maturityDto.getDescription())
-        .jsonPath("$.active").isEqualTo(maturityDto.getPosition());
+        .jsonPath("$.position").isEqualTo(maturityDto.getPosition())
+        .jsonPath("$.color").isEqualTo(maturityDto.getColor());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -120,6 +122,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
+    Assertions.assertEquals(maturityDto.getColor(), maturityDto1.getColor());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -157,6 +160,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
+    Assertions.assertEquals(maturityDto.getColor(), maturityDto1.getColor());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -194,6 +198,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
+    Assertions.assertEquals(maturityDto.getColor(), maturityDto1.getColor());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -214,6 +219,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.put().uri("/api/v1/maturities/{id}", maturityDto.getId())
@@ -244,6 +250,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
     maturityDto.setRadarUserId(null);
@@ -276,6 +283,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.delete().uri("/api/v1/maturities/{id}", maturityDto.getId())
