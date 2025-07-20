@@ -30,7 +30,7 @@ import com.h5radar.radar.radar_user.RadarUserDto;
 @WebMvcTest(MaturityController.class)
 public class MaturityControllerTests extends AbstractControllerTests {
   @MockitoBean
-  private MaturityService licenseService;
+  private MaturityService maturityService;
 
   @Test
   @WithMockUser(value = "My sub")
@@ -40,30 +40,30 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setTitle("My title");
+    maturityDto.setDescription("My description");
+    maturityDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Page<MaturityDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
-    Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
+    Page<MaturityDto> maturityDtoPage = new PageImpl<>(Arrays.asList(maturityDto));
+    Mockito.when(maturityService.findAll(any(), any())).thenReturn(maturityDtoPage);
 
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/maturities").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(licenseDtoPage.getContent().size())))
-        .andExpect(jsonPath("$.content[0].id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.content", hasSize(maturityDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(maturityDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(maturityDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(maturityDto.getDescription())))
+        .andExpect(jsonPath("$.content[0].active", equalTo(maturityDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findAll(any(), any());
+    Mockito.verify(maturityService).findAll(any(), any());
   }
 
   /*
@@ -105,7 +105,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToGetMaturitiesDueToUnauthorized() throws Exception {
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/maturities").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 
@@ -118,37 +118,37 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setTitle("My title");
+    maturityDto.setDescription("My description");
+    maturityDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
 
-    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(get("/api/v1/maturities/{id}", maturityDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(maturityDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
+        .andExpect(jsonPath("$.active", equalTo(maturityDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(maturityService).findById(maturityDto.getId());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToGetMaturityDueToUnauthorized() throws Exception {
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
 
-    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(get("/api/v1/maturities/{id}", maturityDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -166,41 +166,41 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setTitle("My maturity");
+    maturityDto.setDescription("My maturity description");
+    maturityDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+    Mockito.when(maturityService.save(any())).thenReturn(maturityDto);
 
-    mockMvc.perform(post("/api/v1/licenses")
+    mockMvc.perform(post("/api/v1/maturities")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(maturityDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
+        .andExpect(jsonPath("$.active", equalTo(maturityDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).save(any());
+    Mockito.verify(maturityService).save(any());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToCreateMaturityDueToUnauthorized() throws Exception {
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
 
-    mockMvc.perform(post("/api/v1/licenses")
+    mockMvc.perform(post("/api/v1/maturities")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
@@ -222,37 +222,37 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setTitle("My maturity");
+    maturityDto.setDescription("My maturity description");
+    maturityDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
-    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+    Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
+    Mockito.when(maturityService.save(any())).thenReturn(maturityDto);
 
-    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(put("/api/v1/maturities/{id}", maturityDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
         .andExpect(status().isOk());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
-    Mockito.verify(licenseService).save(any());
+    Mockito.verify(maturityService).findById(maturityDto.getId());
+    Mockito.verify(maturityService).save(any());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToUpdateMaturityDueToUnauthorized() throws Exception {
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
 
-    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(put("/api/v1/maturities/{id}", maturityDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
 
@@ -279,33 +279,33 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setTitle("My maturity");
+    maturityDto.setDescription("My maturity description");
+    maturityDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
-    Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
+    Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
+    Mockito.doAnswer((i) -> null).when(maturityService).deleteById(any());
 
-    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(delete("/api/v1/maturities/{id}", maturityDto.getId())
             .with(csrf()))
         .andExpect(status().isNoContent());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
-    Mockito.verify(licenseService).deleteById(licenseDto.getId());
+    Mockito.verify(maturityService).findById(maturityDto.getId());
+    Mockito.verify(maturityService).deleteById(maturityDto.getId());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToDeleteMaturityDueToUnauthorized() throws Exception {
-    final MaturityDto licenseDto = new MaturityDto();
-    licenseDto.setId(10L);
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
 
-    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(delete("/api/v1/maturities/{id}", maturityDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
@@ -323,17 +323,17 @@ public class MaturityControllerTests extends AbstractControllerTests {
     radarUserDto.setUsername("My username");
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.countByRadarUserId(any())).thenReturn(0L);
-    Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
+    Mockito.when(maturityService.countByRadarUserId(any())).thenReturn(0L);
+    Mockito.doAnswer((i) -> null).when(maturityService).seed(any());
 
-    mockMvc.perform(post("/api/v1/licenses/seed")
+    mockMvc.perform(post("/api/v1/maturities/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).countByRadarUserId(radarUserDto.getId());
-    Mockito.verify(licenseService).seed(radarUserDto.getId());
+    Mockito.verify(maturityService).countByRadarUserId(radarUserDto.getId());
+    Mockito.verify(maturityService).seed(radarUserDto.getId());
   }
 
   @Test
@@ -342,7 +342,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/maturities/seed/{radar_user_id}", radarUserDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

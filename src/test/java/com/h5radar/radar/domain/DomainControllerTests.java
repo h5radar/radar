@@ -30,7 +30,7 @@ import com.h5radar.radar.radar_user.RadarUserDto;
 @WebMvcTest(DomainController.class)
 public class DomainControllerTests extends AbstractControllerTests {
   @MockitoBean
-  private DomainService licenseService;
+  private DomainService domainService;
 
   @Test
   @WithMockUser(value = "My sub")
@@ -40,30 +40,30 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My title");
+    domainDto.setDescription("My description");
+    domainDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Page<DomainDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
-    Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
+    Page<DomainDto> domainDtoPage = new PageImpl<>(Arrays.asList(domainDto));
+    Mockito.when(domainService.findAll(any(), any())).thenReturn(domainDtoPage);
 
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/domains").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(licenseDtoPage.getContent().size())))
-        .andExpect(jsonPath("$.content[0].id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.content", hasSize(domainDtoPage.getContent().size())))
+        .andExpect(jsonPath("$.content[0].id", equalTo(domainDto.getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo(domainDto.getTitle())))
+        .andExpect(jsonPath("$.content[0].description", equalTo(domainDto.getDescription())))
+        .andExpect(jsonPath("$.content[0].active", equalTo(domainDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findAll(any(), any());
+    Mockito.verify(domainService).findAll(any(), any());
   }
 
   /*
@@ -108,7 +108,7 @@ public class DomainControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToGetDomainsDueToUnauthorized() throws Exception {
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/domains").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 
@@ -121,37 +121,37 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My title");
+    domainDto.setDescription("My description");
+    domainDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
+    Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
 
-    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(get("/api/v1/domains/{id}", domainDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(domainDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
+        .andExpect(jsonPath("$.active", equalTo(domainDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
+    Mockito.verify(domainService).findById(domainDto.getId());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToGetDomainDueToUnauthorized() throws Exception {
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
 
-    mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(get("/api/v1/domains/{id}", domainDto.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -169,41 +169,41 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+    Mockito.when(domainService.save(any())).thenReturn(domainDto);
 
-    mockMvc.perform(post("/api/v1/licenses")
+    mockMvc.perform(post("/api/v1/domains")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
-        .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
-        .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
-        .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
+        .andExpect(jsonPath("$.id", equalTo(domainDto.getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
+        .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
+        .andExpect(jsonPath("$.active", equalTo(domainDto.isActive())));
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).save(any());
+    Mockito.verify(domainService).save(any());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToCreateDomainDueToUnauthorized() throws Exception {
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
 
-    mockMvc.perform(post("/api/v1/licenses")
+    mockMvc.perform(post("/api/v1/domains")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
@@ -225,37 +225,37 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
-    Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
+    Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
+    Mockito.when(domainService.save(any())).thenReturn(domainDto);
 
-    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(put("/api/v1/domains/{id}", domainDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
         .andExpect(status().isOk());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
-    Mockito.verify(licenseService).save(any());
+    Mockito.verify(domainService).findById(domainDto.getId());
+    Mockito.verify(domainService).save(any());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToUpdateDomainDueToUnauthorized() throws Exception {
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
 
-    mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(put("/api/v1/domains/{id}", domainDto.getId())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(licenseDto))
+            .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
         .andExpect(status().isUnauthorized());
 
@@ -282,33 +282,33 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
-    Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
+    Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
+    Mockito.doAnswer((i) -> null).when(domainService).deleteById(any());
 
-    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(delete("/api/v1/domains/{id}", domainDto.getId())
             .with(csrf()))
         .andExpect(status().isNoContent());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).findById(licenseDto.getId());
-    Mockito.verify(licenseService).deleteById(licenseDto.getId());
+    Mockito.verify(domainService).findById(domainDto.getId());
+    Mockito.verify(domainService).deleteById(domainDto.getId());
   }
 
   @Test
   @WithAnonymousUser
   public void shouldFailToDeleteDomainDueToUnauthorized() throws Exception {
-    final DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(10L);
+    final DomainDto domainDto = new DomainDto();
+    domainDto.setId(10L);
 
-    mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+    mockMvc.perform(delete("/api/v1/domains/{id}", domainDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
@@ -326,17 +326,17 @@ public class DomainControllerTests extends AbstractControllerTests {
     radarUserDto.setUsername("My username");
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Mockito.when(licenseService.countByRadarUserId(any())).thenReturn(0L);
-    Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
+    Mockito.when(domainService.countByRadarUserId(any())).thenReturn(0L);
+    Mockito.doAnswer((i) -> null).when(domainService).seed(any());
 
-    mockMvc.perform(post("/api/v1/licenses/seed")
+    mockMvc.perform(post("/api/v1/domains/seed")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
 
     Mockito.verify(radarUserService).save(any());
-    Mockito.verify(licenseService).countByRadarUserId(radarUserDto.getId());
-    Mockito.verify(licenseService).seed(radarUserDto.getId());
+    Mockito.verify(domainService).countByRadarUserId(radarUserDto.getId());
+    Mockito.verify(domainService).seed(radarUserDto.getId());
   }
 
   @Test
@@ -345,7 +345,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/domains/seed/{radar_user_id}", radarUserDto.getId())
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

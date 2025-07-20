@@ -14,7 +14,7 @@ import com.h5radar.radar.radar_user.RadarUserDto;
 class DomainIntegrationTests extends AbstractIntegrationTests {
 
   @Autowired
-  private DomainService licenseService;
+  private DomainService domainService;
 
   @Test
   @WithMockUser(value = "My sub")
@@ -25,16 +25,16 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My title");
+    domainDto.setDescription("My description");
+    domainDto.setActive(true);
+    domainDto = domainService.save(domainDto);
 
-    webTestClient.get().uri("/api/v1/licenses")
+    webTestClient.get().uri("/api/v1/domains")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -43,11 +43,11 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
-        .jsonPath("$.content[0].id").isEqualTo(licenseDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(licenseDto.getRadarUserId())
-        .jsonPath("$.content[0].title").isEqualTo(licenseDto.getTitle())
-        .jsonPath("$.content[0].description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
+        .jsonPath("$.content[0].id").isEqualTo(domainDto.getId())
+        .jsonPath("$.content[0].radar_user_id").isEqualTo(domainDto.getRadarUserId())
+        .jsonPath("$.content[0].title").isEqualTo(domainDto.getTitle())
+        .jsonPath("$.content[0].description").isEqualTo(domainDto.getDescription())
+        .jsonPath("$.content[0].active").isEqualTo(domainDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -61,16 +61,16 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My title");
-    licenseDto.setDescription("My description");
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My title");
+    domainDto.setDescription("My description");
+    domainDto.setActive(true);
+    domainDto = domainService.save(domainDto);
 
-    webTestClient.get().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.get().uri("/api/v1/domains/{id}", domainDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -78,11 +78,11 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .expectBody()
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
-        .jsonPath("$.id").isEqualTo(licenseDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(licenseDto.getRadarUserId())
-        .jsonPath("$.title").isEqualTo(licenseDto.getTitle())
-        .jsonPath("$.description").isEqualTo(licenseDto.getDescription())
-        .jsonPath("$.active").isEqualTo(licenseDto.isActive());
+        .jsonPath("$.id").isEqualTo(domainDto.getId())
+        .jsonPath("$.radar_user_id").isEqualTo(domainDto.getRadarUserId())
+        .jsonPath("$.title").isEqualTo(domainDto.getTitle())
+        .jsonPath("$.description").isEqualTo(domainDto.getDescription())
+        .jsonPath("$.active").isEqualTo(domainDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -96,18 +96,18 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
-    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto domainDto1 = webTestClient.post().uri("/api/v1/domains")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), DomainDto.class)
+        .body(Mono.just(domainDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -115,11 +115,11 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .returnResult()
         .getResponseBody();
 
-    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
-    Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
-    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
-    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+    Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
+    Assertions.assertEquals(domainDto.getRadarUserId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
+    Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
+    Assertions.assertEquals(domainDto.isActive(), domainDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -133,18 +133,18 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(99L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(99L);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
-    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto domainDto1 = webTestClient.post().uri("/api/v1/domains")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), DomainDto.class)
+        .body(Mono.just(domainDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -152,11 +152,11 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .returnResult()
         .getResponseBody();
 
-    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
-    Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
-    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
-    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+    Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
+    Assertions.assertEquals(domainDto.getRadarUserId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
+    Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
+    Assertions.assertEquals(domainDto.isActive(), domainDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -170,18 +170,18 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(null);
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(null);
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
 
-    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto domainDto1 = webTestClient.post().uri("/api/v1/domains")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), DomainDto.class)
+        .body(Mono.just(domainDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -189,11 +189,11 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .returnResult()
         .getResponseBody();
 
-    Assertions.assertNotEquals(licenseDto.getId(), licenseDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), licenseDto1.getRadarUserId());
-    Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
-    Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
+    Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
+    Assertions.assertEquals(radarUserDto.getId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
+    Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
+    Assertions.assertEquals(domainDto.isActive(), domainDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -207,19 +207,19 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
+    domainDto = domainService.save(domainDto);
 
-    webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.put().uri("/api/v1/domains/{id}", domainDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), DomainDto.class)
+        .body(Mono.just(domainDto), DomainDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -237,20 +237,20 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
+    domainDto = domainService.save(domainDto);
 
-    licenseDto.setRadarUserId(null);
-    webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    domainDto.setRadarUserId(null);
+    webTestClient.put().uri("/api/v1/domains/{id}", domainDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), DomainDto.class)
+        .body(Mono.just(domainDto), DomainDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -269,16 +269,16 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create license
-    DomainDto licenseDto = new DomainDto();
-    licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserDto.getId());
-    licenseDto.setTitle("My license");
-    licenseDto.setDescription("My license description");
-    licenseDto.setActive(true);
-    licenseDto = licenseService.save(licenseDto);
+    // Create domain
+    DomainDto domainDto = new DomainDto();
+    domainDto.setId(null);
+    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setTitle("My domain");
+    domainDto.setDescription("My domain description");
+    domainDto.setActive(true);
+    domainDto = domainService.save(domainDto);
 
-    webTestClient.delete().uri("/api/v1/licenses/{id}", licenseDto.getId())
+    webTestClient.delete().uri("/api/v1/domains/{id}", domainDto.getId())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isNoContent();
@@ -295,7 +295,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    webTestClient.post().uri("/api/v1/licenses/seed")
+    webTestClient.post().uri("/api/v1/domains/seed")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk();
