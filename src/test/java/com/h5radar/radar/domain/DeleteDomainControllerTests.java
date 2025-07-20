@@ -26,10 +26,10 @@ public class DomainControllerTests extends AbstractControllerTests {
   @MockitoBean
   private DomainService domainService;
 
+  /*
   @Test
   @WithMockUser(value = "My sub")
   public void shouldGetDomains() throws Exception {
-    /*
     final RadarDto radarDto = new RadarDto();
     radarDto.setId(1L);
 
@@ -53,6 +53,6 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$[0].title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$[0].description", equalTo(domainDto.getDescription())))
         .andExpect(jsonPath("$[0].position", equalTo(domainDto.getPosition()), int.class));
-     */
   }
+  */
 }

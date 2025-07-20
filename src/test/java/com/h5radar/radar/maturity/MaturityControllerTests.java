@@ -66,6 +66,34 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.verify(licenseService).findAll(any(), any());
   }
 
+  /*
+  TODO: remove it
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldGetMaturities() throws Exception {
+    final MaturityDto maturityDto = new MaturityDto();
+    maturityDto.setId(10L);
+    // maturityDto.setRadarUserId(radarDto.getId());
+    maturityDto.setTitle("My title");
+    maturityDto.setDescription("My description");
+
+    Page<MaturityDto> maturityDtoPage = new PageImpl<>(Arrays.asList(maturityDto));
+    Mockito.when(maturityService.findAll(any(), any())).thenReturn(maturityDtoPage);
+
+    mockMvc.perform(get("/api/v1/maturities").contentType(APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(maturityDtoPage.getContent().size())))
+        .andExpect(jsonPath("$[0].id", equalTo(maturityDto.getId()), Long.class))
+        // .andExpect(jsonPath("$[0].radar_id", equalTo(maturityDto.getRadarId()), Long.class))
+        .andExpect(jsonPath("$[0].title", equalTo(maturityDto.getTitle())))
+        .andExpect(jsonPath("$[0].description", equalTo(maturityDto.getDescription())))
+        .andExpect(jsonPath("$[0].color", equalTo(maturityDto.getColor())));
+
+    Mockito.verify(maturityService).findAll(any(), any());
+  }
+   */
+
   public void shouldGetMaturitiesWithFilter() throws Exception {
     // TODO: get invalid it
   }
