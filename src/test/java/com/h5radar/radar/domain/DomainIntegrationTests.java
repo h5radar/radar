@@ -1,4 +1,4 @@
-package com.h5radar.radar.license;
+package com.h5radar.radar.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,14 +11,14 @@ import com.h5radar.radar.AbstractIntegrationTests;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
 
-class LicenseIntegrationTests extends AbstractIntegrationTests {
+class DomainIntegrationTests extends AbstractIntegrationTests {
 
   @Autowired
-  private LicenseService licenseService;
+  private DomainService licenseService;
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetLicenses() {
+  public void shouldGetDomains() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -26,7 +26,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
@@ -54,7 +54,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetLicense() {
+  public void shouldGetDomain() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -62,7 +62,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
@@ -89,7 +89,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldCreateLicense() throws Exception {
+  public void shouldCreateDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -97,21 +97,21 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
-    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(licenseDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(LicenseDto.class)
+        .expectBody(DomainDto.class)
         .returnResult()
         .getResponseBody();
 
@@ -126,7 +126,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldCreateLicenseWithId() throws Exception {
+  public void shouldCreateDomainWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -134,21 +134,21 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(99L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
-    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(licenseDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(LicenseDto.class)
+        .expectBody(DomainDto.class)
         .returnResult()
         .getResponseBody();
 
@@ -163,7 +163,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldCreateLicenseWithoutUser() throws Exception {
+  public void shouldCreateDomainWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -171,21 +171,21 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(null);
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
 
-    LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
+    DomainDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(licenseDto), DomainDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(LicenseDto.class)
+        .expectBody(DomainDto.class)
         .returnResult()
         .getResponseBody();
 
@@ -200,7 +200,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldUpdateLicense() throws Exception {
+  public void shouldUpdateDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -208,7 +208,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -219,7 +219,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(licenseDto), DomainDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -230,7 +230,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldUpdateLicenseWithoutUser() throws Exception {
+  public void shouldUpdateDomainWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -238,7 +238,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -250,7 +250,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .body(Mono.just(licenseDto), LicenseDto.class)
+        .body(Mono.just(licenseDto), DomainDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -262,7 +262,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldDeleteLicense() throws Exception {
+  public void shouldDeleteDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");
@@ -270,7 +270,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto = radarUserService.save(radarUserDto);
 
     // Create license
-    LicenseDto licenseDto = new LicenseDto();
+    DomainDto licenseDto = new DomainDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -288,7 +288,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldSeedLicenses() throws Exception {
+  public void shouldSeedDomains() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setSub("My sub");

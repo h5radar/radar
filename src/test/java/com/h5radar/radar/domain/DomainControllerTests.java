@@ -1,4 +1,4 @@
-package com.h5radar.radar.license;
+package com.h5radar.radar.domain;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -27,20 +27,20 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.h5radar.radar.AbstractControllerTests;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
-@WebMvcTest(LicenseController.class)
-public class LicenseControllerTests extends AbstractControllerTests {
+@WebMvcTest(DomainController.class)
+public class DomainControllerTests extends AbstractControllerTests {
   @MockitoBean
-  private LicenseService licenseService;
+  private DomainService licenseService;
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetLicenses() throws Exception {
+  public void shouldGetDomains() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final LicenseDto licenseDto = new LicenseDto();
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
@@ -48,7 +48,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
     licenseDto.setActive(true);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
-    Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
+    Page<DomainDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
     Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
     mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
@@ -66,17 +66,17 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.verify(licenseService).findAll(any(), any());
   }
 
-  public void shouldGetLicensesWithFilter() throws Exception {
+  public void shouldGetDomainsWithFilter() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldGetLicensesWithPaging() throws Exception {
+  public void shouldGetDomainsWithPaging() throws Exception {
     // TODO: get invalid it
   }
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetLicensesDueToUnauthorized() throws Exception {
+  public void shouldFailToGetDomainsDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -84,13 +84,13 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldGetLicense() throws Exception {
+  public void shouldGetDomain() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final LicenseDto licenseDto = new LicenseDto();
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
@@ -116,8 +116,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToGetLicenseDueToUnauthorized() throws Exception {
-    final LicenseDto licenseDto = new LicenseDto();
+  public void shouldFailToGetDomainDueToUnauthorized() throws Exception {
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
 
     mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
@@ -125,20 +125,20 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToGetLicenseDueToInvalidId() throws Exception {
+  public void shouldFailToGetDomainDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldCreateLicense() throws Exception {
+  public void shouldCreateDomain() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final LicenseDto licenseDto = new LicenseDto();
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -166,8 +166,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToCreateLicenseDueToUnauthorized() throws Exception {
-    final LicenseDto licenseDto = new LicenseDto();
+  public void shouldFailToCreateDomainDueToUnauthorized() throws Exception {
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
 
     mockMvc.perform(post("/api/v1/licenses")
@@ -177,24 +177,24 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToCreateLicenseDueToEmptyTitle() throws Exception {
+  public void shouldFailToCreateDomainDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToCreateLicenseDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToCreateDomainDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldUpdateLicense() throws Exception {
+  public void shouldUpdateDomain() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final LicenseDto licenseDto = new LicenseDto();
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -218,8 +218,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToUpdateLicenseDueToUnauthorized() throws Exception {
-    final LicenseDto licenseDto = new LicenseDto();
+  public void shouldFailToUpdateDomainDueToUnauthorized() throws Exception {
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
 
     mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
@@ -230,28 +230,28 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   }
 
-  public void shouldFailToUpdateLicenseDueToInvalidId() throws Exception {
+  public void shouldFailToUpdateDomainDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateLicenseDueToEmptyTitle() throws Exception {
+  public void shouldFailToUpdateDomainDueToEmptyTitle() throws Exception {
     // TODO: get invalid it
   }
 
-  public void shouldFailToUpdateLicenseDueToTitleWithSpaces() throws Exception {
+  public void shouldFailToUpdateDomainDueToTitleWithSpaces() throws Exception {
     // TODO: get invalid it
   }
 
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldDeleteLicense() throws Exception {
+  public void shouldDeleteDomain() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
 
-    final LicenseDto licenseDto = new LicenseDto();
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
@@ -273,8 +273,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToDeleteLicenseDueToUnauthorized() throws Exception {
-    final LicenseDto licenseDto = new LicenseDto();
+  public void shouldFailToDeleteDomainDueToUnauthorized() throws Exception {
+    final DomainDto licenseDto = new DomainDto();
     licenseDto.setId(10L);
 
     mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
@@ -282,13 +282,13 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(status().isUnauthorized());
   }
 
-  public void shouldFailToDeleteLicenseDueToInvalidId() throws Exception {
+  public void shouldFailToDeleteDomainDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
 
   @Test
   @WithMockUser(value = "My sub")
-  public void shouldSeedLicenses() throws Exception {
+  public void shouldSeedDomains() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
     radarUserDto.setSub("My sub");
@@ -310,7 +310,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
   @Test
   @WithAnonymousUser
-  public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
+  public void shouldFailToSeedDomainsDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
