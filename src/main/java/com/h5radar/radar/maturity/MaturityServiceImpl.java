@@ -3,6 +3,10 @@ package com.h5radar.radar.maturity;
 import jakarta.persistence.criteria.Predicate;
 // import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,6 +15,9 @@ import java.util.Optional;
 // import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -18,9 +25,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import com.h5radar.radar.ModelError;
 import com.h5radar.radar.ValidationException;
+import com.h5radar.radar.radar_user.RadarUser;
 // import com.h5radar.radar.technology.Technology;
 import com.h5radar.radar.technology.TechnologyRepository;
 
@@ -110,6 +119,46 @@ public class MaturityServiceImpl implements MaturityService {
         throw new ValidationException(errorMessage, modelErrorList);
       }
       maturityRepository.deleteById(id);
+    }
+  }
+
+  @Override
+  @Transactional
+  public long deleteByRadarUserId(Long radarUserId) {
+    return maturityRepository.deleteByRadarUserId(radarUserId);
+  }
+
+  @Override
+  @Transactional
+  public long countByRadarUserId(Long radarUserId) {
+    return this.maturityRepository.countByRadarUserId(radarUserId);
+  }
+
+  @Override
+  @Transactional
+  public void seed(Long radarUserId) throws Exception {
+    // Read maturity_blips
+    URL url = ResourceUtils.getURL("classpath:database/datasets/maturities_en.csv");
+    String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
+        .collect(Collectors.joining("\n"));
+
+    String[] record = null;
+    final RadarUser radarUser = new RadarUser(radarUserId);
+    CSVReader csvReader = new CSVReaderBuilder(new StringReader(fileContent))
+        .withCSVParser(new CSVParserBuilder().withSeparator('|').build())
+        .withSkipLines(1).build();
+    while ((record = csvReader.readNext()) != null) {
+      Maturity maturity = new Maturity();
+      maturity.setRadarUser(radarUser);
+      maturity.setTitle(record[0]);
+      maturity.setDescription(record[1]);
+      maturity.setPosition(Integer.parseInt(record[2]));
+      maturity.setColor(record[3]);
+
+      // Create only if not exists
+      if (this.maturityRepository.findByRadarUserIdAndTitle(radarUserId, maturity.getTitle()).isEmpty()) {
+        this.maturityRepository.save(maturity);
+      }
     }
   }
 }

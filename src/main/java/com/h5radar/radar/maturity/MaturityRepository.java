@@ -1,5 +1,6 @@
 package com.h5radar.radar.maturity;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface MaturityRepository extends JpaRepository<Maturity, Long>,
     JpaSpecificationExecutor<Maturity> {
   Optional<Maturity> findByTitle(String title);
+
+  Optional<Maturity> findByRadarUserIdAndTitle(Long radarUserId, String title);
+
+  long countByRadarUserId(@NotNull long radarUserId);
+
+  long deleteByRadarUserId(@NotNull long radarUserId);
 }
