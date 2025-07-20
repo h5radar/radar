@@ -45,7 +45,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<MaturityDto> maturityDtoPage = new PageImpl<>(Arrays.asList(maturityDto));
@@ -60,7 +60,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(maturityDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].active", equalTo(maturityDto.isActive())));
+        .andExpect(jsonPath("$.content[0].position", equalTo(maturityDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(maturityService).findAll(any(), any());
@@ -123,7 +123,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
@@ -136,7 +136,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(maturityDto.isActive())));
+        .andExpect(jsonPath("$.active", equalTo(maturityDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(maturityService).findById(maturityDto.getId());
@@ -171,7 +171,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(maturityService.save(any())).thenReturn(maturityDto);
@@ -186,7 +186,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(maturityDto.isActive())));
+        .andExpect(jsonPath("$.active", equalTo(maturityDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(maturityService).save(any());
@@ -227,7 +227,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
@@ -284,7 +284,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));

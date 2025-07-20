@@ -45,7 +45,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     domainDto.setRadarUserId(radarUserDto.getId());
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
-    domainDto.setActive(true);
+    domainDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Page<DomainDto> domainDtoPage = new PageImpl<>(Arrays.asList(domainDto));
@@ -60,7 +60,7 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(domainDto.getDescription())))
-        .andExpect(jsonPath("$.content[0].active", equalTo(domainDto.isActive())));
+        .andExpect(jsonPath("$.content[0].position", equalTo(domainDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(domainService).findAll(any(), any());
@@ -126,7 +126,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     domainDto.setRadarUserId(radarUserDto.getId());
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
-    domainDto.setActive(true);
+    domainDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
@@ -139,7 +139,7 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(domainDto.isActive())));
+        .andExpect(jsonPath("$.position", equalTo(domainDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(domainService).findById(domainDto.getId());
@@ -174,7 +174,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     domainDto.setRadarUserId(radarUserDto.getId());
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
-    domainDto.setActive(true);
+    domainDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(domainService.save(any())).thenReturn(domainDto);
@@ -189,7 +189,7 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
-        .andExpect(jsonPath("$.active", equalTo(domainDto.isActive())));
+        .andExpect(jsonPath("$.position", equalTo(domainDto.getPosition())));
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(domainService).save(any());
@@ -230,7 +230,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     domainDto.setRadarUserId(radarUserDto.getId());
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
-    domainDto.setActive(true);
+    domainDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
@@ -287,7 +287,7 @@ public class DomainControllerTests extends AbstractControllerTests {
     domainDto.setRadarUserId(radarUserDto.getId());
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
-    domainDto.setActive(true);
+    domainDto.setPosition(0);
 
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));

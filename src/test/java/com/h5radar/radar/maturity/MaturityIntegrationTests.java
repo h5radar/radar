@@ -31,7 +31,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.get().uri("/api/v1/maturities")
@@ -47,7 +47,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].radar_user_id").isEqualTo(maturityDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(maturityDto.getDescription())
-        .jsonPath("$.content[0].active").isEqualTo(maturityDto.isActive());
+        .jsonPath("$.content[0].position").isEqualTo(maturityDto.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -67,7 +67,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.get().uri("/api/v1/maturities/{id}", maturityDto.getId())
@@ -82,7 +82,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(maturityDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.description").isEqualTo(maturityDto.getDescription())
-        .jsonPath("$.active").isEqualTo(maturityDto.isActive());
+        .jsonPath("$.active").isEqualTo(maturityDto.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -102,7 +102,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +119,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(maturityDto.getRadarUserId(), maturityDto1.getRadarUserId());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
-    Assertions.assertEquals(maturityDto.isActive(), maturityDto1.isActive());
+    Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -139,7 +139,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -156,7 +156,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(maturityDto.getRadarUserId(), maturityDto1.getRadarUserId());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
-    Assertions.assertEquals(maturityDto.isActive(), maturityDto1.isActive());
+    Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -176,7 +176,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(null);
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -193,7 +193,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(radarUserDto.getId(), maturityDto1.getRadarUserId());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
-    Assertions.assertEquals(maturityDto.isActive(), maturityDto1.isActive());
+    Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -213,7 +213,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.put().uri("/api/v1/maturities/{id}", maturityDto.getId())
@@ -243,7 +243,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
     maturityDto = maturityService.save(maturityDto);
 
     maturityDto.setRadarUserId(null);
@@ -275,7 +275,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     maturityDto.setRadarUserId(radarUserDto.getId());
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
-    maturityDto.setActive(true);
+    maturityDto.setPosition(0);
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.delete().uri("/api/v1/maturities/{id}", maturityDto.getId())
