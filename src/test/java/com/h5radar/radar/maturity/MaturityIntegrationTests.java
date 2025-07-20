@@ -29,9 +29,10 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My title");
+    maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.get().uri("/api/v1/maturities")
@@ -66,9 +67,10 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My title");
+    maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
     webTestClient.get().uri("/api/v1/maturities/{id}", maturityDto.getId())
@@ -102,9 +104,10 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -140,9 +143,10 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(99L);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -178,9 +182,10 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(null);
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
+    maturityDto.setColor("#CCCCCC");
 
     MaturityDto maturityDto1 = webTestClient.post().uri("/api/v1/maturities")
         .contentType(MediaType.APPLICATION_JSON)
@@ -216,8 +221,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
     maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
@@ -247,8 +252,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
     maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
@@ -280,8 +285,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
     maturityDto.setRadarUserId(radarUserDto.getId());
-    maturityDto.setTitle("My maturity");
-    maturityDto.setDescription("My maturity description");
+    maturityDto.setTitle("ADOPT");
+    maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
     maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);

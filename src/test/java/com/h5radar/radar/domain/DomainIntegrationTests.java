@@ -82,7 +82,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(domainDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(domainDto.getTitle())
         .jsonPath("$.description").isEqualTo(domainDto.getDescription())
-        .jsonPath("$.active").isEqualTo(domainDto.getPosition());
+        .jsonPath("$.position").isEqualTo(domainDto.getPosition());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
