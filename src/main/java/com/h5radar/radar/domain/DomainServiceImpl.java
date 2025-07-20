@@ -1,12 +1,8 @@
 package com.h5radar.radar.domain;
 
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import jakarta.persistence.criteria.Predicate;
 // import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -19,6 +15,9 @@ import java.util.Optional;
 // import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -30,7 +29,6 @@ import org.springframework.util.ResourceUtils;
 
 import com.h5radar.radar.ModelError;
 import com.h5radar.radar.ValidationException;
-import com.h5radar.radar.license.License;
 import com.h5radar.radar.radar_user.RadarUser;
 // import com.h5radar.radar.technology.Technology;
 import com.h5radar.radar.technology.TechnologyRepository;
@@ -142,7 +140,7 @@ public class DomainServiceImpl implements DomainService {
   @Transactional
   public void seed(Long radarUserId) throws Exception {
     // Read license_blips
-    URL url = ResourceUtils.getURL("classpath:database/datasets/licenses_en.csv");
+    URL url = ResourceUtils.getURL("classpath:database/datasets/domains_en.csv");
     String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
         .collect(Collectors.joining("\n"));
 
@@ -152,14 +150,15 @@ public class DomainServiceImpl implements DomainService {
         .withCSVParser(new CSVParserBuilder().withSeparator('|').build())
         .withSkipLines(1).build();
     while ((record = csvReader.readNext()) != null) {
-      License license = new License();
-      license.setRadarUser(radarUser);
-      license.setTitle(record[0]);
-      license.setDescription(record[1]);
+      Domain domain = new Domain();
+      domain.setRadarUser(radarUser);
+      domain.setTitle(record[0]);
+      domain.setDescription(record[1]);
+      domain.setPosition(Integer.parseInt(record[2]));
 
       // Create only if not exists
-      if (this.domainRepository.findByRadarUserIdAndTitle(radarUserId, license.getTitle()).isEmpty()) {
-        this.domainRepository.save(license);
+      if (this.domainRepository.findByRadarUserIdAndTitle(radarUserId, domain.getTitle()).isEmpty()) {
+        this.domainRepository.save(domain);
       }
     }
   }

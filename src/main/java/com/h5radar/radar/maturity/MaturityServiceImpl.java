@@ -1,12 +1,8 @@
 package com.h5radar.radar.maturity;
 
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import jakarta.persistence.criteria.Predicate;
 // import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -19,6 +15,9 @@ import java.util.Optional;
 // import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -30,7 +29,6 @@ import org.springframework.util.ResourceUtils;
 
 import com.h5radar.radar.ModelError;
 import com.h5radar.radar.ValidationException;
-import com.h5radar.radar.license.License;
 import com.h5radar.radar.radar_user.RadarUser;
 // import com.h5radar.radar.technology.Technology;
 import com.h5radar.radar.technology.TechnologyRepository;
@@ -127,20 +125,20 @@ public class MaturityServiceImpl implements MaturityService {
   @Override
   @Transactional
   public long deleteByRadarUserId(Long radarUserId) {
-    return licenseRepository.deleteByRadarUserId(radarUserId);
+    return maturityRepository.deleteByRadarUserId(radarUserId);
   }
 
   @Override
   @Transactional
   public long countByRadarUserId(Long radarUserId) {
-    return this.licenseRepository.countByRadarUserId(radarUserId);
+    return this.maturityRepository.countByRadarUserId(radarUserId);
   }
 
   @Override
   @Transactional
   public void seed(Long radarUserId) throws Exception {
-    // Read license_blips
-    URL url = ResourceUtils.getURL("classpath:database/datasets/licenses_en.csv");
+    // Read maturity_blips
+    URL url = ResourceUtils.getURL("classpath:database/datasets/maturities_en.csv");
     String fileContent = new BufferedReader(new InputStreamReader(url.openStream())).lines()
         .collect(Collectors.joining("\n"));
 
@@ -150,14 +148,16 @@ public class MaturityServiceImpl implements MaturityService {
         .withCSVParser(new CSVParserBuilder().withSeparator('|').build())
         .withSkipLines(1).build();
     while ((record = csvReader.readNext()) != null) {
-      License license = new License();
-      license.setRadarUser(radarUser);
-      license.setTitle(record[0]);
-      license.setDescription(record[1]);
+      Maturity maturity = new Maturity();
+      maturity.setRadarUser(radarUser);
+      maturity.setTitle(record[0]);
+      maturity.setDescription(record[1]);
+      maturity.setPosition(Integer.parseInt(record[2]));
+      maturity.setColor(record[3]);
 
       // Create only if not exists
-      if (this.licenseRepository.findByRadarUserIdAndTitle(radarUserId, license.getTitle()).isEmpty()) {
-        this.licenseRepository.save(license);
+      if (this.maturityRepository.findByRadarUserIdAndTitle(radarUserId, maturity.getTitle()).isEmpty()) {
+        this.maturityRepository.save(maturity);
       }
     }
   }

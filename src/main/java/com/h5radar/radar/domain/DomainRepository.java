@@ -1,8 +1,8 @@
 package com.h5radar.radar.domain;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.Optional;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
