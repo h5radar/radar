@@ -19,4 +19,10 @@ public interface MaturityService {
   MaturityDto save(MaturityDto maturityDto);
 
   void deleteById(Long id);
+
+  long deleteByRadarUserId(Long radarUserId);
+
+  long countByRadarUserId(Long radarUserId);
+
+  void seed(Long radarUserId) throws Exception;
 }
