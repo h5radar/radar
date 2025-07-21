@@ -1,5 +1,23 @@
-# H5Radar
-Technical and business radar. Demo available at https://app.h5radar.com. Spring boot based application.
+# H5Radar Base Technology Catalog
+
+This repository contains the base catalog of technologies used by the H5Radar platform. Each technology is enriched with metadata such as domain classification and maturity level to enable structured visualization and analysis. This is a Spring Boot based application.
+
+H5Radar application consists of several modules. For an overview of the entire platform and its repositories, please see the [organization-level README](https://github.com/h5radar).
+
+## Features
+
+- Comprehensive list of technologies with metadata
+- Classification by domain (e.g., Languages, Infrastructure, Datastores)
+- Maturity levels for each technology (e.g., Adopt, Trial, Assess, Hold)
+- License information for compliance tracking
+
+## Contributing
+
+Contributions and issues are welcome. Please open pull requests or issues in this repository. For general discussions, roadmap input, and questions, please join our [organization Discussions](https://github.com/orgs/h5radar/discussions). We appreciate community involvement in shaping H5Radar!
+
+## License
+
+This repository is part of the H5Radar project and is licensed under the MIT License.
 
 # Setup environment
 ## Windows environment
