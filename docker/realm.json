@@ -28,13 +28,6 @@
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       }
-    },
-    {
-      "clientId": "radar",
-      "enabled": true,
-      "publicClient": true,
-      "directAccessGrantsEnabled": true,
-      "redirectUris": ["http://localhost:8080/*"]
     }
   ],
   "users": [
