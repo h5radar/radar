@@ -12,7 +12,7 @@
   "resetPasswordAllowed": true,
   "clients": [
     {
-      "clientId": "app-ui",
+      "clientId": "app",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
