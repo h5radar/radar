@@ -7,6 +7,6 @@ RUN ./mvnw clean package -Pdev -Dmaven.test.skip
 # Stage 2: Run application
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=builder /app/target/account*.jar account.jar
-EXPOSE 8070
-ENTRYPOINT ["java", "-jar", "account.jar"]
+COPY --from=builder /app/target/radar*.jar radar.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "radar.jar"]
