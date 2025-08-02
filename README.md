@@ -80,3 +80,5 @@ This repository is part of the H5Radar project and is licensed under the MIT Lic
 * view metrics at url: http://127.0.0.1:8080/actuator/prometheus
 * view swagger at url: http://127.0.0.1:8080/swagger-ui/index.html
 * view api docs at url: http://127.0.0.1:8080/v3/api-docs
+* build docker by command: docker build -t h5radar/radar:latest .
+* run docker by command: docker run -p 8070:8070 h5radar/radar:latest
