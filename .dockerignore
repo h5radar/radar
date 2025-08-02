@@ -1,0 +1,18 @@
+# IDE configuration files
+.idea/
+*.iml
+
+# macOS system files
+.DS_Store
+
+# Log files
+*.log
+
+# Maven build output (compiled classes, packaged JARs)
+target/
+*.class
+
+# Temporary or cache files
+tmp/
+*.tmp
+
