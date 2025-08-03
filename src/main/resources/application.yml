@@ -11,14 +11,14 @@ logging:
     console: UTF-8
   level:
     org:
-      hibernate: ERROR
+      hibernate: INFO
       springframework:
         web: INFO
       com:
         zaxxer:
           hikari: INFO
           HikariConfig: INFO
-    root: info
+    root: INFO
   config: classpath:configs/logback-spring.xml
 
 management:

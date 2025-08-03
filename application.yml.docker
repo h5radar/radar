@@ -10,10 +10,10 @@ logging:
   level:
     root: info
     org:
-      hibernate: ERROR
+      hibernate: INFO
       springframework:
         web: INFO
-        security: DEBUG
+        security: INFO
       com:
         zaxxer:
           hikari: INFO

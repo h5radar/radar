@@ -8,7 +8,7 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: INFO
     root: INFO
 
 spring:
