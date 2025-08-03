@@ -1,0 +1,28 @@
+application:
+  cors:
+    allowed-origins: "http://127.0.0.1,http://localhost"
+    allowed-methods: "*"
+    allowed-headers: "*"
+
+logging:
+  charset:
+    console: UTF-8
+  level:
+    root: info
+    org:
+      hibernate: ERROR
+      springframework:
+        web: INFO
+        security: DEBUG
+      com:
+        zaxxer:
+          hikari: INFO
+          HikariConfig: INFO
+  config: classpath:configs/logback-spring.xml
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8180/realms/h5radar/protocol/openid-connect/certs

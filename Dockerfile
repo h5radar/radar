@@ -2,6 +2,7 @@
 FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
 COPY . .
+RUN cp application.yml.docker application.yml
 RUN ./mvnw clean package -Pdev -Dmaven.test.skip
 
 # Stage 2: Run application

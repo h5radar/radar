@@ -1,9 +1,16 @@
+application:
+  cors:
+    allowed-origins: "http://127.0.0.1,http://localhost,http://127.0.0.1:5173,http://localhost:5173"
+    allowed-methods: "*"
+    allowed-headers: "*"
+
 logging:
   level:
-    root: info
     org:
       springframework:
-        security: debug
+        security: DEBUG
+    root: INFO
+
 spring:
   datasource:
     url: jdbc:h2:mem:radar;MODE=PostgreSQL
