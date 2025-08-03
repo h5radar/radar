@@ -26,7 +26,7 @@ Contributions and issues are welcome. Please open pull requests or issues in thi
 
 This repository is part of the H5Radar project and is licensed under the MIT License.
 
-# Appendix 1: Useful commands
+## Appendix 1: Useful commands
 
 - build package by command: ./mvnw clean package -Dmaven.test.skip
 - run application with profile by command: ./mvnw spring-boot:run -Pdev
