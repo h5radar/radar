@@ -8,5 +8,6 @@ RUN ./mvnw clean package -Pdev -Dmaven.test.skip
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=builder /app/target/radar*.jar radar.jar
+COPY application.yml.docker application.yml
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "radar.jar"]
