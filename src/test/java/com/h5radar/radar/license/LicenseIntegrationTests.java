@@ -8,10 +8,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
+import com.h5radar.radar.compliance.ComplianceDto;
+import com.h5radar.radar.compliance.ComplianceService;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
 
 class LicenseIntegrationTests extends AbstractIntegrationTests {
+  @Autowired
+  protected ComplianceService complianceService;
 
   @Autowired
   private LicenseService licenseService;
@@ -25,12 +29,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -47,6 +61,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content[0].radar_user_id").isEqualTo(licenseDto.getRadarUserId())
         .jsonPath("$.content[0].title").isEqualTo(licenseDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(licenseDto.getDescription())
+        .jsonPath("$.content[0].compliance_id").isEqualTo(licenseDto.getComplianceId())
         .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());

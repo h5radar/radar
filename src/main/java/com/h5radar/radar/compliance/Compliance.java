@@ -1,14 +1,7 @@
 package com.h5radar.radar.compliance;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.h5radar.radar.JpaConstants;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,10 +11,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.h5radar.radar.AbstractAuditable;
+import com.h5radar.radar.license.License;
 import com.h5radar.radar.radar_user.RadarUser;
+
+import java.util.List;
 
 @Entity
 @Table(name = "compliances")
@@ -57,4 +54,7 @@ public class Compliance extends AbstractAuditable {
   @Column(name = "is_active", nullable = false)
   private boolean active = true;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "compliance", cascade = CascadeType.ALL)
+  @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)
+  private List<License> LicenseList;
 }
