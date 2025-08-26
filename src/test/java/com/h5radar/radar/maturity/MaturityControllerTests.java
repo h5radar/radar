@@ -348,7 +348,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedMaturitiesDueToUnauthorized() throws Exception {
-    mockMvc.perform(post("/api/v1/maturities/seed/{radar_user_id}")
+    mockMvc.perform(post("/api/v1/maturities/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

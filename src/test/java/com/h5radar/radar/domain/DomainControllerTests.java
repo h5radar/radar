@@ -342,7 +342,7 @@ public class DomainControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedDomainsDueToUnauthorized() throws Exception {
-    mockMvc.perform(post("/api/v1/domains/seed/{radar_user_id}")
+    mockMvc.perform(post("/api/v1/domains/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

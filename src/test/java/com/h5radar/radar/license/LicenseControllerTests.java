@@ -311,7 +311,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}")
+    mockMvc.perform(post("/api/v1/licenses/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

@@ -311,7 +311,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedCompliancesDueToUnauthorized() throws Exception {
-    mockMvc.perform(post("/api/v1/compliances/seed/{radar_user_id}")
+    mockMvc.perform(post("/api/v1/compliances/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

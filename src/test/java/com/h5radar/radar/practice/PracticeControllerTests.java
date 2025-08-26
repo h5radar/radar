@@ -312,7 +312,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedPracticesDueToUnauthorized() throws Exception {
-    mockMvc.perform(post("/api/v1/practices/seed/{radar_user_id}")
+    mockMvc.perform(post("/api/v1/practices/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }
