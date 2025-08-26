@@ -17,11 +17,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="${type.text}" remarks="Description for license."/>
-            <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
-                <constraints nullable="false"/>
-            </column>
             <column name="compliance_id" type="${type.bigint}" remarks="Reference to compliance.">
                 <constraints nullable="false" foreignKeyName="fk_licenses_compliance_id_2_compliances" references="compliances(id)"/>
+            </column>
+            <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
+                <constraints nullable="false"/>
             </column>
             <column name="created_by" type="${type.user}" remarks="User who created the record.">
                 <constraints nullable="false"/>

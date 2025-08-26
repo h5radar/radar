@@ -332,6 +332,7 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(15L);
 
+    fuck
     mockMvc.perform(post("/api/v1/technologies/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());

@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.h5radar.radar.compliance.Compliance;
+import com.h5radar.radar.compliance.ComplianceRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -30,10 +32,16 @@ import com.h5radar.radar.radar_user.RadarUserRepository;
 class LicenseServiceTests extends AbstractServiceTests {
   @MockitoBean
   private RadarUserRepository radarUserRepository;
+
+  @MockitoBean
+  private ComplianceRepository complianceRepository;
+
   @MockitoBean
   private LicenseRepository licenseRepository;
+
   @Autowired
   private LicenseMapper licenseMapper;
+
   @Autowired
   private LicenseService licenseService;
 
@@ -159,14 +167,23 @@ class LicenseServiceTests extends AbstractServiceTests {
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
 
+    final Compliance compliance = new Compliance();
+    compliance.setId(5L);
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+
     final License license = new License();
     license.setId(10L);
     license.setRadarUser(radarUser);
     license.setTitle("My license");
     license.setDescription("My license description");
+    license.setCompliance(compliance);
     license.setActive(true);
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
+    Mockito.when(complianceRepository.findById(any())).thenReturn(Optional.of(compliance));
     Mockito.when(licenseRepository.save(any())).thenReturn(license);
 
     LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
@@ -175,6 +192,7 @@ class LicenseServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
 
     Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(complianceRepository).findById(compliance.getId());
     Mockito.verify(licenseRepository).save(any());
   }
 

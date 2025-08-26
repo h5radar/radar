@@ -311,10 +311,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedCompliancesDueToUnauthorized() throws Exception {
-    final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
-
-    mockMvc.perform(post("/api/v1/compliances/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/compliances/seed/{radar_user_id}")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

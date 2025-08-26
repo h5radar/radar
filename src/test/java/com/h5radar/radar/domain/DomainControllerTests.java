@@ -342,10 +342,7 @@ public class DomainControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedDomainsDueToUnauthorized() throws Exception {
-    final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
-
-    mockMvc.perform(post("/api/v1/domains/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/domains/seed/{radar_user_id}")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

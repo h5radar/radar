@@ -3,6 +3,7 @@ package com.h5radar.radar.license;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 
+import com.h5radar.radar.compliance.Compliance;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -12,12 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.AbstractRepositoryTests;
+import com.h5radar.radar.compliance.ComplianceRepository;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;
 
 class LicenseRepositoryTests extends AbstractRepositoryTests {
   @Autowired
   private RadarUserRepository radarUserRepository;
+
+  @Autowired
+  private ComplianceRepository complianceRepository;
 
   @Autowired
   private LicenseRepository licenseRepository;
@@ -30,11 +35,20 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription("My description");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     licenseRepository.saveAndFlush(license);
@@ -42,6 +56,7 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     Assertions.assertNotNull(license.getRadarUser());
     Assertions.assertNotNull(license.getTitle());
     Assertions.assertNotNull(license.getDescription());
+    Assertions.assertNotNull(license.getCompliance());
     Assertions.assertNotNull(license.getCreatedBy());
     Assertions.assertNotNull(license.getCreatedDate());
     Assertions.assertNotNull(license.getLastModifiedBy());
@@ -56,16 +71,32 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription("My description");
+    license.setCompliance(compliance);
+    license.setActive(true);
 
     Assertions.assertNull(license.getId());
     licenseRepository.saveAndFlush(license);
     Assertions.assertNotNull(license.getId());
     Assertions.assertTrue(licenseRepository.findById(license.getId()).isPresent());
+  }
+
+  @Test
+  void shouldFailOnNullRadarUser() {
+    // TODO
+
   }
 
   @Test
@@ -76,10 +107,19 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setDescription("My description");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -102,11 +142,20 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("");
     license.setDescription("My description");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -130,11 +179,20 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle(" ");
     license.setDescription("My description");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -151,6 +209,26 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
+  void shouldFailToSaveLicenseDueToTitleWithRightWhiteSpace() {
+    final License license = new License();
+    license.setTitle("My title with right white space");
+
+    Assertions.assertNull(license.getId());
+    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
+        .isInstanceOf(ValidationException.class);
+  }
+
+  @Test
+  void shouldFailToSaveLicenseDueToTitleWithLeftWhiteSpace() {
+    final License license = new License();
+    license.setTitle(" My title with left white space");
+
+    Assertions.assertNull(license.getId());
+    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
+        .isInstanceOf(ValidationException.class);
+  }
+
+  @Test
   void shouldFailOnNullDescription() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
@@ -158,10 +236,19 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -184,11 +271,20 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription("");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -212,11 +308,20 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
     radarUser.setUsername("My username");
     radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
     // Create license
     final License license = new License();
     license.setRadarUser(radarUser);
     license.setTitle("My title");
     license.setDescription(" ");
+    license.setCompliance(compliance);
 
     Assertions.assertNull(license.getId());
     ConstraintViolationException exception =
@@ -232,22 +337,9 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
-  void shouldFailToSaveLicenseDueToTitleWithRightWhiteSpace() {
-    final License license = new License();
-    license.setTitle("My title with right white space");
-
-    Assertions.assertNull(license.getId());
-    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
-        .isInstanceOf(ValidationException.class);
+  void shouldFailOnNullCompliance() {
+    // TODO
   }
 
-  @Test
-  void shouldFailToSaveLicenseDueToTitleWithLeftWhiteSpace() {
-    final License license = new License();
-    license.setTitle(" My title with left white space");
 
-    Assertions.assertNull(license.getId());
-    assertThatThrownBy(() -> licenseRepository.saveAndFlush(license))
-        .isInstanceOf(ValidationException.class);
-  }
 }

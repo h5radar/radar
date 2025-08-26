@@ -2,12 +2,14 @@ package com.h5radar.radar.license;
 
 import java.util.Optional;
 
+import com.h5radar.radar.compliance.Compliance;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.PlainMapper;
 import com.h5radar.radar.config.MapperConfiguration;
+import com.h5radar.radar.compliance.ComplianceRepository;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;
 
@@ -17,10 +19,15 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
+  @Autowired
+  protected ComplianceRepository complianceRepository;
+
   @Mapping(source = "radarUser.id", target = "radarUserId")
+  @Mapping(source = "compliance.id", target = "complianceId")
   public abstract LicenseDto toDto(final License entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
+  @Mapping(target = "compliance", expression = "java(getCompliance(dto))")
   public abstract License toEntity(final LicenseDto dto);
 
   RadarUser getRadarUser(LicenseDto licenseDto) {
@@ -32,4 +39,15 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
     }
     return null;
   }
+
+  Compliance getCompliance(LicenseDto licenseDto) {
+    if (licenseDto.getComplianceId() != null) {
+      Optional<Compliance> ComplianceOptional = complianceRepository.findById(licenseDto.getComplianceId());
+      if (ComplianceOptional.isPresent()) {
+        return ComplianceOptional.get();
+      }
+    }
+    return null;
+  }
+
 }
