@@ -4,56 +4,48 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <!-- The now function-->
-    <property name="now" value="current_timestamp" dbms="postgresql"/>
-    <property name="now" value="now()" dbms="h2"/>
+    <!-- Functions -->
+    <property name="function.now" value="current_timestamp" dbms="postgresql"/>
+    <property name="function.now" value="now()" dbms="h2"/>
 
-    <!-- The auto increment -->
-    <property name="autoIncrement" value="true" dbms="postgresql"/>
-    <property name="autoIncrement" value="true" dbms="h2"/>
+    <!-- Features -->
+    <property name="feature.auto_increment" value="true" dbms="postgresql"/>
+    <property name="feature.auto_increment" value="true" dbms="h2"/>
 
-    <!-- The sequence -->
-    <property name="sequence.max-size" value="9223372036854775807"/>
-    <property name="sequence.start-value" value="10000"/>
-    <property name="sequence.increment-by" value="5"/>
-    <property name="sequence.cache-size" value="5"/>
+    <!-- Sequence -->
+    <property name="sequence.max_size"    value="9223372036854775807"/>
+    <property name="sequence.start_value" value="10000"/>
+    <property name="sequence.increment_by" value="5"/>
+    <property name="sequence.cache_size"  value="5"/>
 
-    <!-- BigInt type -->
-    <property name="bigint.type" value="bigint" dbms="postgresql"/>
-    <property name="bigint.type" value="BIGINT" dbms="h2"/>
+    <!-- Types -->
+    <property name="type.bigint"   value="bigint" dbms="postgresql"/>
+    <property name="type.bigint"   value="BIGINT" dbms="h2"/>
 
-    <!-- Decimal type -->
-    <property name="decimal.type" value="NUMERIC" dbms="postgresql"/>
-    <property name="decimal.type" value="decimal(1000, 6)" dbms="h2"/>
+    <property name="type.decimal"  value="NUMERIC" dbms="postgresql"/>
+    <property name="type.decimal"  value="decimal(1000, 6)" dbms="h2"/>
 
-    <!-- Datetime type -->
-    <property name="datetime.type" value="timestamp with time zone"/>
+    <property name="type.datetime" value="timestamp with time zone"/>
 
-    <!-- Uuid type -->
-    <property name="uuid.string" value="char(36)"/>
+    <property name="type.uuid"     value="char(36)"/>
 
-    <!-- Text type -->
-    <property name="text.type" value="text" dbms="postgresql"/>
-    <property name="text.type" value="varchar(4000)" dbms="h2"/>
+    <property name="type.text"     value="text" dbms="postgresql"/>
+    <property name="type.text"     value="varchar(4000)" dbms="h2"/>
 
-    <!-- CLOB -->
-    <property name="clob.type" value="text" dbms="postgresql"/>
-    <property name="clob.type" value="clob" dbms="h2"/>
+    <property name="type.clob"     value="text" dbms="postgresql"/>
+    <property name="type.clob"     value="clob" dbms="h2"/>
 
-    <!-- Json -->
-    <property name="json.type" value="jsonb" dbms="postgresql"/>
-    <property name="json.type" value="clob" dbms="h2"/>
+    <property name="type.json"     value="jsonb" dbms="postgresql"/>
+    <property name="type.json"     value="clob" dbms="h2"/>
 
-    <!-- The created and modified user type -->
-    <property name="user.type" value="text" dbms="postgresql"/>
-    <property name="user.type" value="varchar(255)" dbms="h2"/>
+    <property name="type.user"     value="text" dbms="postgresql"/>
+    <property name="type.user"     value="varchar(255)" dbms="h2"/>
 
-    <!-- The ring.title -->
-    <property name="ring.title" value="text" dbms="postgresql"/>
-    <property name="ring.title" value="varchar(512)" dbms="h2"/>
+    <!-- Domain-specific: ring -->
+    <property name="ring.type.title" value="text" dbms="postgresql"/>
+    <property name="ring.type.title" value="varchar(512)" dbms="h2"/>
 
-    <!-- The ring.color -->
-    <property name="ring.color" value="text" dbms="postgresql"/>
-    <property name="ring.color" value="varchar(8)" dbms="h2"/>
+    <property name="ring.type.color" value="text" dbms="postgresql"/>
+    <property name="ring.type.color" value="varchar(8)" dbms="h2"/>
 
 </databaseChangeLog>
