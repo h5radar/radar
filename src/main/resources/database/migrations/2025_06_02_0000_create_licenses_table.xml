@@ -4,8 +4,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="../properties.yml" relativeToChangelogFile="true"/>
-
     <changeSet id="create_licenses_table" author="h5radar">
         <createTable tableName="licenses" remarks="Holds information about licenses.">
             <column name="id" type="${bigint.type}" remarks="License id, primary key." autoIncrement="true"
@@ -15,12 +13,15 @@
             <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
                 <constraints nullable="false" foreignKeyName="fk_licenses_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-            <column name="title" type="${text.type}" remarks="Technology title, unique.">
+            <column name="title" type="${text.type}" remarks="License title, unique.">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="${text.type}" remarks="Description for license."/>
             <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
                 <constraints nullable="false"/>
+            </column>
+            <column name="compliance_id" type="${bigint.type}" remarks="Reference to compliance.">
+                <constraints nullable="false" foreignKeyName="fk_licenses_compliance_id_2_compliances" references="compliances(id)"/>
             </column>
             <column name="created_by" type="${user.type}" remarks="User who created the record.">
                 <constraints nullable="false"/>

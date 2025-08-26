@@ -4,8 +4,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="../properties.yml" relativeToChangelogFile="true"/>
-
     <changeSet id="create_repositories_table" author="h5radar">
         <createTable tableName="repositories" remarks="Holds information about repositories.">
             <column name="id" type="${bigint.type}" remarks="Repository id, primary key." autoIncrement="true"

@@ -4,8 +4,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="../properties.yml" relativeToChangelogFile="true"/>
-
     <changeSet id="create_domains_table" author="h5radar">
         <createTable tableName="domains" remarks="Holds information about domains.">
             <column name="id" type="${bigint.type}" remarks="Domain id, primary key." autoIncrement="true"
