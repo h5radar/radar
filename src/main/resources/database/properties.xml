@@ -31,8 +31,7 @@
 
     <property name="type.datetime" value="timestamp with time zone"/>
 
-    <property name="type.uuid" value="uuid" dbms="postgresql"/>
-    <property name="type.uuid" value="uuid" dbms="h2"/>
+    <property name="type.uuid" value="uuid"/>
 
     <property name="type.text" value="text" dbms="postgresql"/>
     <property name="type.text" value="varchar(4000)" dbms="h2"/>
