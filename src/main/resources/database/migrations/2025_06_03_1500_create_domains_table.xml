@@ -4,35 +4,33 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="../properties.yml" relativeToChangelogFile="true"/>
-
     <changeSet id="create_domains_table" author="h5radar">
         <createTable tableName="domains" remarks="Holds information about domains.">
-            <column name="id" type="${bigint.type}" remarks="Domain id, primary key." autoIncrement="true"
+            <column name="id" type="${type.bigint}" remarks="Domain id, primary key." autoIncrement="true"
                     generationType="ALWAYS">
                 <constraints primaryKey="true" primaryKeyName="pk_domains_id" nullable="false"/>
             </column>
-            <column name="radar_user_id" type="${bigint.type}" remarks="Reference to radar user.">
+            <column name="radar_user_id" type="${type.bigint}" remarks="Reference to radar user.">
                 <constraints nullable="false" foreignKeyName="fk_domains_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-            <column name="title" type="${text.type}" remarks="Domain title, unique.">
+            <column name="title" type="${type.text}" remarks="Domain title, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_domains_title" nullable="false"/>
             </column>
-            <column name="description" type="${text.type}" remarks="Description for domain."/>
+            <column name="description" type="${type.text}" remarks="Description for domain."/>
             <column name="position" type="integer"
                     remarks="Represents domain position in radar starting from lower to higher value.">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="${user.type}" remarks="User who created the record.">
+            <column name="created_by" type="${type.user}" remarks="User who created the record.">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="${datetime.type}" defaultValue="now()" remarks="When record was created.">
+            <column name="created_date" type="${type.datetime}" defaultValue="now()" remarks="When record was created.">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_modified_by" type="${user.type}" remarks="User who modified the record.">
+            <column name="last_modified_by" type="${type.user}" remarks="User who modified the record.">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_modified_date" type="${datetime.type}" remarks="When record was modified."
+            <column name="last_modified_date" type="${type.datetime}" remarks="When record was modified."
                     defaultValue="now()">
                 <constraints nullable="false"/>
             </column>

@@ -311,10 +311,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
-    final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
-
-    mockMvc.perform(post("/api/v1/licenses/seed/{radar_user_id}", radarUserDto.getId())
+    mockMvc.perform(post("/api/v1/licenses/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
   }

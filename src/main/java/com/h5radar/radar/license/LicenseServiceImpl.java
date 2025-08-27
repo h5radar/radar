@@ -28,6 +28,8 @@ import org.springframework.util.ResourceUtils;
 
 import com.h5radar.radar.ModelError;
 import com.h5radar.radar.ValidationException;
+import com.h5radar.radar.compliance.Compliance;
+import com.h5radar.radar.compliance.ComplianceRepository;
 import com.h5radar.radar.radar_user.RadarUser;
 
 
@@ -37,6 +39,7 @@ import com.h5radar.radar.radar_user.RadarUser;
 public class LicenseServiceImpl implements LicenseService {
 
   private final Validator validator;
+  private final ComplianceRepository complianceRepository;
   private final LicenseRepository licenseRepository;
   private final LicenseMapper licenseMapper;
 
@@ -130,6 +133,14 @@ public class LicenseServiceImpl implements LicenseService {
       license.setRadarUser(radarUser);
       license.setTitle(record[0]);
       license.setDescription(record[1]);
+
+      // Find appropriate compliance
+      Optional<Compliance> complianceOptional =  complianceRepository.findByRadarUserIdAndTitle(radarUserId, record[2]);
+      if (complianceOptional.isPresent()) {
+        license.setCompliance(complianceOptional.get());
+      } else {
+        throw new RuntimeException("Unable to find compliance for radar user " + radarUserId);
+      }
 
       // Create only if not exists
       if (this.licenseRepository.findByRadarUserIdAndTitle(radarUserId, license.getTitle()).isEmpty()) {

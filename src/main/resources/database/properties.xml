@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Functions -->
+    <property name="function.now" value="current_timestamp" dbms="postgresql"/>
+    <property name="function.now" value="now()" dbms="h2"/>
+
+    <!-- Features -->
+    <property name="feature.auto_increment" value="true" dbms="postgresql"/>
+    <property name="feature.auto_increment" value="true" dbms="h2"/>
+
+    <!-- Sequence -->
+    <property name="sequence.max_size"    value="9223372036854775807"/>
+    <property name="sequence.start_value" value="10000"/>
+    <property name="sequence.increment_by" value="5"/>
+    <property name="sequence.cache_size"  value="5"/>
+
+    <!-- Types -->
+    <property name="type.bigint"   value="bigint" dbms="postgresql"/>
+    <property name="type.bigint"   value="BIGINT" dbms="h2"/>
+
+    <property name="type.decimal"  value="NUMERIC" dbms="postgresql"/>
+    <property name="type.decimal"  value="decimal(1000, 6)" dbms="h2"/>
+
+    <property name="type.datetime" value="timestamp with time zone"/>
+
+    <property name="type.uuid"     value="char(36)"/>
+
+    <property name="type.text"     value="text" dbms="postgresql"/>
+    <property name="type.text"     value="varchar(4000)" dbms="h2"/>
+
+    <property name="type.clob"     value="text" dbms="postgresql"/>
+    <property name="type.clob"     value="clob" dbms="h2"/>
+
+    <property name="type.json"     value="jsonb" dbms="postgresql"/>
+    <property name="type.json"     value="clob" dbms="h2"/>
+
+    <property name="type.user"     value="text" dbms="postgresql"/>
+    <property name="type.user"     value="varchar(255)" dbms="h2"/>
+
+    <!-- Domain-specific -->
+
+    <!-- Maturities -->
+    <property name="maturities.type.title" value="text" dbms="postgresql"/>
+    <property name="maturities.type.title" value="varchar(512)" dbms="h2"/>
+
+    <property name="maturities.type.color" value="text" dbms="postgresql"/>
+    <property name="maturities.type.color" value="varchar(8)" dbms="h2"/>
+
+</databaseChangeLog>

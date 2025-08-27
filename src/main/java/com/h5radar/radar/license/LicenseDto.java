@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "compliance_id", "active" })
 public class LicenseDto {
 
   private Long id;
@@ -33,6 +33,11 @@ public class LicenseDto {
   private String title;
 
   private String description;
+
+  @JsonProperty("compliance_id")
+  @JsonIdentityReference(alwaysAsId = true)
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  private Long complianceId;
 
   private boolean active;
 

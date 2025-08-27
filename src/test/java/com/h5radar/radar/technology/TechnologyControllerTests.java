@@ -329,9 +329,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   @Test
   @WithAnonymousUser
   public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
-    final RadarUserDto radarUserDto = new RadarUserDto();
-    radarUserDto.setId(15L);
-
     mockMvc.perform(post("/api/v1/technologies/seed")
             .with(csrf()))
         .andExpect(status().isUnauthorized());
