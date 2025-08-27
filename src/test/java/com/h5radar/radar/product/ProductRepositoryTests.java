@@ -55,13 +55,38 @@ class ProductRepositoryTests extends AbstractRepositoryTests {
 
     final Product product = new Product();
     product.setRadarUser(radarUser);
-    product.setTitle("MY");
+    product.setTitle("My title");
     product.setDescription("My description");
 
     Assertions.assertNull(product.getId());
     productRepository.saveAndFlush(product);
     Assertions.assertNotNull(product.getId());
     Assertions.assertTrue(productRepository.findById(product.getId()).isPresent());
+  }
+
+  @Test
+  void shouldFailOnNullRadarUser() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    final Product product = new Product();
+    product.setTitle("My title");
+    product.setDescription("My description");
+
+    Assertions.assertNull(product.getId());
+    ConstraintViolationException exception =
+        catchThrowableOfType(() -> productRepository.saveAndFlush(product),
+            ConstraintViolationException.class);
+
+    Assertions.assertNotNull(exception);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
+    for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+      Assertions.assertEquals("radarUser", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be null", constraintViolation.getMessage());
+    }
   }
 
   @Test

@@ -69,6 +69,32 @@ class PracticeRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
+  void shouldFailOnNullRadarUser() {
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create practice
+    final Practice practice = new Practice();
+    practice.setTitle("My title");
+    practice.setDescription("My description");
+
+    Assertions.assertNull(practice.getId());
+    ConstraintViolationException exception =
+        catchThrowableOfType(() -> practiceRepository.saveAndFlush(practice),
+            ConstraintViolationException.class);
+
+    Assertions.assertNotNull(exception);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
+    for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+      Assertions.assertEquals("radarUser", constraintViolation.getPropertyPath().toString());
+      Assertions.assertEquals("must not be null", constraintViolation.getMessage());
+    }
+  }
+
+  @Test
   void shouldFailOnNullTitle() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
