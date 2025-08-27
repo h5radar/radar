@@ -19,6 +19,8 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,6 +41,7 @@ import com.h5radar.radar.radar_user.RadarUser;
 public class LicenseServiceImpl implements LicenseService {
 
   private final Validator validator;
+  private final MessageSource messageSource;
   private final ComplianceRepository complianceRepository;
   private final LicenseRepository licenseRepository;
   private final LicenseMapper licenseMapper;
@@ -139,7 +142,8 @@ public class LicenseServiceImpl implements LicenseService {
       if (complianceOptional.isPresent()) {
         license.setCompliance(complianceOptional.get());
       } else {
-        throw new RuntimeException("Unable to find compliance for radar user " + radarUserId);
+        throw new RuntimeException(messageSource.getMessage("license.error.unable_to_find_compliance",
+            new Object[]{ radarUserId, record[2] }, LocaleContextHolder.getLocale()));
       }
 
       // Create only if not exists

@@ -387,7 +387,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create complianse to seed licences
+    // Create compliance to seed licences
     for (String compliance : Arrays.asList("High", "Medium", "Low")) {
       ComplianceDto complianceDto = new ComplianceDto();
       complianceDto.setId(null);
