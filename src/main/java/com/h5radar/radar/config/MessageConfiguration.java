@@ -15,10 +15,10 @@ public class MessageConfiguration implements WebMvcConfigurer {
         new ReloadableResourceBundleMessageSource();
     messageSource.setBasenames(
         "classpath:/messages/application",
-        "classpath:/messages/radar",
-        "classpath:/messages/ring",
-        "classpath:/messages/segment",
-        "classpath:/messages/technology_blip"
+        "classpath:/messages/domain",
+        "classpath:/messages/license",
+        "classpath:/messages/maturity",
+        "classpath:/messages/technology"
     );
     messageSource.setDefaultEncoding("UTF-8");
     return messageSource;
