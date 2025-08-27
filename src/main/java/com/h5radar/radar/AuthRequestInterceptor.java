@@ -61,10 +61,16 @@ public class AuthRequestInterceptor implements HandlerInterceptor {
     }
 
     try {
-      radarUserDto = radarUserService.save(radarUserDto);
-      Long radarUserId = radarUserDto == null ? 0 : radarUserDto.getId();
-      request.setAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME, radarUserId);
+      Optional<RadarUserDto> radarUserDtoOptional = radarUserService.findBySub(radarUserDto.getSub());
+      if (radarUserDtoOptional.isPresent()) {
+        request.setAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME, radarUserDtoOptional.get().getId());
+      } else {
+        radarUserDto = radarUserService.save(radarUserDto);
+        Long radarUserId = radarUserDto == null ? 0 : radarUserDto.getId();
+        request.setAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME, radarUserId);
+      }
     } catch (DataIntegrityViolationException exception) {
+      // Handle race condition
       if (exception.getMessage().toLowerCase().contains(RADAR_USERS_SUB_CONSTRAINTS)) {
         Optional<RadarUserDto> radarUserDtoOptional =  radarUserService.findBySub(radarUserDto.getSub());
         if (radarUserDtoOptional.isPresent()) {
@@ -74,8 +80,6 @@ public class AuthRequestInterceptor implements HandlerInterceptor {
       }
       throw exception;
     }
-
-    // Continue processing the request
     return true;
   }
 }
