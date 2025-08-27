@@ -37,7 +37,7 @@
         </createTable>
         <addUniqueConstraint columnNames="radar_user_id, title"
                              constraintName="uc_domains_radar_user_id_title"
-                             tableName="maturities"
+                             tableName="domains"
                              validate="true"/>
         <!-- current Liquibase ignores checkConstraint attribute -->
         <sql>
