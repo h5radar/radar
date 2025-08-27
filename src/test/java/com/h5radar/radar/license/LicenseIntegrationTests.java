@@ -1,5 +1,7 @@
 package com.h5radar.radar.license;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -385,14 +387,16 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
-    // Create compliance
-    ComplianceDto complianceDto = new ComplianceDto();
-    complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
-    complianceDto.setTitle("High");
-    complianceDto.setDescription("My description");
-    complianceDto.setActive(true);
-    complianceDto = complianceService.save(complianceDto);
+    // Create complianse to seed licences
+    for (String compliance : Arrays.asList("High", "Medium", "Low")) {
+      ComplianceDto complianceDto = new ComplianceDto();
+      complianceDto.setId(null);
+      complianceDto.setRadarUserId(radarUserDto.getId());
+      complianceDto.setTitle(compliance);
+      complianceDto.setDescription("My description");
+      complianceDto.setActive(true);
+      complianceService.save(complianceDto);
+    }
 
     webTestClient.post().uri("/api/v1/licenses/seed")
         .accept(MediaType.APPLICATION_JSON)
