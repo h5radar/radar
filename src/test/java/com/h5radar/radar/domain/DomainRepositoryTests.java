@@ -49,6 +49,18 @@ class DomainRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
+  void shouldFailOnNullRadarUser() {
+    // TODO
+    /*
+    final Domain domain = new Domain();
+    domain.setDescription("My awesome description");
+
+    Assertions.assertNull(domain.getId());
+    assertThatThrownBy(() -> domainRepository.saveAndFlush(domain)).isInstanceOf(ValidationException.class);
+     */
+  }
+
+  @Test
   void shouldFailOnNullTitle() {
     final Domain domain = new Domain();
     domain.setDescription("My awesome description");

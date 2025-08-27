@@ -95,8 +95,39 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullRadarUser() {
-    // TODO
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
 
+    // Create a compliance
+    final Compliance compliance = new Compliance();
+    compliance.setRadarUser(radarUser);
+    compliance.setTitle("My title");
+    compliance.setDescription("My description");
+    compliance.setActive(true);
+    complianceRepository.saveAndFlush(compliance);
+
+    // Create license
+    final License license = new License();
+    license.setTitle("My title");
+    license.setDescription("My description");
+    license.setCompliance(compliance);
+    license.setActive(true);
+
+
+    Assertions.assertNull(license.getId());
+    ConstraintViolationException exception =
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+            ConstraintViolationException.class);
+
+    Assertions.assertNotNull(exception);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
+    for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "radarUser");
+      Assertions.assertEquals(constraintViolation.getMessage(), "must not be null");
+    }
   }
 
   @Test
@@ -338,8 +369,28 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
 
   @Test
   void shouldFailOnNullCompliance() {
-    // TODO
+    // Create a radar user
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser);
+
+    // Create license
+    final License license = new License();
+    license.setRadarUser(radarUser);
+    license.setTitle("My title");
+    license.setDescription("My description");
+
+    Assertions.assertNull(license.getId());
+    ConstraintViolationException exception =
+        catchThrowableOfType(() -> licenseRepository.saveAndFlush(license),
+            ConstraintViolationException.class);
+
+    Assertions.assertNotNull(exception);
+    Assertions.assertEquals(1, exception.getConstraintViolations().size());
+    for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+      Assertions.assertEquals(constraintViolation.getPropertyPath().toString(), "compliance");
+      Assertions.assertEquals(constraintViolation.getMessage(), "must not be null");
+    }
   }
-
-
 }

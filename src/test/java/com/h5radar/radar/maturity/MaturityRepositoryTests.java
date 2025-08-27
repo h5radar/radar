@@ -39,6 +39,18 @@ class MaturityRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
+  void shouldFailOnNullRa() {
+    /* TODO:
+    final Maturity r = new Maturity();
+    r.setDescription("Very good description for Maturity");
+
+    Assertions.assertNull(r.getId());
+    assertThatThrownBy(() -> maturityRepository.saveAndFlush(r))
+        .isInstanceOf(ValidationException.class);
+     */
+  }
+
+  @Test
   void shouldFailOnNullTitle() {
     final Maturity r = new Maturity();
     r.setDescription("Very good description for Maturity");
