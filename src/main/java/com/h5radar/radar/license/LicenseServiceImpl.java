@@ -142,8 +142,14 @@ public class LicenseServiceImpl implements LicenseService {
       if (complianceOptional.isPresent()) {
         license.setCompliance(complianceOptional.get());
       } else {
+        String messagae = messageSource.getMessage("license.error.unable_to_find_compliance",
+            new Object[]{ radarUserId, record[2] }, LocaleContextHolder.getLocale());
+        throw new RuntimeException(messagae);
+
+        /*
         throw new RuntimeException(messageSource.getMessage("license.error.unable_to_find_compliance",
             new Object[]{ radarUserId, record[2] }, LocaleContextHolder.getLocale()));
+         */
       }
 
       // Create only if not exists
