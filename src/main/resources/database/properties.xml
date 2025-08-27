@@ -38,15 +38,17 @@
     <property name="type.json"     value="jsonb" dbms="postgresql"/>
     <property name="type.json"     value="clob" dbms="h2"/>
 
+    <!-- Multiple tables -->
+    <property name="type.title" value="text" dbms="postgresql"/>
+    <property name="type.title" value="varchar(512)" dbms="h2"/>
+
+    <property name="type.description" value="text" dbms="postgresql"/>
+    <property name="type.description" value="varchar(4000)" dbms="h2"/>
+
     <property name="type.user"     value="text" dbms="postgresql"/>
     <property name="type.user"     value="varchar(255)" dbms="h2"/>
 
-    <!-- Domain-specific -->
-
-    <!-- Maturities -->
-    <property name="maturities.type.title" value="text" dbms="postgresql"/>
-    <property name="maturities.type.title" value="varchar(512)" dbms="h2"/>
-
+    <!-- Maturities table-->
     <property name="maturities.type.color" value="text" dbms="postgresql"/>
     <property name="maturities.type.color" value="varchar(8)" dbms="h2"/>
 
