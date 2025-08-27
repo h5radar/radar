@@ -1,3 +1,18 @@
 title|description|created_by|last_modified_by
-MIT license|MIT license|High|h5radar|h5radar
-Apache2 license|Apache2 license|High|h5radar|h5radar
+AGPL-3.0-only|GNU Affero General Public License v3.0 (network copyleft)|Low|h5radar|h5radar
+Apache-2.0 License|Apache License 2.0 (NOTICE + patent grant)|High|h5radar|h5radar
+BSD-2-Clause|BSD 2-Clause “Simplified” License|High|h5radar|h5radar
+BSD-3-Clause|BSD 3-Clause “New/Revised” License|High|h5radar|h5radar
+Boost Software License 1.0|Boost Software License 1.0|High|h5radar|h5radar
+CC0-1.0|Creative Commons Zero 1.0 (public-domain dedication)|High|h5radar|h5radar
+CDDL-1.0|Common Development and Distribution License 1.0|Medium|h5radar|h5radar
+EPL-2.0|Eclipse Public License 2.0 (weak copyleft)|Medium|h5radar|h5radar
+GPL-2.0-only|GNU General Public License v2.0 (strong copyleft)|Low|h5radar|h5radar
+GPL-3.0-only|GNU General Public License v3.0 (strong copyleft)|Low|h5radar|h5radar
+ISC License|ISC License (MIT-like)|High|h5radar|h5radar
+LGPL-2.1-only|GNU Lesser General Public License v2.1 (library copyleft)|Medium|h5radar|h5radar
+LGPL-3.0-only|GNU Lesser General Public License v3.0 (library copyleft)|Medium|h5radar|h5radar
+MIT License|MIT License|High|h5radar|h5radar
+MPL-2.0|Mozilla Public License 2.0 (file-level copyleft)|Medium|h5radar|h5radar
+The Unlicense|Public-domain-like license|High|h5radar|h5radar
+Zlib License|zlib/libpng License|High|h5radar|h5radar
