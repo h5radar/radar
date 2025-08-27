@@ -13,24 +13,24 @@
             <column name="radar_user_id" type="${type.bigint}" remarks="Reference to radar user.">
                 <constraints nullable="false" foreignKeyName="fk_practices_radar_user_id_2_radar_users" references="radar_users(id)"/>
             </column>
-            <column name="title" type="${type.text}" remarks="Practice title, unique.">
+            <column name="title" type="${type.title}" remarks="Practice title, unique.">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="${type.text}" remarks="Description for practice."/>
+            <column name="description" type="${type.description}" remarks="Description for practice."/>
             <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="${type.user}" remarks="User who created the record.">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="${type.datetime}" defaultValue="now()" remarks="When record was created.">
+            <column name="created_date" type="${type.datetime}" defaultValueComputed="${function.now}" remarks="When record was created.">
                 <constraints nullable="false"/>
             </column>
             <column name="last_modified_by" type="${type.user}" remarks="User who modified the record.">
                 <constraints nullable="false"/>
             </column>
             <column name="last_modified_date" type="${type.datetime}" remarks="When record was modified."
-                    defaultValue="now()">
+                    defaultValueComputed="${function.now}">
                 <constraints nullable="false"/>
             </column>
         </createTable>

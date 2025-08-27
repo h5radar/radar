@@ -16,21 +16,21 @@
             <column name="team_id" type="${type.bigint}" remarks="Reference to team.">
                 <constraints nullable="true" foreignKeyName="fk_repositories_team_id_2_teams" references="teams(id)"/>
             </column>
-            <column name="title" type="${type.text}" remarks="Repository title, unique.">
+            <column name="title" type="${type.title}" remarks="Repository title, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_repositories_title" nullable="false"/>
             </column>
-            <column name="description" type="${type.text}" remarks="Description for Repository."/>
+            <column name="description" type="${type.description}" remarks="Description for Repository."/>
             <column name="created_by" type="${type.user}" remarks="User who created the record.">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="${type.datetime}" defaultValue="now()" remarks="When record was created.">
+            <column name="created_date" type="${type.datetime}" defaultValueComputed="${function.now}" remarks="When record was created.">
                 <constraints nullable="false"/>
             </column>
             <column name="last_modified_by" type="${type.user}" remarks="User who modified the record.">
                 <constraints nullable="false"/>
             </column>
             <column name="last_modified_date" type="${type.datetime}" remarks="When record was modified."
-                    defaultValue="now()">
+                    defaultValueComputed="${function.now}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
