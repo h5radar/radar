@@ -13,10 +13,10 @@
     <property name="feature.auto_increment" value="true" dbms="h2"/>
 
     <!-- Sequence -->
-    <property name="sequence.max_size"    value="9223372036854775807"/>
+    <property name="sequence.max_size" value="9223372036854775807"/>
     <property name="sequence.start_value" value="10000"/>
     <property name="sequence.increment_by" value="5"/>
-    <property name="sequence.cache_size"  value="5"/>
+    <property name="sequence.cache_size" value="5"/>
 
     <!-- Types -->
     <property name="type.smallint" value="smallint"/>
@@ -31,7 +31,8 @@
 
     <property name="type.datetime" value="timestamp with time zone"/>
 
-    <property name="type.uuid" value="char(36)"/>
+    <property name="type.uuid" value="uuid" dbms="postgresql"/>
+    <property name="type.uuid" value="uuid" dbms="h2"/>
 
     <property name="type.text" value="text" dbms="postgresql"/>
     <property name="type.text" value="varchar(4000)" dbms="h2"/>
@@ -55,6 +56,5 @@
     <property name="maturities.type.color" value="varchar(8)"/>
 
     <!-- Maturities table-->
-    <property name="technologies.type.website" value="varchar(64)"/>
-
+    <property name="technologies.type.website" value="varchar(128)"/>
 </databaseChangeLog>

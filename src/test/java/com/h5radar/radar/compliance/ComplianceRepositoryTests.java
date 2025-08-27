@@ -151,6 +151,26 @@ class ComplianceRepositoryTests extends AbstractRepositoryTests {
   }
 
   @Test
+  void shouldFailToSaveComplianceDueToTitleWithRightWhiteSpace() {
+    final Compliance compliance = new Compliance();
+    compliance.setTitle("My title with right white space ");
+
+    Assertions.assertNull(compliance.getId());
+    assertThatThrownBy(() -> complianceRepository.saveAndFlush(compliance))
+        .isInstanceOf(ValidationException.class);
+  }
+
+  @Test
+  void shouldFailToSaveComplianceDueToTitleWithLeftWhiteSpace() {
+    final Compliance compliance = new Compliance();
+    compliance.setTitle(" My title with left white space");
+
+    Assertions.assertNull(compliance.getId());
+    assertThatThrownBy(() -> complianceRepository.saveAndFlush(compliance))
+        .isInstanceOf(ValidationException.class);
+  }
+
+  @Test
   void shouldFailOnNullDescription() {
     // Create a radar user
     final RadarUser radarUser = new RadarUser();
@@ -229,25 +249,5 @@ class ComplianceRepositoryTests extends AbstractRepositoryTests {
       Assertions.assertEquals("description", constraintViolation.getPropertyPath().toString());
       Assertions.assertEquals("must not be blank", constraintViolation.getMessage());
     }
-  }
-
-  @Test
-  void shouldFailToSaveComplianceDueToTitleWithRightWhiteSpace() {
-    final Compliance compliance = new Compliance();
-    compliance.setTitle("My title with right white space");
-
-    Assertions.assertNull(compliance.getId());
-    assertThatThrownBy(() -> complianceRepository.saveAndFlush(compliance))
-        .isInstanceOf(ValidationException.class);
-  }
-
-  @Test
-  void shouldFailToSaveComplianceDueToTitleWithLeftWhiteSpace() {
-    final Compliance compliance = new Compliance();
-    compliance.setTitle(" My title with left white space");
-
-    Assertions.assertNull(compliance.getId());
-    assertThatThrownBy(() -> complianceRepository.saveAndFlush(compliance))
-        .isInstanceOf(ValidationException.class);
   }
 }
