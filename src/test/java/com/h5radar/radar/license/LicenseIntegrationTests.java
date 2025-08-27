@@ -76,12 +76,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -97,6 +107,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.radar_user_id").isEqualTo(licenseDto.getRadarUserId())
         .jsonPath("$.title").isEqualTo(licenseDto.getTitle())
         .jsonPath("$.description").isEqualTo(licenseDto.getDescription())
+        .jsonPath("$.compliance_id").isEqualTo(licenseDto.getComplianceId())
         .jsonPath("$.active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -111,12 +122,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
 
     LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
@@ -134,6 +155,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
+    Assertions.assertEquals(licenseDto.getComplianceId(), licenseDto1.getComplianceId());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -148,12 +170,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(99L);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
 
     LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
@@ -171,6 +203,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(licenseDto.getRadarUserId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
+    Assertions.assertEquals(licenseDto.getComplianceId(), licenseDto1.getComplianceId());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -185,12 +218,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(null);
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
 
     LicenseDto licenseDto1 = webTestClient.post().uri("/api/v1/licenses")
@@ -208,6 +251,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(radarUserDto.getId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
+    Assertions.assertEquals(licenseDto.getId(), licenseDto1.getComplianceId());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -222,12 +266,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
@@ -252,14 +306,25 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
+
 
     licenseDto.setRadarUserId(null);
     webTestClient.put().uri("/api/v1/licenses/{id}", licenseDto.getId())
@@ -284,12 +349,22 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
 
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
     // Create license
     LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(null);
     licenseDto.setRadarUserId(radarUserDto.getId());
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
+    licenseDto.setComplianceId(complianceDto.getId());
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
