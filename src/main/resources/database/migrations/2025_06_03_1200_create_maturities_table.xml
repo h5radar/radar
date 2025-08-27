@@ -17,7 +17,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="${type.description}" remarks="Description for maturity."/>
-            <column name="position" type="integer"
+            <column name="position" type="${type.integer}"
                     remarks="Represents ring position in radar starting from lower to higher value.">
                 <constraints nullable="false"/>
             </column>

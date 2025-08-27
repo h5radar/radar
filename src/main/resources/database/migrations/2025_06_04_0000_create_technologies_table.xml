@@ -16,11 +16,11 @@
             <column name="title" type="${type.title}" remarks="Technology title.">
                 <constraints nullable="false"/>
             </column>
-            <column name="website" type="${type.text}" remarks="Website for technology.">
+            <column name="website" type="${technologies.type.website}" remarks="Website for technology.">
                 <constraints nullable="true"/>
             </column>
             <column name="description" type="${type.description}" remarks="Description for technology."/>
-            <column name="moved" type="int" remarks="Direction of movements (up - greater than 0; down - less than 0)" defaultValue="0">
+            <column name="moved" type="${type.integer}" remarks="Direction of movements (up - greater than 0; down - less than 0)" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
             <column name="is_active" type="boolean" remarks="Whenever the row is active." defaultValueBoolean="true">

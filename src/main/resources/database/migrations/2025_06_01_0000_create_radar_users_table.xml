@@ -10,10 +10,10 @@
                     generationType="ALWAYS">
                 <constraints primaryKey="true" primaryKeyName="pk_radar_users_id" nullable="false"/>
             </column>
-            <column name="sub" type="${type.text}" remarks="radar user subject, unique.">
+            <column name="sub" type="${radar_users.type.sub}" remarks="radar user subject, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_radar_users_sub" nullable="false"/>
             </column>
-            <column name="username" type="${type.text}" remarks="radar user name, unique.">
+            <column name="username" type="${radar_users.type.username}" remarks="radar user name, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_radar_users_username" nullable="false"/>
             </column>
             <column name="created_by" type="${type.user}" remarks="User who created the record.">

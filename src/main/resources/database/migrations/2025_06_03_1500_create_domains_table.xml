@@ -17,7 +17,7 @@
                 <constraints unique="true" uniqueConstraintName="uc_domains_title" nullable="false"/>
             </column>
             <column name="description" type="${type.description}" remarks="Description for domain."/>
-            <column name="position" type="integer"
+            <column name="position" type="${type.integer}"
                     remarks="Represents domain position in radar starting from lower to higher value.">
                 <constraints nullable="false"/>
             </column>

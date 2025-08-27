@@ -19,37 +19,42 @@
     <property name="sequence.cache_size"  value="5"/>
 
     <!-- Types -->
-    <property name="type.bigint"   value="bigint" dbms="postgresql"/>
-    <property name="type.bigint"   value="BIGINT" dbms="h2"/>
+    <property name="type.smallint" value="smallint"/>
 
-    <property name="type.decimal"  value="NUMERIC" dbms="postgresql"/>
-    <property name="type.decimal"  value="decimal(1000, 6)" dbms="h2"/>
+    <property name="type.integer" value="integer"/>
+
+    <property name="type.bigint" value="bigint" dbms="postgresql"/>
+    <property name="type.bigint" value="BIGINT" dbms="h2"/>
+
+    <property name="type.decimal" value="NUMERIC" dbms="postgresql"/>
+    <property name="type.decimal" value="decimal(1000, 6)" dbms="h2"/>
 
     <property name="type.datetime" value="timestamp with time zone"/>
 
-    <property name="type.uuid"     value="char(36)"/>
+    <property name="type.uuid" value="char(36)"/>
 
-    <property name="type.text"     value="text" dbms="postgresql"/>
-    <property name="type.text"     value="varchar(4000)" dbms="h2"/>
+    <property name="type.text" value="text" dbms="postgresql"/>
+    <property name="type.text" value="varchar(4000)" dbms="h2"/>
 
-    <property name="type.clob"     value="text" dbms="postgresql"/>
-    <property name="type.clob"     value="clob" dbms="h2"/>
+    <property name="type.clob" value="text" dbms="postgresql"/>
+    <property name="type.clob" value="clob" dbms="h2"/>
 
-    <property name="type.json"     value="jsonb" dbms="postgresql"/>
-    <property name="type.json"     value="clob" dbms="h2"/>
+    <property name="type.json" value="jsonb" dbms="postgresql"/>
+    <property name="type.json" value="clob" dbms="h2"/>
 
     <!-- Multiple tables -->
-    <property name="type.title" value="text" dbms="postgresql"/>
-    <property name="type.title" value="varchar(512)" dbms="h2"/>
+    <property name="type.title" value="varchar(512)"/>
+    <property name="type.description" value="varchar(4000)"/>
+    <property name="type.user" value="varchar(255)"/>
 
-    <property name="type.description" value="text" dbms="postgresql"/>
-    <property name="type.description" value="varchar(4000)" dbms="h2"/>
-
-    <property name="type.user"     value="text" dbms="postgresql"/>
-    <property name="type.user"     value="varchar(255)" dbms="h2"/>
+    <!-- Radar users table-->
+    <property name="radar_users.type.sub" value="varchar(255)"/>
+    <property name="radar_users.type.username" value="varchar(255)"/>
 
     <!-- Maturities table-->
-    <property name="maturities.type.color" value="text" dbms="postgresql"/>
-    <property name="maturities.type.color" value="varchar(8)" dbms="h2"/>
+    <property name="maturities.type.color" value="varchar(8)"/>
+
+    <!-- Maturities table-->
+    <property name="technologies.type.website" value="varchar(64)"/>
 
 </databaseChangeLog>
