@@ -251,7 +251,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     Assertions.assertEquals(radarUserDto.getId(), licenseDto1.getRadarUserId());
     Assertions.assertEquals(licenseDto.getTitle(), licenseDto1.getTitle());
     Assertions.assertEquals(licenseDto.getDescription(), licenseDto1.getDescription());
-    Assertions.assertEquals(licenseDto.getId(), licenseDto1.getComplianceId());
+    Assertions.assertEquals(licenseDto.getComplianceId(), licenseDto1.getComplianceId());
     Assertions.assertEquals(licenseDto.isActive(), licenseDto1.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
@@ -384,6 +384,15 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     radarUserDto.setSub("My sub");
     radarUserDto.setUsername("My username");
     radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setTitle("High");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
 
     webTestClient.post().uri("/api/v1/licenses/seed")
         .accept(MediaType.APPLICATION_JSON)

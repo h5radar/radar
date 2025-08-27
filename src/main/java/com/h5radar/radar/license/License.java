@@ -1,6 +1,5 @@
 package com.h5radar.radar.license;
 
-import com.h5radar.radar.compliance.Compliance;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +21,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.h5radar.radar.AbstractAuditable;
+import com.h5radar.radar.compliance.Compliance;
 import com.h5radar.radar.radar_user.RadarUser;
 
 @Entity

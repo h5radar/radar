@@ -3,7 +3,6 @@ package com.h5radar.radar.license;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 
-import com.h5radar.radar.compliance.Compliance;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.AbstractRepositoryTests;
+import com.h5radar.radar.compliance.Compliance;
 import com.h5radar.radar.compliance.ComplianceRepository;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;

@@ -7,8 +7,8 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.PlainMapper;
-import com.h5radar.radar.license.LicenseMapper;
 import com.h5radar.radar.config.MapperConfiguration;
+import com.h5radar.radar.license.LicenseMapper;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;
 

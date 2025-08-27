@@ -2,14 +2,14 @@ package com.h5radar.radar.license;
 
 import java.util.Optional;
 
-import com.h5radar.radar.compliance.Compliance;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.h5radar.radar.PlainMapper;
-import com.h5radar.radar.config.MapperConfiguration;
+import com.h5radar.radar.compliance.Compliance;
 import com.h5radar.radar.compliance.ComplianceRepository;
+import com.h5radar.radar.config.MapperConfiguration;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;
 
@@ -42,9 +42,9 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
 
   Compliance getCompliance(LicenseDto licenseDto) {
     if (licenseDto.getComplianceId() != null) {
-      Optional<Compliance> ComplianceOptional = complianceRepository.findById(licenseDto.getComplianceId());
-      if (ComplianceOptional.isPresent()) {
-        return ComplianceOptional.get();
+      Optional<Compliance> complianceOptional = complianceRepository.findById(licenseDto.getComplianceId());
+      if (complianceOptional.isPresent()) {
+        return complianceOptional.get();
       }
     }
     return null;
