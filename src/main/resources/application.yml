@@ -165,3 +165,4 @@ springdoc:
     operations-sorter: method
   paths-to-exclude:
     - /api/v1/application/**
+  writer-with-order-by-keys: true

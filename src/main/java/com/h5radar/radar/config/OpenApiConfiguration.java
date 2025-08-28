@@ -25,14 +25,4 @@ public class OpenApiConfiguration implements WebMvcConfigurer {
         .components(new Components()
             .addSecuritySchemes("Bearer Authentication", createApiKeyScheme()));
   }
-
-  /* TODO:
-  @Bean
-  public OpenApiCustomiser sortSchemasAlphabetically() {
-    return openApi -> {
-      Map<String, Schema> schemas = openApi.getComponents().getSchemas();
-      openApi.getComponents().setSchemas(new TreeMap<>(schemas));
-    };
-  }
-  */
 }
