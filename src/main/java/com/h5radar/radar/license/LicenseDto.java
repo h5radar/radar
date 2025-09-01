@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.h5radar.radar.compliance.ComplianceDto;
+
 /**
  * This class should not have any validation such as @NotNull etc
  * due to custom primary validation at service layer.
@@ -20,7 +22,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "compliance_id", "active" })
+@JsonPropertyOrder({"id", "radar_user_id", "title", "description", "compliance", "active" })
 public class LicenseDto {
 
   private Long id;
@@ -34,10 +36,8 @@ public class LicenseDto {
 
   private String description;
 
-  @JsonProperty("compliance_id")
-  @JsonIdentityReference(alwaysAsId = true)
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  private Long complianceId;
+  @JsonProperty("compliance")
+  private ComplianceDto complianceDto;
 
   private boolean active;
 
