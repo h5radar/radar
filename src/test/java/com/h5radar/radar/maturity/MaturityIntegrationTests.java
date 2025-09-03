@@ -28,7 +28,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -45,7 +45,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(maturityDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(maturityDto.getRadarUserId())
+        .jsonPath("$.content[0].radar_user_id").isEqualTo(maturityDto.getRadarUserDto().getId())
         .jsonPath("$.content[0].title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(maturityDto.getDescription())
         .jsonPath("$.content[0].position").isEqualTo(maturityDto.getPosition())
@@ -66,7 +66,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -82,7 +82,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(maturityDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(maturityDto.getRadarUserId())
+        .jsonPath("$.radar_user_id").isEqualTo(maturityDto.getRadarUserDto().getId())
         .jsonPath("$.title").isEqualTo(maturityDto.getTitle())
         .jsonPath("$.description").isEqualTo(maturityDto.getDescription())
         .jsonPath("$.position").isEqualTo(maturityDto.getPosition())
@@ -103,7 +103,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -121,7 +121,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(maturityDto.getId(), maturityDto1.getId());
-    Assertions.assertEquals(maturityDto.getRadarUserId(), maturityDto1.getRadarUserId());
+    Assertions.assertEquals(maturityDto.getRadarUserDto().getId(), maturityDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(maturityDto.getRadarUserDto().getSub(), maturityDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
@@ -142,7 +143,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(99L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -160,7 +161,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(maturityDto.getId(), maturityDto1.getId());
-    Assertions.assertEquals(maturityDto.getRadarUserId(), maturityDto1.getRadarUserId());
+    Assertions.assertEquals(maturityDto.getRadarUserDto().getId(), maturityDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(maturityDto.getRadarUserDto().getSub(), maturityDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
@@ -181,7 +183,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(null);
+    maturityDto.setRadarUserDto(null);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -199,7 +201,8 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(maturityDto.getId(), maturityDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), maturityDto1.getRadarUserId());
+    Assertions.assertEquals(radarUserDto.getId(), maturityDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(radarUserDto.getSub(), maturityDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(maturityDto.getTitle(), maturityDto1.getTitle());
     Assertions.assertEquals(maturityDto.getDescription(), maturityDto1.getDescription());
     Assertions.assertEquals(maturityDto.getPosition(), maturityDto1.getPosition());
@@ -220,7 +223,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -251,14 +254,14 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
     maturityDto.setColor("#CCCCCC");
     maturityDto = maturityService.save(maturityDto);
 
-    maturityDto.setRadarUserId(null);
+    maturityDto.setRadarUserDto(null);
     webTestClient.put().uri("/api/v1/maturities/{id}", maturityDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
@@ -284,7 +287,7 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
     // Create maturity
     MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("ADOPT");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);

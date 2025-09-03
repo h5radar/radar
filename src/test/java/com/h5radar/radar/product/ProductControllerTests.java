@@ -42,7 +42,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
@@ -56,7 +56,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(productDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(productDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(productDto.getRadarUserDto().getId()), Long.class))
         .andExpect(jsonPath("$.content[0].title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(productDto.getDescription())));
 
@@ -90,7 +90,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
 
@@ -101,7 +101,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserDto().getId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
@@ -135,7 +135,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -149,7 +149,7 @@ public class ProductControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user_id", equalTo(productDto.getRadarUserDto().getId()), Long.class))
         .andExpect(jsonPath("$.title", equalTo(productDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(productDto.getDescription())));
 
@@ -190,7 +190,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -244,7 +244,7 @@ public class ProductControllerTests extends AbstractControllerTests {
 
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 

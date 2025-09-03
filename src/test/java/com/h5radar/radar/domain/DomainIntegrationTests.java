@@ -28,7 +28,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
     domainDto.setPosition(0);
@@ -44,7 +44,8 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(domainDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(domainDto.getRadarUserId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(domainDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(domainDto.getRadarUserDto().getSub())
         .jsonPath("$.content[0].title").isEqualTo(domainDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(domainDto.getDescription())
         .jsonPath("$.content[0].position").isEqualTo(domainDto.getPosition());
@@ -64,7 +65,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
     domainDto.setPosition(0);
@@ -79,7 +80,8 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(domainDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(domainDto.getRadarUserId())
+        .jsonPath("$.radar_user.id").isEqualTo(domainDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.sub").isEqualTo(domainDto.getRadarUserDto().getSub())
         .jsonPath("$.title").isEqualTo(domainDto.getTitle())
         .jsonPath("$.description").isEqualTo(domainDto.getDescription())
         .jsonPath("$.position").isEqualTo(domainDto.getPosition());
@@ -99,7 +101,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -116,7 +118,8 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
-    Assertions.assertEquals(domainDto.getRadarUserId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(domainDto.getRadarUserDto().getId(), domainDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(domainDto.getRadarUserDto().getSub(), domainDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
     Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
     Assertions.assertEquals(domainDto.getPosition(), domainDto1.getPosition());
@@ -136,7 +139,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(99L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -153,7 +156,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
-    Assertions.assertEquals(domainDto.getRadarUserId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(domainDto.getRadarUserDto().getId(), domainDto1.getRadarUserDto().getId());
     Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
     Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
     Assertions.assertEquals(domainDto.getPosition(), domainDto1.getPosition());
@@ -173,7 +176,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(null);
+    domainDto.setRadarUserDto(null);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -190,7 +193,8 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(domainDto.getId(), domainDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), domainDto1.getRadarUserId());
+    Assertions.assertEquals(radarUserDto.getId(), domainDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(radarUserDto.getSub(), domainDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(domainDto.getTitle(), domainDto1.getTitle());
     Assertions.assertEquals(domainDto.getDescription(), domainDto1.getDescription());
     Assertions.assertEquals(domainDto.getPosition(), domainDto1.getPosition());
@@ -210,7 +214,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -240,13 +244,13 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
     domainDto = domainService.save(domainDto);
 
-    domainDto.setRadarUserId(null);
+    domainDto.setRadarUserDto(null);
     webTestClient.put().uri("/api/v1/domains/{id}", domainDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
@@ -272,7 +276,7 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
     // Create domain
     DomainDto domainDto = new DomainDto();
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);

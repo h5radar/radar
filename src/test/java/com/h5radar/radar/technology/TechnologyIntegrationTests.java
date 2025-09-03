@@ -31,7 +31,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");
@@ -50,7 +50,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(technologyDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(technologyDto.getRadarUserId())
+        .jsonPath("$.content[0].radar_user_id").isEqualTo(technologyDto.getRadarUserDto().getId())
         .jsonPath("$.content[0].title").isEqualTo(technologyDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(technologyDto.getDescription())
         .jsonPath("$.content[0].website").isEqualTo(technologyDto.getWebsite())
@@ -72,7 +72,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setTitle("My title");
     technologyDto.setDescription("My description");
     technologyDto.setWebsite("My website");
@@ -89,7 +89,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(technologyDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(technologyDto.getRadarUserId())
+        .jsonPath("$.radar_user_id").isEqualTo(technologyDto.getRadarUserDto().getId())
         .jsonPath("$.title").isEqualTo(technologyDto.getTitle())
         .jsonPath("$.description").isEqualTo(technologyDto.getDescription())
         .jsonPath("$.website").isEqualTo(technologyDto.getWebsite())
@@ -111,7 +111,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -130,7 +130,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
-    Assertions.assertEquals(technologyDto.getRadarUserId(), technologyDto1.getRadarUserId());
+    Assertions.assertEquals(technologyDto.getRadarUserDto().getId(), technologyDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(technologyDto.getRadarUserDto().getSub(), technologyDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
     Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
     Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
@@ -152,7 +153,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(99L);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -171,7 +172,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
-    Assertions.assertEquals(technologyDto.getRadarUserId(), technologyDto1.getRadarUserId());
+    Assertions.assertEquals(technologyDto.getRadarUserDto().getId(), technologyDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(technologyDto.getRadarUserDto().getSub(), technologyDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
     Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
     Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
@@ -193,7 +195,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(null);
+    technologyDto.setRadarUserDto(null);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -212,7 +214,8 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(technologyDto.getId(), technologyDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), technologyDto1.getRadarUserId());
+    Assertions.assertEquals(radarUserDto.getId(), technologyDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(radarUserDto.getSub(), technologyDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(technologyDto.getTitle(), technologyDto1.getTitle());
     Assertions.assertEquals(technologyDto.getDescription(), technologyDto1.getDescription());
     Assertions.assertEquals(technologyDto.getWebsite(), technologyDto1.getWebsite());
@@ -234,7 +237,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -266,7 +269,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
@@ -274,7 +277,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     technologyDto.setActive(true);
     technologyDto = technologyService.save(technologyDto);
 
-    technologyDto.setRadarUserId(null);
+    technologyDto.setRadarUserDto(null);
     webTestClient.put().uri("/api/v1/technologies/{id}", technologyDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
@@ -299,7 +302,7 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
     // Create technology
     TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserDto.getId());
+    technologyDto.setRadarUserDto(radarUserDto);
     technologyDto.setWebsite("My website");
     technologyDto.setTitle("My technology");
     technologyDto.setDescription("My technology description");
