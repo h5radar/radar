@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
-
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
 @Tag(name = "Product API")
@@ -63,7 +63,7 @@ public class ProductController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody ProductDto productDto) {
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserId);
+    productDto.setRadarUserDto(new RadarUserDto(radarUserId));
     productDto = productService.save(productDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(productDto);
   }
@@ -77,7 +77,7 @@ public class ProductController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     productDto.setId(id);
-    productDto.setRadarUserId(radarUserId);
+    productDto.setRadarUserDto(new RadarUserDto(radarUserId));
     productService.save(productDto);
     return ResponseEntity.status(HttpStatus.OK).body(productDto);
   }

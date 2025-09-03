@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 
 @RestController
@@ -66,7 +67,7 @@ public class DomainController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody DomainDto domainDto) {
     domainDto.setId(null);
-    domainDto.setRadarUserId(radarUserId);
+    domainDto.setRadarUserDto(new RadarUserDto(radarUserId));
     domainDto = domainService.save(domainDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(domainDto);
   }
@@ -80,7 +81,7 @@ public class DomainController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     domainDto.setId(id);
-    domainDto.setRadarUserId(radarUserId);
+    domainDto.setRadarUserDto(new RadarUserDto(radarUserId));
     domainService.save(domainDto);
     return ResponseEntity.status(HttpStatus.OK).body(domainDto);
   }
