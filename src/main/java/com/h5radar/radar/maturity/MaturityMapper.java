@@ -18,15 +18,24 @@ public abstract class MaturityMapper implements PlainMapper<Maturity, MaturityDt
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
-  @Mapping(source = "radarUser.id", target = "radarUserId")
+  @Mapping(source = "radarUser.id", target = "radarUserDto.id")
+  @Mapping(source = "radarUser.sub", target = "radarUserDto.sub")
+  @Mapping(source = "radarUser.username", target = "radarUserDto.username")
+  @Mapping(target = "radarUserDto.complianceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.domainDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.maturityDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.licenseDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.practiceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.technologyDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.productDtoList", ignore = true)
   public abstract MaturityDto toDto(final Maturity entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
   public abstract Maturity toEntity(final MaturityDto dto);
 
   RadarUser getRadarUser(MaturityDto maturityDto) {
-    if (maturityDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(maturityDto.getRadarUserId());
+    if (maturityDto.getRadarUserDto() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(maturityDto.getRadarUserDto().getId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }
