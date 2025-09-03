@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
 @Tag(name = "Technology API")
@@ -65,7 +66,7 @@ public class TechnologyController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody TechnologyDto technologyDto) {
     technologyDto.setId(null);
-    technologyDto.setRadarUserId(radarUserId);
+    technologyDto.setRadarUserDto(new RadarUserDto(radarUserId));
     technologyDto = technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(technologyDto);
   }
@@ -79,7 +80,7 @@ public class TechnologyController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     technologyDto.setId(id);
-    technologyDto.setRadarUserId(radarUserId);
+    technologyDto.setRadarUserDto(new RadarUserDto(radarUserId));
     technologyService.save(technologyDto);
     return ResponseEntity.status(HttpStatus.OK).body(technologyDto);
   }

@@ -42,7 +42,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setRadarUserDto(radarUserDto);
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
     practiceDto.setActive(true);
@@ -57,7 +57,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(practiceDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(practiceDto.isActive())));
@@ -92,7 +93,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setRadarUserDto(radarUserDto);
     practiceDto.setTitle("My title");
     practiceDto.setDescription("My description");
     practiceDto.setActive(true);
@@ -105,7 +106,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
@@ -140,7 +142,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setRadarUserDto(radarUserDto);
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);
@@ -155,7 +157,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
@@ -196,7 +199,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setRadarUserDto(radarUserDto);
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);
@@ -253,7 +256,7 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
-    practiceDto.setRadarUserId(radarUserDto.getId());
+    practiceDto.setRadarUserDto(radarUserDto);
     practiceDto.setTitle("My practice");
     practiceDto.setDescription("My practice description");
     practiceDto.setActive(true);

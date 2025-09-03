@@ -42,7 +42,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setRadarUserDto(radarUserDto);
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
     licenseDto.setActive(true);
@@ -57,7 +57,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(licenseDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(licenseDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(licenseDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(licenseDto.isActive())));
@@ -92,7 +93,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setRadarUserDto(radarUserDto);
     licenseDto.setTitle("My title");
     licenseDto.setDescription("My description");
     licenseDto.setActive(true);
@@ -105,7 +106,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(licenseDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(licenseDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
@@ -140,7 +142,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setRadarUserDto(radarUserDto);
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
@@ -155,7 +157,8 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(licenseDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(licenseDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(licenseDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(licenseDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(licenseDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(licenseDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(licenseDto.isActive())));
@@ -196,7 +199,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setRadarUserDto(radarUserDto);
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);
@@ -253,7 +256,7 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
-    licenseDto.setRadarUserId(radarUserDto.getId());
+    licenseDto.setRadarUserDto(radarUserDto);
     licenseDto.setTitle("My license");
     licenseDto.setDescription("My license description");
     licenseDto.setActive(true);

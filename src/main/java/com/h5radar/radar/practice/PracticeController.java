@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
+
 
 @RestController
 @Tag(name = "Practice API")
@@ -65,7 +67,7 @@ public class PracticeController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody PracticeDto practiceDto) {
     practiceDto.setId(null);
-    practiceDto.setRadarUserId(radarUserId);
+    practiceDto.setRadarUserDto(new RadarUserDto(radarUserId));
     practiceDto = practiceService.save(practiceDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(practiceDto);
   }
@@ -79,7 +81,7 @@ public class PracticeController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     practiceDto.setId(id);
-    practiceDto.setRadarUserId(radarUserId);
+    practiceDto.setRadarUserDto(new RadarUserDto(radarUserId));
     practiceService.save(practiceDto);
     return ResponseEntity.status(HttpStatus.OK).body(practiceDto);
   }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
 @Tag(name = "License API")
@@ -65,7 +66,7 @@ public class LicenseController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody LicenseDto licenseDto) {
     licenseDto.setId(null);
-    licenseDto.setRadarUserId(radarUserId);
+    licenseDto.setRadarUserDto(new RadarUserDto(radarUserId));
     licenseDto = licenseService.save(licenseDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(licenseDto);
   }
@@ -79,7 +80,7 @@ public class LicenseController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     licenseDto.setId(id);
-    licenseDto.setRadarUserId(radarUserId);
+    licenseDto.setRadarUserDto(new RadarUserDto(radarUserId));
     licenseService.save(licenseDto);
     return ResponseEntity.status(HttpStatus.OK).body(licenseDto);
   }

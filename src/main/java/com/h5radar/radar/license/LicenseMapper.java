@@ -23,7 +23,16 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
   @Autowired
   protected ComplianceRepository complianceRepository;
 
-  @Mapping(source = "radarUser.id", target = "radarUserId")
+  @Mapping(source = "radarUser.id", target = "radarUserDto.id")
+  @Mapping(source = "radarUser.sub", target = "radarUserDto.sub")
+  @Mapping(source = "radarUser.username", target = "radarUserDto.username")
+  @Mapping(target = "radarUserDto.complianceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.domainDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.maturityDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.licenseDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.practiceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.technologyDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.productDtoList", ignore = true)
   @Mapping(source = "compliance.id", target = "complianceDto.id")
   @Mapping(source = "compliance.title", target = "complianceDto.title")
   @Mapping(source = "compliance.active", target = "complianceDto.active")
@@ -36,8 +45,8 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
   public abstract License toEntity(final LicenseDto dto);
 
   RadarUser getRadarUser(LicenseDto licenseDto) {
-    if (licenseDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(licenseDto.getRadarUserId());
+    if (licenseDto.getRadarUserDto() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(licenseDto.getRadarUserDto().getId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }

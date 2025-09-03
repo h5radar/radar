@@ -42,7 +42,7 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     final DomainDto domainDto = new DomainDto();
     domainDto.setId(10L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
     domainDto.setPosition(0);
@@ -57,7 +57,8 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(domainDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(domainDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(domainDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(domainDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(domainDto.getDescription())))
         .andExpect(jsonPath("$.content[0].position", equalTo(domainDto.getPosition())));
@@ -123,7 +124,7 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     final DomainDto domainDto = new DomainDto();
     domainDto.setId(10L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My title");
     domainDto.setDescription("My description");
     domainDto.setPosition(0);
@@ -136,7 +137,8 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(domainDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(domainDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(domainDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
         .andExpect(jsonPath("$.position", equalTo(domainDto.getPosition())));
@@ -171,7 +173,7 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     final DomainDto domainDto = new DomainDto();
     domainDto.setId(10L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -186,7 +188,8 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(domainDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(domainDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(domainDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(domainDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
         .andExpect(jsonPath("$.position", equalTo(domainDto.getPosition())));
@@ -227,7 +230,7 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     final DomainDto domainDto = new DomainDto();
     domainDto.setId(10L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);
@@ -284,7 +287,7 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     final DomainDto domainDto = new DomainDto();
     domainDto.setId(10L);
-    domainDto.setRadarUserId(radarUserDto.getId());
+    domainDto.setRadarUserDto(radarUserDto);
     domainDto.setTitle("My domain");
     domainDto.setDescription("My domain description");
     domainDto.setPosition(0);

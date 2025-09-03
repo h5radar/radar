@@ -42,7 +42,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -58,7 +58,8 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(maturityDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(maturityDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(maturityDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(maturityDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(maturityDto.getDescription())))
         .andExpect(jsonPath("$.content[0].position", equalTo(maturityDto.getPosition())))
@@ -122,7 +123,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("My title");
     maturityDto.setDescription("My description");
     maturityDto.setPosition(0);
@@ -137,7 +138,8 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(maturityDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(maturityDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(maturityDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
         .andExpect(jsonPath("$.position", equalTo(maturityDto.getPosition())))
@@ -173,7 +175,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);
@@ -189,7 +191,8 @@ public class MaturityControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(maturityDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(maturityDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(maturityDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(maturityDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(maturityDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(maturityDto.getDescription())))
         .andExpect(jsonPath("$.position", equalTo(maturityDto.getPosition())))
@@ -231,7 +234,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);
@@ -289,7 +292,7 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
-    maturityDto.setRadarUserId(radarUserDto.getId());
+    maturityDto.setRadarUserDto(radarUserDto);
     maturityDto.setTitle("My maturity");
     maturityDto.setDescription("My maturity description");
     maturityDto.setPosition(0);

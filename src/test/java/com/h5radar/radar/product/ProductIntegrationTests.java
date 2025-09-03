@@ -28,7 +28,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     // Create product
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
     productDto = productService.save(productDto);
@@ -43,7 +43,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(productDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(productDto.getRadarUserId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(productDto.getRadarUserDto().getSub())
         .jsonPath("$.content[0].title").isEqualTo(productDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(productDto.getDescription());
 
@@ -62,7 +63,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
     // Create product
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My title");
     productDto.setDescription("My description");
     productDto = productService.save(productDto);
@@ -76,7 +77,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(productDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(productDto.getRadarUserId())
+        .jsonPath("$.radar_user.id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.sub").isEqualTo(productDto.getRadarUserDto().getSub())
         .jsonPath("$.title").isEqualTo(productDto.getTitle())
         .jsonPath("$.description").isEqualTo(productDto.getDescription());
 
@@ -95,7 +97,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -111,7 +113,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(productDto.getId(), productDto1.getId());
-    Assertions.assertEquals(productDto.getRadarUserId(), productDto1.getRadarUserId());
+    Assertions.assertEquals(productDto.getRadarUserDto().getId(), productDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(productDto.getRadarUserDto().getSub(), productDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(productDto.getTitle(), productDto1.getTitle());
     Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
 
@@ -129,7 +132,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(99L);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -145,7 +148,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(productDto.getId(), productDto1.getId());
-    Assertions.assertEquals(productDto.getRadarUserId(), productDto1.getRadarUserId());
+    Assertions.assertEquals(productDto.getRadarUserDto().getId(), productDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(productDto.getRadarUserDto().getSub(), productDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(productDto.getTitle(), productDto1.getTitle());
     Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
 
@@ -163,7 +167,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(null);
+    productDto.setRadarUserDto(null);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
 
@@ -179,7 +183,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(productDto.getId(), productDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), productDto1.getRadarUserId());
+    Assertions.assertEquals(radarUserDto.getId(), productDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(radarUserDto.getSub(), productDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(productDto.getTitle(), productDto1.getTitle());
     Assertions.assertEquals(productDto.getDescription(), productDto1.getDescription());
 
@@ -198,7 +203,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
     productDto = productService.save(productDto);
@@ -226,12 +231,12 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
     productDto = productService.save(productDto);
 
-    productDto.setRadarUserId(null);
+    productDto.setRadarUserDto(null);
     webTestClient.put().uri("/api/v1/products/{id}", productDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
@@ -255,7 +260,7 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
 
     ProductDto productDto = new ProductDto();
     productDto.setId(null);
-    productDto.setRadarUserId(radarUserDto.getId());
+    productDto.setRadarUserDto(radarUserDto);
     productDto.setTitle("My product");
     productDto.setDescription("My product description");
     productDto = productService.save(productDto);

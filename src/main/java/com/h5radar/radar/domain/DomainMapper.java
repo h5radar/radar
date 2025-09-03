@@ -16,15 +16,24 @@ public abstract class DomainMapper implements PlainMapper<Domain, DomainDto> {
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
-  @Mapping(source = "radarUser.id", target = "radarUserId")
+  @Mapping(source = "radarUser.id", target = "radarUserDto.id")
+  @Mapping(source = "radarUser.sub", target = "radarUserDto.sub")
+  @Mapping(source = "radarUser.username", target = "radarUserDto.username")
+  @Mapping(target = "radarUserDto.complianceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.domainDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.maturityDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.licenseDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.practiceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.technologyDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.productDtoList", ignore = true)
   public abstract DomainDto toDto(final Domain entity);
 
   @Mapping(target = "radarUser", expression = "java(getRadarUser(dto))")
   public abstract Domain toEntity(final DomainDto dto);
 
   RadarUser getRadarUser(DomainDto domainDto) {
-    if (domainDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(domainDto.getRadarUserId());
+    if (domainDto.getRadarUserDto() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(domainDto.getRadarUserDto().getId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }

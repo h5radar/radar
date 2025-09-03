@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
+
 
 @RestController
 @Tag(name = "Maturity API")
@@ -65,7 +67,7 @@ public class MaturityController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody MaturityDto maturityDto) {
     maturityDto.setId(null);
-    maturityDto.setRadarUserId(radarUserId);
+    maturityDto.setRadarUserDto(new RadarUserDto(radarUserId));
     maturityDto = maturityService.save(maturityDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(maturityDto);
   }
@@ -79,7 +81,7 @@ public class MaturityController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     maturityDto.setId(id);
-    maturityDto.setRadarUserId(radarUserId);
+    maturityDto.setRadarUserDto(new RadarUserDto(radarUserId));
     maturityService.save(maturityDto);
     return ResponseEntity.status(HttpStatus.OK).body(maturityDto);
   }
