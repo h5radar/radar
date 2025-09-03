@@ -57,7 +57,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(practiceDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(practiceDto.isActive())));
@@ -105,7 +106,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));
@@ -155,7 +157,8 @@ public class PracticeControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(practiceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(practiceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(practiceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(practiceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(practiceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(practiceDto.isActive())));

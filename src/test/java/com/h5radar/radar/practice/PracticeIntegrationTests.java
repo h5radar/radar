@@ -44,7 +44,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(practiceDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(practiceDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(practiceDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(practiceDto.getRadarUserDto().getSub())
         .jsonPath("$.content[0].title").isEqualTo(practiceDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(practiceDto.getDescription())
         .jsonPath("$.content[0].active").isEqualTo(practiceDto.isActive());
@@ -79,7 +80,8 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(practiceDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(practiceDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.id").isEqualTo(practiceDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.sub").isEqualTo(practiceDto.getRadarUserDto().getSub())
         .jsonPath("$.title").isEqualTo(practiceDto.getTitle())
         .jsonPath("$.description").isEqualTo(practiceDto.getDescription())
         .jsonPath("$.active").isEqualTo(practiceDto.isActive());

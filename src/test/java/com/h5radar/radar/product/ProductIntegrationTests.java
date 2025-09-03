@@ -43,7 +43,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(productDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(productDto.getRadarUserDto().getSub())
         .jsonPath("$.content[0].title").isEqualTo(productDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(productDto.getDescription());
 
@@ -76,7 +77,8 @@ class ProductIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(productDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.id").isEqualTo(productDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.sub").isEqualTo(productDto.getRadarUserDto().getSub())
         .jsonPath("$.title").isEqualTo(productDto.getTitle())
         .jsonPath("$.description").isEqualTo(productDto.getDescription());
 

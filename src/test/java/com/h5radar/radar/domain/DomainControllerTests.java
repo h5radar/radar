@@ -138,7 +138,7 @@ public class DomainControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(domainDto.getId()), Long.class))
         .andExpect(jsonPath("$.radar_user.id", equalTo(domainDto.getRadarUserDto().getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user.sub", equalTo(domainDto.getRadarUserDto().getSub()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(domainDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(domainDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(domainDto.getDescription())))
         .andExpect(jsonPath("$.position", equalTo(domainDto.getPosition())));
