@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
 @Tag(name = "Compliance API")
@@ -65,7 +66,7 @@ public class ComplianceController {
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @RequestBody ComplianceDto complianceDto) {
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserId);
+    complianceDto.setRadarUserDto(new RadarUserDto(radarUserId));
     complianceDto = complianceService.save(complianceDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(complianceDto);
   }
@@ -79,7 +80,7 @@ public class ComplianceController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     complianceDto.setId(id);
-    complianceDto.setRadarUserId(radarUserId);
+    complianceDto.setRadarUserDto(new RadarUserDto(radarUserId));
     complianceService.save(complianceDto);
     return ResponseEntity.status(HttpStatus.OK).body(complianceDto);
   }

@@ -19,7 +19,16 @@ public abstract class ComplianceMapper implements PlainMapper<Compliance, Compli
   @Autowired
   protected RadarUserRepository radarUserRepository;
 
-  @Mapping(source = "radarUser.id", target = "radarUserId")
+  @Mapping(source = "radarUser.id", target = "radarUserDto.id")
+  @Mapping(source = "radarUser.sub", target = "radarUserDto.sub")
+  @Mapping(source = "radarUser.username", target = "radarUserDto.username")
+  @Mapping(target = "radarUserDto.complianceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.domainDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.maturityDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.licenseDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.practiceDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.technologyDtoList", ignore = true)
+  @Mapping(target = "radarUserDto.productDtoList", ignore = true)
   @Mapping(source = "licenseList", target = "licenseDtoList")
   public abstract ComplianceDto toDto(final Compliance entity);
 
@@ -28,8 +37,8 @@ public abstract class ComplianceMapper implements PlainMapper<Compliance, Compli
   public abstract Compliance toEntity(final ComplianceDto dto);
 
   RadarUser getRadarUser(ComplianceDto complianceDto) {
-    if (complianceDto.getRadarUserId() != null) {
-      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(complianceDto.getRadarUserId());
+    if (complianceDto.getRadarUserDto() != null) {
+      Optional<RadarUser> radarUserOptional = radarUserRepository.findById(complianceDto.getRadarUserDto().getId());
       if (radarUserOptional.isPresent()) {
         return radarUserOptional.get();
       }

@@ -42,7 +42,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     final ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(10L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -57,7 +57,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content").isArray())
         .andExpect(jsonPath("$.content", hasSize(complianceDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(complianceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.content[0].radar_user_id", equalTo(complianceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.id", equalTo(complianceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.content[0].radar_user.sub", equalTo(complianceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.content[0].title", equalTo(complianceDto.getTitle())))
         .andExpect(jsonPath("$.content[0].description", equalTo(complianceDto.getDescription())))
         .andExpect(jsonPath("$.content[0].active", equalTo(complianceDto.isActive())));
@@ -92,7 +93,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     final ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(10L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -105,7 +106,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(complianceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(complianceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(complianceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(complianceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(complianceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(complianceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(complianceDto.isActive())));
@@ -140,7 +142,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     final ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(10L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -155,7 +157,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(complianceDto.getId()), Long.class))
-        .andExpect(jsonPath("$.radar_user_id", equalTo(complianceDto.getRadarUserId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.id", equalTo(complianceDto.getRadarUserDto().getId()), Long.class))
+        .andExpect(jsonPath("$.radar_user.sub", equalTo(complianceDto.getRadarUserDto().getSub())))
         .andExpect(jsonPath("$.title", equalTo(complianceDto.getTitle())))
         .andExpect(jsonPath("$.description", equalTo(complianceDto.getDescription())))
         .andExpect(jsonPath("$.active", equalTo(complianceDto.isActive())));
@@ -196,7 +199,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     final ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(10L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -253,7 +256,7 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     final ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(10L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);

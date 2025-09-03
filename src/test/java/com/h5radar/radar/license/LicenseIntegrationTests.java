@@ -34,7 +34,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -82,7 +82,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -129,7 +129,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -178,7 +178,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -227,7 +227,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -276,7 +276,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -316,7 +316,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -359,7 +359,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -396,7 +396,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     for (String compliance : Arrays.asList("High", "Medium", "Low")) {
       ComplianceDto complianceDto = new ComplianceDto();
       complianceDto.setId(null);
-      complianceDto.setRadarUserId(radarUserDto.getId());
+      complianceDto.setRadarUserDto(radarUserDto);
       complianceDto.setTitle(compliance);
       complianceDto.setDescription("My description");
       complianceDto.setActive(true);

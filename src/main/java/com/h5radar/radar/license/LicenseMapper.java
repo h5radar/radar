@@ -27,7 +27,7 @@ public abstract class LicenseMapper implements PlainMapper<License, LicenseDto> 
   @Mapping(source = "compliance.id", target = "complianceDto.id")
   @Mapping(source = "compliance.title", target = "complianceDto.title")
   @Mapping(source = "compliance.active", target = "complianceDto.active")
-  @Mapping(target = "complianceDto.radarUserId", ignore = true)
+  @Mapping(target = "complianceDto.radarUserDto", ignore = true)
   @Mapping(target = "complianceDto.licenseDtoList", ignore = true)
   public abstract LicenseDto toDto(final License entity);
 

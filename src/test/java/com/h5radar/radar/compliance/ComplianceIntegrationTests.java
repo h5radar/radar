@@ -28,7 +28,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -44,7 +44,8 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(complianceDto.getId())
-        .jsonPath("$.content[0].radar_user_id").isEqualTo(complianceDto.getRadarUserId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(complianceDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(complianceDto.getRadarUserDto().getSub())
         .jsonPath("$.content[0].title").isEqualTo(complianceDto.getTitle())
         .jsonPath("$.content[0].description").isEqualTo(complianceDto.getDescription())
         .jsonPath("$.content[0].active").isEqualTo(complianceDto.isActive());
@@ -64,7 +65,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My title");
     complianceDto.setDescription("My description");
     complianceDto.setActive(true);
@@ -79,7 +80,8 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(complianceDto.getId())
-        .jsonPath("$.radar_user_id").isEqualTo(complianceDto.getRadarUserId())
+        .jsonPath("$.radar_user.id").isEqualTo(complianceDto.getRadarUserDto().getId())
+        .jsonPath("$.radar_user.sub").isEqualTo(complianceDto.getRadarUserDto().getSub())
         .jsonPath("$.title").isEqualTo(complianceDto.getTitle())
         .jsonPath("$.description").isEqualTo(complianceDto.getDescription())
         .jsonPath("$.active").isEqualTo(complianceDto.isActive());
@@ -99,7 +101,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -116,7 +118,8 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(complianceDto.getId(), complianceDto1.getId());
-    Assertions.assertEquals(complianceDto.getRadarUserId(), complianceDto1.getRadarUserId());
+    Assertions.assertEquals(complianceDto.getRadarUserDto().getId(), complianceDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(complianceDto.getRadarUserDto().getSub(), complianceDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(complianceDto.getTitle(), complianceDto1.getTitle());
     Assertions.assertEquals(complianceDto.getDescription(), complianceDto1.getDescription());
     Assertions.assertEquals(complianceDto.isActive(), complianceDto1.isActive());
@@ -136,7 +139,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(99L);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -153,7 +156,8 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(complianceDto.getId(), complianceDto1.getId());
-    Assertions.assertEquals(complianceDto.getRadarUserId(), complianceDto1.getRadarUserId());
+    Assertions.assertEquals(complianceDto.getRadarUserDto().getId(), complianceDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(complianceDto.getRadarUserDto().getSub(), complianceDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(complianceDto.getTitle(), complianceDto1.getTitle());
     Assertions.assertEquals(complianceDto.getDescription(), complianceDto1.getDescription());
     Assertions.assertEquals(complianceDto.isActive(), complianceDto1.isActive());
@@ -173,7 +177,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(null);
+    complianceDto.setRadarUserDto(null);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -190,7 +194,8 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
         .getResponseBody();
 
     Assertions.assertNotEquals(complianceDto.getId(), complianceDto1.getId());
-    Assertions.assertEquals(radarUserDto.getId(), complianceDto1.getRadarUserId());
+    Assertions.assertEquals(radarUserDto.getId(), complianceDto1.getRadarUserDto().getId());
+    Assertions.assertEquals(radarUserDto.getSub(), complianceDto1.getRadarUserDto().getSub());
     Assertions.assertEquals(complianceDto.getTitle(), complianceDto1.getTitle());
     Assertions.assertEquals(complianceDto.getDescription(), complianceDto1.getDescription());
     Assertions.assertEquals(complianceDto.isActive(), complianceDto1.isActive());
@@ -210,7 +215,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
@@ -240,13 +245,13 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
     complianceDto = complianceService.save(complianceDto);
 
-    complianceDto.setRadarUserId(null);
+    complianceDto.setRadarUserDto(null);
     webTestClient.put().uri("/api/v1/compliances/{id}", complianceDto.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
@@ -272,7 +277,7 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
     // Create compliance
     ComplianceDto complianceDto = new ComplianceDto();
     complianceDto.setId(null);
-    complianceDto.setRadarUserId(radarUserDto.getId());
+    complianceDto.setRadarUserDto(radarUserDto);
     complianceDto.setTitle("My compliance");
     complianceDto.setDescription("My compliance description");
     complianceDto.setActive(true);
