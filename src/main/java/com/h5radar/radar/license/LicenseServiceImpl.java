@@ -28,6 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 
+import com.h5radar.radar.Aggregate;
+import com.h5radar.radar.Aggregateable;
 import com.h5radar.radar.ModelError;
 import com.h5radar.radar.ValidationException;
 import com.h5radar.radar.compliance.Compliance;
@@ -155,16 +157,14 @@ public class LicenseServiceImpl implements LicenseService {
 
   @Override
   @Transactional(readOnly = true)
-  public Stat<LicenseByComplianceDto> groupByCompliance(Long radarUserId, Statable statable) {
+  public Aggregate<LicenseByComplianceDto> groupByCompliance(Long radarUserId, Aggregateable aggregateable) {
     List<Object[]> rows = licenseRepository.groupByComplianceRaw(radarUserId);
-
-    // маппим к DTO
     var items = rows.stream()
         .map(r -> new LicenseByComplianceDto((Long) r[0], (String) r[1], ((Number) r[2]).longValue()
         ))
         .toList();
 
     long total = items.stream().mapToLong(LicenseByComplianceDto::count).sum();
-    return new Stat<>(total, Stat.SortMeta.unsorted(), items);
+    return new Aggregate<>(total, Aggregate.SortMeta.ofUnsorted(), items);
   }
 }

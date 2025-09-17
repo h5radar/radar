@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.h5radar.radar.Aggregate;
+import com.h5radar.radar.Aggregateable;
 import com.h5radar.radar.RadarConstants;
-import com.h5radar.radar.Stat;
-import com.h5radar.radar.Statable;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
@@ -118,11 +118,11 @@ public class LicenseController {
   }
 
   @GetMapping("/by-compliance")
-  public ResponseEntity<Stat<LicenseByComplianceDto>> byCompliance(
+  public ResponseEntity<Aggregate<LicenseByComplianceDto>> byCompliance(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
   ) {
     // сортировка упразднена; Statable оставляем для совместимости интерфейса
-    var payload = licenseService.groupByCompliance(radarUserId, Statable.unsorted());
+    var payload = licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
     return ResponseEntity.ok(payload);
   }
 }
