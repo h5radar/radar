@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.Stat;
+import com.h5radar.radar.Statable;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
 @RestController
@@ -113,5 +115,14 @@ public class LicenseController {
       }
     }
     return ResponseEntity.status(HttpStatus.OK).body(null);
+  }
+
+  @GetMapping("/by-compliance")
+  public ResponseEntity<Stat<LicenseByComplianceDto>> byCompliance(
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
+  ) {
+    // сортировка упразднена; Statable оставляем для совместимости интерфейса
+    var payload = licenseService.groupByCompliance(radarUserId, Statable.unsorted());
+    return ResponseEntity.ok(payload);
   }
 }

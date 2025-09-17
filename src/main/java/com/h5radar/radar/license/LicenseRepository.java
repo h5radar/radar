@@ -17,4 +17,13 @@ public interface LicenseRepository extends JpaRepository<License, Long>,
   long countByRadarUserId(@NotNull long radarUserId);
 
   long deleteByRadarUserId(@NotNull long radarUserId);
+
+  @Query("""
+      select c.id, c.title, count(l.id)
+      from License l
+      left join l.compliance c
+      where l.radarUser.id = :radarUserId
+      group by c.id, c.title
+      """)
+  List<Object[]> groupByComplianceRaw(@Param("radarUserId") Long radarUserId);
 }

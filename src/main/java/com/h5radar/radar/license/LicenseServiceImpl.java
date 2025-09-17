@@ -152,4 +152,19 @@ public class LicenseServiceImpl implements LicenseService {
       }
     }
   }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Stat<LicenseByComplianceDto> groupByCompliance(Long radarUserId, Statable statable) {
+    List<Object[]> rows = licenseRepository.groupByComplianceRaw(radarUserId);
+
+    // маппим к DTO
+    var items = rows.stream()
+        .map(r -> new LicenseByComplianceDto((Long) r[0], (String) r[1], ((Number) r[2]).longValue()
+        ))
+        .toList();
+
+    long total = items.stream().mapToLong(LicenseByComplianceDto::count).sum();
+    return new Stat<>(total, Stat.SortMeta.unsorted(), items);
+  }
 }

@@ -25,4 +25,6 @@ public interface LicenseService {
   long countByRadarUserId(Long radarUserId);
 
   void seed(Long radarUserId) throws Exception;
+
+  Stat<LicenseByComplianceDto> groupByCompliance(Long radarUserId, Statable statable);
 }
