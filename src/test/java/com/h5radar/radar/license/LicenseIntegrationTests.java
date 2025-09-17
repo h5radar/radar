@@ -50,7 +50,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
     licenseDto.setActive(true);
     licenseDto = licenseService.save(licenseDto);
 
-    webTestClient.get().uri("/api/v1/licenses/by-compliance")
+    webTestClient.get().uri("/api/v1/licenses")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -58,16 +58,15 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .expectBody()
         .jsonPath("$").isNotEmpty()
         .jsonPath("$").isMap()
-        .jsonPath("$.total").isEqualTo(1)
-        .jsonPath("$.sort.sorted").isEqualTo(false)
-        .jsonPath("$.sort.unsorted").isEqualTo(true)
-        .jsonPath("$.sort.empty").isEqualTo(true)
         .jsonPath("$.content").isArray()
-        .jsonPath("$.content.length()").isEqualTo(1)
-        .jsonPath("$.content[0].complianceId").isEqualTo(complianceDto.getId())
-        .jsonPath("$.content[0].title").isEqualTo(complianceDto.getTitle())
-        .jsonPath("$.content[0].count").isEqualTo(1);
-
+        .jsonPath("$.content[0].id").isEqualTo(licenseDto.getId())
+        .jsonPath("$.content[0].radar_user.id").isEqualTo(licenseDto.getRadarUserDto().getId())
+        .jsonPath("$.content[0].radar_user.sub").isEqualTo(licenseDto.getRadarUserDto().getSub())
+        .jsonPath("$.content[0].title").isEqualTo(licenseDto.getTitle())
+        .jsonPath("$.content[0].description").isEqualTo(licenseDto.getDescription())
+        .jsonPath("$.content[0].compliance.id").isEqualTo(licenseDto.getComplianceDto().getId())
+        .jsonPath("$.content[0].compliance.title").isEqualTo(licenseDto.getComplianceDto().getTitle())
+        .jsonPath("$.content[0].active").isEqualTo(licenseDto.isActive());
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -413,6 +412,56 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk();
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldGetLicensesByComplianceId() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserDto(radarUserDto);
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
+    // Create license
+    LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(null);
+    licenseDto.setRadarUserDto(radarUserDto);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setComplianceDto(complianceDto);
+    licenseDto.setActive(true);
+    licenseDto = licenseService.save(licenseDto);
+
+    webTestClient.get().uri("/api/v1/licenses/by-compliance")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody()
+        .jsonPath("$").isNotEmpty()
+        .jsonPath("$").isMap()
+        .jsonPath("$.total").isEqualTo(1)
+        .jsonPath("$.sort.sorted").isEqualTo(false)
+        .jsonPath("$.sort.unsorted").isEqualTo(true)
+        .jsonPath("$.sort.empty").isEqualTo(true)
+        .jsonPath("$.content").isArray()
+        .jsonPath("$.content.length()").isEqualTo(1)
+        .jsonPath("$.content[0].complianceId").isEqualTo(complianceDto.getId())
+        .jsonPath("$.content[0].title").isEqualTo(complianceDto.getTitle())
+        .jsonPath("$.content[0].count").isEqualTo(1);
+
 
     radarUserService.deleteById(radarUserDto.getId());
   }
