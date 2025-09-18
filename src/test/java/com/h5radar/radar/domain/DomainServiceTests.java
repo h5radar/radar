@@ -72,6 +72,9 @@ class DomainServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<DomainDto> domainDtoPage = domainService.findAll(null, pageable);
+    // Mockito.verify(domainRepository).findAll(
+    //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, domainDtoPage.getSize());
     Assertions.assertEquals(0, domainDtoPage.getNumber());
     Assertions.assertEquals(1, domainDtoPage.getTotalPages());
@@ -79,8 +82,6 @@ class DomainServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(domainDtoPage.iterator().next().getTitle(), domain.getTitle());
     Assertions.assertEquals(domainDtoPage.iterator().next().getDescription(), domain.getDescription());
 
-    // Mockito.verify(domainRepository).findAll(
-    //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -100,6 +101,9 @@ class DomainServiceTests extends AbstractServiceTests {
     DomainFilter domainFilter = new DomainFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<DomainDto> domainDtoPage = domainService.findAll(domainFilter, pageable);
+    // Mockito.verify(domainRepository).findAll(
+    //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, domainDtoPage.getSize());
     Assertions.assertEquals(0, domainDtoPage.getNumber());
     Assertions.assertEquals(1, domainDtoPage.getTotalPages());
@@ -107,14 +111,12 @@ class DomainServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(domainDtoPage.iterator().next().getTitle(), domain.getTitle());
     Assertions.assertEquals(domainDtoPage.iterator().next().getDescription(), domain.getDescription());
 
-    // Mockito.verify(domainRepository).findAll(
-    //    Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   /* TODO
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllDomainsWithBlankTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
@@ -150,7 +152,7 @@ class DomainServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllDomainsWithTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
@@ -199,14 +201,14 @@ class DomainServiceTests extends AbstractServiceTests {
     domain.setPosition(1);
 
     Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
-
     Optional<DomainDto> domainDtoOptional = domainService.findById(domain.getId());
+    Mockito.verify(domainRepository).findById(domain.getId());
+
     Assertions.assertTrue(domainDtoOptional.isPresent());
     Assertions.assertEquals(domain.getId(), domainDtoOptional.get().getId());
     Assertions.assertEquals(domain.getTitle(), domainDtoOptional.get().getTitle());
     Assertions.assertEquals(domain.getDescription(), domainDtoOptional.get().getDescription());
     Assertions.assertEquals(domain.getPosition(), domainDtoOptional.get().getPosition());
-    Mockito.verify(domainRepository).findById(domain.getId());
   }
 
   @Test
@@ -218,14 +220,14 @@ class DomainServiceTests extends AbstractServiceTests {
     domain.setPosition(1);
 
     Mockito.when(domainRepository.findByTitle(domain.getTitle())).thenReturn(Optional.of(domain));
-
     Optional<DomainDto> domainDtoOptional = domainService.findByTitle(domain.getTitle());
+    Mockito.verify(domainRepository).findByTitle(domain.getTitle());
+
     Assertions.assertTrue(domainDtoOptional.isPresent());
     Assertions.assertEquals(domain.getId(), domainDtoOptional.get().getId());
     Assertions.assertEquals(domain.getTitle(), domainDtoOptional.get().getTitle());
     Assertions.assertEquals(domain.getDescription(), domainDtoOptional.get().getDescription());
     Assertions.assertEquals(domain.getPosition(), domainDtoOptional.get().getPosition());
-    Mockito.verify(domainRepository).findByTitle(domain.getTitle());
   }
 
   @Test
@@ -248,15 +250,15 @@ class DomainServiceTests extends AbstractServiceTests {
 
     Mockito.when(domainRepository.save(any())).thenReturn(domain);
     Mockito.when(radarRepository.findById(radar.getId())).thenReturn(Optional.of(radar));
-
     DomainDto domainDto = domainService.save(domainMapper.toDto(domain));
+    Mockito.verify(domainRepository).save(any());
+    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
+
     Assertions.assertEquals(domain.getId(), domainDto.getId());
     Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
     Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
     Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
 
-    Mockito.verify(domainRepository).save(any());
-    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
      */
   }
 
@@ -281,13 +283,13 @@ class DomainServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarRepository.findById(radar.getId())).thenReturn(Optional.of(radar));
     Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
-
     ValidationException exception =
         catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
-    Assertions.assertFalse(exception.getMessage().isEmpty());
-
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
     Mockito.verify(domainRepository).findById(domain.getId());
+
+    Assertions.assertFalse(exception.getMessage().isEmpty());
+
 
          */
   }
@@ -319,13 +321,13 @@ class DomainServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarRepository.findById(domain.getRadar().getId())).thenReturn(Optional.of(radar));
     Mockito.when(domainRepository.findById(domain.getId())).thenReturn(Optional.of(domain));
-
     ValidationException exception =
             catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
+    Mockito.verify(radarRepository, Mockito.times(2)).findById(radarActive.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("can't be saved for active radar"));
 
-    Mockito.verify(radarRepository, Mockito.times(2)).findById(radarActive.getId());
 
          */
   }
@@ -350,13 +352,13 @@ class DomainServiceTests extends AbstractServiceTests {
     domain.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
-
     ValidationException exception =
         catchThrowableOfType(() -> domainService.save(domainMapper.toDto(domain)), ValidationException.class);
+    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
 
-    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
 
          */
   }
@@ -382,7 +384,6 @@ class DomainServiceTests extends AbstractServiceTests {
 
     Mockito.when(domainRepository.findById(any())).thenReturn(Optional.of(domain));
     Mockito.doAnswer((i) -> null).when(domainRepository).deleteById(domain.getId());
-
     domainService.deleteById(domain.getId());
     Mockito.verify(domainRepository).findById(domain.getId());
     Mockito.verify(domainRepository).deleteById(domain.getId());
@@ -412,11 +413,11 @@ class DomainServiceTests extends AbstractServiceTests {
 
     ValidationException exception =
         catchThrowableOfType(() -> domainService.deleteById(domain.getId()), ValidationException.class);
+    Mockito.verify(domainRepository).findById(domain.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertEquals(exception.getMessage(), "Domain can't be deleted for active radar.");
     Assertions.assertTrue(domain.getId().describeConstable().isPresent());
-
-    Mockito.verify(domainRepository).findById(domain.getId());
 
          */
   }

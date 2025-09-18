@@ -79,6 +79,9 @@ class PracticeServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<PracticeDto> practiceDtoPage = practiceService.findAll(null, pageable);
+    // Mockito.verify(practiceRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, practiceDtoPage.getSize());
     Assertions.assertEquals(0, practiceDtoPage.getNumber());
     Assertions.assertEquals(1, practiceDtoPage.getTotalPages());
@@ -86,8 +89,6 @@ class PracticeServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(practiceDtoPage.iterator().next().getTitle(), practice.getTitle());
     Assertions.assertEquals(practiceDtoPage.iterator().next().getDescription(), practice.getDescription());
 
-    // Mockito.verify(practiceRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -106,6 +107,9 @@ class PracticeServiceTests extends AbstractServiceTests {
     PracticeFilter practiceFilter = new PracticeFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<PracticeDto> practiceDtoPage = practiceService.findAll(practiceFilter, pageable);
+    // Mockito.verify(practiceRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, practiceDtoPage.getSize());
     Assertions.assertEquals(0, practiceDtoPage.getNumber());
     Assertions.assertEquals(1, practiceDtoPage.getTotalPages());
@@ -113,8 +117,6 @@ class PracticeServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(practiceDtoPage.iterator().next().getTitle(), practice.getTitle());
     Assertions.assertEquals(practiceDtoPage.iterator().next().getDescription(), practice.getDescription());
 
-    // Mockito.verify(practiceRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -126,14 +128,14 @@ class PracticeServiceTests extends AbstractServiceTests {
     practice.setActive(true);
 
     Mockito.when(practiceRepository.findById(practice.getId())).thenReturn(Optional.of(practice));
-
     Optional<PracticeDto> practiceDtoOptional = practiceService.findById(practice.getId());
+    Mockito.verify(practiceRepository).findById(practice.getId());
+
     Assertions.assertTrue(practiceDtoOptional.isPresent());
     Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
     Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
     Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
 
-    Mockito.verify(practiceRepository).findById(practice.getId());
   }
 
   @Test
@@ -145,14 +147,14 @@ class PracticeServiceTests extends AbstractServiceTests {
     practice.setActive(true);
 
     Mockito.when(practiceRepository.findByTitle(practice.getTitle())).thenReturn(Optional.of(practice));
-
     Optional<PracticeDto> practiceDtoOptional = practiceService.findByTitle(practice.getTitle());
+    Mockito.verify(practiceRepository).findByTitle(practice.getTitle());
+
     Assertions.assertTrue(practiceDtoOptional.isPresent());
     Assertions.assertEquals(practice.getId(), practiceDtoOptional.get().getId());
     Assertions.assertEquals(practice.getTitle(), practiceDtoOptional.get().getTitle());
     Assertions.assertEquals(practice.getDescription(), practiceDtoOptional.get().getDescription());
 
-    Mockito.verify(practiceRepository).findByTitle(practice.getTitle());
   }
 
   @Test
@@ -171,14 +173,14 @@ class PracticeServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(practiceRepository.save(any())).thenReturn(practice);
-
     PracticeDto practiceDto = practiceService.save(practiceMapper.toDto(practice));
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(practiceRepository).save(any());
+
     Assertions.assertEquals(practice.getId(), practiceDto.getId());
     Assertions.assertEquals(practice.getTitle(), practiceDto.getTitle());
     Assertions.assertEquals(practice.getDescription(), practiceDto.getDescription());
 
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(practiceRepository).save(any());
   }
 
   @Test
@@ -204,7 +206,6 @@ class PracticeServiceTests extends AbstractServiceTests {
     practice.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(practiceRepository).deleteById(practice.getId());
-
     practiceService.deleteById(practice.getId());
     Mockito.verify(practiceRepository).deleteById(practice.getId());
   }

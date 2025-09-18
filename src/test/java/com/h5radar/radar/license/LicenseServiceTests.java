@@ -85,6 +85,9 @@ class LicenseServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<LicenseDto> licenseDtoPage = licenseService.findAll(null, pageable);
+    // Mockito.verify(licenseRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, licenseDtoPage.getSize());
     Assertions.assertEquals(0, licenseDtoPage.getNumber());
     Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
@@ -92,8 +95,6 @@ class LicenseServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
     Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
 
-    // Mockito.verify(licenseRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -112,6 +113,9 @@ class LicenseServiceTests extends AbstractServiceTests {
     LicenseFilter licenseFilter = new LicenseFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<LicenseDto> licenseDtoPage = licenseService.findAll(licenseFilter, pageable);
+    // Mockito.verify(licenseRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, licenseDtoPage.getSize());
     Assertions.assertEquals(0, licenseDtoPage.getNumber());
     Assertions.assertEquals(1, licenseDtoPage.getTotalPages());
@@ -119,8 +123,6 @@ class LicenseServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(licenseDtoPage.iterator().next().getTitle(), license.getTitle());
     Assertions.assertEquals(licenseDtoPage.iterator().next().getDescription(), license.getDescription());
 
-    // Mockito.verify(licenseRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -132,14 +134,14 @@ class LicenseServiceTests extends AbstractServiceTests {
     license.setActive(true);
 
     Mockito.when(licenseRepository.findById(license.getId())).thenReturn(Optional.of(license));
-
     Optional<LicenseDto> licenseDtoOptional = licenseService.findById(license.getId());
+    Mockito.verify(licenseRepository).findById(license.getId());
+
     Assertions.assertTrue(licenseDtoOptional.isPresent());
     Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
     Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
     Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
 
-    Mockito.verify(licenseRepository).findById(license.getId());
   }
 
   @Test
@@ -151,14 +153,14 @@ class LicenseServiceTests extends AbstractServiceTests {
     license.setActive(true);
 
     Mockito.when(licenseRepository.findByTitle(license.getTitle())).thenReturn(Optional.of(license));
-
     Optional<LicenseDto> licenseDtoOptional = licenseService.findByTitle(license.getTitle());
+    Mockito.verify(licenseRepository).findByTitle(license.getTitle());
+
     Assertions.assertTrue(licenseDtoOptional.isPresent());
     Assertions.assertEquals(license.getId(), licenseDtoOptional.get().getId());
     Assertions.assertEquals(license.getTitle(), licenseDtoOptional.get().getTitle());
     Assertions.assertEquals(license.getDescription(), licenseDtoOptional.get().getDescription());
 
-    Mockito.verify(licenseRepository).findByTitle(license.getTitle());
   }
 
   @Test
@@ -186,15 +188,15 @@ class LicenseServiceTests extends AbstractServiceTests {
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(complianceRepository.findById(any())).thenReturn(Optional.of(compliance));
     Mockito.when(licenseRepository.save(any())).thenReturn(license);
+    final LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(complianceRepository).findById(compliance.getId());
+    Mockito.verify(licenseRepository).save(any());
 
-    LicenseDto licenseDto = licenseService.save(licenseMapper.toDto(license));
     Assertions.assertEquals(license.getId(), licenseDto.getId());
     Assertions.assertEquals(license.getTitle(), licenseDto.getTitle());
     Assertions.assertEquals(license.getDescription(), licenseDto.getDescription());
 
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(complianceRepository).findById(compliance.getId());
-    Mockito.verify(licenseRepository).save(any());
   }
 
   @Test
@@ -220,7 +222,6 @@ class LicenseServiceTests extends AbstractServiceTests {
     license.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(licenseRepository).deleteById(license.getId());
-
     licenseService.deleteById(license.getId());
     Mockito.verify(licenseRepository).deleteById(license.getId());
   }

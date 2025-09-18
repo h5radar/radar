@@ -64,6 +64,9 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("sub,asc"));
     Page<RadarUserDto> radarUserDtoPage = radarUserService.findAll(null, pageable);
+    // Mockito.verify(radarUserRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, radarUserDtoPage.getSize());
     Assertions.assertEquals(0, radarUserDtoPage.getNumber());
     Assertions.assertEquals(1, radarUserDtoPage.getTotalPages());
@@ -71,8 +74,6 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(radarUserDtoPage.iterator().next().getSub(), radarUser.getSub());
     Assertions.assertEquals(radarUserDtoPage.iterator().next().getUsername(), radarUser.getUsername());
 
-    // Mockito.verify(radarUserRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -90,6 +91,9 @@ class RadarUserServiceTests extends AbstractServiceTests {
     RadarUserFilter radarUserFilter = new RadarUserFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("sub,asc"));
     Page<RadarUserDto> radarUserDtoPage = radarUserService.findAll(radarUserFilter, pageable);
+    // Mockito.verify(radarUserRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, radarUserDtoPage.getSize());
     Assertions.assertEquals(0, radarUserDtoPage.getNumber());
     Assertions.assertEquals(1, radarUserDtoPage.getTotalPages());
@@ -97,15 +101,13 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(radarUserDtoPage.iterator().next().getSub(), radarUser.getSub());
     Assertions.assertEquals(radarUserDtoPage.iterator().next().getUsername(), radarUser.getUsername());
 
-    // Mockito.verify(radarUserRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   /* TODO:
 
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllRadarUsersWithBlankSubFilter() {
     List<RadarUser> radarUserList = List.of(
         new RadarUser(null, "My sub", "My username"),
@@ -125,7 +127,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllRadarUsersWithTitleFilter() {
     List<RadarUser> radarUserList = List.of(
         new RadarUser(null,  "My sub",  "My username"),
@@ -158,14 +160,14 @@ class RadarUserServiceTests extends AbstractServiceTests {
     radarUser.setUsername("My username");
 
     Mockito.when(radarUserRepository.findById(radarUser.getId())).thenReturn(Optional.of(radarUser));
-
     Optional<RadarUserDto> radarUserDtoOptional = radarUserService.findById(radarUser.getId());
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+
     Assertions.assertTrue(radarUserDtoOptional.isPresent());
     Assertions.assertEquals(radarUser.getId(), radarUserDtoOptional.get().getId());
     Assertions.assertEquals(radarUser.getSub(), radarUserDtoOptional.get().getSub());
     Assertions.assertEquals(radarUser.getUsername(), radarUserDtoOptional.get().getUsername());
 
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
   }
 
   @Test
@@ -176,14 +178,14 @@ class RadarUserServiceTests extends AbstractServiceTests {
     radarUser.setUsername("My username");
 
     Mockito.when(radarUserRepository.findBySub(radarUser.getSub())).thenReturn(Optional.of(radarUser));
-
     Optional<RadarUserDto> radarUserDtoOptional = radarUserService.findBySub(radarUser.getSub());
+    Mockito.verify(radarUserRepository).findBySub(radarUser.getSub());
+
     Assertions.assertTrue(radarUserDtoOptional.isPresent());
     Assertions.assertEquals(radarUser.getId(), radarUserDtoOptional.get().getId());
     Assertions.assertEquals(radarUser.getSub(), radarUserDtoOptional.get().getSub());
     Assertions.assertEquals(radarUser.getUsername(), radarUserDtoOptional.get().getUsername());
 
-    Mockito.verify(radarUserRepository).findBySub(radarUser.getSub());
   }
 
   @Test
@@ -194,13 +196,13 @@ class RadarUserServiceTests extends AbstractServiceTests {
     radarUser.setUsername("My username");
 
     Mockito.when(radarUserRepository.save(any())).thenReturn(radarUser);
-
     RadarUserDto radarUserDto = radarUserService.save(radarUserMapper.toDto(radarUser));
+    Mockito.verify(radarUserRepository).save(any());
+
     Assertions.assertEquals(radarUser.getId(), radarUserDto.getId());
     Assertions.assertEquals(radarUser.getSub(), radarUserDto.getSub());
     Assertions.assertEquals(radarUser.getUsername(), radarUserDto.getUsername());
 
-    Mockito.verify(radarUserRepository).save(any());
   }
 
   @Test
@@ -224,7 +226,6 @@ class RadarUserServiceTests extends AbstractServiceTests {
     radarUser.setUsername("My username");
 
     Mockito.doAnswer((i) -> null).when(radarUserRepository).deleteById(radarUser.getId());
-
     radarUserService.deleteById(radarUser.getId());
     Mockito.verify(radarUserRepository).deleteById(radarUser.getId());
   }
