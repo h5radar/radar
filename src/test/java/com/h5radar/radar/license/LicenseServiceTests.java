@@ -21,12 +21,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractServiceTests;
+import com.h5radar.radar.Aggregate;
+import com.h5radar.radar.Aggregateable;
 import com.h5radar.radar.ValidationException;
 import com.h5radar.radar.compliance.Compliance;
 import com.h5radar.radar.compliance.ComplianceRepository;
 import com.h5radar.radar.radar_user.RadarUser;
 import com.h5radar.radar.radar_user.RadarUserRepository;
-
 
 
 class LicenseServiceTests extends AbstractServiceTests {
@@ -222,5 +223,69 @@ class LicenseServiceTests extends AbstractServiceTests {
 
     licenseService.deleteById(license.getId());
     Mockito.verify(licenseRepository).deleteById(license.getId());
+  }
+
+  @Test
+  void shouldGroupByComplianceAggregateAndMap() {
+    final Long radarUserId = 1L;
+
+    Mockito.when(licenseRepository.groupByComplianceRaw(radarUserId)).thenReturn(List.of(
+        new Object[]{ 1L, "High", 5L },
+        new Object[]{ 2L, "Medium", Integer.valueOf(2) },
+        new Object[]{ 3L, "Low", 3L },
+        new Object[]{ null, null, 1L }
+    ));
+
+    final Aggregate<LicenseByComplianceDto> aggregate =
+        licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
+    Mockito.verify(licenseRepository).groupByComplianceRaw(radarUserId);
+
+    Assertions.assertNotNull(aggregate);
+    Assertions.assertEquals(11L, aggregate.total()); // 5+2+3+1
+    Assertions.assertTrue(aggregate.sort().unsorted());
+    Assertions.assertFalse(aggregate.sort().sorted());
+    Assertions.assertTrue(aggregate.sort().empty());
+
+    Assertions.assertEquals(4, aggregate.content().size());
+    Assertions.assertTrue(
+        aggregate.content().stream().anyMatch(i ->
+            Long.valueOf(1L).equals(i.complianceId())
+                && "High".equals(i.title())
+                && i.count() == 5L)
+    );
+    Assertions.assertTrue(
+        aggregate.content().stream().anyMatch(i ->
+            Long.valueOf(2L).equals(i.complianceId())
+                && "Medium".equals(i.title())
+                && i.count() == 2L)
+    );
+    Assertions.assertTrue(
+        aggregate.content().stream().anyMatch(i ->
+            Long.valueOf(3L).equals(i.complianceId())
+                && "Low".equals(i.title())
+                && i.count() == 3L)
+    );
+    Assertions.assertTrue(
+        aggregate.content().stream().anyMatch(i ->
+            i.complianceId() == null
+                && i.title() == null
+                && i.count() == 1L)
+    );
+  }
+
+  @Test
+  void shouldGroupByComplianceReturnEmpty() {
+    final Long radarUserId = 42L;
+
+    Mockito.when(licenseRepository.groupByComplianceRaw(radarUserId)).thenReturn(List.of());
+
+    final Aggregate<LicenseByComplianceDto> aggregate =
+        licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
+    Mockito.verify(licenseRepository).groupByComplianceRaw(radarUserId);
+
+    Assertions.assertNotNull(aggregate);
+    Assertions.assertEquals(0L, aggregate.total());
+    Assertions.assertTrue(aggregate.sort().unsorted());
+    Assertions.assertTrue(aggregate.content().isEmpty());
   }
 }

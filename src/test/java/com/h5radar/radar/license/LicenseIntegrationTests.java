@@ -415,4 +415,54 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
     radarUserService.deleteById(radarUserDto.getId());
   }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldGetLicensesByComplianceId() throws Exception {
+    // Create radar user
+    RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+    radarUserDto = radarUserService.save(radarUserDto);
+
+    // Create compliance
+    ComplianceDto complianceDto = new ComplianceDto();
+    complianceDto.setId(null);
+    complianceDto.setRadarUserDto(radarUserDto);
+    complianceDto.setTitle("My title");
+    complianceDto.setDescription("My description");
+    complianceDto.setActive(true);
+    complianceDto = complianceService.save(complianceDto);
+
+    // Create license
+    LicenseDto licenseDto = new LicenseDto();
+    licenseDto.setId(null);
+    licenseDto.setRadarUserDto(radarUserDto);
+    licenseDto.setTitle("My title");
+    licenseDto.setDescription("My description");
+    licenseDto.setComplianceDto(complianceDto);
+    licenseDto.setActive(true);
+    licenseDto = licenseService.save(licenseDto);
+
+    webTestClient.get().uri("/api/v1/licenses/by-compliance")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody()
+        .jsonPath("$").isNotEmpty()
+        .jsonPath("$").isMap()
+        .jsonPath("$.total").isEqualTo(1)
+        .jsonPath("$.sort.sorted").isEqualTo(false)
+        .jsonPath("$.sort.unsorted").isEqualTo(true)
+        .jsonPath("$.sort.empty").isEqualTo(true)
+        .jsonPath("$.content").isArray()
+        .jsonPath("$.content.length()").isEqualTo(1)
+        .jsonPath("$.content[0].compliance_id").isEqualTo(complianceDto.getId())
+        .jsonPath("$.content[0].title").isEqualTo(complianceDto.getTitle())
+        .jsonPath("$.content[0].count").isEqualTo(1);
+
+
+    radarUserService.deleteById(radarUserDto.getId());
+  }
 }

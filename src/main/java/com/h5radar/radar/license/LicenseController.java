@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.h5radar.radar.Aggregate;
+import com.h5radar.radar.Aggregateable;
 import com.h5radar.radar.RadarConstants;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
@@ -113,5 +115,13 @@ public class LicenseController {
       }
     }
     return ResponseEntity.status(HttpStatus.OK).body(null);
+  }
+
+  @GetMapping("/by-compliance")
+  public ResponseEntity<Aggregate<LicenseByComplianceDto>> groupByCompliance(
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
+  ) {
+    var result = licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
+    return ResponseEntity.ok(result);
   }
 }

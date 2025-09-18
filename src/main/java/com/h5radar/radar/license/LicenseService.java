@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.h5radar.radar.Aggregate;
+import com.h5radar.radar.Aggregateable;
+
 public interface LicenseService {
 
   Collection<LicenseDto> findAll();
@@ -25,4 +28,6 @@ public interface LicenseService {
   long countByRadarUserId(Long radarUserId);
 
   void seed(Long radarUserId) throws Exception;
+
+  Aggregate<LicenseByComplianceDto> groupByCompliance(Long radarUserId, Aggregateable aggregateable);
 }
