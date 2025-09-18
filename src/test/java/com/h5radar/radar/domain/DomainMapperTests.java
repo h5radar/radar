@@ -104,8 +104,8 @@ class DomainMapperTests extends AbstractMapperTests {
     technologyBlipDto.setRingPosition(ringDto.getPosition());
 
     Mockito.when(technologyBlipMapper.toDto(any())).thenReturn(technologyBlipDto);
-
     final var domainDto = domainMapper.toDto(domain);
+    Mockito.verify(technologyBlipMapper).toDto(any());
 
     Assertions.assertEquals(domain.getId(), domainDto.getId());
     Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
@@ -143,7 +143,6 @@ class DomainMapperTests extends AbstractMapperTests {
     Assertions.assertEquals(domainDto.getTechnologyBlipDtoList().iterator().next().getRingPosition(),
         technologyBlipDto.getRingPosition());
 
-    Mockito.verify(technologyBlipMapper).toDto(any());
   }
 
   @Test
@@ -173,13 +172,13 @@ class DomainMapperTests extends AbstractMapperTests {
     domainDto.setPosition(1);
 
     final var domain = domainMapper.toEntity(domainDto);
+    Mockito.verify(radarRepository).findById(domain.getRadar().getId());
 
     Assertions.assertEquals(domain.getId(), domainDto.getId());
     Assertions.assertEquals(domain.getTitle(), domainDto.getTitle());
     Assertions.assertEquals(domain.getDescription(), domainDto.getDescription());
     Assertions.assertEquals(domain.getPosition(), domainDto.getPosition());
 
-    Mockito.verify(radarRepository).findById(domain.getRadar().getId());
   }
 
   @Test

@@ -80,6 +80,9 @@ class TechnologyServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<TechnologyDto> technologyDtoPage = technologyService.findAll(null, pageable);
+    // Mockito.verify(technologyRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -87,8 +90,6 @@ class TechnologyServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(), technology.getTitle());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(), technology.getDescription());
 
-    // Mockito.verify(technologyRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -109,6 +110,9 @@ class TechnologyServiceTests extends AbstractServiceTests {
     TechnologyFilter technologyFilter = new TechnologyFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<TechnologyDto> technologyDtoPage = technologyService.findAll(technologyFilter, pageable);
+    // Mockito.verify(technologyRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, technologyDtoPage.getSize());
     Assertions.assertEquals(0, technologyDtoPage.getNumber());
     Assertions.assertEquals(1, technologyDtoPage.getTotalPages());
@@ -116,8 +120,6 @@ class TechnologyServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technologyDtoPage.iterator().next().getTitle(), technology.getTitle());
     Assertions.assertEquals(technologyDtoPage.iterator().next().getDescription(), technology.getDescription());
 
-    // Mockito.verify(technologyRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -131,8 +133,9 @@ class TechnologyServiceTests extends AbstractServiceTests {
     technology.setActive(true);
 
     Mockito.when(technologyRepository.findById(technology.getId())).thenReturn(Optional.of(technology));
-
     Optional<TechnologyDto> technologyDtoOptional = technologyService.findById(technology.getId());
+    Mockito.verify(technologyRepository).findById(technology.getId());
+
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
     Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
@@ -140,7 +143,6 @@ class TechnologyServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
     Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
 
-    Mockito.verify(technologyRepository).findById(technology.getId());
   }
 
   @Test
@@ -154,8 +156,9 @@ class TechnologyServiceTests extends AbstractServiceTests {
     technology.setActive(true);
 
     Mockito.when(technologyRepository.findByTitle(technology.getTitle())).thenReturn(Optional.of(technology));
-
     Optional<TechnologyDto> technologyDtoOptional = technologyService.findByTitle(technology.getTitle());
+    Mockito.verify(technologyRepository).findByTitle(technology.getTitle());
+
     Assertions.assertTrue(technologyDtoOptional.isPresent());
     Assertions.assertEquals(technology.getId(), technologyDtoOptional.get().getId());
     Assertions.assertEquals(technology.getTitle(), technologyDtoOptional.get().getTitle());
@@ -163,7 +166,6 @@ class TechnologyServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(technology.getDescription(), technologyDtoOptional.get().getDescription());
     Assertions.assertEquals(technology.getMoved(), technologyDtoOptional.get().getMoved());
 
-    Mockito.verify(technologyRepository).findByTitle(technology.getTitle());
   }
 
   @Test
@@ -184,16 +186,16 @@ class TechnologyServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(technologyRepository.save(any())).thenReturn(technology);
-
     TechnologyDto technologyDto = technologyService.save(technologyMapper.toDto(technology));
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(technologyRepository).save(any());
+
     Assertions.assertEquals(technology.getId(), technologyDto.getId());
     Assertions.assertEquals(technology.getTitle(), technologyDto.getTitle());
     Assertions.assertEquals(technology.getWebsite(), technologyDto.getWebsite());
     Assertions.assertEquals(technology.getDescription(), technologyDto.getDescription());
     Assertions.assertEquals(technology.getMoved(), technologyDto.getMoved());
 
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(technologyRepository).save(any());
   }
 
   @Test
@@ -223,7 +225,6 @@ class TechnologyServiceTests extends AbstractServiceTests {
     technology.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(technologyRepository).deleteById(technology.getId());
-
     technologyService.deleteById(technology.getId());
     Mockito.verify(technologyRepository).deleteById(technology.getId());
   }

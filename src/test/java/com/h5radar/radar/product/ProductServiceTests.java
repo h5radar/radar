@@ -83,6 +83,9 @@ class ProductServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<ProductDto> productDtoPage = productService.findAll(null, pageable);
+    // Mockito.verify(productRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, productDtoPage.getSize());
     Assertions.assertEquals(0, productDtoPage.getNumber());
     Assertions.assertEquals(1, productDtoPage.getTotalPages());
@@ -90,8 +93,6 @@ class ProductServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(productDtoPage.iterator().next().getTitle(), product.getTitle());
     Assertions.assertEquals(productDtoPage.iterator().next().getDescription(), product.getDescription());
 
-    // Mockito.verify(productRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -115,6 +116,9 @@ class ProductServiceTests extends AbstractServiceTests {
     ProductFilter productFilter = new ProductFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<ProductDto> productDtoPage = productService.findAll(productFilter, pageable);
+    // Mockito.verify(productRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, productDtoPage.getSize());
     Assertions.assertEquals(0, productDtoPage.getNumber());
     Assertions.assertEquals(1, productDtoPage.getTotalPages());
@@ -122,14 +126,12 @@ class ProductServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(productDtoPage.iterator().next().getTitle(), product.getTitle());
     Assertions.assertEquals(productDtoPage.iterator().next().getDescription(), product.getDescription());
 
-    // Mockito.verify(productRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   /* TODO:
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllProductsWithBlankTitleFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
@@ -152,7 +154,7 @@ class ProductServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllProductsWithTitleFilter() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(1L);
@@ -188,14 +190,14 @@ class ProductServiceTests extends AbstractServiceTests {
     product.setDescription("My description");
 
     Mockito.when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-
     Optional<ProductDto> productDtoOptional = productService.findById(product.getId());
+    Mockito.verify(productRepository).findById(product.getId());
+
     Assertions.assertTrue(productDtoOptional.isPresent());
     Assertions.assertEquals(product.getId(), productDtoOptional.get().getId());
     Assertions.assertEquals(product.getTitle(), productDtoOptional.get().getTitle());
     Assertions.assertEquals(product.getDescription(), productDtoOptional.get().getDescription());
 
-    Mockito.verify(productRepository).findById(product.getId());
   }
 
   @Test
@@ -206,14 +208,14 @@ class ProductServiceTests extends AbstractServiceTests {
     product.setDescription("My description");
 
     Mockito.when(productRepository.findByTitle(product.getTitle())).thenReturn(Optional.of(product));
-
     Optional<ProductDto> productDtoOptional = productService.findByTitle(product.getTitle());
+    Mockito.verify(productRepository).findByTitle(product.getTitle());
+
     Assertions.assertTrue(productDtoOptional.isPresent());
     Assertions.assertEquals(product.getId(), productDtoOptional.get().getId());
     Assertions.assertEquals(product.getTitle(), productDtoOptional.get().getTitle());
     Assertions.assertEquals(product.getDescription(), productDtoOptional.get().getDescription());
 
-    Mockito.verify(productRepository).findByTitle(product.getTitle());
   }
 
   @Test
@@ -231,14 +233,14 @@ class ProductServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(productRepository.save(any())).thenReturn(product);
-
     ProductDto productDto = productService.save(productMapper.toDto(product));
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(productRepository).save(any());
+
     Assertions.assertEquals(product.getId(), productDto.getId());
     Assertions.assertEquals(product.getTitle(), productDto.getTitle());
     Assertions.assertEquals(product.getDescription(), productDto.getDescription());
 
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(productRepository).save(any());
   }
 
   @Test
@@ -262,7 +264,6 @@ class ProductServiceTests extends AbstractServiceTests {
     product.setDescription("My description");
 
     Mockito.doAnswer((i) -> null).when(productRepository).deleteById(product.getId());
-
     productService.deleteById(product.getId());
     Mockito.verify(productRepository).deleteById(product.getId());
   }

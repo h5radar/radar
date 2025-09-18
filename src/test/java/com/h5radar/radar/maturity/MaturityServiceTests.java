@@ -71,14 +71,14 @@ class MaturityServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<MaturityDto> maturityDtoPage = maturityService.findAll(null, pageable);
+    // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, maturityDtoPage.getSize());
     Assertions.assertEquals(0, maturityDtoPage.getNumber());
     Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
     Assertions.assertEquals(maturityDtoPage.iterator().next().getId(), maturity.getId());
     Assertions.assertEquals(maturityDtoPage.iterator().next().getTitle(), maturity.getTitle());
     Assertions.assertEquals(maturityDtoPage.iterator().next().getDescription(), maturity.getDescription());
-
-    // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -98,6 +98,8 @@ class MaturityServiceTests extends AbstractServiceTests {
     MaturityFilter maturityFilter = new MaturityFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<MaturityDto> maturityDtoPage = maturityService.findAll(maturityFilter, pageable);
+    // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, maturityDtoPage.getSize());
     Assertions.assertEquals(0, maturityDtoPage.getNumber());
     Assertions.assertEquals(1, maturityDtoPage.getTotalPages());
@@ -105,13 +107,12 @@ class MaturityServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(maturityDtoPage.iterator().next().getTitle(), maturity.getTitle());
     Assertions.assertEquals(maturityDtoPage.iterator().next().getDescription(), maturity.getDescription());
 
-    // Mockito.verify(tenantRepository).findAll(Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   /* TODO:
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllMaturitiesWithBlankTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
@@ -146,7 +147,7 @@ class MaturityServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  @Transactional
+  // @Transactional
   void shouldFindAllMaturitiesWithTitleFilter() {
     final RadarType radarType = new RadarType();
     radarType.setTitle("My radar type title");
@@ -195,14 +196,14 @@ class MaturityServiceTests extends AbstractServiceTests {
     maturity.setPosition(1);
 
     Mockito.when(maturityRepository.findById(maturity.getId())).thenReturn(Optional.of(maturity));
-
     Optional<MaturityDto> maturityDtoOptional = maturityService.findById(maturity.getId());
+    Mockito.verify(maturityRepository).findById(maturity.getId());
+
     Assertions.assertTrue(maturityDtoOptional.isPresent());
     Assertions.assertEquals(maturity.getId(), maturityDtoOptional.get().getId());
     Assertions.assertEquals(maturity.getTitle(), maturityDtoOptional.get().getTitle());
     Assertions.assertEquals(maturity.getDescription(), maturityDtoOptional.get().getDescription());
 
-    Mockito.verify(maturityRepository).findById(maturity.getId());
   }
 
   @Test
@@ -215,8 +216,9 @@ class MaturityServiceTests extends AbstractServiceTests {
     maturity.setPosition(1);
 
     Mockito.when(maturityRepository.findByTitle(maturity.getTitle())).thenReturn(Optional.of(maturity));
-
     Optional<MaturityDto> maturityDtoOptional = maturityService.findByTitle(maturity.getTitle());
+    Mockito.verify(maturityRepository).findByTitle(maturity.getTitle());
+
     Assertions.assertTrue(maturityDtoOptional.isPresent());
     Assertions.assertEquals(maturity.getId(), maturityDtoOptional.get().getId());
     Assertions.assertEquals(maturity.getTitle(), maturityDtoOptional.get().getTitle());
@@ -224,7 +226,6 @@ class MaturityServiceTests extends AbstractServiceTests {
     Assertions.assertEquals(maturity.getColor(), maturityDtoOptional.get().getColor());
     Assertions.assertEquals(maturity.getPosition(), maturityDtoOptional.get().getPosition());
 
-    Mockito.verify(maturityRepository).findByTitle(maturity.getTitle());
   }
 
   @Test
@@ -240,14 +241,14 @@ class MaturityServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
     Mockito.when(maturityRepository.save(any())).thenReturn(maturity);
-
     MaturityDto maturityDto = maturityService.save(maturityMapper.toDto(maturity));
+    Mockito.verify(maturityRepository).save(any());
+    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
+
     Assertions.assertEquals(maturity.getId(), maturityDto.getId());
     Assertions.assertEquals(maturity.getTitle(), maturityDto.getTitle());
     Assertions.assertEquals(maturity.getDescription(), maturityDto.getDescription());
 
-    Mockito.verify(maturityRepository).save(any());
-    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
 
      */
   }
@@ -265,13 +266,13 @@ class MaturityServiceTests extends AbstractServiceTests {
     maturity.setPosition(1);
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
-
     ValidationException exception =
         catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
+    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
 
-    Mockito.verify(radarRepository, times(2)).findById(radar.getId());
          */
   }
 
@@ -289,13 +290,13 @@ class MaturityServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarRepository.findById(any())).thenReturn(Optional.of(radar));
     Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
-
     ValidationException exception =
         catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
-    Assertions.assertFalse(exception.getMessage().isEmpty());
-
     Mockito.verify(radarRepository, times(2)).findById(radar.getId());
     Mockito.verify(maturityRepository).findById(maturity.getId());
+
+    Assertions.assertFalse(exception.getMessage().isEmpty());
+
 
          */
   }
@@ -321,13 +322,13 @@ class MaturityServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarRepository.findById(maturity.getRadar().getId())).thenReturn(Optional.of(radar));
     Mockito.when(maturityRepository.findById(maturity.getId())).thenReturn(Optional.of(maturity));
-
     ValidationException exception =
             catchThrowableOfType(() -> maturityService.save(maturityMapper.toDto(maturity)), ValidationException.class);
+    Mockito.verify(radarRepository, Mockito.times(2)).findById(radarActive.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("can't be saved for active radar"));
 
-    Mockito.verify(radarRepository, Mockito.times(2)).findById(radarActive.getId());
          */
   }
 
@@ -345,7 +346,6 @@ class MaturityServiceTests extends AbstractServiceTests {
 
     Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
     Mockito.doAnswer((i) -> null).when(maturityRepository).deleteById(maturity.getId());
-
     maturityService.deleteById(maturity.getId());
     Mockito.verify(maturityRepository).findById(maturity.getId());
     Mockito.verify(maturityRepository).deleteById(maturity.getId());
@@ -366,14 +366,14 @@ class MaturityServiceTests extends AbstractServiceTests {
     maturity.setPosition(1);
 
     Mockito.when(maturityRepository.findById(any())).thenReturn(Optional.of(maturity));
-
     ValidationException exception =
         catchThrowableOfType(() -> maturityService.deleteById(maturity.getId()), ValidationException.class);
+    Mockito.verify(maturityRepository).findById(maturity.getId());
+
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertEquals(exception.getMessage(), "Maturity can't be deleted for active radar.");
     Assertions.assertTrue(maturity.getId().describeConstable().isPresent());
 
-    Mockito.verify(maturityRepository).findById(maturity.getId());
 
          */
   }
