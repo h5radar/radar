@@ -76,15 +76,15 @@ class ComplianceServiceTests extends AbstractServiceTests {
 
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<ComplianceDto> complianceDtoPage = complianceService.findAll(null, pageable);
+    // Mockito.verify(complianceRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, complianceDtoPage.getSize());
     Assertions.assertEquals(0, complianceDtoPage.getNumber());
     Assertions.assertEquals(1, complianceDtoPage.getTotalPages());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getId(), compliance.getId());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getTitle(), compliance.getTitle());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getDescription(), compliance.getDescription());
-
-    // Mockito.verify(complianceRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -103,15 +103,15 @@ class ComplianceServiceTests extends AbstractServiceTests {
     ComplianceFilter complianceFilter = new ComplianceFilter();
     Pageable pageable = PageRequest.of(0, 10, Sort.by("title,asc"));
     Page<ComplianceDto> complianceDtoPage = complianceService.findAll(complianceFilter, pageable);
+    // Mockito.verify(complianceRepository).findAll(
+    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
+
     Assertions.assertEquals(1, complianceDtoPage.getSize());
     Assertions.assertEquals(0, complianceDtoPage.getNumber());
     Assertions.assertEquals(1, complianceDtoPage.getTotalPages());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getId(), compliance.getId());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getTitle(), compliance.getTitle());
     Assertions.assertEquals(complianceDtoPage.iterator().next().getDescription(), compliance.getDescription());
-
-    // Mockito.verify(complianceRepository).findAll(
-    //     Specification.allOf((root, query, criteriaBuilder) -> null), pageable);
   }
 
   @Test
@@ -123,14 +123,14 @@ class ComplianceServiceTests extends AbstractServiceTests {
     compliance.setActive(true);
 
     Mockito.when(complianceRepository.findById(compliance.getId())).thenReturn(Optional.of(compliance));
-
     Optional<ComplianceDto> complianceDtoOptional = complianceService.findById(compliance.getId());
+    Mockito.verify(complianceRepository).findById(compliance.getId());
+
     Assertions.assertTrue(complianceDtoOptional.isPresent());
     Assertions.assertEquals(compliance.getId(), complianceDtoOptional.get().getId());
     Assertions.assertEquals(compliance.getTitle(), complianceDtoOptional.get().getTitle());
     Assertions.assertEquals(compliance.getDescription(), complianceDtoOptional.get().getDescription());
 
-    Mockito.verify(complianceRepository).findById(compliance.getId());
   }
 
   @Test
@@ -142,14 +142,14 @@ class ComplianceServiceTests extends AbstractServiceTests {
     compliance.setActive(true);
 
     Mockito.when(complianceRepository.findByTitle(compliance.getTitle())).thenReturn(Optional.of(compliance));
-
     Optional<ComplianceDto> complianceDtoOptional = complianceService.findByTitle(compliance.getTitle());
+    Mockito.verify(complianceRepository).findByTitle(compliance.getTitle());
+
     Assertions.assertTrue(complianceDtoOptional.isPresent());
     Assertions.assertEquals(compliance.getId(), complianceDtoOptional.get().getId());
     Assertions.assertEquals(compliance.getTitle(), complianceDtoOptional.get().getTitle());
     Assertions.assertEquals(compliance.getDescription(), complianceDtoOptional.get().getDescription());
 
-    Mockito.verify(complianceRepository).findByTitle(compliance.getTitle());
   }
 
   @Test
@@ -168,14 +168,13 @@ class ComplianceServiceTests extends AbstractServiceTests {
 
     Mockito.when(radarUserRepository.findById(any())).thenReturn(Optional.of(radarUser));
     Mockito.when(complianceRepository.save(any())).thenReturn(compliance);
-
     ComplianceDto complianceDto = complianceService.save(complianceMapper.toDto(compliance));
+    Mockito.verify(radarUserRepository).findById(radarUser.getId());
+    Mockito.verify(complianceRepository).save(any());
+
     Assertions.assertEquals(compliance.getId(), complianceDto.getId());
     Assertions.assertEquals(compliance.getTitle(), complianceDto.getTitle());
     Assertions.assertEquals(compliance.getDescription(), complianceDto.getDescription());
-
-    Mockito.verify(radarUserRepository).findById(radarUser.getId());
-    Mockito.verify(complianceRepository).save(any());
   }
 
   @Test
@@ -201,7 +200,6 @@ class ComplianceServiceTests extends AbstractServiceTests {
     compliance.setActive(true);
 
     Mockito.doAnswer((i) -> null).when(complianceRepository).deleteById(compliance.getId());
-
     complianceService.deleteById(compliance.getId());
     Mockito.verify(complianceRepository).deleteById(compliance.getId());
   }
