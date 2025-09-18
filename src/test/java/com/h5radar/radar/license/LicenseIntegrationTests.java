@@ -458,7 +458,7 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.sort.empty").isEqualTo(true)
         .jsonPath("$.content").isArray()
         .jsonPath("$.content.length()").isEqualTo(1)
-        .jsonPath("$.content[0].complianceId").isEqualTo(complianceDto.getId())
+        .jsonPath("$.content[0].compliance_id").isEqualTo(complianceDto.getId())
         .jsonPath("$.content[0].title").isEqualTo(complianceDto.getTitle())
         .jsonPath("$.content[0].count").isEqualTo(1);
 

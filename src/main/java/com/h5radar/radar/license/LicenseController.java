@@ -118,11 +118,10 @@ public class LicenseController {
   }
 
   @GetMapping("/by-compliance")
-  public ResponseEntity<Aggregate<LicenseByComplianceDto>> byCompliance(
+  public ResponseEntity<Aggregate<LicenseByComplianceDto>> groupByCompliance(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
   ) {
-    // сортировка упразднена; Statable оставляем для совместимости интерфейса
-    var payload = licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
-    return ResponseEntity.ok(payload);
+    var result = licenseService.groupByCompliance(radarUserId, Aggregateable.unsorted());
+    return ResponseEntity.ok(result);
   }
 }

@@ -25,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
+import com.h5radar.radar.Aggregate;
 import com.h5radar.radar.radar_user.RadarUserDto;
 
 @WebMvcTest(LicenseController.class)
@@ -316,6 +317,50 @@ public class LicenseControllerTests extends AbstractControllerTests {
   public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/licenses/seed")
             .with(csrf()))
+        .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldGetLicensesByCompliance() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(11L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
+    Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
+    var content = Arrays.asList(
+        new LicenseByComplianceDto(1L, "High", 5L),
+        new LicenseByComplianceDto(2L, "Medium", 3L),
+        new LicenseByComplianceDto(3L, "Low", 2L)
+    );
+    var aggregate = new Aggregate<>(10L, Aggregate.SortMeta.ofUnsorted(), content);
+    Mockito.when(licenseService.groupByCompliance(Mockito.eq(radarUserDto.getId()), any()))
+        .thenReturn(aggregate);
+
+    mockMvc.perform(get("/api/v1/licenses/by-compliance")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isMap())
+        .andExpect(jsonPath("$.total", equalTo(10)))
+        .andExpect(jsonPath("$.sort.sorted", equalTo(false)))
+        .andExpect(jsonPath("$.sort.unsorted", equalTo(true)))
+        .andExpect(jsonPath("$.sort.empty", equalTo(true)))
+        .andExpect(jsonPath("$.content").isArray())
+        .andExpect(jsonPath("$.content", hasSize(content.size())))
+        .andExpect(jsonPath("$.content[0].compliance_id", equalTo(1L), Long.class))
+        .andExpect(jsonPath("$.content[0].title", equalTo("High")))
+        .andExpect(jsonPath("$.content[0].count", equalTo(5)));
+
+    Mockito.verify(radarUserService).save(any());
+    Mockito.verify(licenseService).groupByCompliance(Mockito.eq(radarUserDto.getId()), any());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailToGetLicensesByComplianceDueToUnauthorized() throws Exception {
+    mockMvc.perform(get("/api/v1/licenses/by-compliance")
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
 }

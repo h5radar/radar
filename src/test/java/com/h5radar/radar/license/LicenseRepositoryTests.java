@@ -393,4 +393,172 @@ class LicenseRepositoryTests extends AbstractRepositoryTests {
       Assertions.assertEquals(constraintViolation.getMessage(), "must not be null");
     }
   }
+
+  @Test
+  void shouldGroupByComplianceRawAggregateCountsForUser() {
+    // Create radar user
+    final RadarUser radarUser1 = new RadarUser();
+    radarUser1.setSub("My sub");
+    radarUser1.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUser1);
+
+    // Create compliances
+    final Compliance complianceHigh = new Compliance();
+    complianceHigh.setRadarUser(radarUser1);
+    complianceHigh.setTitle("High");
+    complianceHigh.setDescription("High compliance");
+    complianceHigh.setActive(true);
+    complianceRepository.saveAndFlush(complianceHigh);
+
+    final Compliance complianceLow = new Compliance();
+    complianceLow.setRadarUser(radarUser1);
+    complianceLow.setTitle("Low");
+    complianceLow.setDescription("Low compliance");
+    complianceLow.setActive(true);
+    complianceRepository.saveAndFlush(complianceLow);
+
+    // Create licenses for radarUser1 (High x2, Low x1)
+    final License license1 = new License();
+    license1.setRadarUser(radarUser1);
+    license1.setTitle("L1");
+    license1.setDescription("Desc");
+    license1.setCompliance(complianceHigh);
+    license1.setActive(true);
+    licenseRepository.saveAndFlush(license1);
+
+    final License license2 = new License();
+    license2.setRadarUser(radarUser1);
+    license2.setTitle("L2");
+    license2.setDescription("Desc");
+    license2.setCompliance(complianceHigh);
+    license2.setActive(true);
+    licenseRepository.saveAndFlush(license2);
+
+    final License license3 = new License();
+    license3.setRadarUser(radarUser1);
+    license3.setTitle("L3");
+    license3.setDescription("Desc");
+    license3.setCompliance(complianceLow);
+    license3.setActive(true);
+    licenseRepository.saveAndFlush(license3);
+
+    // Act
+    final var rows = licenseRepository.groupByComplianceRaw(radarUser1.getId());
+
+    // Assert
+    Assertions.assertNotNull(rows);
+
+    final long highCount = rows.stream()
+        .filter(r -> complianceHigh.getId().equals((Long) r[0]))
+        .mapToLong(r -> ((Number) r[2]).longValue())
+        .findFirst()
+        .orElse(0L);
+
+    final long lowCount = rows.stream()
+        .filter(r -> complianceLow.getId().equals((Long) r[0]))
+        .mapToLong(r -> ((Number) r[2]).longValue())
+        .findFirst()
+        .orElse(0L);
+
+    Assertions.assertEquals(2L, highCount);
+    Assertions.assertEquals(1L, lowCount);
+
+    // Titles also match
+    Assertions.assertTrue(rows.stream().anyMatch(r ->
+        complianceHigh.getId().equals((Long) r[0]) && complianceHigh.getTitle().equals(r[1])));
+    Assertions.assertTrue(rows.stream().anyMatch(r ->
+        complianceLow.getId().equals((Long) r[0]) && complianceLow.getTitle().equals(r[1])));
+  }
+
+  @Test
+  void shouldGroupByComplianceRawIsolatedByRadarUser() {
+    // Create users
+    final RadarUser radarUser1 = new RadarUser();
+    radarUser1.setSub("My sub 1");
+    radarUser1.setUsername("My username 1");
+    radarUserRepository.saveAndFlush(radarUser1);
+
+    final RadarUser radarUser2 = new RadarUser();
+    radarUser2.setSub("My sub 2");
+    radarUser2.setUsername("My username 2");
+    radarUserRepository.saveAndFlush(radarUser2);
+
+    // Compliances per user
+    final Compliance compliance1 = new Compliance();
+    compliance1.setRadarUser(radarUser1);
+    compliance1.setTitle("My title 1");
+    compliance1.setDescription("My descriptioin 1");
+    compliance1.setActive(true);
+    complianceRepository.saveAndFlush(compliance1);
+
+    final Compliance compliance2 = new Compliance();
+    compliance2.setRadarUser(radarUser2);
+    compliance2.setTitle("My title 2");
+    compliance2.setDescription("My description 2");
+    compliance2.setActive(true);
+    complianceRepository.saveAndFlush(compliance2);
+
+    // Licenses for radarUser1 (2 items)
+    final License license1 = new License();
+    license1.setRadarUser(radarUser1);
+    license1.setTitle("My title 1");
+    license1.setDescription("My description 1");
+    license1.setCompliance(compliance1);
+    license1.setActive(true);
+    licenseRepository.saveAndFlush(license1);
+
+    final License license2 = new License();
+    license2.setRadarUser(radarUser1);
+    license2.setTitle("My title 2");
+    license2.setDescription("My description 2");
+    license2.setCompliance(compliance1);
+    license2.setActive(true);
+    licenseRepository.saveAndFlush(license2);
+
+    // License for radarUser2 (noise)
+    final License license3 = new License();
+    license3.setRadarUser(radarUser2);
+    license3.setTitle("My title 3");
+    license3.setDescription("My description 3");
+    license3.setCompliance(compliance2);
+    license3.setActive(true);
+    licenseRepository.saveAndFlush(license3);
+
+    // Act
+    final var rowsFor1 = licenseRepository.groupByComplianceRaw(radarUser1.getId());
+    final var rowsFor2 = licenseRepository.groupByComplianceRaw(radarUser2.getId());
+
+    // Assert A
+    final long countFor1 = rowsFor1.stream()
+        .filter(r -> compliance1.getId().equals((Long) r[0]))
+        .mapToLong(r -> ((Number) r[2]).longValue())
+        .findFirst()
+        .orElse(0L);
+    Assertions.assertEquals(2L, countFor1);
+
+    // Assert B
+    final long countFor2 = rowsFor2.stream()
+        .filter(r -> compliance2.getId().equals((Long) r[0]))
+        .mapToLong(r -> ((Number) r[2]).longValue())
+        .findFirst()
+        .orElse(0L);
+    Assertions.assertEquals(1L, countFor2);
+  }
+
+  @Test
+  void shouldGroupByComplianceRawReturnEmptyWhenUserHasNoLicenses() {
+    // Create user with no licenses
+    final RadarUser radarUserEmpty = new RadarUser();
+    radarUserEmpty.setSub("My sub");
+    radarUserEmpty.setUsername("My username");
+    radarUserRepository.saveAndFlush(radarUserEmpty);
+
+    // Act
+    final var rows = licenseRepository.groupByComplianceRaw(radarUserEmpty.getId());
+
+    // Assert
+    Assertions.assertNotNull(rows);
+    Assertions.assertTrue(rows.isEmpty());
+  }
+
 }
