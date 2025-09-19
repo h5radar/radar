@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -33,7 +31,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   private MaturityService maturityService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetMaturities() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -72,7 +69,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   /*
   TODO: remove it
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetMaturities() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
@@ -106,7 +102,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetMaturitiesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/maturities").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -114,7 +109,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetMaturity() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -150,7 +144,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetMaturityDueToUnauthorized() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
@@ -166,7 +159,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateMaturity() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -203,7 +195,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateMaturityDueToUnauthorized() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
@@ -225,7 +216,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateMaturity() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -256,7 +246,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateMaturityDueToUnauthorized() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
@@ -283,7 +272,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteMaturity() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -312,7 +300,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteMaturityDueToUnauthorized() throws Exception {
     final MaturityDto maturityDto = new MaturityDto();
     maturityDto.setId(10L);
@@ -327,7 +314,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedMaturities() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -349,7 +335,6 @@ public class MaturityControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedMaturitiesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/maturities/seed")
             .with(csrf()))

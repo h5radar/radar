@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -20,7 +19,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnologies() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -62,7 +60,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnology() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -102,7 +99,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -144,7 +140,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateTechnologyWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -186,7 +181,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateTechnologyWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -228,7 +222,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -260,7 +253,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnologyWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -293,7 +285,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteTechnology() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -321,7 +312,6 @@ class TechnologyIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedTechnologies() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

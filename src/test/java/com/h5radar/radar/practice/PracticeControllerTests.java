@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -33,7 +31,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -76,7 +73,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetPracticesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/practices").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -84,7 +80,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -117,7 +112,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetPracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -133,7 +127,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -168,7 +161,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreatePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -190,7 +182,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -220,7 +211,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdatePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -247,7 +237,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -275,7 +264,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeletePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -290,7 +278,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -313,7 +300,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedPracticesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/practices/seed")
             .with(csrf()))

@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -33,7 +31,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   private ProductService productService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetProducts() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -74,7 +71,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetProductsDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -82,7 +78,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -112,7 +107,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -128,7 +122,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -161,7 +154,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -184,7 +176,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -213,7 +204,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -238,7 +228,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -265,7 +254,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);

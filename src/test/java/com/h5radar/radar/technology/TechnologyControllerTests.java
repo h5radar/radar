@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -34,7 +32,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -82,7 +79,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -90,7 +86,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -127,7 +122,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -143,7 +137,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -182,7 +175,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -204,7 +196,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -236,7 +227,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -263,7 +253,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -293,7 +282,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -308,7 +296,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -330,7 +317,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/technologies/seed")
             .with(csrf()))

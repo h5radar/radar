@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +30,9 @@ public class AuthRequestInterceptor implements HandlerInterceptor {
   private RadarUserService radarUserService;
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+  public boolean preHandle(@NonNull HttpServletRequest request,
+                           @NonNull HttpServletResponse response,
+                           @NonNull Object handler) throws Exception {
     RadarUserDto radarUserDto = new RadarUserDto();
 
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();

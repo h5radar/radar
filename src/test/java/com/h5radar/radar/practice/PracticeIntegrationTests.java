@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -17,7 +16,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractices() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -54,7 +52,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractice() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -90,7 +87,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -128,7 +124,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreatePracticeWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -166,7 +161,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreatePracticeWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -205,7 +199,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -235,7 +228,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdatePracticeWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -266,7 +258,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -292,7 +283,6 @@ class PracticeIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedPractices() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

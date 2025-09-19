@@ -20,8 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -34,7 +32,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   private LicenseService licenseService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -77,7 +74,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicensesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -85,7 +81,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -118,7 +113,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -134,7 +128,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -169,7 +162,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -191,7 +183,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -221,7 +212,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -248,7 +238,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -276,7 +265,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -291,7 +279,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -313,7 +300,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/licenses/seed")
             .with(csrf()))
@@ -321,7 +307,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicensesByCompliance() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -357,7 +342,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicensesByComplianceDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/licenses/by-compliance")
             .contentType(MediaType.APPLICATION_JSON))

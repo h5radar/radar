@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -17,7 +16,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   private DomainService domainService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetDomains() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -54,7 +52,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetDomain() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -90,7 +87,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -128,7 +124,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateDomainWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -165,7 +160,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateDomainWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -203,7 +197,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -233,7 +226,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateDomainWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -265,7 +257,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteDomain() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -291,7 +282,6 @@ class DomainIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedDomains() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

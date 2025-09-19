@@ -21,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -56,7 +54,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUsers() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -89,7 +86,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetRadarUsersDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -97,7 +93,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUser() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -120,7 +115,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetRadarUserDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -135,7 +129,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedAllWhenEmpty() throws Exception {
     // Arrange: все countByRadarUserId == 0
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
@@ -161,7 +154,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldNotSeedIfAlreadyInitializedByCompliance() throws Exception {
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(1L);
@@ -182,7 +174,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedOnlyMissingBuckets() throws Exception {
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
@@ -208,7 +199,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldReturn500WhenSeedThrows() throws Exception {
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
@@ -223,7 +213,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailSeedDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .contentType(MediaType.APPLICATION_JSON)

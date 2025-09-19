@@ -3,7 +3,6 @@ package com.h5radar.radar.radar_user;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import com.h5radar.radar.AbstractIntegrationTests;
 import com.h5radar.radar.compliance.ComplianceService;
@@ -38,7 +37,6 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUsers() {
     // Create radarUser
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -64,7 +62,6 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUser() {
     // Create radarUser
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -89,7 +86,6 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   void shouldSeedUserDataOnce() {
     // Create radarUser
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -125,7 +121,6 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   void shouldNotDuplicateOnSecondSeedCall() {
     // Create radarUser
     RadarUserDto radarUserDto = new RadarUserDto();

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -17,7 +16,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   private MaturityService maturityService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetMaturities() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -56,7 +54,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetMaturity() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -94,7 +91,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateMaturity() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -134,7 +130,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateMaturityWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -174,7 +169,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateMaturityWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -214,7 +208,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateMaturity() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -245,7 +238,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateMaturityWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -278,7 +270,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteMaturity() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -305,7 +296,6 @@ class MaturityIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedMaturities() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
