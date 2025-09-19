@@ -18,6 +18,7 @@
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <mockito.version>5.14.2</mockito.version>
         <testcontainers.version>1.17.6</testcontainers.version>
+        <bytebuddy.version>1.15.11</bytebuddy.version>
         <site.plugin.version>3.12.1</site.plugin.version>
         <liquibase.plugin.version>4.17.2</liquibase.plugin.version>
         <jacoco.plugin.version>0.8.13</jacoco.plugin.version>
@@ -133,6 +134,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${bytebuddy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
@@ -189,11 +196,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        <!-- Preserve JaCoCo's argLine and append the agent -->
+                        ${jacocoArgLine} -Xshare:off -javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${bytebuddy.version}/byte-buddy-agent-${bytebuddy.version}.jar
+                    </argLine>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.plugin.version}</version>
+                <configuration>
+                    <propertyName>jacocoArgLine</propertyName>
+                </configuration>
                 <executions>
                     <execution>
                         <id>pre-unit-tests</id>
