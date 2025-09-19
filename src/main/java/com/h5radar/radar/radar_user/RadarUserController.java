@@ -12,12 +12,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.h5radar.radar.RadarConstants;
+import com.h5radar.radar.compliance.ComplianceService;
+import com.h5radar.radar.domain.DomainService;
+import com.h5radar.radar.license.LicenseService;
+import com.h5radar.radar.maturity.MaturityService;
+import com.h5radar.radar.practice.PracticeService;
+import com.h5radar.radar.technology.TechnologyService;
 
 
 @RestController
@@ -27,6 +34,12 @@ import com.h5radar.radar.RadarConstants;
 public class RadarUserController {
 
   private final RadarUserService radarUserService;
+  private final ComplianceService complianceService;
+  private final LicenseService licenseService;
+  private final PracticeService practiceService;
+  private final MaturityService maturityService;
+  private final DomainService domainService;
+  private final TechnologyService technologyService;
 
   @GetMapping("")
   public ResponseEntity<Page<RadarUserDto>> index(
@@ -53,4 +66,32 @@ public class RadarUserController {
     }
     return ResponseEntity.status(HttpStatus.OK).body(radarUserRecord.get());
   }
+
+  @PostMapping(value = "/seed")
+  public ResponseEntity<RadarUserDto> seed(
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId
+  ) {
+    try {
+      // Seed entities if necessary
+      if (this.complianceService.countByRadarUserId(radarUserId) == 0
+          && this.licenseService.countByRadarUserId(radarUserId) == 0
+          && this.practiceService.countByRadarUserId(radarUserId) == 0
+          && this.maturityService.countByRadarUserId(radarUserId) == 0
+          && this.domainService.countByRadarUserId(radarUserId) == 0
+          && this.technologyService.countByRadarUserId(radarUserId) == 0) {
+
+        this.complianceService.seed(radarUserId);
+        this.licenseService.seed(radarUserId);
+        this.practiceService.seed(radarUserId);
+        this.maturityService.seed(radarUserId);
+        this.domainService.seed(radarUserId);
+        this.technologyService.seed(radarUserId);
+      }
+
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+  }
 }
+
