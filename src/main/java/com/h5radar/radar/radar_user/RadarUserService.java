@@ -19,4 +19,6 @@ public interface RadarUserService {
   RadarUserDto save(RadarUserDto radarUserDto);
 
   void deleteById(Long id);
+
+  void seed(Long radarUserId) throws Exception;
 }
