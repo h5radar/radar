@@ -3,7 +3,12 @@ package com.h5radar.radar.radar_user;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,11 +23,37 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
+import com.h5radar.radar.compliance.ComplianceService;
+import com.h5radar.radar.domain.DomainService;
+import com.h5radar.radar.license.LicenseService;
+import com.h5radar.radar.maturity.MaturityService;
+import com.h5radar.radar.practice.PracticeService;
+import com.h5radar.radar.technology.TechnologyService;
+
 
 @WebMvcTest(RadarUserController.class)
 public class RadarUserControllerTests extends AbstractControllerTests {
+
+  @MockitoBean
+  private ComplianceService complianceService;
+
+  @MockitoBean
+  private LicenseService licenseService;
+
+  @MockitoBean
+  private PracticeService practiceService;
+
+  @MockitoBean
+  private MaturityService maturityService;
+
+  @MockitoBean
+  private DomainService domainService;
+
+  @MockitoBean
+  private TechnologyService technologyService;
 
   @Test
   @WithMockUser(value = "My sub")
@@ -102,4 +133,103 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   public void shouldFailToGetRadarUserDueToInvalidId() throws Exception {
     // TODO: get invalid it
   }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldSeedAllWhenEmpty() throws Exception {
+    // Arrange: все countByRadarUserId == 0
+    Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(practiceService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(maturityService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(domainService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(technologyService.countByRadarUserId(anyLong())).thenReturn(0L);
+
+    // Act + Assert
+    mockMvc.perform(post("/api/v1/radar-users/seed")
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isNoContent());
+
+    // Verify
+    Mockito.verify(complianceService, times(1)).seed(anyLong());
+    Mockito.verify(licenseService, times(1)).seed(anyLong());
+    Mockito.verify(practiceService, times(1)).seed(anyLong());
+    Mockito.verify(maturityService, times(1)).seed(anyLong());
+    Mockito.verify(domainService, times(1)).seed(anyLong());
+    Mockito.verify(technologyService, times(1)).seed(anyLong());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldNotSeedIfAlreadyInitializedByCompliance() throws Exception {
+    // Arrange
+    Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(1L);
+
+    // Act + Assert
+    mockMvc.perform(post("/api/v1/radar-users/seed")
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isNoContent());
+
+    // Verify
+    Mockito.verify(complianceService, never()).seed(anyLong());
+    Mockito.verify(licenseService,  never()).seed(anyLong());
+    Mockito.verify(practiceService, never()).seed(anyLong());
+    Mockito.verify(maturityService, never()).seed(anyLong());
+    Mockito.verify(domainService,   never()).seed(anyLong());
+    Mockito.verify(technologyService, never()).seed(anyLong());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldSeedOnlyMissingBuckets() throws Exception {
+    // Arrange
+    Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(2L);
+    Mockito.when(practiceService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(maturityService.countByRadarUserId(anyLong())).thenReturn(5L);
+    Mockito.when(domainService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.when(technologyService.countByRadarUserId(anyLong())).thenReturn(7L);
+
+    // Act + Assert
+    mockMvc.perform(post("/api/v1/radar-users/seed")
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isNoContent());
+
+    // Verify
+    Mockito.verify(complianceService, never()).seed(anyLong());
+    Mockito.verify(licenseService, never()).seed(anyLong());
+    Mockito.verify(practiceService, never()).seed(anyLong());
+    Mockito.verify(maturityService, never()).seed(anyLong());
+    Mockito.verify(domainService,  never()).seed(anyLong());
+    Mockito.verify(technologyService, never()).seed(anyLong());
+  }
+
+  @Test
+  @WithMockUser(value = "My sub")
+  public void shouldReturn500WhenSeedThrows() throws Exception {
+    // Arrange
+    Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
+    Mockito.doThrow(new RuntimeException("boom"))
+        .when(complianceService).seed(anyLong());
+
+    // Act + Assert
+    mockMvc.perform(post("/api/v1/radar-users/seed")
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isInternalServerError());
+  }
+
+  @Test
+  @WithAnonymousUser
+  public void shouldFailSeedDueToUnauthorized() throws Exception {
+    mockMvc.perform(post("/api/v1/radar-users/seed")
+            .contentType(MediaType.APPLICATION_JSON)
+            .with(csrf()))
+        .andExpect(status().isUnauthorized());
+  }
 }
+
+

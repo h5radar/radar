@@ -89,9 +89,4 @@ public class RadarUserServiceImpl implements RadarUserService {
   public void deleteById(Long id) {
     radarUserRepository.deleteById(id);
   }
-
-  @Override
-  @Transactional
-  public void seed(Long radarUserId) throws Exception {
-  }
 }
