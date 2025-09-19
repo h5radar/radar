@@ -52,8 +52,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/compliances")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -105,8 +105,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/compliances/{id}", complianceDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -156,8 +156,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(post("/api/v1/compliances")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(complianceDto))
@@ -216,8 +216,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(put("/api/v1/compliances/{id}", complianceDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(complianceDto))
@@ -275,8 +275,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(delete("/api/v1/compliances/{id}", complianceDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -313,8 +313,8 @@ public class ComplianceControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(post("/api/v1/compliances/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))

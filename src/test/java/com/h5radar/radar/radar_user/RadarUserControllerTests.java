@@ -67,8 +67,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/radar-users")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -110,8 +110,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/radar-users/{id}", radarUserDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -140,6 +140,11 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
   @Test
   public void shouldSeedAllWhenEmpty() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange: все countByRadarUserId == 0
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(0L);
@@ -151,8 +156,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
@@ -169,14 +174,19 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
   @Test
   public void shouldNotSeedIfAlreadyInitializedByCompliance() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(1L);
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
@@ -193,6 +203,11 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
   @Test
   public void shouldSeedOnlyMissingBuckets() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(2L);
@@ -204,8 +219,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
@@ -222,6 +237,11 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
   @Test
   public void shouldReturn500WhenSeedThrows() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.doThrow(new RuntimeException("boom"))
@@ -230,8 +250,8 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))

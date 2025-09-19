@@ -51,8 +51,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/domains")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -134,8 +134,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(get("/api/v1/domains/{id}", domainDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -185,8 +185,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(post("/api/v1/domains")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(domainDto))
@@ -245,8 +245,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(put("/api/v1/domains/{id}", domainDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(domainDto))
@@ -304,8 +304,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(delete("/api/v1/domains/{id}", domainDto.getId())
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -342,8 +342,8 @@ public class DomainControllerTests extends AbstractControllerTests {
 
     mockMvc.perform(post("/api/v1/domains/seed")
             .with(jwt().jwt(j -> {
-              j.claim("sub", "My sub");
-              j.claim("preferred_username", "My username");
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
             }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
