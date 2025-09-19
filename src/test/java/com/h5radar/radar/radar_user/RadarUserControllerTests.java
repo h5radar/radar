@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -64,7 +65,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     Page<RadarUserDto> radarUserDtoPage = new PageImpl<>(Arrays.asList(radarUserDto));
     Mockito.when(radarUserService.findAll(any(), any())).thenReturn(radarUserDtoPage);
 
-    mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/radar-users")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -103,6 +109,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(radarUserDto));
 
     mockMvc.perform(get("/api/v1/radar-users/{id}", radarUserDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -140,6 +150,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -160,6 +174,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -185,6 +203,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -207,6 +229,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isInternalServerError());

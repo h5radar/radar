@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,7 +50,12 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Page<MaturityDto> maturityDtoPage = new PageImpl<>(Arrays.asList(maturityDto));
     Mockito.when(maturityService.findAll(any(), any())).thenReturn(maturityDtoPage);
 
-    mockMvc.perform(get("/api/v1/maturities").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/maturities")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -128,6 +134,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.when(maturityService.findById(any())).thenReturn(Optional.of(maturityDto));
 
     mockMvc.perform(get("/api/v1/maturities/{id}", maturityDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -177,6 +187,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.when(maturityService.save(any())).thenReturn(maturityDto);
 
     mockMvc.perform(post("/api/v1/maturities")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
@@ -235,6 +249,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.when(maturityService.save(any())).thenReturn(maturityDto);
 
     mockMvc.perform(put("/api/v1/maturities/{id}", maturityDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(maturityDto))
             .with(csrf()))
@@ -291,6 +309,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(maturityService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/maturities/{id}", maturityDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -325,6 +347,10 @@ public class MaturityControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(maturityService).seed(any());
 
     mockMvc.perform(post("/api/v1/maturities/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());

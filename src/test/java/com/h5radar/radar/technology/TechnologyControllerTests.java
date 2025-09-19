@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,6 +53,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
     mockMvc.perform(get("/api/v1/technologies")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -105,6 +110,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
 
     mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -156,6 +165,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
 
     mockMvc.perform(post("/api/v1/technologies")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -216,6 +229,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
 
     mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -273,6 +290,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(technologyService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -307,6 +328,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(technologyService).seed(any());
 
     mockMvc.perform(post("/api/v1/technologies/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());

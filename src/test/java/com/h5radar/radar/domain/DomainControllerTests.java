@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,7 +49,12 @@ public class DomainControllerTests extends AbstractControllerTests {
     Page<DomainDto> domainDtoPage = new PageImpl<>(Arrays.asList(domainDto));
     Mockito.when(domainService.findAll(any(), any())).thenReturn(domainDtoPage);
 
-    mockMvc.perform(get("/api/v1/domains").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/domains")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -127,6 +133,10 @@ public class DomainControllerTests extends AbstractControllerTests {
     Mockito.when(domainService.findById(any())).thenReturn(Optional.of(domainDto));
 
     mockMvc.perform(get("/api/v1/domains/{id}", domainDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -174,6 +184,10 @@ public class DomainControllerTests extends AbstractControllerTests {
     Mockito.when(domainService.save(any())).thenReturn(domainDto);
 
     mockMvc.perform(post("/api/v1/domains")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
@@ -230,6 +244,10 @@ public class DomainControllerTests extends AbstractControllerTests {
     Mockito.when(domainService.save(any())).thenReturn(domainDto);
 
     mockMvc.perform(put("/api/v1/domains/{id}", domainDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(domainDto))
             .with(csrf()))
@@ -285,6 +303,10 @@ public class DomainControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(domainService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/domains/{id}", domainDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -319,6 +341,10 @@ public class DomainControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(domainService).seed(any());
 
     mockMvc.perform(post("/api/v1/domains/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());

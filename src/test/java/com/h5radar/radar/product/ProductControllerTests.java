@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,7 +48,12 @@ public class ProductControllerTests extends AbstractControllerTests {
     Page<ProductDto> productDtoPage = new PageImpl<>(Arrays.asList(productDto));
     Mockito.when(productService.findAll(any(), any())).thenReturn(productDtoPage);
 
-    mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/products")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -93,7 +99,12 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
 
-    mockMvc.perform(get("/api/v1/products/{id}", productDto.getId()).contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
@@ -138,6 +149,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
     mockMvc.perform(post("/api/v1/products")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productDto))
             .with(csrf()))
@@ -193,6 +208,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
     mockMvc.perform(put("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productDto))
             .with(csrf()))
@@ -245,6 +264,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(productService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 

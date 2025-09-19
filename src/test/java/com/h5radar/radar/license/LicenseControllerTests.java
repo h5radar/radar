@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,7 +50,12 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
     Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/licenses")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -98,6 +104,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
 
     mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -145,6 +155,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
     mockMvc.perform(post("/api/v1/licenses")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
@@ -201,6 +215,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
     mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
@@ -256,6 +274,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -290,6 +312,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
 
     mockMvc.perform(post("/api/v1/licenses/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -324,6 +350,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .thenReturn(aggregate);
 
     mockMvc.perform(get("/api/v1/licenses/by-compliance")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", "My sub");
+              j.claim("preferred_username", "My username");
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
