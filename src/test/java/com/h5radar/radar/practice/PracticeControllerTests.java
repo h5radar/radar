@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -33,7 +32,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   private PracticeService practiceService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -51,7 +49,12 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Page<PracticeDto> practiceDtoPage = new PageImpl<>(Arrays.asList(practiceDto));
     Mockito.when(practiceService.findAll(any(), any())).thenReturn(practiceDtoPage);
 
-    mockMvc.perform(get("/api/v1/practices").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/practices")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -76,7 +79,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetPracticesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/practices").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -84,7 +86,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetPractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -102,6 +103,10 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Mockito.when(practiceService.findById(any())).thenReturn(Optional.of(practiceDto));
 
     mockMvc.perform(get("/api/v1/practices/{id}", practiceDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -117,7 +122,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetPracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -133,7 +137,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -151,6 +154,10 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Mockito.when(practiceService.save(any())).thenReturn(practiceDto);
 
     mockMvc.perform(post("/api/v1/practices")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(practiceDto))
             .with(csrf()))
@@ -168,7 +175,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreatePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -190,7 +196,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdatePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -209,6 +214,10 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Mockito.when(practiceService.save(any())).thenReturn(practiceDto);
 
     mockMvc.perform(put("/api/v1/practices/{id}", practiceDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(practiceDto))
             .with(csrf()))
@@ -220,7 +229,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdatePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -247,7 +255,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeletePractice() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -266,6 +273,10 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(practiceService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/practices/{id}", practiceDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -275,7 +286,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeletePracticeDueToUnauthorized() throws Exception {
     final PracticeDto practiceDto = new PracticeDto();
     practiceDto.setId(10L);
@@ -290,7 +300,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedPractices() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -303,6 +312,10 @@ public class PracticeControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(practiceService).seed(any());
 
     mockMvc.perform(post("/api/v1/practices/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -313,7 +326,6 @@ public class PracticeControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedPracticesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/practices/seed")
             .with(csrf()))

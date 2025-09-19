@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -33,7 +32,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   private ProductService productService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetProducts() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -50,7 +48,12 @@ public class ProductControllerTests extends AbstractControllerTests {
     Page<ProductDto> productDtoPage = new PageImpl<>(Arrays.asList(productDto));
     Mockito.when(productService.findAll(any(), any())).thenReturn(productDtoPage);
 
-    mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/products")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -74,7 +77,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetProductsDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/products").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -82,7 +84,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -98,7 +99,12 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(radarUserService.save(any())).thenReturn(radarUserDto);
     Mockito.when(productService.findById(any())).thenReturn(Optional.of(productDto));
 
-    mockMvc.perform(get("/api/v1/products/{id}", productDto.getId()).contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(productDto.getId()), Long.class))
@@ -112,7 +118,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -128,7 +133,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -145,6 +149,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
     mockMvc.perform(post("/api/v1/products")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productDto))
             .with(csrf()))
@@ -161,7 +169,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -184,7 +191,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -202,6 +208,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.when(productService.save(any())).thenReturn(productDto);
 
     mockMvc.perform(put("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productDto))
             .with(csrf()))
@@ -213,7 +223,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);
@@ -238,7 +247,6 @@ public class ProductControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteProduct() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -256,6 +264,10 @@ public class ProductControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(productService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/products/{id}", productDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -265,7 +277,6 @@ public class ProductControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteProductDueToUnauthorized() throws Exception {
     final ProductDto productDto = new ProductDto();
     productDto.setId(10L);

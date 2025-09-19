@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -34,7 +33,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   private LicenseService licenseService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -52,7 +50,12 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Page<LicenseDto> licenseDtoPage = new PageImpl<>(Arrays.asList(licenseDto));
     Mockito.when(licenseService.findAll(any(), any())).thenReturn(licenseDtoPage);
 
-    mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/licenses")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -77,7 +80,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicensesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/licenses").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -85,7 +87,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -103,6 +104,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.findById(any())).thenReturn(Optional.of(licenseDto));
 
     mockMvc.perform(get("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -118,7 +123,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -134,7 +138,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -152,6 +155,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
     mockMvc.perform(post("/api/v1/licenses")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
@@ -169,7 +176,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -191,7 +197,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -210,6 +215,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.when(licenseService.save(any())).thenReturn(licenseDto);
 
     mockMvc.perform(put("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(licenseDto))
             .with(csrf()))
@@ -221,7 +230,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -248,7 +256,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteLicense() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -267,6 +274,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(licenseService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/licenses/{id}", licenseDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -276,7 +287,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteLicenseDueToUnauthorized() throws Exception {
     final LicenseDto licenseDto = new LicenseDto();
     licenseDto.setId(10L);
@@ -291,7 +301,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedLicenses() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -303,6 +312,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(licenseService).seed(any());
 
     mockMvc.perform(post("/api/v1/licenses/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -313,7 +326,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedLicensesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/licenses/seed")
             .with(csrf()))
@@ -321,7 +333,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicensesByCompliance() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -339,6 +350,10 @@ public class LicenseControllerTests extends AbstractControllerTests {
         .thenReturn(aggregate);
 
     mockMvc.perform(get("/api/v1/licenses/by-compliance")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -357,7 +372,6 @@ public class LicenseControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetLicensesByComplianceDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/licenses/by-compliance")
             .contentType(MediaType.APPLICATION_JSON))

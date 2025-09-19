@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -34,7 +33,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -55,6 +53,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.findAll(any(), any())).thenReturn(technologyDtoPage);
 
     mockMvc.perform(get("/api/v1/technologies")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -82,7 +84,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetTechnologiesDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/technologies").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -90,7 +91,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -110,6 +110,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.findById(any())).thenReturn(Optional.of(technologyDto));
 
     mockMvc.perform(get("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -127,7 +131,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -143,7 +146,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -163,6 +165,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
 
     mockMvc.perform(post("/api/v1/technologies")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -182,7 +188,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToCreateTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -204,7 +209,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -225,6 +229,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.when(technologyService.save(any())).thenReturn(technologyDto);
 
     mockMvc.perform(put("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(technologyDto))
             .with(csrf()))
@@ -236,7 +244,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToUpdateTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -263,7 +270,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteTechnology() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -284,6 +290,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(technologyService).deleteById(any());
 
     mockMvc.perform(delete("/api/v1/technologies/{id}", technologyDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .with(csrf()))
         .andExpect(status().isNoContent());
 
@@ -293,7 +303,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToDeleteTechnologyDueToUnauthorized() throws Exception {
     final TechnologyDto technologyDto = new TechnologyDto();
     technologyDto.setId(10L);
@@ -308,7 +317,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedTechnologies() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(11L);
@@ -320,6 +328,10 @@ public class TechnologyControllerTests extends AbstractControllerTests {
     Mockito.doAnswer((i) -> null).when(technologyService).seed(any());
 
     mockMvc.perform(post("/api/v1/technologies/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isOk());
@@ -330,7 +342,6 @@ public class TechnologyControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToSeedTechnologiesDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/technologies/seed")
             .with(csrf()))

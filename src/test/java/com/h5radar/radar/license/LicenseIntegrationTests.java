@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -23,7 +22,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   private LicenseService licenseService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicenses() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -72,7 +70,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicense() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -120,7 +117,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateLicense() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -170,7 +166,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateLicenseWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -220,7 +215,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateLicenseWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -270,7 +264,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateLicense() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -310,7 +303,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateLicenseWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -353,7 +345,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteLicense() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -389,7 +380,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedLicenses() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -417,7 +407,6 @@ class LicenseIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetLicensesByComplianceId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

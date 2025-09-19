@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import reactor.core.publisher.Mono;
 
 import com.h5radar.radar.AbstractIntegrationTests;
@@ -17,7 +16,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   private ComplianceService complianceService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetCompliances() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -54,7 +52,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetCompliance() {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -90,7 +87,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateCompliance() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -128,7 +124,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateComplianceWithId() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -166,7 +161,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldCreateComplianceWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -204,7 +198,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateCompliance() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -234,7 +227,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldUpdateComplianceWithoutUser() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -266,7 +258,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldDeleteCompliance() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();
@@ -292,7 +283,6 @@ class ComplianceIntegrationTests extends AbstractIntegrationTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedCompliances() throws Exception {
     // Create radar user
     RadarUserDto radarUserDto = new RadarUserDto();

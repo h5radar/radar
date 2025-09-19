@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,8 +22,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.h5radar.radar.AbstractControllerTests;
@@ -56,7 +55,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   private TechnologyService technologyService;
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUsers() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -67,7 +65,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     Page<RadarUserDto> radarUserDtoPage = new PageImpl<>(Arrays.asList(radarUserDto));
     Mockito.when(radarUserService.findAll(any(), any())).thenReturn(radarUserDtoPage);
 
-    mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(get("/api/v1/radar-users")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.content").isArray())
@@ -89,7 +92,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetRadarUsersDueToUnauthorized() throws Exception {
     mockMvc.perform(get("/api/v1/radar-users").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
@@ -97,7 +99,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldGetRadarUser() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -108,6 +109,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
     Mockito.when(radarUserService.findById(any())).thenReturn(Optional.of(radarUserDto));
 
     mockMvc.perform(get("/api/v1/radar-users/{id}", radarUserDto.getId())
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isMap())
@@ -120,7 +125,6 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailToGetRadarUserDueToUnauthorized() throws Exception {
     final RadarUserDto radarUserDto = new RadarUserDto();
     radarUserDto.setId(10L);
@@ -135,8 +139,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedAllWhenEmpty() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange: все countByRadarUserId == 0
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(0L);
@@ -147,6 +155,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -161,13 +173,21 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldNotSeedIfAlreadyInitializedByCompliance() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(1L);
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -182,8 +202,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldSeedOnlyMissingBuckets() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.when(licenseService.countByRadarUserId(anyLong())).thenReturn(2L);
@@ -194,6 +218,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isNoContent());
@@ -208,8 +236,12 @@ public class RadarUserControllerTests extends AbstractControllerTests {
   }
 
   @Test
-  @WithMockUser(value = "My sub")
   public void shouldReturn500WhenSeedThrows() throws Exception {
+    final RadarUserDto radarUserDto = new RadarUserDto();
+    radarUserDto.setId(10L);
+    radarUserDto.setSub("My sub");
+    radarUserDto.setUsername("My username");
+
     // Arrange
     Mockito.when(complianceService.countByRadarUserId(anyLong())).thenReturn(0L);
     Mockito.doThrow(new RuntimeException("boom"))
@@ -217,13 +249,16 @@ public class RadarUserControllerTests extends AbstractControllerTests {
 
     // Act + Assert
     mockMvc.perform(post("/api/v1/radar-users/seed")
+            .with(jwt().jwt(j -> {
+              j.claim("sub", radarUserDto.getSub());
+              j.claim("preferred_username", radarUserDto.getUsername());
+            }))
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
         .andExpect(status().isInternalServerError());
   }
 
   @Test
-  @WithAnonymousUser
   public void shouldFailSeedDueToUnauthorized() throws Exception {
     mockMvc.perform(post("/api/v1/radar-users/seed")
             .contentType(MediaType.APPLICATION_JSON)
