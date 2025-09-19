@@ -10,13 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.h5radar.radar.RadarConstants;
 
 
 @RestController
@@ -25,13 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RadarUserController {
 
-  private static final String RADAR_USERS_SUB_CONSTRAINTS = "uc_radar_users_sub";
-
   private final RadarUserService radarUserService;
 
   @GetMapping("")
   public ResponseEntity<Page<RadarUserDto>> index(
-      @AuthenticationPrincipal Jwt jwt,
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
       @Valid RadarUserFilter radarUserFilter,
       @RequestParam(defaultValue = "${application.paging.page}") int page,
       @RequestParam(defaultValue = "${application.paging.size}") int size,
@@ -45,8 +44,10 @@ public class RadarUserController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<RadarUserDto> show(@PathVariable("id") Long id) {
-    Optional<RadarUserDto> radarUserRecord = radarUserService.findById(id);
+  public ResponseEntity<RadarUserDto> show(
+      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
+      @PathVariable("id") Long id) {
+    Optional<RadarUserDto> radarUserRecord = radarUserService.findById(radarUserId);
     if (radarUserRecord.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
