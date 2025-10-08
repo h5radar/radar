@@ -18,5 +18,7 @@ public interface RadarUserService {
 
   RadarUserDto save(RadarUserDto radarUserDto);
 
+  void updateSeed(Long id);
+
   void deleteById(Long id);
 }
