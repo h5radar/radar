@@ -224,21 +224,19 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
 
-  // fuck
   @Test
   void shouldSeedRadarUser() {
-    final Long id = 1L;
     final RadarUser radarUser = new RadarUser();
-    radarUser.setId(id);
+    radarUser.setId(1L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUser.setSeeded(false);
     radarUser.setSeededDate(null);
 
-    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+    Mockito.when(radarUserRepository.findById(radarUser.getId())).thenReturn(Optional.of(radarUser));
     Mockito.when(radarUserRepository.save(Mockito.any())).thenReturn(radarUser);
 
-    radarUserService.updateSeed(id);
+    radarUserService.updateSeed(radarUser.getId());
 
     Mockito.verify(radarUserRepository).save(Mockito.any());
     Assertions.assertTrue(radarUser.isSeeded());
@@ -247,19 +245,18 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldSeedRadarUserWithoutOverwritingExistingSeededDate() {
-    final Long id = 2L;
     final RadarUser radarUser = new RadarUser();
-    radarUser.setId(id);
+    radarUser.setId(2L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUser.setSeeded(false);
     final Instant existingDate = Instant.parse("2025-02-02T02:02:02Z");
     radarUser.setSeededDate(existingDate);
 
-    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+    Mockito.when(radarUserRepository.findById(radarUser.getId())).thenReturn(Optional.of(radarUser));
     Mockito.when(radarUserRepository.save(Mockito.any())).thenReturn(radarUser);
 
-    radarUserService.updateSeed(id);
+    radarUserService.updateSeed(radarUser.getId());
 
     Mockito.verify(radarUserRepository).save(Mockito.any());
     Assertions.assertTrue(radarUser.isSeeded());
@@ -268,18 +265,17 @@ class RadarUserServiceTests extends AbstractServiceTests {
 
   @Test
   void shouldSeedRadarUserWhenAlreadySeededDoNothing() {
-    final Long id = 3L;
     final RadarUser radarUser = new RadarUser();
-    radarUser.setId(id);
+    radarUser.setId(3L);
     radarUser.setSub("My sub");
     radarUser.setUsername("My username");
     radarUser.setSeeded(true);
     final Instant seededDate = Instant.parse("2025-01-01T00:00:00Z");
     radarUser.setSeededDate(seededDate);
 
-    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+    Mockito.when(radarUserRepository.findById(radarUser.getId())).thenReturn(Optional.of(radarUser));
 
-    radarUserService.updateSeed(id);
+    radarUserService.updateSeed(radarUser.getId());
 
     Mockito.verify(radarUserRepository, Mockito.never()).save(Mockito.any());
     Assertions.assertTrue(radarUser.isSeeded());
@@ -310,8 +306,6 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Mockito.verify(radarUserRepository, Mockito.never()).save(Mockito.any());
     Assertions.assertTrue(exception.getMessage().contains(String.valueOf(id)));
   }
-
-  // fuck
 
   @Test
   void shouldDeleteRadarUser() {
