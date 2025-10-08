@@ -3,6 +3,7 @@ package com.h5radar.radar.radar_user;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,9 @@ import com.h5radar.radar.AbstractServiceTests;
 import com.h5radar.radar.ValidationException;
 
 class RadarUserServiceTests extends AbstractServiceTests {
+  @MockitoBean
+  private MessageSource messageSource;
+
   @MockitoBean
   private RadarUserRepository radarUserRepository;
 
@@ -171,7 +177,7 @@ class RadarUserServiceTests extends AbstractServiceTests {
   }
 
   @Test
-  void shouldfindBySubRadarUser() {
+  void shouldFindBySubRadarUser() {
     final RadarUser radarUser = new RadarUser();
     radarUser.setId(10L);
     radarUser.setSub("My sub");
@@ -217,6 +223,95 @@ class RadarUserServiceTests extends AbstractServiceTests {
     Assertions.assertFalse(exception.getMessage().isEmpty());
     Assertions.assertTrue(exception.getMessage().contains("should be without whitespaces before and after"));
   }
+
+  // fuck
+  @Test
+  void shouldSeedRadarUser() {
+    final Long id = 1L;
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(id);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUser.setSeeded(false);
+    radarUser.setSeededDate(null);
+
+    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+    Mockito.when(radarUserRepository.save(Mockito.any())).thenReturn(radarUser);
+
+    radarUserService.updateSeed(id);
+
+    Mockito.verify(radarUserRepository).save(Mockito.any());
+    Assertions.assertTrue(radarUser.isSeeded());
+    Assertions.assertNotNull(radarUser.getSeededDate());
+  }
+
+  @Test
+  void shouldSeedRadarUserWithoutOverwritingExistingSeededDate() {
+    final Long id = 2L;
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(id);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUser.setSeeded(false);
+    final Instant existingDate = Instant.parse("2025-02-02T02:02:02Z");
+    radarUser.setSeededDate(existingDate);
+
+    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+    Mockito.when(radarUserRepository.save(Mockito.any())).thenReturn(radarUser);
+
+    radarUserService.updateSeed(id);
+
+    Mockito.verify(radarUserRepository).save(Mockito.any());
+    Assertions.assertTrue(radarUser.isSeeded());
+    Assertions.assertEquals(existingDate, radarUser.getSeededDate());
+  }
+
+  @Test
+  void shouldSeedRadarUserWhenAlreadySeededDoNothing() {
+    final Long id = 3L;
+    final RadarUser radarUser = new RadarUser();
+    radarUser.setId(id);
+    radarUser.setSub("My sub");
+    radarUser.setUsername("My username");
+    radarUser.setSeeded(true);
+    final Instant seededDate = Instant.parse("2025-01-01T00:00:00Z");
+    radarUser.setSeededDate(seededDate);
+
+    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.of(radarUser));
+
+    radarUserService.updateSeed(id);
+
+    Mockito.verify(radarUserRepository, Mockito.never()).save(Mockito.any());
+    Assertions.assertTrue(radarUser.isSeeded());
+    Assertions.assertEquals(seededDate, radarUser.getSeededDate());
+  }
+
+  @Test
+  void shouldFailToSeedRadarUserDueNotFound() {
+    final Long id = 404L;
+
+    Mockito.when(radarUserRepository.findById(id)).thenReturn(Optional.empty());
+    Mockito.when(messageSource.getMessage(
+        Mockito.eq("radar_user.error.not_found"),
+        Mockito.any(Object[].class),
+        Mockito.eq(LocaleContextHolder.getLocale())
+    )).thenReturn("Radar user not found: " + id);
+
+    IllegalStateException exception = Assertions.assertThrows(
+        IllegalStateException.class,
+        () -> radarUserService.updateSeed(id)
+    );
+
+    Mockito.verify(messageSource).getMessage(
+        Mockito.eq("radar_user.error.not_found"),
+        Mockito.any(Object[].class),
+        Mockito.eq(LocaleContextHolder.getLocale())
+    );
+    Mockito.verify(radarUserRepository, Mockito.never()).save(Mockito.any());
+    Assertions.assertTrue(exception.getMessage().contains(String.valueOf(id)));
+  }
+
+  // fuck
 
   @Test
   void shouldDeleteRadarUser() {
