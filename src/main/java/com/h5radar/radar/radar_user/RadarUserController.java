@@ -86,6 +86,9 @@ public class RadarUserController {
         this.maturityService.seed(radarUserId);
         this.domainService.seed(radarUserId);
         this.technologyService.seed(radarUserId);
+
+        // Update seeded and seeded date
+        this.radarUserService.updateSeed(radarUserId);
       }
 
       return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

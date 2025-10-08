@@ -3,6 +3,7 @@ package com.h5radar.radar.radar_user;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,6 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,6 +30,7 @@ import com.h5radar.radar.ValidationException;
 public class RadarUserServiceImpl implements RadarUserService {
 
   private final Validator validator;
+  private final MessageSource messageSource;
   private final RadarUserRepository radarUserRepository;
   private final RadarUserMapper radarUserMapper;
 
@@ -82,6 +86,22 @@ public class RadarUserServiceImpl implements RadarUserService {
       throw new ValidationException(errorMessage, modelErrorList);
     }
     return radarUserMapper.toDto(radarUserRepository.save(radarUser));
+  }
+
+  @Transactional
+  public void updateSeed(Long id) {
+    RadarUser radarUser = radarUserRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException(
+            messageSource.getMessage("radar_user.error.not_found",
+                new Object[]{id}, LocaleContextHolder.getLocale())));
+    if (!radarUser.isSeeded()) {
+      // Update seed info
+      radarUser.setSeeded(true);
+      if (radarUser.getSeededDate() == null) {
+        radarUser.setSeededDate(Instant.now());
+      }
+      radarUserRepository.save(radarUser);
+    }
   }
 
   @Override

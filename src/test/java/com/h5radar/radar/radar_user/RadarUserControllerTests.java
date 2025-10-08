@@ -77,7 +77,10 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$.content", hasSize(radarUserDtoPage.getContent().size())))
         .andExpect(jsonPath("$.content[0].id", equalTo(radarUserDto.getId()), Long.class))
         .andExpect(jsonPath("$.content[0].sub", equalTo(radarUserDto.getSub())))
-        .andExpect(jsonPath("$.content[0].username", equalTo(radarUserDto.getUsername())));
+        .andExpect(jsonPath("$.content[0].username", equalTo(radarUserDto.getUsername())))
+        .andExpect(jsonPath("$.content[0].seeded").value(false))
+        .andExpect(jsonPath("$.content[0].seededDate").doesNotExist());
+
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(radarUserService).findAll(any(), any());
@@ -118,7 +121,9 @@ public class RadarUserControllerTests extends AbstractControllerTests {
         .andExpect(jsonPath("$").isMap())
         .andExpect(jsonPath("$.id", equalTo(radarUserDto.getId()), Long.class))
         .andExpect(jsonPath("$.sub", equalTo(radarUserDto.getSub())))
-        .andExpect(jsonPath("$.username", equalTo(radarUserDto.getUsername())));
+        .andExpect(jsonPath("$.username", equalTo(radarUserDto.getUsername())))
+        .andExpect(jsonPath("$.seeded").value(false))
+        .andExpect(jsonPath("$.seededDate").doesNotExist());
 
     Mockito.verify(radarUserService).save(any());
     Mockito.verify(radarUserService).findById(radarUserDto.getId());

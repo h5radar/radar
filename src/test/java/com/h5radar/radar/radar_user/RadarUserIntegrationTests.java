@@ -56,7 +56,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$.content").isArray()
         .jsonPath("$.content[0].id").isEqualTo(radarUserDto.getId())
         .jsonPath("$.content[0].sub").isEqualTo(radarUserDto.getSub())
-        .jsonPath("$.content[0].username").isEqualTo(radarUserDto.getUsername());
+        .jsonPath("$.content[0].username").isEqualTo(radarUserDto.getUsername())
+        .jsonPath("$.content[0].seeded").isEqualTo(false)
+        .jsonPath("$.content[0].seededDate").doesNotExist();
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -80,7 +82,9 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .jsonPath("$").isMap()
         .jsonPath("$.id").isEqualTo(radarUserDto.getId())
         .jsonPath("$.sub").isEqualTo(radarUserDto.getSub())
-        .jsonPath("$.username").isEqualTo(radarUserDto.getUsername());
+        .jsonPath("$.username").isEqualTo(radarUserDto.getUsername())
+        .jsonPath("$.seeded").isEqualTo(false)
+        .jsonPath("$.seededDate").doesNotExist();
 
     radarUserService.deleteById(radarUserDto.getId());
   }
@@ -108,6 +112,20 @@ class RadarUserIntegrationTests extends AbstractIntegrationTests {
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isNoContent();
+
+    webTestClient.get().uri("/api/v1/radar-users/{id}", radarUserDto.getId())
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
+        .expectBody()
+        .jsonPath("$").isNotEmpty()
+        .jsonPath("$").isMap()
+        .jsonPath("$.id").isEqualTo(radarUserDto.getId())
+        .jsonPath("$.sub").isEqualTo(radarUserDto.getSub())
+        .jsonPath("$.username").isEqualTo(radarUserDto.getUsername())
+        .jsonPath("$.seeded").isEqualTo(true)
+        .jsonPath("$.seededDate").isNotEmpty();
 
     // Now data must be present (>= 1)
     assert complianceService.countByRadarUserId(radarUserId) > 0;

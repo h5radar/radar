@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.Instant;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -66,6 +67,12 @@ public class RadarUser extends AbstractAuditable {
   @RadarUserTrimUsernameConstraint
   @Column(name = "username", unique = true, nullable = false)
   private String username;
+
+  @Column(name = "seeded", nullable = false)
+  private boolean seeded = false;
+
+  @Column(name = "seeded_at")
+  private Instant seededDate;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "radarUser", cascade = CascadeType.ALL)
   @BatchSize(size = JpaConstants.BATCH_SIZE_FOR_COLLECTIONS)

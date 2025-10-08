@@ -16,6 +16,10 @@
             <column name="username" type="${radar_users.type.username}" remarks="radar user name, unique.">
                 <constraints unique="true" uniqueConstraintName="uc_radar_users_username" nullable="false"/>
             </column>
+            <column name="seeded" type="${type.boolean}" remarks="whether user has any data seeded." defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="seeded_at" type="${type.datetime}" remarks="first moment when seeded became true."/>
             <column name="created_by" type="${type.user}" remarks="User who created the record.">
                 <constraints nullable="false"/>
             </column>

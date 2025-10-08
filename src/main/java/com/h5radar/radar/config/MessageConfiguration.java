@@ -18,6 +18,7 @@ public class MessageConfiguration implements WebMvcConfigurer {
         "classpath:/messages/domain",
         "classpath:/messages/license",
         "classpath:/messages/maturity",
+        "classpath:/messages/radar_user",
         "classpath:/messages/technology"
     );
     messageSource.setDefaultEncoding("UTF-8");

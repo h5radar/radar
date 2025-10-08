@@ -1,5 +1,6 @@
 package com.h5radar.radar.radar_user;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -44,6 +45,10 @@ public class RadarUserDto {
   private String sub;
 
   private String username;
+
+  private boolean seeded;
+
+  private Instant seededDate;
 
   @JsonIgnore
   private List<ComplianceDto> complianceDtoList;
