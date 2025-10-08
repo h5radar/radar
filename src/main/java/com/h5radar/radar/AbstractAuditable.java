@@ -22,7 +22,7 @@ public abstract class AbstractAuditable {
   private String createdBy;
 
   @CreatedDate
-  @Column(name = "created_date", nullable = false, updatable = false)
+  @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdDate = Instant.now();
 
   @LastModifiedBy
@@ -30,7 +30,7 @@ public abstract class AbstractAuditable {
   private String lastModifiedBy;
 
   @LastModifiedDate
-  @Column(name = "last_modified_date", nullable = false)
+  @Column(name = "last_modified_at", nullable = false)
   private Instant lastModifiedDate = Instant.now();
 
 }
