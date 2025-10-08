@@ -3,7 +3,6 @@ package com.h5radar.radar.radar_user;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;

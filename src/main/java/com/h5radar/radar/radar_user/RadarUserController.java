@@ -41,17 +41,6 @@ public class RadarUserController {
   private final DomainService domainService;
   private final TechnologyService technologyService;
 
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<RadarUserDto> show(
-      @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
-      @PathVariable("id") String) {
-    Optional<RadarUserDto> radarUserDto = radarUserService.findById(radarUserId);
-    if (radarUserDto.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    return ResponseEntity.status(HttpStatus.OK).body(radarUserDto.get());
-  }
-
   @GetMapping("")
   public ResponseEntity<Page<RadarUserDto>> index(
       @RequestAttribute(RadarConstants.RADAR_USER_ID_ATTRIBUTE_NAME) Long radarUserId,
